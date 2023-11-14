@@ -46,8 +46,6 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-	//------------------------------------------------------------------------
-	// Example Sprite Code....
 	testSprite->Update(deltaTime);
 	if (App::GetController().GetLeftThumbStickX() > 0.5f)
 	{
@@ -67,18 +65,18 @@ void Update(float deltaTime)
 	}
     if (App::GetController().GetLeftThumbStickY() > 0.5f)
     {
-        testSprite->SetAnimation(ANIM_FORWARDS);
+        testSprite->SetAnimation(ANIM_BACKWARDS);
         float x, y;
         testSprite->GetPosition(x, y);
-        y += 1.0f;
+        y -= 1.0f;
         testSprite->SetPosition(x, y);
     }
 	if (App::GetController().GetLeftThumbStickY() < -0.5f)
 	{
-		testSprite->SetAnimation(ANIM_BACKWARDS);
+		testSprite->SetAnimation(ANIM_FORWARDS);
 		float x, y;
 		testSprite->GetPosition(x, y);
-		y -= 1.0f;
+		y += 1.0f;
 		testSprite->SetPosition(x, y);
 	}
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP, false))
@@ -101,13 +99,6 @@ void Update(float deltaTime)
 	{
 		testSprite->SetAnimation(-1);
 	}
-	//------------------------------------------------------------------------
-	// Sample Sound.
-	//------------------------------------------------------------------------
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_B, true))
-	{
-		App::PlaySound(".\\TestData\\Test.wav");
-	}
 }
 
 //------------------------------------------------------------------------
@@ -116,35 +107,7 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {	
-	//------------------------------------------------------------------------
-	// Example Sprite Code....
 	testSprite->Draw();
-	//------------------------------------------------------------------------
-
-	//------------------------------------------------------------------------
-	// Example Text.
-	//------------------------------------------------------------------------
-	App::Print(100, 100, "Sample Text");
-
-	//------------------------------------------------------------------------
-	// Example Line Drawing.
-	//------------------------------------------------------------------------
-	static float a = 0.0f;
-	float r = 1.0f;
-	float g = 1.0f;
-	float b = 1.0f;
-	a += 0.1f;
-	for (int i = 0; i < 20; i++)
-	{
-
-		float sx = 200 + sinf(a + i * 0.1f)*60.0f;
-		float sy = 200 + cosf(a + i * 0.1f)*60.0f;
-		float ex = 700 - sinf(a + i * 0.1f)*60.0f;
-		float ey = 700 - cosf(a + i * 0.1f)*60.0f;
-		g = (float)i / 20.0f;
-		b = (float)i / 20.0f;
-		App::DrawLine(sx, sy, ex, ey,r,g,b);
-	}
 }
 //------------------------------------------------------------------------
 // Add your shutdown code here. Called when the APP_QUIT_KEY is pressed.
