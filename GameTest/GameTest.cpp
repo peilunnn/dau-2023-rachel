@@ -9,6 +9,11 @@
 #include "app\app.h"
 //------------------------------------------------------------------------
 
+const float THUMB_STICK_THRESHOLD = 0.5f;
+const float POSITION_DELTA = 1.0f;
+const float SCALE_DELTA = 0.1f;
+const float ANGLE_DELTA = 0.1f;
+
 //------------------------------------------------------------------------
 // Eample data....
 //------------------------------------------------------------------------
@@ -40,6 +45,62 @@ void Init()
 	//------------------------------------------------------------------------
 }
 
+void UpdatePositionAndAnimation()
+{
+	float x, y;
+	testSprite->GetPosition(x, y);
+	float thumbStickX = App::GetController().GetLeftThumbStickX();
+	float thumbStickY = App::GetController().GetLeftThumbStickY();
+
+	if (thumbStickX > THUMB_STICK_THRESHOLD) {
+		testSprite->SetAnimation(ANIM_RIGHT);
+		x += POSITION_DELTA;
+	}
+	else if (thumbStickX < -THUMB_STICK_THRESHOLD) {
+		testSprite->SetAnimation(ANIM_LEFT);
+		x -= POSITION_DELTA;
+	}
+
+	if (thumbStickY > THUMB_STICK_THRESHOLD) {
+		testSprite->SetAnimation(ANIM_BACKWARDS);
+		y -= POSITION_DELTA;
+	}
+	else if (thumbStickY < -THUMB_STICK_THRESHOLD) {
+		testSprite->SetAnimation(ANIM_FORWARDS);
+		y += POSITION_DELTA;
+	}
+
+	testSprite->SetPosition(x, y);
+}
+
+void UpdateScale()
+{
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP, false)) {
+		testSprite->SetScale(testSprite->GetScale() + SCALE_DELTA);
+	}
+	else if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN, false)) {
+		testSprite->SetScale(testSprite->GetScale() - SCALE_DELTA);
+	}
+}
+
+void UpdateRotation()
+{
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT, false)) {
+		testSprite->SetAngle(testSprite->GetAngle() + ANGLE_DELTA);
+	}
+	else if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT, false)) {
+		testSprite->SetAngle(testSprite->GetAngle() - ANGLE_DELTA);
+	}
+}
+
+void ResetAnimationOnButtonA()
+{
+	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))
+	{
+		testSprite->SetAnimation(-1);
+	}
+}
+
 //------------------------------------------------------------------------
 // Update your simulation here. deltaTime is the elapsed time since the last update in ms.
 // This will be called at no greater frequency than the value of APP_MAX_FRAME_RATE
@@ -47,58 +108,10 @@ void Init()
 void Update(float deltaTime)
 {
 	testSprite->Update(deltaTime);
-	if (App::GetController().GetLeftThumbStickX() > 0.5f)
-	{
-		testSprite->SetAnimation(ANIM_RIGHT);
-		float x, y;
-		testSprite->GetPosition(x, y);
-		x += 1.0f;
-		testSprite->SetPosition(x, y);
-	}
-	if (App::GetController().GetLeftThumbStickX() < -0.5f)
-	{
-		testSprite->SetAnimation(ANIM_LEFT);
-		float x, y;
-		testSprite->GetPosition(x, y);
-		x -= 1.0f;
-		testSprite->SetPosition(x, y);
-	}
-    if (App::GetController().GetLeftThumbStickY() > 0.5f)
-    {
-        testSprite->SetAnimation(ANIM_BACKWARDS);
-        float x, y;
-        testSprite->GetPosition(x, y);
-        y -= 1.0f;
-        testSprite->SetPosition(x, y);
-    }
-	if (App::GetController().GetLeftThumbStickY() < -0.5f)
-	{
-		testSprite->SetAnimation(ANIM_FORWARDS);
-		float x, y;
-		testSprite->GetPosition(x, y);
-		y += 1.0f;
-		testSprite->SetPosition(x, y);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP, false))
-	{
-		testSprite->SetScale(testSprite->GetScale() + 0.1f);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN, false))
-	{
-		testSprite->SetScale(testSprite->GetScale() - 0.1f);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT, false))
-	{
-		testSprite->SetAngle(testSprite->GetAngle() + 0.1f);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT, false))
-	{
-		testSprite->SetAngle(testSprite->GetAngle() - 0.1f);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))
-	{
-		testSprite->SetAnimation(-1);
-	}
+	UpdatePositionAndAnimation();
+	UpdateScale();
+	UpdateRotation();
+	ResetAnimationOnButtonA();
 }
 
 //------------------------------------------------------------------------
