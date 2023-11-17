@@ -7,8 +7,8 @@
 
 Entity CreateDescription(EntityManager& entityManager, const std::string& text, const glm::vec3& color, int fontSize, glm::vec3& position) {
     Entity description = entityManager.CreateEntity();
-    entityManager.AddComponent(description, new Text(text, color, fontSize));
-    entityManager.AddComponent(description, new Transform(position, glm::vec3(0), glm::vec3(1)));
+    entityManager.AddComponent(description, std::make_shared<Text>(text, color, fontSize));
+    entityManager.AddComponent(description, std::make_shared<Transform>(position, glm::vec3(0), glm::vec3(1)));
     return description;
 }
 

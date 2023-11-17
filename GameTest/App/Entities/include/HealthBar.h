@@ -5,11 +5,6 @@
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Bar.h"
 
-Entity CreateHealthBar(EntityManager& entityManager, int currentValue, int maxValue, const glm::vec3& foregroundColor, const glm::vec3& backgroundColor, const glm::vec3& position) {
-    Entity healthBar = entityManager.CreateEntity();
-    entityManager.AddComponent(healthBar, new Bar(currentValue, maxValue, foregroundColor, backgroundColor));
-    entityManager.AddComponent(healthBar, new Transform(position, glm::vec3(0), glm::vec3(1)));
-    return healthBar;
-}
+Entity CreateHealthBar(EntityManager& entityManager, int currentValue, int maxValue, const glm::vec3& foregroundColor, const glm::vec3& backgroundColor, const glm::vec3& position);
 
 #endif // HEALTHBAR_H

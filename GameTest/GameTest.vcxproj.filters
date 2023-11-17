@@ -50,6 +50,7 @@
     <ClCompile Include="App\Systems\src\UpdateUI.cpp" />
     <ClCompile Include="App\Components\src\Renderable.cpp" />
     <ClCompile Include="App\Components\src\Component.cpp" />
+    <ClCompile Include="App\Systems\src\HandleInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -106,6 +107,7 @@
     <ClInclude Include="App\Systems\include\UpdateUI.h" />
     <ClInclude Include="App\Components\include\Renderable.h" />
     <ClInclude Include="App\Components\include\Component.h" />
+    <ClInclude Include="App\Systems\include\HandleInput.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

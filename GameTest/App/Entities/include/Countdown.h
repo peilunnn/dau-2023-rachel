@@ -5,11 +5,6 @@
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Text.h"
 
-Entity CreateCountdown(EntityManager& entityManager, const std::string& text, glm::vec3& color, int fontSize, const glm::vec3& position) {
-    Entity countdown = entityManager.CreateEntity();
-    entityManager.AddComponent(countdown, new Text(text, color, fontSize));
-    entityManager.AddComponent(countdown, new Transform(position, glm::vec3(0), glm::vec3(1)));
-    return countdown;
-}
+Entity CreateCountdown(EntityManager& entityManager, const std::string& text, glm::vec3& color, int fontSize, const glm::vec3& position);
 
 #endif // COUNTDOWN_H

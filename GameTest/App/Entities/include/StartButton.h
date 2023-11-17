@@ -6,12 +6,6 @@
 #include "../../Components/include/Text.h"
 #include "../../Components/include/Button.h"
 
-Entity CreateStartButton(EntityManager& entityManager, const std::string& text, const glm::vec3& color, int fontSize, const glm::vec3& position, std::function<void()> onClick) {
-    Entity startButton = entityManager.CreateEntity();
-    entityManager.AddComponent(startButton, new Text(text, color, fontSize));
-    entityManager.AddComponent(startButton, new Transform(position, glm::vec3(0), glm::vec3(1)));
-    entityManager.AddComponent(startButton, new Button(onClick));
-    return startButton;
-}
+Entity CreateStartButton(EntityManager& entityManager, const std::string& text, const glm::vec3& color, int fontSize, const glm::vec3& position, std::function<void()> onClick);
 
 #endif // STARTBUTTON_H
