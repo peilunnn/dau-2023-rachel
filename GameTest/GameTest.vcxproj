@@ -176,23 +176,55 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App\app.h" />
-    <ClInclude Include="App\AppSettings.h" />
-    <ClInclude Include="App\main.h" />
-    <ClInclude Include="App\SimpleController.h" />
-    <ClInclude Include="App\SimpleSound.h" />
-    <ClInclude Include="App\SimpleSprite.h" />
+    <ClInclude Include="App\Application\include\app.h" />
+    <ClInclude Include="App\Application\include\AppSettings.h" />
+    <ClInclude Include="App\Application\include\main.h" />
+    <ClInclude Include="App\Controller\include\SimpleController.h" />
+    <ClInclude Include="App\Sound\include\SimpleSound.h" />
+    <ClInclude Include="App\Sprite\include\SimpleSprite.h" />
+    <ClInclude Include="App\Components\include\Collider.h" />
+    <ClInclude Include="App\Components\include\Damage.h" />
+    <ClInclude Include="App\Components\include\Direction.h" />
+    <ClInclude Include="App\Components\include\Health.h" />
+    <ClInclude Include="App\Components\include\Render.h" />
+    <ClInclude Include="App\Entities\include\Bullet.h" />
+    <ClInclude Include="App\Entities\include\Enemy.h" />
+    <ClInclude Include="App\Entities\include\Player.h" />
+    <ClInclude Include="App\Entities\include\ReloadingCircle.h" />
+    <ClInclude Include="App\Systems\include\CollisionSystem.h" />
+    <ClInclude Include="App\Systems\include\HealthSystem.h" />
+    <ClInclude Include="App\Systems\include\MovementSystem.h" />
+    <ClInclude Include="App\Systems\include\RenderingSystem.h" />
+    <ClInclude Include="App\Systems\include\ShootingSystem.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="App\Components\include\Transform.h" />
+    <ClInclude Include="App\Components\include\Velocity.h" />
+    <ClInclude Include="App\Entities\include\UIElements.h" />
+    <ClInclude Include="App\Systems\include\UISystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App\app.cpp" />
-    <ClCompile Include="App\main.cpp" />
-    <ClCompile Include="App\SimpleController.cpp" />
-    <ClCompile Include="App\SimpleSound.cpp" />
-    <ClCompile Include="App\SimpleSprite.cpp" />
+    <ClCompile Include="App\Application\src\app.cpp" />
+    <ClCompile Include="App\Application\src\main.cpp" />
+    <ClCompile Include="App\Controller\src\SimpleController.cpp" />
+    <ClCompile Include="App\Sound\src\SimpleSound.cpp" />
+    <ClCompile Include="App\Sprite\src\SimpleSprite.cpp" />
+    <ClCompile Include="App\Components\src\Collider.cpp" />
+    <ClCompile Include="App\Components\src\Damage.cpp" />
+    <ClCompile Include="App\Components\src\Direction.cpp" />
+    <ClCompile Include="App\Entities\src\Bullet.cpp" />
+    <ClCompile Include="App\Entities\src\Enemy.cpp" />
+    <ClCompile Include="App\Systems\src\CollisionSystem.cpp" />
     <ClCompile Include="GameTest.cpp" />
+    <ClCompile Include="App\Components\src\Health.cpp" />
+    <ClCompile Include="App\Components\src\Render.cpp" />
+    <ClCompile Include="App\Entities\src\Player.cpp" />
+    <ClCompile Include="App\Entities\src\ReloadingCircle.cpp" />
+    <ClCompile Include="App\Systems\src\HealthSystem.cpp" />
+    <ClCompile Include="App\Systems\src\MovementSystem.cpp" />
+    <ClCompile Include="App\Systems\src\RenderingSystem.cpp" />
+    <ClCompile Include="App\Systems\src\ShootingSystem.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -200,6 +232,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="App\Components\src\Transform.cpp" />
+    <ClCompile Include="App\Components\src\Velocity.cpp" />
+    <ClCompile Include="App\Entities\src\UIElements.cpp" />
+    <ClCompile Include="App\Systems\src\UISystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
