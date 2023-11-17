@@ -9,6 +9,7 @@ class HandleInput {
 public:
     void Update(EntityManager& entityManager, float deltaTime, Entity playerEntityId);
     static constexpr float THUMB_STICK_THRESHOLD = 0.5f;
+    static constexpr float VELOCITY_MULTIPLIER = 0.08f;
 };
 
 #endif // HANDLE_INPUT_H

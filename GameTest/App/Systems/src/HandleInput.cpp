@@ -7,8 +7,8 @@ void HandleInput::Update(EntityManager& entityManager, float deltaTime, Entity p
         float thumbStickX = App::GetController().GetLeftThumbStickX();
         float thumbStickY = App::GetController().GetLeftThumbStickY();
 
-        velocity->velocity.x = (thumbStickX > HandleInput::THUMB_STICK_THRESHOLD || thumbStickX < -HandleInput::THUMB_STICK_THRESHOLD) ? thumbStickX : 0.0f;
-        velocity->velocity.y = (thumbStickY > HandleInput::THUMB_STICK_THRESHOLD || thumbStickY < -HandleInput::THUMB_STICK_THRESHOLD) ? thumbStickY : 0.0f;
+        velocity->velocity.x = (thumbStickX > HandleInput::THUMB_STICK_THRESHOLD || thumbStickX < -HandleInput::THUMB_STICK_THRESHOLD) ? thumbStickX * VELOCITY_MULTIPLIER : 0.0f;
+        velocity->velocity.y = (fabs(thumbStickY) > THUMB_STICK_THRESHOLD) ? -thumbStickY * VELOCITY_MULTIPLIER : 0.0f;
     }
 }
 
