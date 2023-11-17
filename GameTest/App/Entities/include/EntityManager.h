@@ -20,11 +20,33 @@ public:
     }
 
     template <typename T>
-    void AddComponent(Entity entity, T component);
-};
+    void AddComponent(Entity entity, T component) {}
 
-template<typename T>
-void EntityManager::AddComponent(Entity entity, T component) {
-}
+    template<typename T>
+    T* GetComponent(Entity entity) {
+        //auto it = entityComponents.find(entity);
+        //if (it != entityComponents.end()) {
+        //    for (Component* comp : it->second) {
+        //        if (typeid(*comp) == typeid(T)) {
+        //            return static_cast<T*>(comp);
+        //        }
+        //    }
+        //}
+        //return nullptr;
+    }
+
+    template<typename... Components>
+    std::vector<Entity> GetEntitiesWithComponents() {
+        //std::vector<Entity> entitiesWithComponents;
+
+        //for (const auto& pair : entityComponents) {
+        //    if ((GetComponent<Components>(pair.first) && ...)) {
+        //        entitiesWithComponents.push_back(pair.first);
+        //    }
+        //}
+
+        //return entitiesWithComponents;
+    }
+};
 
 #endif // ENTITY_MANAGER_H

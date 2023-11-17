@@ -124,6 +124,7 @@ void Update(float deltaTime)
 	OutputDebugStringA(debugMsg);
 
 	testSprite->Update(deltaTime);
+	// TODO: switch to ECS, use UpdateMovement system to move player instead
 	UpdatePositionAndAnimation();
 	UpdateScale();
 	UpdateRotation();
