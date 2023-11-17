@@ -6,9 +6,15 @@
 #include <typeindex>
 #include <memory>
 #include "../../Components/include/Component.h"
+#include "../../Components/include/Transform.h"
+#include "../../Components/include/Collider.h"
+#include "../../Components/include/Renderable.h"
+#include "../../Components/include/Velocity.h"
+#include "../../Components/include/Direction.h"
+#include "../../Components/include/Health.h"
+#include "../../Components/include/Animation.h"
 
 using Entity = unsigned int;
-
 
 class EntityManager {
 private:
@@ -19,6 +25,8 @@ public:
     static Entity CreateEntity() {
         return nextEntityId++;
     }
+
+    Entity CreatePlayerEntity(CSimpleSprite* sprite);
 
     template <typename T>
     void AddComponent(Entity entity, std::shared_ptr<T> component) {

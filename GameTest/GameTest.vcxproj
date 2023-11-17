@@ -218,7 +218,6 @@
     <ClInclude Include="App\Entities\include\Title.h" />
     <ClInclude Include="App\Systems\include\UpdateHealth.h" />
     <ClInclude Include="App\Systems\include\UpdateMovement.h" />
-    <ClInclude Include="App\Systems\include\UpdateUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App\Components\src\Animation.cpp" />
@@ -265,7 +264,6 @@
     <ClCompile Include="App\Entities\src\Title.cpp" />
     <ClCompile Include="App\Systems\src\UpdateHealth.cpp" />
     <ClCompile Include="App\Systems\src\UpdateMovement.cpp" />
-    <ClCompile Include="App\Systems\src\UpdateUI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -47,7 +47,6 @@
     <ClCompile Include="App\Systems\src\HandleCollisions.cpp" />
     <ClCompile Include="App\Systems\src\HandleShooting.cpp" />
     <ClCompile Include="App\Systems\src\UpdateHealth.cpp" />
-    <ClCompile Include="App\Systems\src\UpdateUI.cpp" />
     <ClCompile Include="App\Components\src\Renderable.cpp" />
     <ClCompile Include="App\Components\src\Component.cpp" />
     <ClCompile Include="App\Systems\src\HandleInput.cpp" />
@@ -106,7 +105,6 @@
     <ClInclude Include="App\Systems\include\HandleCollisions.h" />
     <ClInclude Include="App\Systems\include\HandleShooting.h" />
     <ClInclude Include="App\Systems\include\UpdateHealth.h" />
-    <ClInclude Include="App\Systems\include\UpdateUI.h" />
     <ClInclude Include="App\Components\include\Renderable.h" />
     <ClInclude Include="App\Components\include\Component.h" />
     <ClInclude Include="App\Systems\include\HandleInput.h" />
