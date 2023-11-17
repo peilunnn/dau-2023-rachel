@@ -119,6 +119,8 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -203,6 +205,7 @@
     <ClInclude Include="App\Systems\include\HandleShooting.h" />
     <ClInclude Include="App\Systems\include\RenderEntities.h" />
     <ClInclude Include="App\Components\include\Renderable.h" />
+    <ClInclude Include="App\Components\include\Component.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -231,6 +234,7 @@
     <ClCompile Include="App\Entities\src\BulletBar.cpp" />
     <ClCompile Include="App\Entities\src\Countdown.cpp" />
     <ClCompile Include="App\Entities\src\Description.cpp" />
+    <ClCompile Include="App\Components\src\Component.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Entities\src\Player.cpp" />

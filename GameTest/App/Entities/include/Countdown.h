@@ -7,8 +7,8 @@
 
 Entity CreateCountdown(EntityManager& entityManager, const std::string& text, glm::vec3& color, int fontSize, const glm::vec3& position) {
     Entity countdown = entityManager.CreateEntity();
-    entityManager.AddComponent(countdown, Text(text, color, fontSize));
-    entityManager.AddComponent(countdown, Transform(position, glm::vec3(0), glm::vec3(1)));
+    entityManager.AddComponent(countdown, new Text(text, color, fontSize));
+    entityManager.AddComponent(countdown, new Transform(position, glm::vec3(0), glm::vec3(1)));
     return countdown;
 }
 

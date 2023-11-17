@@ -1,7 +1,9 @@
 #ifndef DAMAGE_H
 #define DAMAGE_H
 
-class Damage {
+#include "Component.h"
+
+class Damage : public Component {
 public:
     float damage;
 

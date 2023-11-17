@@ -1,7 +1,9 @@
 #ifndef HEALTH_H
 #define HEALTH_H
 
-class Health {
+#include "Component.h"
+
+class Health : public Component {
 public:
     int currentHealth;
     int maxHealth;

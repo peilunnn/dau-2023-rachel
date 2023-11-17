@@ -46,7 +46,7 @@ void CSimpleSprite::Update(float dt)
         m_animTime += dt/1000.0f;
         sAnimation &anim = m_animations[m_currentAnim];
 
-        int frameCount = anim.m_frames.size();
+        size_t frameCount = anim.m_frames.size();
         float duration = anim.m_speed * frameCount;
         if (m_animTime > duration)
         {

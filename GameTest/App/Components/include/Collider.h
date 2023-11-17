@@ -1,11 +1,13 @@
 #ifndef COLLIDER_H
 #define COLLIDER_H
 
+#include "Component.h"
+
 enum class CollisionShape {
     SPHERE,
 };
 
-class Collider {
+class Collider : public Component {
 public:
     CollisionShape collisionShape;
     int collisionMask;

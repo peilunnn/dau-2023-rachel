@@ -1,4 +1,4 @@
 #include "stdafx.h"
 #include "../include/EntityManager.h"
 
-Entity EntityManager::nextEntityId = 0;
+Entity EntityManager::nextEntityId = 1;

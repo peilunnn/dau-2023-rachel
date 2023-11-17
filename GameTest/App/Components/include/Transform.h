@@ -2,8 +2,9 @@
 #define TRANSFORM_H
 
 #include <glm/vec3.hpp>
+#include "Component.h"
 
-class Transform {
+class Transform : public Component {
 public:
     glm::vec3 position;
     glm::vec3 rotation;

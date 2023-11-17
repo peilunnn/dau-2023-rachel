@@ -3,8 +3,9 @@
 
 #include <string>
 #include <glm/vec3.hpp>
+#include "Component.h"
 
-struct Text {
+struct Text : public Component {
     std::string text;
     glm::vec3 color;
     int fontSize;

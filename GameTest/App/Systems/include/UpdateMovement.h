@@ -9,12 +9,15 @@
 class UpdateMovementSystem {
 public:
     void Update(EntityManager& entityManager, float deltaTime) {
-    //    for (auto entity : entityManager.GetEntitiesWithComponents<Transform, Velocity>()) {
-    //        auto& transform = entityManager.GetComponent<Transform>(entity);
-    //        auto& velocity = entityManager.GetComponent<Velocity>(entity);
+        for (auto entity : entityManager.GetEntitiesWithComponents<Transform, Velocity>()) {
+            auto* transform = entityManager.GetComponent<Transform>(entity);
+            auto* velocity = entityManager.GetComponent<Velocity>(entity);
 
-    //        transform.position += velocity.value * deltaTime; // Simple Euler integration
-    //    }
+            if (transform && velocity) {
+                transform->position.x += velocity->velocity.x * deltaTime;
+                transform->position.y += velocity->velocity.y * deltaTime;
+            }
+        }
     }
 };
 

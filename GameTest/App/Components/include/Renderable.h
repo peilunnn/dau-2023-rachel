@@ -2,8 +2,9 @@
 #define RENDERABLE_H
 
 #include "../../Utilities/include/SimpleSprite.h"
+#include "Component.h"
 
-struct Renderable {
+struct Renderable : public Component {
     CSimpleSprite* sprite;
 
     Renderable(CSimpleSprite* sprite) : sprite(sprite) {}

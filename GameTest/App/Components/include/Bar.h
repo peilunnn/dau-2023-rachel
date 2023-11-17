@@ -2,8 +2,9 @@
 #define BAR_H
 
 #include <glm/vec3.hpp>
+#include "Component.h"
 
-struct Bar {
+struct Bar : public Component {
     int currentValue;
     int maxValue;
     glm::vec3 foregroundColor;

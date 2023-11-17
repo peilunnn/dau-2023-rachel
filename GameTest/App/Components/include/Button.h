@@ -2,8 +2,9 @@
 #define BUTTON_H
 
 #include <functional>
+#include "Component.h"
 
-struct Button {
+struct Button : public Component {
     bool isHovered;
     bool isPressed;
     std::function<void()> onClick;
