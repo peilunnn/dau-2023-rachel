@@ -22,8 +22,6 @@
 
 const float THUMB_STICK_THRESHOLD = 0.5f;
 const float POSITION_DELTA = 1.0f;
-const float SCALE_DELTA = 0.1f;
-const float ANGLE_DELTA = 0.1f;
 int lastNonIdleAnimState = 6;
 
 EntityManager entityManager;
@@ -129,27 +127,6 @@ void UpdatePositionAndAnimation()
 	playerSprite->SetPosition(x, y);
 }
 
-
-void UpdateScale()
-{
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP, false)) {
-		playerSprite->SetScale(playerSprite->GetScale() + SCALE_DELTA);
-	}
-	else if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN, false)) {
-		playerSprite->SetScale(playerSprite->GetScale() - SCALE_DELTA);
-	}
-}
-
-void UpdateRotation()
-{
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT, false)) {
-		playerSprite->SetAngle(playerSprite->GetAngle() + ANGLE_DELTA);
-	}
-	else if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT, false)) {
-		playerSprite->SetAngle(playerSprite->GetAngle() - ANGLE_DELTA);
-	}
-}
-
 //------------------------------------------------------------------------
 // Update your simulation here. deltaTime is the elapsed time since the last update in ms.
 // This will be called at no greater frequency than the value of APP_MAX_FRAME_RATE
@@ -161,9 +138,6 @@ void Update(float deltaTime)
 	playerSprite->Update(deltaTime);
 
 	//UpdatePositionAndAnimation();
-	//UpdateScale();
-	//UpdateRotation();
-
 
 	handleInput.Update(entityManager, deltaTime, playerEntityId);
 	updateMovement.Update(entityManager, deltaTime);
@@ -185,6 +159,8 @@ void Render()
 
 	if (transform && renderable && renderable->sprite) {
 		renderable->sprite->SetPosition(transform->position.x, transform->position.y);
+		renderable->sprite->SetAngle(transform->rotation.z);
+		renderable->sprite->SetScale(transform->scale.x);
 		renderable->sprite->Draw();
 	}
 }
