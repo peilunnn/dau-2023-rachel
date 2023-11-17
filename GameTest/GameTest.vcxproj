@@ -196,13 +196,22 @@
     <ClInclude Include="App\Systems\include\RenderingSystem.h" />
     <ClInclude Include="App\Systems\include\ShootingSystem.h" />
     <ClInclude Include="App\Entities\include\EntityManager.h" />
+    <ClInclude Include="App\Components\include\Bar.h" />
+    <ClInclude Include="App\Components\include\Button.h" />
+    <ClInclude Include="App\Entities\include\BulletBar.h" />
+    <ClInclude Include="App\Entities\include\Countdown.h" />
+    <ClInclude Include="App\Entities\include\Description.h" />
+    <ClInclude Include="App\Entities\include\HealthBar.h" />
+    <ClInclude Include="App\Entities\include\Score.h" />
+    <ClInclude Include="App\Entities\include\StartButton.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="App\Components\include\Transform.h" />
     <ClInclude Include="App\Components\include\Velocity.h" />
-    <ClInclude Include="App\Entities\include\UIElements.h" />
     <ClInclude Include="App\Systems\include\UISystem.h" />
+    <ClInclude Include="App\Components\include\Text.h" />
+    <ClInclude Include="App\Entities\include\Title.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App\Application\src\app.cpp" />
@@ -217,6 +226,11 @@
     <ClCompile Include="App\Entities\src\Enemy.cpp" />
     <ClCompile Include="App\Systems\src\CollisionSystem.cpp" />
     <ClCompile Include="App\Entities\src\EntityManager.cpp" />
+    <ClCompile Include="App\Components\src\Bar.cpp" />
+    <ClCompile Include="App\Components\src\Button.cpp" />
+    <ClCompile Include="App\Entities\src\BulletBar.cpp" />
+    <ClCompile Include="App\Entities\src\Countdown.cpp" />
+    <ClCompile Include="App\Entities\src\Description.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Entities\src\Player.cpp" />
@@ -225,6 +239,9 @@
     <ClCompile Include="App\Systems\src\MovementSystem.cpp" />
     <ClCompile Include="App\Systems\src\RenderingSystem.cpp" />
     <ClCompile Include="App\Systems\src\ShootingSystem.cpp" />
+    <ClCompile Include="App\Entities\src\HealthBar.cpp" />
+    <ClCompile Include="App\Entities\src\Score.cpp" />
+    <ClCompile Include="App\Entities\src\StartButton.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -234,8 +251,9 @@
     </ClCompile>
     <ClCompile Include="App\Components\src\Transform.cpp" />
     <ClCompile Include="App\Components\src\Velocity.cpp" />
-    <ClCompile Include="App\Entities\src\UIElements.cpp" />
     <ClCompile Include="App\Systems\src\UISystem.cpp" />
+    <ClCompile Include="App\Components\src\Text.cpp" />
+    <ClCompile Include="App\Entities\src\Title.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
