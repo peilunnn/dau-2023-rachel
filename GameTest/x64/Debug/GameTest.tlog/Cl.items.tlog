@@ -1,3 +1,4 @@
+C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Components\src\Animation.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Animation.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Application\src\app.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\app.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Application\src\main.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\main.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Utilities\src\SimpleController.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\SimpleController.obj
@@ -27,6 +28,7 @@ C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\RenderEntities.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\RenderEntities.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Components\src\Renderable.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Renderable.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\HandleInput.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\HandleInput.obj
+C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\HandleAnimation.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\HandleAnimation.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\stb_image\stb_image.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\stb_image.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\stdafx.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\stdafx.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Components\src\Transform.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Transform.obj

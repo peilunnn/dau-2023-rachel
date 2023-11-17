@@ -4,6 +4,7 @@
 #include "../../Entities/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Renderable.h"
+#include "../../Components/include/Animation.h"
 
 class RenderEntities {
 public:

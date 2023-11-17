@@ -51,6 +51,8 @@
     <ClCompile Include="App\Components\src\Renderable.cpp" />
     <ClCompile Include="App\Components\src\Component.cpp" />
     <ClCompile Include="App\Systems\src\HandleInput.cpp" />
+    <ClCompile Include="App\Components\src\Animation.cpp" />
+    <ClCompile Include="App\Systems\src\HandleAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -108,6 +110,8 @@
     <ClInclude Include="App\Components\include\Renderable.h" />
     <ClInclude Include="App\Components\include\Component.h" />
     <ClInclude Include="App\Systems\include\HandleInput.h" />
+    <ClInclude Include="App\Components\include\Animation.h" />
+    <ClInclude Include="App\Systems\include\HandleAnimation.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">
