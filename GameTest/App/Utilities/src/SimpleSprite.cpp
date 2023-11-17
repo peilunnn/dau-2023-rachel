@@ -13,7 +13,7 @@
 
 #include "../../Application/include/app.h"
 #include "../../Application/include/AppSettings.h"
-#include "../../Sprite/include/SimpleSprite.h"
+#include "../../Utilities/include/SimpleSprite.h"
 
 #include "../stb_image/stb_image.h"
 #include "../glut/include/GL/freeglut_ext.h"

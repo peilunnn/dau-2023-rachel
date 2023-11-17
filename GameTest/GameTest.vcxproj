@@ -179,9 +179,9 @@
     <ClInclude Include="App\Application\include\app.h" />
     <ClInclude Include="App\Application\include\AppSettings.h" />
     <ClInclude Include="App\Application\include\main.h" />
-    <ClInclude Include="App\Controller\include\SimpleController.h" />
-    <ClInclude Include="App\Sound\include\SimpleSound.h" />
-    <ClInclude Include="App\Sprite\include\SimpleSprite.h" />
+    <ClInclude Include="App\Utilities\include\SimpleController.h" />
+    <ClInclude Include="App\Utilities\include\SimpleSound.h" />
+    <ClInclude Include="App\Utilities\include\SimpleSprite.h" />
     <ClInclude Include="App\Components\include\Collider.h" />
     <ClInclude Include="App\Components\include\Damage.h" />
     <ClInclude Include="App\Components\include\Direction.h" />
@@ -217,9 +217,9 @@
   <ItemGroup>
     <ClCompile Include="App\Application\src\app.cpp" />
     <ClCompile Include="App\Application\src\main.cpp" />
-    <ClCompile Include="App\Controller\src\SimpleController.cpp" />
-    <ClCompile Include="App\Sound\src\SimpleSound.cpp" />
-    <ClCompile Include="App\Sprite\src\SimpleSprite.cpp" />
+    <ClCompile Include="App\Utilities\src\SimpleController.cpp" />
+    <ClCompile Include="App\Utilities\src\SimpleSound.cpp" />
+    <ClCompile Include="App\Utilities\src\SimpleSprite.cpp" />
     <ClCompile Include="App\Components\src\Collider.cpp" />
     <ClCompile Include="App\Components\src\Damage.cpp" />
     <ClCompile Include="App\Components\src\Direction.cpp" />

@@ -9,13 +9,13 @@
     <ClCompile Include="App\Application\src\main.cpp">
       <Filter>NextAPI</Filter>
     </ClCompile>
-    <ClCompile Include="App\Controller\src\SimpleController.cpp">
+    <ClCompile Include="App\Utilities\src\SimpleController.cpp">
       <Filter>NextAPI</Filter>
     </ClCompile>
-    <ClCompile Include="App\Sound\src\SimpleSound.cpp">
+    <ClCompile Include="App\Utilities\src\SimpleSound.cpp">
       <Filter>NextAPI</Filter>
     </ClCompile>
-    <ClCompile Include="App\Sprite\src\SimpleSprite.cpp">
+    <ClCompile Include="App\Utilities\src\SimpleSprite.cpp">
       <Filter>NextAPI</Filter>
     </ClCompile>
     <ClCompile Include="stb_image\stb_image.cpp">
@@ -61,13 +61,13 @@
     <ClInclude Include="App\Application\include\main.h">
       <Filter>NextAPI</Filter>
     </ClInclude>
-    <ClInclude Include="App\Controller\include\SimpleController.h">
+    <ClInclude Include="App\Utilities\include\SimpleController.h">
       <Filter>NextAPI</Filter>
     </ClInclude>
-    <ClInclude Include="App\Sound\include\SimpleSound.h">
+    <ClInclude Include="App\Utilities\include\SimpleSound.h">
       <Filter>NextAPI</Filter>
     </ClInclude>
-    <ClInclude Include="App\Sprite\include\SimpleSprite.h">
+    <ClInclude Include="App\Utilities\include\SimpleSprite.h">
       <Filter>NextAPI</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">

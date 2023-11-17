@@ -7,9 +7,9 @@
 #include <string>
 #include "../../Application/include/main.h"
 #include "../../Application/include/app.h"
-#include "../../Sound/include/SimpleSound.h"
-#include "../../Controller/include/SimpleController.h"
-#include "../../Sprite/include/SimpleSprite.h"
+#include "../../Utilities/include/SimpleSound.h"
+#include "../../Utilities/include/SimpleController.h"
+#include "../../Utilities/include/SimpleSprite.h"
 
 //---------------------------------------------------------------------------------
 // Utils and externals for system info.

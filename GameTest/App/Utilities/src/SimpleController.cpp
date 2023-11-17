@@ -7,7 +7,7 @@
 #include <windows.h>  // for MS Windows
 #include <stdio.h>
 //-----------------------------------------------------------------------------
-#include "../../Controller/include/SimpleController.h"
+#include "../../Utilities/include/SimpleController.h"
 #include "../../Application/include/app.h"
 
 //-----------------------------------------------------------------------------

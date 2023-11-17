@@ -8,8 +8,8 @@
 //---------------------------------------------------------------------------------
 #include "../glut/include/GL/freeglut.h"
 #include "AppSettings.h"
-#include "../../Controller/include/SimpleController.h"
-#include "../../Sprite/include/SimpleSprite.h"
+#include "../../Utilities/include/SimpleController.h"
+#include "../../Utilities/include/SimpleSprite.h"
 
 #define APP_VIRTUAL_TO_NATIVE_COORDS(_x_,_y_)			_x_ = ((_x_ / APP_VIRTUAL_WIDTH )*2.0f) - 1.0f; _y_ = ((_y_ / APP_VIRTUAL_HEIGHT)*2.0f) - 1.0f;
 #define APP_NATIVE_TO_VIRTUAL_COORDS(_x_,_y_)			_x_ = ((_x_ + 1.0f) * APP_VIRTUAL_WIDTH) / 2.0f; _y_ = ((_y_ + 1.0f) * APP_VIRTUAL_HEIGHT) / 2.0f;
