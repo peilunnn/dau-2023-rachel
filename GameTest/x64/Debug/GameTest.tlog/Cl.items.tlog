@@ -9,6 +9,7 @@ C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Componen
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Entities\src\Bullet.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Bullet.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Entities\src\Enemy.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Enemy.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\CollisionSystem.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\CollisionSystem.obj
+C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Entities\src\EntityManager.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\EntityManager.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\GameTest.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\GameTest.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Components\src\Health.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Health.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Entities\src\Player.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Player.obj

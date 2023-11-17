@@ -38,6 +38,7 @@
     <ClCompile Include="App\Systems\src\CollisionSystem.cpp" />
     <ClCompile Include="App\Systems\src\ShootingSystem.cpp" />
     <ClCompile Include="App\Systems\src\UISystem.cpp" />
+    <ClCompile Include="App\Entities\src\EntityManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -82,6 +83,7 @@
     <ClInclude Include="App\Systems\include\CollisionSystem.h" />
     <ClInclude Include="App\Systems\include\ShootingSystem.h" />
     <ClInclude Include="App\Systems\include\UISystem.h" />
+    <ClInclude Include="App\Entities\include\EntityManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

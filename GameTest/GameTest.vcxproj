@@ -195,6 +195,7 @@
     <ClInclude Include="App\Systems\include\MovementSystem.h" />
     <ClInclude Include="App\Systems\include\RenderingSystem.h" />
     <ClInclude Include="App\Systems\include\ShootingSystem.h" />
+    <ClInclude Include="App\Entities\include\EntityManager.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="App\Entities\src\Bullet.cpp" />
     <ClCompile Include="App\Entities\src\Enemy.cpp" />
     <ClCompile Include="App\Systems\src\CollisionSystem.cpp" />
+    <ClCompile Include="App\Entities\src\EntityManager.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Entities\src\Player.cpp" />
