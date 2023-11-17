@@ -2,7 +2,7 @@
 #ifndef HANDLE_SHOOTING_SYSTEM_H
 #define HANDLE_SHOOTING_SYSTEM_H
 
-#include "../../Entities/include/EntityManager.h"
+#include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Velocity.h"
 #include "../../Components/include/Direction.h"

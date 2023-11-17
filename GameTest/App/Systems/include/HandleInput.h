@@ -1,10 +1,10 @@
 #ifndef HANDLE_INPUT_H
 #define HANDLE_INPUT_H
 
-#include "../../Entities/include/EntityManager.h"
+#include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Velocity.h"
-#include "../../Application/include/app.h"
+#include "../../Utilities/include/app.h"
 
 class HandleInput {
 public:

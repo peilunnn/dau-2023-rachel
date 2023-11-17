@@ -3,15 +3,15 @@
 //------------------------------------------------------------------------
 #include "stdafx.h"
 //------------------------------------------------------------------------
-#include <windows.h> 
-#include <math.h>  
+#include <windows.h>
+#include <math.h>
 #include <memory>
 #include <iostream>
 //------------------------------------------------------------------------
-#include "App/Application/include/app.h"
-#include "App/Entities/include/EntityManager.h"
+#include "App/Utilities/include/app.h"
+#include "App/Managers/include/EntityManager.h"
 #include "App/Systems/include/HandleInput.h"
-#include "App/Systems/include/UpdateMovement.h"
+#include "App/Systems/include/HandleMovement.h"
 #include "App/Systems/include/RenderEntities.h"
 #include "App/Systems/include/HandleAnimation.h"
 //------------------------------------------------------------------------
@@ -19,7 +19,7 @@
 EntityManager entityManager;
 Entity playerEntityId;
 HandleInput handleInput;
-UpdateMovement updateMovement;
+HandleMovement handleMovement;
 RenderEntities renderEntities;
 CSimpleSprite *playerSprite;
 HandleAnimation handleAnimation;
@@ -45,13 +45,13 @@ void Update(float deltaTime)
 {
 	playerSprite->Update(deltaTime);
 	handleInput.Update(entityManager, deltaTime, playerEntityId);
-	updateMovement.Update(entityManager, deltaTime);
+	handleMovement.Update(entityManager, deltaTime);
 	handleAnimation.Update(entityManager, deltaTime);
 }
 
 //------------------------------------------------------------------------
-// Add your display calls here (DrawLine,Print, DrawSprite.) 
-// See App.h 
+// Add your display calls here (DrawLine,Print, DrawSprite.)
+// See App.h
 //------------------------------------------------------------------------
 void Render()
 {
@@ -63,6 +63,6 @@ void Render()
 // Just before the app exits.
 //------------------------------------------------------------------------
 void Shutdown()
-{	
+{
 	delete playerSprite;
 }

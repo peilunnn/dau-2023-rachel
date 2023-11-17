@@ -1,7 +1,7 @@
 #ifndef HEALTHBAR_H
 #define HEALTHBAR_H
 
-#include "EntityManager.h"
+#include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Bar.h"
 

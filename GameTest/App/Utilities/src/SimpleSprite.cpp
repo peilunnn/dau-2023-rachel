@@ -11,8 +11,8 @@
 
 //-----------------------------------------------------------------------------
 
-#include "../../Application/include/app.h"
-#include "../../Application/include/AppSettings.h"
+#include "../../Utilities/include/app.h"
+#include "../../Utilities/include/AppSettings.h"
 #include "../../Utilities/include/SimpleSprite.h"
 
 #include "../stb_image/stb_image.h"

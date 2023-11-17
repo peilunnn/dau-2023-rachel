@@ -1,7 +1,7 @@
 #ifndef HANDLE_ANIMATION_H
 #define HANDLE_ANIMATION_H
 
-#include "../../Entities/include/EntityManager.h"
+#include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Animation.h"
 #include "../../Components/include/Velocity.h"
 #include "../../Utilities/include/SimpleSprite.h"

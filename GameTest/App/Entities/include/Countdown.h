@@ -1,7 +1,7 @@
 #ifndef COUNTDOWN_H
 #define COUNTDOWN_H
 
-#include "EntityManager.h"
+#include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Text.h"
 

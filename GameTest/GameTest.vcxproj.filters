@@ -43,10 +43,10 @@
     <ClCompile Include="App\Entities\src\HealthBar.cpp" />
     <ClCompile Include="App\Entities\src\BulletBar.cpp" />
     <ClCompile Include="App\Systems\src\RenderEntities.cpp" />
-    <ClCompile Include="App\Systems\src\UpdateMovement.cpp" />
+    <ClCompile Include="App\Systems\src\HandleMovement.cpp" />
     <ClCompile Include="App\Systems\src\HandleCollisions.cpp" />
     <ClCompile Include="App\Systems\src\HandleShooting.cpp" />
-    <ClCompile Include="App\Systems\src\UpdateHealth.cpp" />
+    <ClCompile Include="App\Systems\src\HandleHealth.cpp" />
     <ClCompile Include="App\Components\src\Renderable.cpp" />
     <ClCompile Include="App\Components\src\Component.cpp" />
     <ClCompile Include="App\Systems\src\HandleInput.cpp" />
@@ -101,10 +101,10 @@
     <ClInclude Include="App\Entities\include\HealthBar.h" />
     <ClInclude Include="App\Entities\include\BulletBar.h" />
     <ClInclude Include="App\Systems\include\RenderEntities.h" />
-    <ClInclude Include="App\Systems\include\UpdateMovement.h" />
+    <ClInclude Include="App\Systems\include\HandleMovement.h" />
     <ClInclude Include="App\Systems\include\HandleCollisions.h" />
     <ClInclude Include="App\Systems\include\HandleShooting.h" />
-    <ClInclude Include="App\Systems\include\UpdateHealth.h" />
+    <ClInclude Include="App\Systems\include\HandleHealth.h" />
     <ClInclude Include="App\Components\include\Renderable.h" />
     <ClInclude Include="App\Components\include\Component.h" />
     <ClInclude Include="App\Systems\include\HandleInput.h" />
