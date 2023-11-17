@@ -186,7 +186,6 @@
     <ClInclude Include="App\Components\include\Damage.h" />
     <ClInclude Include="App\Components\include\Direction.h" />
     <ClInclude Include="App\Components\include\Health.h" />
-    <ClInclude Include="App\Components\include\Render.h" />
     <ClInclude Include="App\Entities\include\Bullet.h" />
     <ClInclude Include="App\Entities\include\Enemy.h" />
     <ClInclude Include="App\Entities\include\Player.h" />
@@ -218,7 +217,6 @@
     <ClCompile Include="App\Systems\src\CollisionSystem.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
-    <ClCompile Include="App\Components\src\Render.cpp" />
     <ClCompile Include="App\Entities\src\Player.cpp" />
     <ClCompile Include="App\Entities\src\ReloadingCircle.cpp" />
     <ClCompile Include="App\Systems\src\HealthSystem.cpp" />

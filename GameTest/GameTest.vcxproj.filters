@@ -23,7 +23,6 @@
     </ClCompile>
     <ClCompile Include="App\Components\src\Transform.cpp" />
     <ClCompile Include="App\Components\src\Collider.cpp" />
-    <ClCompile Include="App\Components\src\Render.cpp" />
     <ClCompile Include="App\Components\src\Velocity.cpp" />
     <ClCompile Include="App\Components\src\Direction.cpp" />
     <ClCompile Include="App\Components\src\Damage.cpp" />
@@ -68,7 +67,6 @@
     </ClInclude>
     <ClInclude Include="App\Components\include\Transform.h" />
     <ClInclude Include="App\Components\include\Collider.h" />
-    <ClInclude Include="App\Components\include\Render.h" />
     <ClInclude Include="App\Components\include\Velocity.h" />
     <ClInclude Include="App\Components\include\Direction.h" />
     <ClInclude Include="App\Components\include\Damage.h" />
