@@ -23,6 +23,8 @@ void HandleMovement::Update(EntityManager& entityManager, float deltaTime, float
 }
 
 void HandleMovement::HandlePlayerMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight) {
+    float multiplier = 0.25f;
+
     auto transform = entityManager.GetComponent<Transform>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
 
@@ -31,25 +33,20 @@ void HandleMovement::HandlePlayerMovement(EntityManager& entityManager, Entity e
         float newY = transform->position.y + velocity->velocity.y * deltaTime;
 
         auto sprite = dynamic_cast<CSimpleSprite*>(entityManager.GetComponent<Renderable>(entity)->sprite);
-        float spriteWidth = sprite ? sprite->GetWidth() : 0;
-        float spriteHeight = sprite ? sprite->GetHeight() : 0;
-        float spriteWidthAndHeightMultiplier = 0.25f;
-        float quarterSpriteWidth = spriteWidth * spriteWidthAndHeightMultiplier;
-        float quarterSpriteHeight = spriteHeight * spriteWidthAndHeightMultiplier;
+        auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
 
-        transform->position.x = max(quarterSpriteWidth, min(newX, screenWidth - quarterSpriteWidth));
-        transform->position.y = max(quarterSpriteHeight, min(newY, screenHeight - quarterSpriteHeight));
+        transform->position.x = max(dimensions.adjustedWidth, min(newX, screenWidth - dimensions.adjustedWidth));
+        transform->position.y = max(dimensions.adjustedHeight, min(newY, screenHeight - dimensions.adjustedHeight));
     }
 }
 
 void HandleMovement::HandleEnemyMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight) {
+    int multiplier = 0.125f;
     int edgeThreshold = 10;
     auto sprite = dynamic_cast<CSimpleSprite*>(entityManager.GetComponent<Renderable>(entity)->sprite);
-    float spriteWidth = sprite->GetWidth();
-    float spriteHeight = sprite->GetHeight();
-    float spriteWidthAndHeightMultiplier = 0.125f;
-    float edgeThresholdX = spriteWidth * spriteWidthAndHeightMultiplier + edgeThreshold;
-    float edgeThresholdY = spriteHeight * spriteWidthAndHeightMultiplier + edgeThreshold;
+    auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
+    float edgeThresholdX = dimensions.adjustedWidth + edgeThreshold;
+    float edgeThresholdY = dimensions.adjustedHeight + edgeThreshold;
 
     auto transform = entityManager.GetComponent<Transform>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);

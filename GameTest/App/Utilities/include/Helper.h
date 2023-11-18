@@ -8,6 +8,14 @@
 #include <random>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
+#include "SimpleSprite.h"
+
+struct SpriteDimensions {
+    float width;
+    float height;
+    float adjustedWidth; // width after applying the multiplier
+    float adjustedHeight; // height after applying the multiplier
+};
 
 class Helper {
 public:
@@ -39,10 +47,11 @@ public:
         return glm::vec3(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY), GenerateFloat(minZ, maxZ));
     }
 
-    // Out-of-bounds check function
+    // Out-of-bounds functions
     static bool IsOutOfBounds(float x, float y, float screenWidth, float screenHeight) {
         return (x < 0 || x > screenWidth || y < 0 || y > screenHeight);
     }
+    static SpriteDimensions GetSpriteDimensions(CSimpleSprite* sprite, float multiplier);
 };
 
 #endif // HELPER_H
