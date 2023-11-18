@@ -36,15 +36,16 @@ HandleAnimation handleAnimation;
 //------------------------------------------------------------------------
 void Init()
 {
-	playerSprite = App::CreateSprite(".\\Data\\SpriteSheets\\Player.bmp", 8, 4);
+	playerSprite = App::CreateSprite(".\\Data\\Sprites\\Player.bmp", 8, 4);
 	playerEntityId = entityManager.CreatePlayerEntity(playerSprite);
-	handleAnimation.Init(playerSprite);
+	handleAnimation.InitPlayerAnimation(playerSprite);
+	handleAnimation.InitEnemyAnimation(playerSprite);
 
-	enemySprite = App::CreateSprite(".\\Data\\SpriteSheets\\EnemyTest.png", 1, 1);
+	enemySprite = App::CreateSprite(".\\Data\\Sprites\\Enemy.png", 4, 2);
 	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->position;
 	enemyEntityId = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
 
-	bulletSprite = App::CreateSprite(".\\Data\\SpriteSheets\\BulletTest.jpg", 1, 1);
+	bulletSprite = App::CreateSprite(".\\Data\\Sprites\\Bullet.bmp", 1, 1);
 }
 
 //------------------------------------------------------------------------
@@ -53,7 +54,6 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-	playerSprite->Update(deltaTime);
 	handleInput.Update(entityManager, deltaTime, playerEntityId, bulletSprite);
 	handleMovement.Update(entityManager, deltaTime, screenWidth, screenHeight);
 	handleAnimation.Update(entityManager, deltaTime);

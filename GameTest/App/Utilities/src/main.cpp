@@ -96,6 +96,7 @@ void InitGL()
 	gLastTime = GetCounter();
 	// Set "clearing" or background color
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
+	//glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // White and opaque
 }
 
 //---------------------------------------------------------------------------------

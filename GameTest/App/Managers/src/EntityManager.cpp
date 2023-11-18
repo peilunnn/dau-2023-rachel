@@ -39,10 +39,10 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 {
 	Entity enemyEntity = entityManager.CreateEntity();
 
-	float minVx = -0.01f, maxVx = 0.05f;
-	float minVy = -0.01f, maxVy = 0.05f;
+	float minVx = -0.1f, maxVx = 0.1f;
+	float minVy = -0.1f, maxVy = 0.1f;
 	glm::vec2 randomVelocity = RandomUtility::GenerateVec2(minVx, maxVx, minVy, maxVy);
-	float enemyScale = 0.2f;
+	float enemyScale = 0.5f;
 
 	glm::vec3 enemyPos = GetOppositeQuadrantPosition(playerPos, 1024.0f, 768.0f);
 
@@ -71,7 +71,7 @@ Entity EntityManager::CreateBulletEntity(CSimpleSprite* bulletSprite, const glm:
 {
 	Entity bulletEntity = CreateEntity();
 
-	float bulletScale = 0.1f;
+	float bulletScale = 2.0f;
 
 	auto bulletTag = std::make_shared<Tag>(EntityType::BULLET);
 	auto bulletTransform = std::make_shared<Transform>(position, glm::vec3(0.0f), glm::vec3(bulletScale));

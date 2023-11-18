@@ -7,24 +7,34 @@
 #include "../../Components/include/Tag.h"
 #include "../../Utilities/include/SimpleSprite.h"
 
-class HandleAnimation {
+class HandleAnimation
+{
 private:
-	enum
+	enum PlayerAnimationStates
 	{
-		ANIM_FORWARDS,
-		ANIM_BACKWARDS,
-		ANIM_LEFT,
-		ANIM_RIGHT,
-		ANIM_IDLE_LEFT,
-		ANIM_IDLE_RIGHT,
-		ANIM_IDLE_FORWARDS,
-		ANIM_IDLE_BACKWARDS,
+		PLAYER_ANIM_FORWARDS,
+		PLAYER_ANIM_BACKWARDS,
+		PLAYER_ANIM_LEFT,
+		PLAYER_ANIM_RIGHT,
+		PLAYER_ANIM_IDLE_LEFT,
+		PLAYER_ANIM_IDLE_RIGHT,
+		PLAYER_ANIM_IDLE_FORWARDS,
+		PLAYER_ANIM_IDLE_BACKWARDS,
 	};
-	int lastNonIdleAnimState = ANIM_IDLE_FORWARDS;
+	enum EnemyAnimationStates
+	{
+		ENEMY_ANIM_IDLE,
+		ENEMY_ANIM_MELT_START,
+		ENEMY_ANIM_MELT_END = ENEMY_ANIM_MELT_START + 7, // there are 7 frames in the melting animation
+	};
+	int lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 
 public:
-	void Init(CSimpleSprite* sprite);
+	void InitPlayerAnimation(CSimpleSprite *sprite);
+	void InitEnemyAnimation(CSimpleSprite *sprite);
 	void Update(EntityManager& entityManager, float deltaTime);
+	void UpdatePlayerAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
+	void UpdateEnemyAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
 };
 
 #endif // HANDLE_ANIMATION_H
