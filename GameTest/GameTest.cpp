@@ -39,11 +39,11 @@ void Init()
 	playerSprite = App::CreateSprite(".\\Data\\Sprites\\Player.bmp", 8, 4);
 	playerEntityId = entityManager.CreatePlayerEntity(playerSprite);
 	handleAnimation.InitPlayerAnimation(playerSprite);
-	handleAnimation.InitEnemyAnimation(playerSprite);
 
 	enemySprite = App::CreateSprite(".\\Data\\Sprites\\Enemy.png", 4, 2);
 	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->position;
 	enemyEntityId = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
+	handleAnimation.InitEnemyAnimation(enemySprite);
 
 	bulletSprite = App::CreateSprite(".\\Data\\Sprites\\Bullet.bmp", 1, 1);
 }
