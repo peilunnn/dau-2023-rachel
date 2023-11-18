@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../include/HandleMovement.h"
+using namespace std;
 
 void HandleMovement::Update(EntityManager& entityManager, float deltaTime, float screenWidth, float screenHeight)
 {
@@ -8,7 +9,7 @@ void HandleMovement::Update(EntityManager& entityManager, float deltaTime, float
         if (tag) {
             switch (tag->entityType) {
             case EntityType::PLAYER:
-                HandlePlayerMovement(entityManager, entity, deltaTime);
+                HandlePlayerMovement(entityManager, entity, deltaTime, screenWidth, screenHeight);
                 break;
             case EntityType::ENEMY:
                 HandleEnemyMovement(entityManager, entity, deltaTime, screenWidth, screenHeight);
@@ -21,13 +22,23 @@ void HandleMovement::Update(EntityManager& entityManager, float deltaTime, float
     }
 }
 
-void HandleMovement::HandlePlayerMovement(EntityManager& entityManager, Entity entity, float deltaTime) {
+void HandleMovement::HandlePlayerMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight) {
     auto transform = entityManager.GetComponent<Transform>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
 
     if (transform && velocity) {
-        transform->position.x += velocity->velocity.x * deltaTime;
-        transform->position.y += velocity->velocity.y * deltaTime;
+        float newX = transform->position.x + velocity->velocity.x * deltaTime;
+        float newY = transform->position.y + velocity->velocity.y * deltaTime;
+
+        auto sprite = dynamic_cast<CSimpleSprite*>(entityManager.GetComponent<Renderable>(entity)->sprite);
+        float spriteWidth = sprite ? sprite->GetWidth() : 0;
+        float spriteHeight = sprite ? sprite->GetHeight() : 0;
+        float spriteWidthAndHeightMultiplier = 0.25f;
+        float quarterSpriteWidth = spriteWidth * spriteWidthAndHeightMultiplier;
+        float quarterSpriteHeight = spriteHeight * spriteWidthAndHeightMultiplier;
+
+        transform->position.x = max(quarterSpriteWidth, min(newX, screenWidth - quarterSpriteWidth));
+        transform->position.y = max(quarterSpriteHeight, min(newY, screenHeight - quarterSpriteHeight));
     }
 }
 
@@ -49,7 +60,6 @@ void HandleMovement::HandleEnemyMovement(EntityManager& entityManager, Entity en
         transform->position.x += movement.x;
         transform->position.y += movement.y;
 
-        // Bounce logic
         if (!direction->bounced) {
             if (transform->position.x <= edgeThresholdX || transform->position.x >= screenWidth - edgeThresholdX) {
                 velocity->velocity.x *= -1;

@@ -11,7 +11,7 @@
 class HandleMovement {
 public:
     void Update(EntityManager& entityManager, float deltaTime, float screenWidth, float screenHeight);
-    void HandlePlayerMovement(EntityManager& entityManager, Entity entity, float deltaTime);
+    void HandlePlayerMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight);
     void HandleEnemyMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight);
     void HandleBulletMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight);
 };
