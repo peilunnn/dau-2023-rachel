@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <glm/vec3.hpp>
+#include <glm/glm.hpp>
 #include "../include/HandleInput.h"
 
 void HandleInput::Update(EntityManager& entityManager, float deltaTime, Entity playerEntityId, CSimpleSprite* bulletSprite) {
@@ -48,10 +49,21 @@ void HandleInput::HandleShootingInput(EntityManager& entityManager, Entity playe
 {
     if (App::IsKeyPressed(VK_LBUTTON)) {
         auto playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
-        if (playerTransform) {
+        auto playerVelocity = entityManager.GetComponent<Velocity>(playerEntityId);
+
+        if (playerTransform && playerVelocity) {
             glm::vec3 bulletPos = playerTransform->position;
-            glm::vec2 bulletVelocity = glm::vec2(10.0f, 0.0f);
+
+            // Calculate bullet velocity based on player's velocity direction
+            glm::vec2 direction = glm::normalize(playerVelocity->velocity);
+            if (glm::length(direction) == 0) {
+                direction = glm::vec2(1.0f, 0.0f);
+            }
+            float bulletSpeed = 1.0f;
+            glm::vec2 bulletVelocity = direction * bulletSpeed;
+
             entityManager.CreateBulletEntity(bulletSprite, bulletPos, bulletVelocity);
         }
     }
 }
+

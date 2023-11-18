@@ -5,6 +5,7 @@ void HandleMovement::Update(EntityManager& entityManager, float deltaTime, float
 {
     HandleMovement::HandlePlayerMovement(entityManager, deltaTime);
     HandleMovement::HandleEnemyMovement(entityManager, deltaTime, screenWidth, screenHeight);
+    HandleMovement::HandleBulletMovement(entityManager, deltaTime, screenWidth, screenHeight);
 }
 
 void HandleMovement::HandlePlayerMovement(EntityManager& entityManager, float deltaTime) {
@@ -50,6 +51,30 @@ void HandleMovement::HandleEnemyMovement(EntityManager& entityManager, float del
                 transform->position.y > edgeThreshold && transform->position.y < screenHeight - edgeThreshold) {
                 direction->bounced = false;
             }
+        }
+    }
+}
+
+void HandleMovement::HandleBulletMovement(EntityManager& entityManager, float deltaTime, float screenWidth, float screenHeight)
+{
+    for (auto entity : entityManager.GetEntitiesWithComponents<Transform, Velocity, Tag>()) {
+        auto transform = entityManager.GetComponent<Transform>(entity);
+        auto velocity = entityManager.GetComponent<Velocity>(entity);
+        auto tag = entityManager.GetComponent<Tag>(entity);
+
+        if (transform && velocity && tag) {
+            if (tag->entityType != EntityType::BULLET) {
+                continue;
+            }
+            
+            glm::vec2 movement = velocity->velocity * deltaTime;
+            transform->position.x += movement.x;
+            transform->position.y += movement.y;
+
+            // TODO: if the bullet is out of screen bounds, we should destroy it
+            //if (transform->position.x < 0 || transform->position.x > screenWidth ||
+            //    transform->position.y < 0 || transform->position.y > screenHeight) {
+            //}
         }
     }
 }

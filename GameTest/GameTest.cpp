@@ -55,11 +55,7 @@ void Update(float deltaTime)
 {
 	playerSprite->Update(deltaTime);
 	handleInput.Update(entityManager, deltaTime, playerEntityId, bulletSprite);
-	
-	handleMovement.HandlePlayerMovement(entityManager, deltaTime);
-	handleMovement.HandleEnemyMovement(entityManager, deltaTime, screenWidth, screenHeight);
-	//handleMovement.Update(entityManager, deltaTime, screenWidth, screenHeight);
-	
+	handleMovement.Update(entityManager, deltaTime, screenWidth, screenHeight);
 	handleAnimation.Update(entityManager, deltaTime);
 }
 

@@ -77,7 +77,7 @@ Entity EntityManager::CreateBulletEntity(CSimpleSprite* bulletSprite, const glm:
 	auto bulletTransform = std::make_shared<Transform>(position, glm::vec3(0.0f), glm::vec3(bulletScale));
 	auto bulletRenderable = std::make_shared<Renderable>(bulletSprite);
 	auto bulletCollider = std::make_shared<Collider>();
-	auto bulletVelocity = std::make_shared<Velocity>();
+	auto bulletVelocity = std::make_shared<Velocity>(velocity.x, velocity.y);
 	auto bulletDamage = std::make_shared<Damage>();
 
 	AddComponent(bulletEntity, bulletTag);
