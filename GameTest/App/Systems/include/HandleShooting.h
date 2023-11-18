@@ -1,17 +1,18 @@
-// HandleShootingSystem.h
-#ifndef HANDLE_SHOOTING_SYSTEM_H
-#define HANDLE_SHOOTING_SYSTEM_H
+#ifndef HANDLE_SHOOTING_H
+#define HANDLE_SHOOTING_H
 
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Velocity.h"
-#include "../../Components/include/Direction.h"
-#include "../../Components/include/Damage.h"
+#include "../../Utilities/include/app.h"
 
-class HandleShootingSystem {
+class HandleShooting {
 public:
-    void Update(EntityManager& entityManager, float deltaTime) {
-    }
+    static void Shoot(EntityManager& entityManager, Entity playerEntityId, CSimpleSprite* bulletSprite, float mouseX, float mouseY);
+
+private:
+    static int bulletCount;
+    static constexpr int MAX_BULLETS = 10;
 };
 
-#endif // HANDLE_SHOOTING_SYSTEM_H
+#endif // HANDLE_SHOOTING_H

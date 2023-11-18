@@ -4,6 +4,7 @@
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Velocity.h"
+#include "../../Systems/include/HandleShooting.h"
 #include "../../Utilities/include/app.h"
 
 class HandleInput {
