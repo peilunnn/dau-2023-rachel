@@ -9,6 +9,7 @@
 #include <iostream>
 //------------------------------------------------------------------------
 #include "App/Utilities/include/app.h"
+#include "App/Utilities/include/GenerateRandomValue.h"
 #include "App/Managers/include/EntityManager.h"
 #include "App/Systems/include/HandleInput.h"
 #include "App/Systems/include/HandleMovement.h"
@@ -18,10 +19,12 @@
 
 EntityManager entityManager;
 Entity playerEntityId;
+Entity enemyEntityId;
 HandleInput handleInput;
 HandleMovement handleMovement;
 RenderEntities renderEntities;
-CSimpleSprite *playerSprite;
+CSimpleSprite* playerSprite;
+CSimpleSprite *enemySprite;
 HandleAnimation handleAnimation;
 
 //------------------------------------------------------------------------
@@ -29,12 +32,13 @@ HandleAnimation handleAnimation;
 //------------------------------------------------------------------------
 void Init()
 {
-	playerSprite = App::CreateSprite(".\\TestData\\Test.bmp", 8, 4);
-	playerSprite->SetPosition(400.0f, 400.0f);
-	playerSprite->SetScale(1.0f);
-
+	playerSprite = App::CreateSprite(".\\Data\\SpriteSheets\\Player.bmp", 8, 4);
 	playerEntityId = entityManager.CreatePlayerEntity(playerSprite);
 	handleAnimation.Init(playerSprite);
+
+	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->position;
+	enemySprite = App::CreateSprite(".\\Data\\SpriteSheets\\EnemyTest.png", 1, 1);
+	enemyEntityId = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite);
 }
 
 //------------------------------------------------------------------------
@@ -65,4 +69,5 @@ void Render()
 void Shutdown()
 {
 	delete playerSprite;
+	delete enemySprite;
 }

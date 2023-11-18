@@ -13,6 +13,7 @@
 #include "../../Components/include/Direction.h"
 #include "../../Components/include/Health.h"
 #include "../../Components/include/Animation.h"
+#include "../../Utilities/include/GenerateRandomValue.h"
 
 using Entity = unsigned int;
 
@@ -22,11 +23,14 @@ private:
     std::unordered_map<Entity, std::vector<std::shared_ptr<Component>>> entityComponents;
 
 public:
-    static Entity CreateEntity() {
-        return nextEntityId++;
+    static Entity CreateEntity()
+    {
+       return nextEntityId++;
     }
-
     Entity CreatePlayerEntity(CSimpleSprite* sprite);
+    Entity CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, CSimpleSprite* enemySprite);
+
+    glm::vec3 GetOppositeQuadrantPosition(const glm::vec3& playerPos, float screenWidth, float screenHeight);
 
     template <typename T>
     void AddComponent(Entity entity, std::shared_ptr<T> component) {
