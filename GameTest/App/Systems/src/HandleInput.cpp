@@ -49,16 +49,18 @@ void HandleInput::HandleShootingInput(EntityManager& entityManager, Entity playe
 {
     if (App::IsKeyPressed(VK_LBUTTON)) {
         auto playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
-        auto playerVelocity = entityManager.GetComponent<Velocity>(playerEntityId);
 
-        if (playerTransform && playerVelocity) {
+        if (playerTransform) {
             glm::vec3 bulletPos = playerTransform->position;
 
-            // Calculate bullet velocity based on player's velocity direction
-            glm::vec2 direction = glm::normalize(playerVelocity->velocity);
+            float mouseX, mouseY;
+            App::GetMousePos(mouseX, mouseY);
+
+            glm::vec2 direction = glm::normalize(glm::vec2(mouseX, mouseY) - glm::vec2(bulletPos.x, bulletPos.y));
             if (glm::length(direction) == 0) {
                 direction = glm::vec2(1.0f, 0.0f);
             }
+
             float bulletSpeed = 1.0f;
             glm::vec2 bulletVelocity = direction * bulletSpeed;
 
@@ -66,4 +68,5 @@ void HandleInput::HandleShootingInput(EntityManager& entityManager, Entity playe
         }
     }
 }
+
 
