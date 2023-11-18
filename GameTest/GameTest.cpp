@@ -9,13 +9,12 @@
 #include <iostream>
 //------------------------------------------------------------------------
 #include "App/Utilities/include/app.h"
-#include "App/Utilities/include/GenerateRandomValue.h"
 #include "App/Managers/include/EntityManager.h"
 #include "App/Systems/include/HandleInput.h"
 #include "App/Systems/include/HandleMovement.h"
 #include "App/Systems/include/RenderEntities.h"
 #include "App/Systems/include/HandleAnimation.h"
-#include "App/Utilities/include/Debug.h"
+#include "App/Utilities/include/Helper.h"
 //------------------------------------------------------------------------
 
 float screenWidth = 1024.0f;

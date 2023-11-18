@@ -9,8 +9,8 @@ Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 
 	float maxX = 800.0f;
 	float maxY = 400.0f;
-	float playerPosX = RandomUtility::GenerateFloat(0.0, maxX);
-	float playerPosY = RandomUtility::GenerateFloat(0.0, maxY);
+	float playerPosX = Helper::GenerateFloat(0.0, maxX);
+	float playerPosY = Helper::GenerateFloat(0.0, maxY);
 	float playerPosZ = 0.0f;
 
 	auto playerTag = std::make_shared<Tag>(EntityType::PLAYER);
@@ -41,7 +41,7 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 
 	float minVx = -0.1f, maxVx = 0.1f;
 	float minVy = -0.1f, maxVy = 0.1f;
-	glm::vec2 randomVelocity = RandomUtility::GenerateVec2(minVx, maxVx, minVy, maxVy);
+	glm::vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 	float enemyScale = 0.5f;
 
 	glm::vec3 enemyPos = GetOppositeQuadrantPosition(playerPos, 1024.0f, 768.0f);

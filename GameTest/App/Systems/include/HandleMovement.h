@@ -6,7 +6,7 @@
 #include "../../Components/include/Velocity.h"
 #include "../../Components/include/Direction.h"
 #include "../../Components/include/Tag.h"
-#include "../../Utilities/include/Debug.h"
+#include "../../Utilities/include/Helper.h"
 
 class HandleMovement {
 public:

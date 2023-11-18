@@ -15,11 +15,12 @@
 #include "../../Components/include/Health.h"
 #include "../../Components/include/Damage.h"
 #include "../../Components/include/Animation.h"
-#include "../../Utilities/include/GenerateRandomValue.h"
+#include "../../Utilities/include/Helper.h"
 
 using Entity = unsigned int;
 
-class EntityManager {
+class EntityManager
+{
 private:
     static Entity nextEntityId;
     std::unordered_map<Entity, std::vector<std::shared_ptr<Component>>> entityComponents;
@@ -27,26 +28,31 @@ private:
 public:
     static Entity CreateEntity()
     {
-       return nextEntityId++;
+        return nextEntityId++;
     }
-    Entity CreatePlayerEntity(CSimpleSprite* sprite);
-    Entity CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, CSimpleSprite* enemySprite, float screenWidth, float screenHeight);
-    Entity CreateBulletEntity(CSimpleSprite* bulletSprite, const glm::vec3& position, const glm::vec2& velocity);
+    Entity CreatePlayerEntity(CSimpleSprite *sprite);
+    Entity CreateEnemyEntity(EntityManager &entityManager, const glm::vec3 &playerPos, CSimpleSprite *enemySprite, float screenWidth, float screenHeight);
+    Entity CreateBulletEntity(CSimpleSprite *bulletSprite, const glm::vec3 &position, const glm::vec2 &velocity);
 
-    glm::vec3 GetOppositeQuadrantPosition(const glm::vec3& playerPos, float screenWidth, float screenHeight);
+    glm::vec3 GetOppositeQuadrantPosition(const glm::vec3 &playerPos, float screenWidth, float screenHeight);
 
     template <typename T>
-    void AddComponent(Entity entity, std::shared_ptr<T> component) {
+    void AddComponent(Entity entity, std::shared_ptr<T> component)
+    {
         entityComponents[entity].push_back(component);
     }
 
-    template<typename T>
-    std::shared_ptr<T> GetComponent(Entity entity) {
+    template <typename T>
+    std::shared_ptr<T> GetComponent(Entity entity)
+    {
         auto it = entityComponents.find(entity);
-        if (it != entityComponents.end()) {
-            for (auto& comp : it->second) {
+        if (it != entityComponents.end())
+        {
+            for (auto &comp : it->second)
+            {
                 std::shared_ptr<T> casted = std::dynamic_pointer_cast<T>(comp);
-                if (casted) {
+                if (casted)
+                {
                     return casted;
                 }
             }
@@ -54,12 +60,15 @@ public:
         return nullptr;
     }
 
-    template<typename... Components>
-    std::vector<Entity> GetEntitiesWithComponents() {
+    template <typename... Components>
+    std::vector<Entity> GetEntitiesWithComponents()
+    {
         std::vector<Entity> entitiesWithComponents;
-        for (const auto& pair : entityComponents) {
+        for (const auto &pair : entityComponents)
+        {
             bool hasAllComponents = ((GetComponent<Components>(pair.first) != nullptr) && ...);
-            if (hasAllComponents) {
+            if (hasAllComponents)
+            {
                 entitiesWithComponents.push_back(pair.first);
             }
         }

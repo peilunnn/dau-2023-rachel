@@ -209,10 +209,9 @@
     <ClInclude Include="App\Components\include\Component.h" />
     <ClInclude Include="App\Systems\include\HandleInput.h" />
     <ClInclude Include="App\Systems\include\HandleAnimation.h" />
-    <ClInclude Include="App\Utilities\include\Debug.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="App\Utilities\include\GenerateRandomValue.h" />
     <ClInclude Include="App\Systems\include\HandleMovement.h" />
+    <ClInclude Include="App\Utilities\include\Helper.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -242,7 +241,6 @@
     <ClCompile Include="App\Entities\src\Countdown.cpp" />
     <ClCompile Include="App\Entities\src\Description.cpp" />
     <ClCompile Include="App\Components\src\Component.cpp" />
-    <ClCompile Include="App\Utilities\src\Debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
@@ -257,8 +255,8 @@
     <ClCompile Include="App\Components\src\Renderable.cpp" />
     <ClCompile Include="App\Systems\src\HandleInput.cpp" />
     <ClCompile Include="App\Systems\src\HandleAnimation.cpp" />
-    <ClCompile Include="App\Utilities\src\GenerateRandomValue.cpp" />
     <ClCompile Include="App\Systems\src\HandleMovement.cpp" />
+    <ClCompile Include="App\Utilities\src\Helper.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
