@@ -19,17 +19,21 @@ void HandleAnimation::Init(CSimpleSprite* playerSprite)
 
 void HandleAnimation::Update(EntityManager& entityManager, float deltaTime) {
     for (auto entity : entityManager.GetEntitiesWithComponents<Animation, Velocity>()) {
-        // TODO: use Tags to distinguish between player and enemy
-        // We only want player entity of id 0
-        if (entity != 0)
-        {
-            continue;
-        }
-
         auto animation = entityManager.GetComponent<Animation>(entity);
         auto velocity = entityManager.GetComponent<Velocity>(entity);
+        auto tag = entityManager.GetComponent<Tag>(entity);
 
-        if (velocity && animation) {
+        if (velocity && animation && tag) {
+            //// Process only if it's the player entity
+            //if (tag->entityType != EntityType::PLAYER) {
+            //    continue;
+            //}
+
+            if (entity != 0)
+            {
+                continue;
+            }
+
             if (glm::length(velocity->velocity) > 0) {
                 if (velocity->velocity.x > 0) {
                     animation->currentAnimation = ANIM_RIGHT;

@@ -5,6 +5,7 @@
 #include <vector>
 #include <typeindex>
 #include <memory>
+#include "../../Components/include/Tag.h"
 #include "../../Components/include/Component.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Collider.h"

@@ -36,7 +36,6 @@
     <ClCompile Include="App\Entities\src\HealthBar.cpp" />
     <ClCompile Include="App\Entities\src\BulletBar.cpp" />
     <ClCompile Include="App\Systems\src\RenderEntities.cpp" />
-    <ClCompile Include="App\Systems\src\HandlePlayerMovement.cpp" />
     <ClCompile Include="App\Systems\src\HandleShooting.cpp" />
     <ClCompile Include="App\Systems\src\HandleHealth.cpp" />
     <ClCompile Include="App\Components\src\Renderable.cpp" />
@@ -51,8 +50,8 @@
     <ClCompile Include="App\Utilities\src\GenerateRandomValue.cpp" />
     <ClCompile Include="App\Utilities\src\Debug.cpp" />
     <ClCompile Include="App\Systems\src\HandleCollision.cpp" />
-    <ClCompile Include="App\Systems\src\HandleEnemyMovement.cpp" />
     <ClCompile Include="App\Systems\src\HandleMovement.cpp" />
+    <ClCompile Include="App\Components\src\Tag.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -92,7 +91,6 @@
     <ClInclude Include="App\Entities\include\HealthBar.h" />
     <ClInclude Include="App\Entities\include\BulletBar.h" />
     <ClInclude Include="App\Systems\include\RenderEntities.h" />
-    <ClInclude Include="App\Systems\include\HandlePlayerMovement.h" />
     <ClInclude Include="App\Systems\include\HandleShooting.h" />
     <ClInclude Include="App\Systems\include\HandleHealth.h" />
     <ClInclude Include="App\Components\include\Renderable.h" />
@@ -108,8 +106,8 @@
     <ClInclude Include="App\Utilities\include\GenerateRandomValue.h" />
     <ClInclude Include="App\Systems\include\HandleCollision.h" />
     <ClInclude Include="App\Utilities\include\Debug.h" />
-    <ClInclude Include="App\Systems\include\HandleEnemyMovement.h" />
     <ClInclude Include="App\Systems\include\HandleMovement.h" />
+    <ClInclude Include="App\Components\include\Tag.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

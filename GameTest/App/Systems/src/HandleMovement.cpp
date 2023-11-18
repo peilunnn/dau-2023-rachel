@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "../include/HandleMovement.h"
 
+void HandleMovement::Update(EntityManager& entityManager, float deltaTime, float screenWidth, float screenHeight)
+{
+    HandleMovement::HandlePlayerMovement(entityManager, deltaTime);
+    HandleMovement::HandleEnemyMovement(entityManager, deltaTime, screenWidth, screenHeight);
+}
+
 void HandleMovement::HandlePlayerMovement(EntityManager& entityManager, float deltaTime) {
     for (auto entity : entityManager.GetEntitiesWithComponents<Transform, Velocity>()) {
         auto transform = entityManager.GetComponent<Transform>(entity);
@@ -14,19 +20,18 @@ void HandleMovement::HandlePlayerMovement(EntityManager& entityManager, float de
 }
 
 void HandleMovement::HandleEnemyMovement(EntityManager& entityManager, float deltaTime, float screenWidth, float screenHeight) {
-    for (auto entity : entityManager.GetEntitiesWithComponents<Transform, Velocity, Direction>()) {
-        // TODO: use Tags to distinguish between player and enemy
-        // We skip player entity, who will always have id of 0
-        if (entity == 0) {
-            continue;
-        }
-
+    for (auto entity : entityManager.GetEntitiesWithComponents<Transform, Velocity, Direction, Tag>()) {
         auto transform = entityManager.GetComponent<Transform>(entity);
         auto velocity = entityManager.GetComponent<Velocity>(entity);
         auto direction = entityManager.GetComponent<Direction>(entity);
+        auto tag = entityManager.GetComponent<Tag>(entity);
         int edgeThreshold = 10;
 
-        if (transform && velocity && direction) {
+        if (transform && velocity && direction && tag) {
+            if (tag->entityType != EntityType::ENEMY) {
+                continue;
+            }
+
             glm::vec2 movement = velocity->velocity * deltaTime;
             transform->position.x += movement.x;
             transform->position.y += movement.y;
@@ -41,7 +46,6 @@ void HandleMovement::HandleEnemyMovement(EntityManager& entityManager, float del
                     direction->bounced = true;
                 }
             }
-            // Reset bounced flag if away from edges
             else if (transform->position.x > edgeThreshold && transform->position.x < screenWidth - edgeThreshold &&
                 transform->position.y > edgeThreshold && transform->position.y < screenHeight - edgeThreshold) {
                 direction->bounced = false;

@@ -4,6 +4,7 @@
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Animation.h"
 #include "../../Components/include/Velocity.h"
+#include "../../Components/include/Tag.h"
 #include "../../Utilities/include/SimpleSprite.h"
 
 class HandleAnimation {

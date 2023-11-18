@@ -13,6 +13,7 @@ Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 	float playerPosY = RandomUtility::GenerateFloat(0.0, maxY);
 	float playerPosZ = 0.0f;
 
+	auto playerTag = std::make_shared<Tag>(EntityType::PLAYER);
 	auto playerTransform = std::make_shared<Transform>(glm::vec3(playerPosX, playerPosY, playerPosZ), glm::vec3(0.0f), glm::vec3(1.0f));
 	auto playerRenderable = std::make_shared<Renderable>(playerSprite);
 	auto playerCollider = std::make_shared<Collider>();
@@ -22,6 +23,7 @@ Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 	auto playerHealth = std::make_shared<Health>();
 	auto playerAnimation = std::make_shared<Animation>();
 
+	EntityManager::AddComponent(playerEntityId, playerTag);
 	EntityManager::AddComponent(playerEntityId, playerTransform);
 	EntityManager::AddComponent(playerEntityId, playerRenderable);
 	EntityManager::AddComponent(playerEntityId, playerCollider);
@@ -44,6 +46,7 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 
 	glm::vec3 enemyPos = GetOppositeQuadrantPosition(playerPos, 1024.0f, 768.0f);
 
+	auto enemyTag = std::make_shared<Tag>(EntityType::ENEMY);
 	auto enemyTransform = std::make_shared<Transform>(enemyPos, glm::vec3(0.0f), glm::vec3(enemyScale));
 	auto enemyRenderable = std::make_shared<Renderable>(enemySprite);
 	auto enemyCollider = std::make_shared<Collider>();
@@ -52,6 +55,7 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 	auto enemyHealth = std::make_shared<Health>();
 	auto enemyAnimation = std::make_shared<Animation>();
 
+	EntityManager::AddComponent(enemyEntity, enemyTag);
 	EntityManager::AddComponent(enemyEntity, enemyTransform);
 	EntityManager::AddComponent(enemyEntity, enemyRenderable);
 	EntityManager::AddComponent(enemyEntity, enemyCollider);
@@ -69,12 +73,14 @@ Entity EntityManager::CreateBulletEntity(CSimpleSprite* bulletSprite, const glm:
 
 	float bulletScale = 0.1f;
 
+	auto bulletTag = std::make_shared<Tag>(EntityType::BULLET);
 	auto bulletTransform = std::make_shared<Transform>(position, glm::vec3(0.0f), glm::vec3(bulletScale));
 	auto bulletRenderable = std::make_shared<Renderable>(bulletSprite);
 	auto bulletCollider = std::make_shared<Collider>();
 	auto bulletVelocity = std::make_shared<Velocity>();
 	auto bulletDamage = std::make_shared<Damage>();
 
+	AddComponent(bulletEntity, bulletTag);
 	AddComponent(bulletEntity, bulletTransform);
 	AddComponent(bulletEntity, bulletRenderable);
 	AddComponent(bulletEntity, bulletCollider);

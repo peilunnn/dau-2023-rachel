@@ -32,7 +32,6 @@ C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Componen
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\HandleInput.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\HandleInput.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\HandleAnimation.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\HandleAnimation.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Utilities\src\GenerateRandomValue.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\GenerateRandomValue.obj
-C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\HandleEnemyMovement.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\HandleEnemyMovement.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\HandleMovement.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\HandleMovement.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\stb_image\stb_image.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\stb_image.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\stdafx.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\stdafx.obj
@@ -41,4 +40,4 @@ C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Componen
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Components\src\Text.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Text.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Entities\src\Title.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Title.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\HandleHealth.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\HandleHealth.obj
-C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\HandlePlayerMovement.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\HandlePlayerMovement.obj
+C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Components\src\Tag.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Tag.obj

@@ -12,8 +12,7 @@
 #include "App/Utilities/include/GenerateRandomValue.h"
 #include "App/Managers/include/EntityManager.h"
 #include "App/Systems/include/HandleInput.h"
-#include "App/Systems/include/HandlePlayerMovement.h"
-#include "App/Systems/include/HandleEnemyMovement.h"
+#include "App/Systems/include/HandleMovement.h"
 #include "App/Systems/include/RenderEntities.h"
 #include "App/Systems/include/HandleAnimation.h"
 #include "App/Utilities/include/Debug.h"
@@ -25,8 +24,7 @@ EntityManager entityManager;
 Entity playerEntityId;
 Entity enemyEntityId;
 HandleInput handleInput;
-HandlePlayerMovement handlePlayerMovement;
-HandleEnemyMovement handleEnemyMovement;
+HandleMovement handleMovement;
 RenderEntities renderEntities;
 CSimpleSprite* playerSprite;
 CSimpleSprite* enemySprite;
@@ -57,8 +55,11 @@ void Update(float deltaTime)
 {
 	playerSprite->Update(deltaTime);
 	handleInput.Update(entityManager, deltaTime, playerEntityId, bulletSprite);
-	handlePlayerMovement.Update(entityManager, deltaTime);
-	handleEnemyMovement.Update(entityManager, deltaTime, screenWidth, screenHeight);
+	
+	handleMovement.HandlePlayerMovement(entityManager, deltaTime);
+	handleMovement.HandleEnemyMovement(entityManager, deltaTime, screenWidth, screenHeight);
+	//handleMovement.Update(entityManager, deltaTime, screenWidth, screenHeight);
+	
 	handleAnimation.Update(entityManager, deltaTime);
 }
 
