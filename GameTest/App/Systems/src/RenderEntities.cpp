@@ -16,7 +16,6 @@ void RenderEntities::Render(EntityManager& entityManager) {
                 renderable->sprite->SetAnimation(animation->currentAnimation);
             }
 
-            renderable->sprite->SetAnimation(animation->currentAnimation);
             renderable->sprite->Draw();
         }
     }

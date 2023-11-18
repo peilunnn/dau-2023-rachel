@@ -12,16 +12,20 @@
 #include "App/Utilities/include/GenerateRandomValue.h"
 #include "App/Managers/include/EntityManager.h"
 #include "App/Systems/include/HandleInput.h"
-#include "App/Systems/include/HandleMovement.h"
+#include "App/Systems/include/HandlePlayerMovement.h"
+#include "App/Systems/include/HandleEnemyMovement.h"
 #include "App/Systems/include/RenderEntities.h"
 #include "App/Systems/include/HandleAnimation.h"
 //------------------------------------------------------------------------
 
+float screenWidth = 1024.0f;
+float screenHeight = 768.0f;
 EntityManager entityManager;
 Entity playerEntityId;
 Entity enemyEntityId;
 HandleInput handleInput;
-HandleMovement handleMovement;
+HandlePlayerMovement handlePlayerMovement;
+HandleEnemyMovement handleEnemyMovement;
 RenderEntities renderEntities;
 CSimpleSprite* playerSprite;
 CSimpleSprite *enemySprite;
@@ -38,7 +42,14 @@ void Init()
 
 	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->position;
 	enemySprite = App::CreateSprite(".\\Data\\SpriteSheets\\EnemyTest.png", 1, 1);
-	enemyEntityId = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite);
+	enemyEntityId = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
+	
+	auto enemyVelocityComponent = entityManager.GetComponent<Velocity>(enemyEntityId);
+	char debugMsg[256];
+	if (enemyVelocityComponent) {
+		sprintf_s(debugMsg, "in main game loop Init, newly created enemy, velocity is: X: %f, Y: %f\n", enemyVelocityComponent->velocity.x, enemyVelocityComponent->velocity.y);
+		OutputDebugStringA(debugMsg);
+	}
 }
 
 //------------------------------------------------------------------------
@@ -49,7 +60,8 @@ void Update(float deltaTime)
 {
 	playerSprite->Update(deltaTime);
 	handleInput.Update(entityManager, deltaTime, playerEntityId);
-	handleMovement.Update(entityManager, deltaTime);
+	handlePlayerMovement.Update(entityManager, deltaTime);
+	handleEnemyMovement.Update(entityManager, deltaTime, screenWidth, screenHeight);
 	handleAnimation.Update(entityManager, deltaTime);
 }
 

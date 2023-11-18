@@ -28,7 +28,7 @@ public:
        return nextEntityId++;
     }
     Entity CreatePlayerEntity(CSimpleSprite* sprite);
-    Entity CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, CSimpleSprite* enemySprite);
+    Entity CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, CSimpleSprite* enemySprite, float screenWidth, float screenHeight);
 
     glm::vec3 GetOppositeQuadrantPosition(const glm::vec3& playerPos, float screenWidth, float screenHeight);
 

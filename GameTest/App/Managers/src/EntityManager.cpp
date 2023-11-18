@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "../include/EntityManager.h"
 
-Entity EntityManager::nextEntityId = -1;
+Entity EntityManager::nextEntityId = 0;
 
 Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 {
@@ -36,17 +36,16 @@ Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 }
 
 
-Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, CSimpleSprite* enemySprite)
+Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, CSimpleSprite* enemySprite, float screenWidth, float screenHeight)
 {
 	Entity enemyEntity = entityManager.CreateEntity();
 
-	float minVx = -5.0f, maxVx = 5.0f;
-	float minVy = -5.0f, maxVy = 5.0f;
+	float minVx = 0.01f, maxVx = 0.05f;
+	float minVy = 0.01f, maxVy = 0.05f;
 	float minDx = -1.0f, maxDx = 1.0f;
 	float minDy = -1.0f, maxDy = 1.0f;
-	float minDz = -1.0f, maxDz = 1.0f;
 	glm::vec2 randomVelocity = RandomUtility::GenerateVec2(minVx, maxVx, minVy, maxVy);
-	glm::vec3 randomDirection = RandomUtility::GenerateVec3(minDx, maxDx, minDy, maxDy, minDz, maxDz);
+	glm::vec3 randomDirection = RandomUtility::GenerateVec3(minDx, maxDx, minDy, maxDy, 0.0f, 0.0f);
 	float enemyScale = 0.2f;
 
 	glm::vec3 enemyPos = GetOppositeQuadrantPosition(playerPos, 1024.0f, 768.0f);
@@ -54,8 +53,9 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 	auto enemyTransform = std::make_shared<Transform>(enemyPos, glm::vec3(0.0f), glm::vec3(enemyScale));
 	auto enemyRenderable = std::make_shared<Renderable>(enemySprite);
 	auto enemyCollider = std::make_shared<Collider>();
-	auto enemyVelocity = std::make_shared<Velocity>();
+	auto enemyVelocity = std::make_shared<Velocity>(randomVelocity.x, randomVelocity.y);
 	auto enemyDirection = std::make_shared<Direction>();
+	enemyDirection->direction = glm::vec2(randomDirection.x, randomDirection.y);
 	auto enemyHealth = std::make_shared<Health>();
 	auto enemyAnimation = std::make_shared<Animation>();
 
