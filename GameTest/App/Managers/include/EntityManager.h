@@ -12,6 +12,7 @@
 #include "../../Components/include/Velocity.h"
 #include "../../Components/include/Direction.h"
 #include "../../Components/include/Health.h"
+#include "../../Components/include/Damage.h"
 #include "../../Components/include/Animation.h"
 #include "../../Utilities/include/GenerateRandomValue.h"
 
@@ -29,6 +30,7 @@ public:
     }
     Entity CreatePlayerEntity(CSimpleSprite* sprite);
     Entity CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, CSimpleSprite* enemySprite, float screenWidth, float screenHeight);
+    Entity CreateBulletEntity(CSimpleSprite* bulletSprite, const glm::vec3& position, const glm::vec2& velocity);
 
     glm::vec3 GetOppositeQuadrantPosition(const glm::vec3& playerPos, float screenWidth, float screenHeight);
 

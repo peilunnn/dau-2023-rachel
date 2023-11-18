@@ -8,7 +8,12 @@
 
 class HandleInput {
 public:
-    void Update(EntityManager& entityManager, float deltaTime, Entity playerEntityId);
+    void Update(EntityManager& entityManager, float deltaTime, Entity playerEntityId, CSimpleSprite* bulletSprite);
+    void HandlePositionInput(EntityManager& entityManager, float deltaTime, Entity playerEntityId);
+    void HandleRotationInput(EntityManager& entityManager, Entity playerEntityId);
+    void HandleScaleInput(EntityManager& entityManager, Entity playerEntityId);
+    void HandleShootingInput(EntityManager& entityManager, Entity playerEntityId, CSimpleSprite* bulletSprite);
+
     static constexpr float THUMB_STICK_THRESHOLD = 0.5f;
     static constexpr float VELOCITY_MULTIPLIER = 0.08f;
     static constexpr float ANGLE_DELTA = 0.1f;

@@ -63,6 +63,27 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 	return enemyEntity;
 }
 
+Entity EntityManager::CreateBulletEntity(CSimpleSprite* bulletSprite, const glm::vec3& position, const glm::vec2& velocity)
+{
+	Entity bulletEntity = CreateEntity();
+
+	float bulletScale = 0.1f;
+
+	auto bulletTransform = std::make_shared<Transform>(position, glm::vec3(0.0f), glm::vec3(bulletScale));
+	auto bulletRenderable = std::make_shared<Renderable>(bulletSprite);
+	auto bulletCollider = std::make_shared<Collider>();
+	auto bulletVelocity = std::make_shared<Velocity>();
+	auto bulletDamage = std::make_shared<Damage>();
+
+	AddComponent(bulletEntity, bulletTransform);
+	AddComponent(bulletEntity, bulletRenderable);
+	AddComponent(bulletEntity, bulletCollider);
+	AddComponent(bulletEntity, bulletVelocity);
+	AddComponent(bulletEntity, bulletDamage);
+
+	return bulletEntity;
+}
+
 glm::vec3 EntityManager::GetOppositeQuadrantPosition(const glm::vec3& playerPos, float screenWidth, float screenHeight)
 {
 	glm::vec3 enemyPos;

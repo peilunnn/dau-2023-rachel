@@ -29,7 +29,8 @@ HandlePlayerMovement handlePlayerMovement;
 HandleEnemyMovement handleEnemyMovement;
 RenderEntities renderEntities;
 CSimpleSprite* playerSprite;
-CSimpleSprite *enemySprite;
+CSimpleSprite* enemySprite;
+CSimpleSprite* bulletSprite;
 HandleAnimation handleAnimation;
 
 //------------------------------------------------------------------------
@@ -41,9 +42,11 @@ void Init()
 	playerEntityId = entityManager.CreatePlayerEntity(playerSprite);
 	handleAnimation.Init(playerSprite);
 
-	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->position;
 	enemySprite = App::CreateSprite(".\\Data\\SpriteSheets\\EnemyTest.png", 1, 1);
+	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->position;
 	enemyEntityId = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
+
+	bulletSprite = App::CreateSprite(".\\Data\\SpriteSheets\\BulletTest.jpg", 1, 1);
 }
 
 //------------------------------------------------------------------------
@@ -53,7 +56,7 @@ void Init()
 void Update(float deltaTime)
 {
 	playerSprite->Update(deltaTime);
-	handleInput.Update(entityManager, deltaTime, playerEntityId);
+	handleInput.Update(entityManager, deltaTime, playerEntityId, bulletSprite);
 	handlePlayerMovement.Update(entityManager, deltaTime);
 	handleEnemyMovement.Update(entityManager, deltaTime, screenWidth, screenHeight);
 	handleAnimation.Update(entityManager, deltaTime);
