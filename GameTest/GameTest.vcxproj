@@ -209,6 +209,7 @@
     <ClInclude Include="App\Components\include\Component.h" />
     <ClInclude Include="App\Systems\include\HandleInput.h" />
     <ClInclude Include="App\Systems\include\HandleAnimation.h" />
+    <ClInclude Include="App\Utilities\include\Debug.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="App\Utilities\include\GenerateRandomValue.h" />
     <ClInclude Include="App\Systems\include\HandleEnemyMovement.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="App\Entities\src\Countdown.cpp" />
     <ClCompile Include="App\Entities\src\Description.cpp" />
     <ClCompile Include="App\Components\src\Component.cpp" />
+    <ClCompile Include="App\Utilities\src\Debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />

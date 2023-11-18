@@ -1,23 +1,6 @@
-﻿  Bullet.cpp
-  BulletBar.cpp
-  Countdown.cpp
-  Enemy.cpp
-  HealthBar.cpp
-  Player.cpp
-  ReloadingCircle.cpp
-  Score.cpp
-  StartButton.cpp
-  Title.cpp
-  EntityManager.cpp
+﻿  EntityManager.cpp
   HandleAnimation.cpp
-  HandleCollision.cpp
   HandleEnemyMovement.cpp
-  HandleHealth.cpp
-  HandleInput.cpp
-  HandlePlayerMovement.cpp
-  HandleShooting.cpp
-  RenderEntities.cpp
-  GameTest.cpp
   Generating Code...
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\x64\Debug\GameTest.exe
   'pwsh.exe' is not recognized as an internal or external command,

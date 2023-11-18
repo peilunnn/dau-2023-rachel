@@ -19,8 +19,6 @@ Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 	playerCollider->collisionShape = CollisionShape::SPHERE;
 	playerCollider->collisionMask = 1;
 	auto playerVelocity = std::make_shared<Velocity>(0.0f, 0.0f);
-	auto playerDirection = std::make_shared<Direction>();
-	playerDirection->direction = glm::vec2(0.0f, -1.0f);
 	auto playerHealth = std::make_shared<Health>();
 	auto playerAnimation = std::make_shared<Animation>();
 
@@ -28,7 +26,6 @@ Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 	EntityManager::AddComponent(playerEntityId, playerRenderable);
 	EntityManager::AddComponent(playerEntityId, playerCollider);
 	EntityManager::AddComponent(playerEntityId, playerVelocity);
-	EntityManager::AddComponent(playerEntityId, playerDirection);
 	EntityManager::AddComponent(playerEntityId, playerHealth);
 	EntityManager::AddComponent(playerEntityId, playerAnimation);
 
@@ -40,12 +37,9 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 {
 	Entity enemyEntity = entityManager.CreateEntity();
 
-	float minVx = 0.01f, maxVx = 0.05f;
-	float minVy = 0.01f, maxVy = 0.05f;
-	float minDx = -1.0f, maxDx = 1.0f;
-	float minDy = -1.0f, maxDy = 1.0f;
+	float minVx = -0.01f, maxVx = 0.05f;
+	float minVy = -0.01f, maxVy = 0.05f;
 	glm::vec2 randomVelocity = RandomUtility::GenerateVec2(minVx, maxVx, minVy, maxVy);
-	glm::vec3 randomDirection = RandomUtility::GenerateVec3(minDx, maxDx, minDy, maxDy, 0.0f, 0.0f);
 	float enemyScale = 0.2f;
 
 	glm::vec3 enemyPos = GetOppositeQuadrantPosition(playerPos, 1024.0f, 768.0f);
@@ -55,7 +49,6 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 	auto enemyCollider = std::make_shared<Collider>();
 	auto enemyVelocity = std::make_shared<Velocity>(randomVelocity.x, randomVelocity.y);
 	auto enemyDirection = std::make_shared<Direction>();
-	enemyDirection->direction = glm::vec2(randomDirection.x, randomDirection.y);
 	auto enemyHealth = std::make_shared<Health>();
 	auto enemyAnimation = std::make_shared<Animation>();
 

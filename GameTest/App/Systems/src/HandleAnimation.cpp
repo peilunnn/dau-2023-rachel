@@ -17,29 +17,39 @@ void HandleAnimation::Init(CSimpleSprite* playerSprite)
     }
 }
 
-    void HandleAnimation::Update(EntityManager& entityManager, float deltaTime) {
+void HandleAnimation::Update(EntityManager& entityManager, float deltaTime) {
     for (auto entity : entityManager.GetEntitiesWithComponents<Animation, Velocity>()) {
+        // TODO: use Tags to distinguish between player and enemy
+        // We only want player entity of id 0
+        if (entity != 0)
+        {
+            continue;
+        }
+
         auto animation = entityManager.GetComponent<Animation>(entity);
         auto velocity = entityManager.GetComponent<Velocity>(entity);
 
         if (velocity && animation) {
-            if (velocity->velocity.x > 0) {
-                animation->currentAnimation = ANIM_RIGHT;
-                lastNonIdleAnimState = ANIM_IDLE_RIGHT;
-            }
-            else if (velocity->velocity.x < 0) {
-                animation->currentAnimation = ANIM_LEFT;
-                lastNonIdleAnimState = ANIM_IDLE_LEFT;
-            }
-            else if (velocity->velocity.y > 0) {
-                animation->currentAnimation = ANIM_FORWARDS;
-                lastNonIdleAnimState = ANIM_IDLE_FORWARDS;
-            }
-            else if (velocity->velocity.y < 0) {
-                animation->currentAnimation = ANIM_BACKWARDS;
-                lastNonIdleAnimState = ANIM_IDLE_BACKWARDS;
+            if (glm::length(velocity->velocity) > 0) {
+                if (velocity->velocity.x > 0) {
+                    animation->currentAnimation = ANIM_RIGHT;
+                    lastNonIdleAnimState = ANIM_IDLE_RIGHT;
+                }
+                else if (velocity->velocity.x < 0) {
+                    animation->currentAnimation = ANIM_LEFT;
+                    lastNonIdleAnimState = ANIM_IDLE_LEFT;
+                }
+                else if (velocity->velocity.y > 0) {
+                    animation->currentAnimation = ANIM_FORWARDS;
+                    lastNonIdleAnimState = ANIM_IDLE_FORWARDS;
+                }
+                else if (velocity->velocity.y < 0) {
+                    animation->currentAnimation = ANIM_BACKWARDS;
+                    lastNonIdleAnimState = ANIM_IDLE_BACKWARDS;
+                }
             }
             else {
+                // If not moving, set the animation to the last non-idle state
                 animation->currentAnimation = lastNonIdleAnimState;
             }
         }

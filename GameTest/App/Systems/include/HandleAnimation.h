@@ -19,7 +19,7 @@ private:
 		ANIM_IDLE_FORWARDS,
 		ANIM_IDLE_BACKWARDS,
 	};
-	int lastNonIdleAnimState = 6; // We set default as ANIM_IDLE_FORWARDS
+	int lastNonIdleAnimState = ANIM_IDLE_FORWARDS;
 
 public:
 	void Init(CSimpleSprite* sprite);

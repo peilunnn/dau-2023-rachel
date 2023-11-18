@@ -6,10 +6,9 @@
 
 class Direction : public Component {
 public:
-    glm::vec2 direction;
-    bool isBouncing;
+    bool bounced;
 
-    Direction() : direction(0.0f), isBouncing(false) {}
+    Direction() : bounced(false) {}
 };
 
 #endif // DIRECTION_H

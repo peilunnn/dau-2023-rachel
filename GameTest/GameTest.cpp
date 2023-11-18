@@ -16,6 +16,7 @@
 #include "App/Systems/include/HandleEnemyMovement.h"
 #include "App/Systems/include/RenderEntities.h"
 #include "App/Systems/include/HandleAnimation.h"
+#include "App/Utilities/include/Debug.h"
 //------------------------------------------------------------------------
 
 float screenWidth = 1024.0f;
@@ -43,13 +44,6 @@ void Init()
 	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->position;
 	enemySprite = App::CreateSprite(".\\Data\\SpriteSheets\\EnemyTest.png", 1, 1);
 	enemyEntityId = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
-	
-	auto enemyVelocityComponent = entityManager.GetComponent<Velocity>(enemyEntityId);
-	char debugMsg[256];
-	if (enemyVelocityComponent) {
-		sprintf_s(debugMsg, "in main game loop Init, newly created enemy, velocity is: X: %f, Y: %f\n", enemyVelocityComponent->velocity.x, enemyVelocityComponent->velocity.y);
-		OutputDebugStringA(debugMsg);
-	}
 }
 
 //------------------------------------------------------------------------

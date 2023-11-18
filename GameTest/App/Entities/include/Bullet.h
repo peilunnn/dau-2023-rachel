@@ -6,7 +6,6 @@
 #include "../../Components/include/Renderable.h"
 #include "../../Components/include/Collider.h"
 #include "../../Components/include/Velocity.h"
-#include "../../Components/include/Direction.h"
 #include "../../Components/include/Damage.h"
 
 class Bullet {
