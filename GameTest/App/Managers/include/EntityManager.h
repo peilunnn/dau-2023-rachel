@@ -26,6 +26,7 @@ private:
     std::unordered_map<Entity, std::vector<std::shared_ptr<Component>>> entityComponents;
 
 public:
+    std::vector<Entity> GetAllEntities();
     static Entity CreateEntity()
     {
         return nextEntityId++;

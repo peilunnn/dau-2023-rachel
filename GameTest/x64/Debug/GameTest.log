@@ -1,13 +1,19 @@
-﻿  HandleMovement.cpp
+﻿  HandleCollision.cpp
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Utilities\include\Helper.h(39,21): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  (compiling source file '/App/Systems/src/HandleMovement.cpp')
+  (compiling source file '/App/Systems/src/HandleCollision.cpp')
   
-C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\HandleMovement.cpp(44,20): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  (compiling source file '/App/Systems/src/HandleMovement.cpp')
+C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\HandleCollision.cpp(28,109): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+  (compiling source file '/App/Systems/src/HandleCollision.cpp')
   
-C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Systems\src\HandleMovement.cpp(47,59): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  (compiling source file '/App/Systems/src/HandleMovement.cpp')
+  HandleAnimation.cpp
+C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Utilities\include\Helper.h(39,21): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  (compiling source file '/App/Systems/src/HandleAnimation.cpp')
   
+  HandleHealth.cpp
+C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Utilities\include\Helper.h(39,21): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  (compiling source file '/App/Systems/src/HandleHealth.cpp')
+  
+  Generating Code...
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\x64\Debug\GameTest.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

@@ -3,6 +3,15 @@
 
 Entity EntityManager::nextEntityId = 0;
 
+std::vector<Entity> EntityManager::GetAllEntities()
+{
+	std::vector<Entity> allEntities;
+	for (const auto& pair : entityComponents) {
+		allEntities.push_back(pair.first);
+	}
+	return allEntities;
+}
+
 Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 {
 	Entity playerEntityId = CreateEntity();
@@ -17,8 +26,8 @@ Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 	auto playerTransform = std::make_shared<Transform>(glm::vec3(playerPosX, playerPosY, playerPosZ), glm::vec3(0.0f), glm::vec3(1.0f));
 	auto playerRenderable = std::make_shared<Renderable>(playerSprite);
 	auto playerCollider = std::make_shared<Collider>();
-	playerCollider->collisionShape = CollisionShape::SPHERE;
-	playerCollider->collisionMask = 1;
+	playerCollider->collisionShape = CollisionShape::CAPSULE;
+	playerCollider->collisionMask = static_cast<int>(CollisionType::ENEMY);
 	auto playerVelocity = std::make_shared<Velocity>(0.0f, 0.0f);
 	auto playerHealth = std::make_shared<Health>();
 	auto playerAnimation = std::make_shared<Animation>();
@@ -39,8 +48,8 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 {
 	Entity enemyEntity = entityManager.CreateEntity();
 
-	float minVx = -0.1f, maxVx = 0.1f;
-	float minVy = -0.1f, maxVy = 0.1f;
+	float minVx = -0.1f, maxVx = 0.3f;
+	float minVy = -0.1f, maxVy = 0.3f;
 	glm::vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 	float enemyScale = 0.5f;
 
@@ -50,6 +59,8 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 	auto enemyTransform = std::make_shared<Transform>(enemyPos, glm::vec3(0.0f), glm::vec3(enemyScale));
 	auto enemyRenderable = std::make_shared<Renderable>(enemySprite);
 	auto enemyCollider = std::make_shared<Collider>();
+	enemyCollider->collisionShape = CollisionShape::SPHERE;
+	enemyCollider->collisionMask = static_cast<int>(CollisionType::PLAYER) | static_cast<int>(CollisionType::BULLET);
 	auto enemyVelocity = std::make_shared<Velocity>(randomVelocity.x, randomVelocity.y);
 	auto enemyDirection = std::make_shared<Direction>();
 	auto enemyHealth = std::make_shared<Health>();
@@ -77,6 +88,8 @@ Entity EntityManager::CreateBulletEntity(CSimpleSprite* bulletSprite, const glm:
 	auto bulletTransform = std::make_shared<Transform>(position, glm::vec3(0.0f), glm::vec3(bulletScale));
 	auto bulletRenderable = std::make_shared<Renderable>(bulletSprite);
 	auto bulletCollider = std::make_shared<Collider>();
+	bulletCollider->collisionShape = CollisionShape::SPHERE;
+	bulletCollider->collisionMask = static_cast<int>(CollisionType::ENEMY);
 	auto bulletVelocity = std::make_shared<Velocity>(velocity.x, velocity.y);
 	auto bulletDamage = std::make_shared<Damage>();
 

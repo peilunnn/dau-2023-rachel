@@ -41,8 +41,8 @@ void HandleMovement::HandlePlayerMovement(EntityManager& entityManager, Entity e
 }
 
 void HandleMovement::HandleEnemyMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight) {
-    int multiplier = 0.125f;
-    int edgeThreshold = 10;
+    int multiplier = 0.8f;
+    int edgeThreshold = 20;
     auto sprite = dynamic_cast<CSimpleSprite*>(entityManager.GetComponent<Renderable>(entity)->sprite);
     auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
     float edgeThresholdX = dimensions.adjustedWidth + edgeThreshold;
@@ -85,5 +85,6 @@ void HandleMovement::HandleBulletMovement(EntityManager& entityManager, Entity e
         transform->position.y += movement.y;
 
         // TODO: add logic to destroy bullet if it's out of bounds
+        // TODO: handling enemy and bullet movement will have duplicate out of bounds check logic
     }
 }

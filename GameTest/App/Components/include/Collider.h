@@ -5,14 +5,25 @@
 
 enum class CollisionShape {
     SPHERE,
+    CAPSULE,
+};
+
+enum class CollisionType {
+    NONE = 0,
+    PLAYER = 1 << 0,  // 0001
+    ENEMY = 1 << 1,   // 0010
+    BULLET = 1 << 2   // 0100
 };
 
 class Collider : public Component {
 public:
     CollisionShape collisionShape;
+    CollisionType collisionType;
     int collisionMask;
+    float radius;
 
-    Collider() : collisionShape(CollisionShape::SPHERE), collisionMask(0) {}
+    Collider() : collisionShape(CollisionShape::SPHERE), collisionType(CollisionType::NONE), collisionMask(0) {}
 };
+
 
 #endif // COLLIDER_H
