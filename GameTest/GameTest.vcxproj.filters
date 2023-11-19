@@ -46,12 +46,12 @@
     <ClCompile Include="App\Utilities\src\app.cpp" />
     <ClCompile Include="App\Utilities\src\main.cpp" />
     <ClCompile Include="App\Managers\src\EntityManager.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="App\Utilities\src\GenerateRandomValue.cpp" />
-    <ClCompile Include="App\Utilities\src\Debug.cpp" />
     <ClCompile Include="App\Systems\src\HandleCollision.cpp" />
     <ClCompile Include="App\Systems\src\HandleMovement.cpp" />
     <ClCompile Include="App\Components\src\Tag.cpp" />
+    <ClCompile Include="App\Utilities\src\Helper.cpp" />
+    <ClCompile Include="App\Managers\src\SystemManager.cpp" />
+    <ClCompile Include="App\Systems\src\System.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -102,12 +102,12 @@
     <ClInclude Include="App\Utilities\include\AppSettings.h" />
     <ClInclude Include="App\Utilities\include\main.h" />
     <ClInclude Include="App\Managers\include\EntityManager.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="App\Utilities\include\GenerateRandomValue.h" />
     <ClInclude Include="App\Systems\include\HandleCollision.h" />
-    <ClInclude Include="App\Utilities\include\Debug.h" />
     <ClInclude Include="App\Systems\include\HandleMovement.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
+    <ClInclude Include="App\Utilities\include\Helper.h" />
+    <ClInclude Include="App\Managers\include\SystemManager.h" />
+    <ClInclude Include="App\Systems\include\System.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

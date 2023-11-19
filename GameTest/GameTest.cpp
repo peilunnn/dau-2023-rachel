@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------
 #include "App/Utilities/include/app.h"
 #include "App/Managers/include/EntityManager.h"
+#include "App/Managers/include/SystemManager.h"
 #include "App/Systems/include/HandleInput.h"
 #include "App/Systems/include/HandleMovement.h"
 #include "App/Systems/include/RenderEntities.h"
@@ -21,6 +22,7 @@
 float screenWidth = 1024.0f;
 float screenHeight = 768.0f;
 EntityManager entityManager;
+SystemManager systemManager;
 CSimpleSprite* playerSprite;
 CSimpleSprite* enemySprite;
 CSimpleSprite* bulletSprite;
@@ -47,6 +49,13 @@ void Init()
 	handleAnimation.InitEnemyAnimation(enemySprite);
 
 	bulletSprite = App::CreateSprite(".\\Data\\Sprites\\Bullet.bmp", 1, 1);
+
+	systemManager.addSystem(std::make_unique<HandleAnimation>());
+	systemManager.addSystem(std::make_unique<HandleCollision>());
+	systemManager.addSystem(std::make_unique<HandleInput>());
+	systemManager.addSystem(std::make_unique<HandleMovement>());
+	systemManager.addSystem(std::make_unique<HandleShooting>());
+	systemManager.addSystem(std::make_unique<RenderEntities>());
 }
 
 //------------------------------------------------------------------------
@@ -78,4 +87,5 @@ void Shutdown()
 {
 	delete playerSprite;
 	delete enemySprite;
+	delete bulletSprite;
 }

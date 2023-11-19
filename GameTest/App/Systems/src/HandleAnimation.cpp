@@ -22,7 +22,7 @@ void HandleAnimation::InitEnemyAnimation(CSimpleSprite* enemySprite)
     if (enemySprite) {
         float speed = 1.0f / 15.0f;
         enemySprite->CreateAnimation(ENEMY_ANIM_IDLE, speed, { 0 });
-        enemySprite->CreateAnimation(ENEMY_ANIM_MELT_START, speed, { 1,2,3,4,5,6,7 });
+        enemySprite->CreateAnimation(ENEMY_ANIM_MELT, speed, { 1,2,3,4,5,6,7 });
     }
 }
 

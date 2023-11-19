@@ -66,14 +66,23 @@ bool HandleCollision::IsColliding(std::shared_ptr<Transform> transform1, std::sh
 
 void HandleCollision::HandleCollisionEvent(EntityManager& entityManager, Entity entity1, Entity entity2)
 {
-    // TODO: add logic to handle a collision event between entity1 and entity2
-    // Eg. trigger enemy melting animation when bullet hits enemy
-    std::shared_ptr<Tag> tag1 = entityManager.GetComponent<Tag>(entity1);
-    std::shared_ptr<Tag> tag2 = entityManager.GetComponent<Tag>(entity2);
-    std::string tag1String = Helper::GetEntityTypeString(tag1->entityType);
-    std::string tag2String = Helper::GetEntityTypeString(tag2->entityType);
+    auto tag1 = entityManager.GetComponent<Tag>(entity1);
+    auto tag2 = entityManager.GetComponent<Tag>(entity2);
+    
+    // Case 1 - one is bullet, the other is enemy
+    if ((tag1->entityType == EntityType::BULLET && tag2->entityType == EntityType::ENEMY) ||
+        (tag1->entityType == EntityType::ENEMY && tag2->entityType == EntityType::BULLET))
+    {
+        Entity enemyEntity = (tag1->entityType == EntityType::ENEMY) ? entity1 : entity2;
+        auto enemyAnimation = entityManager.GetComponent<Animation>(enemyEntity);
+        auto enemySprite = dynamic_cast<CSimpleSprite*>(entityManager.GetComponent<Renderable>(enemyEntity)->sprite);
 
-    Helper::Log("collision!");
-    Helper::Log("entity1: ", tag1String);
-    Helper::Log("entity2: ", tag2String);
+        if (enemyAnimation && enemySprite)
+        {
+
+        }
+    }
+    
+    // Case 2 - one is player, the other is enemy
+
 }

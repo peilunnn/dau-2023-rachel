@@ -4,8 +4,10 @@
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Health.h"
 #include "../../Components/include/Damage.h"
+#include "../../Systems/include/System.h"
 
-class HandleHealth {
+class HandleHealth : public System
+{
 public:
     void Update(EntityManager& entityManager, float deltaTime) {
     }

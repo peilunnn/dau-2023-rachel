@@ -6,8 +6,9 @@
 #include "../../Components/include/Velocity.h"
 #include "../../Components/include/Tag.h"
 #include "../../Utilities/include/SimpleSprite.h"
+#include "../../Systems/include/System.h"
 
-class HandleAnimation
+class HandleAnimation : public System
 {
 private:
 	enum PlayerAnimationStates
@@ -24,8 +25,7 @@ private:
 	enum EnemyAnimationStates
 	{
 		ENEMY_ANIM_IDLE,
-		ENEMY_ANIM_MELT_START,
-		ENEMY_ANIM_MELT_END = ENEMY_ANIM_MELT_START + 7, // there are 7 frames in the melting animation
+		ENEMY_ANIM_MELT,
 	};
 	int lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 

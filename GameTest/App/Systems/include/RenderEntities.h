@@ -5,8 +5,9 @@
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Renderable.h"
 #include "../../Components/include/Animation.h"
+#include "../../Systems/include/System.h"
 
-class RenderEntities {
+class RenderEntities : public System {
 public:
     void Render(EntityManager& entityManager);
 };

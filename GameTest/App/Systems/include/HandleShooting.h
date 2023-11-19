@@ -5,8 +5,9 @@
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Velocity.h"
 #include "../../Utilities/include/app.h"
+#include "../../Systems/include/System.h"
 
-class HandleShooting {
+class HandleShooting : public System {
 public:
     static void Shoot(EntityManager& entityManager, Entity playerEntityId, CSimpleSprite* bulletSprite, float mouseX, float mouseY);
 

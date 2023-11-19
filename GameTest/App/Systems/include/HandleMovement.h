@@ -7,8 +7,9 @@
 #include "../../Components/include/Direction.h"
 #include "../../Components/include/Tag.h"
 #include "../../Utilities/include/Helper.h"
+#include "../../Systems/include/System.h"
 
-class HandleMovement {
+class HandleMovement : public System {
 public:
     void Update(EntityManager& entityManager, float deltaTime, float screenWidth, float screenHeight);
     void HandlePlayerMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight);

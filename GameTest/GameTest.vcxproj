@@ -209,12 +209,13 @@
     <ClInclude Include="App\Components\include\Component.h" />
     <ClInclude Include="App\Systems\include\HandleInput.h" />
     <ClInclude Include="App\Systems\include\HandleAnimation.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="App\Systems\include\HandleMovement.h" />
     <ClInclude Include="App\Utilities\include\Helper.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
+    <ClInclude Include="App\Managers\include\SystemManager.h" />
+    <ClInclude Include="App\Systems\include\System.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="App\Components\include\Transform.h" />
     <ClInclude Include="App\Components\include\Velocity.h" />
@@ -241,7 +242,6 @@
     <ClCompile Include="App\Entities\src\Countdown.cpp" />
     <ClCompile Include="App\Entities\src\Description.cpp" />
     <ClCompile Include="App\Components\src\Component.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Entities\src\Player.cpp" />
@@ -270,6 +270,8 @@
     <ClCompile Include="App\Entities\src\Title.cpp" />
     <ClCompile Include="App\Systems\src\HandleHealth.cpp" />
     <ClCompile Include="App\Components\src\Tag.cpp" />
+    <ClCompile Include="App\Managers\src\SystemManager.cpp" />
+    <ClCompile Include="App\Systems\src\System.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,8 +6,10 @@
 #include "../../Components/include/Velocity.h"
 #include "../../Systems/include/HandleShooting.h"
 #include "../../Utilities/include/app.h"
+#include "../../Systems/include/System.h"
 
-class HandleInput {
+class HandleInput : public System
+{
 public:
     void Update(EntityManager& entityManager, float deltaTime, Entity playerEntityId, CSimpleSprite* bulletSprite);
     void HandlePositionInput(EntityManager& entityManager, float deltaTime, Entity playerEntityId);
