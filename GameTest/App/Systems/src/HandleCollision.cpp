@@ -30,30 +30,23 @@ void HandleCollision::Update(EntityManager& entityManager, float deltaTime)
             if (bitwiseAndResult == 0)
                 continue;
 
-            if (IsColliding(entityManager, entity1, entity2, transform1, collider1, transform2, collider2))
+            if (IsColliding(transform1, collider1, transform2, collider2))
             {
-                HandleCollisionEvent(entity1, entity2);
+                HandleCollisionEvent(entityManager, entity1, entity2);
             }
         }
     }
 }
 
-bool HandleCollision::IsColliding(EntityManager& entityManager, Entity entity1, Entity entity2, std::shared_ptr<Transform> transform1, std::shared_ptr<Collider> collider1, std::shared_ptr<Transform> transform2, std::shared_ptr<Collider> collider2)
+bool HandleCollision::IsColliding(std::shared_ptr<Transform> transform1, std::shared_ptr<Collider> collider1, std::shared_ptr<Transform> transform2, std::shared_ptr<Collider> collider2)
 {
     if (!transform1 || !transform2 || !collider1 || !collider2)
         return false;
 
-    std::shared_ptr<Tag> tag1 = entityManager.GetComponent<Tag>(entity1);
-    std::shared_ptr<Tag> tag2 = entityManager.GetComponent<Tag>(entity2);
-    std::string tag1String = Helper::GetEntityTypeString(tag1->entityType);
-    std::string tag2String = Helper::GetEntityTypeString(tag2->entityType);
-    Helper::Log("collision!");
-    Helper::Log("entity1: ", tag1String);
-    Helper::Log("entity2: ", tag2String);
-
-
     // Calculate the distance between the centers of the two entities
-    float distance = static_cast<float>(glm::distance(transform1->position, transform2->position));
+    glm::vec2 posEntity1 = glm::vec2(transform1->position.x, transform1->position.y);
+    glm::vec2 posEntity2 = glm::vec2(transform2->position.x, transform2->position.y);
+    float distance = glm::distance(posEntity1, posEntity2);
 
     // Case 1 - Sphere-Sphere ie. bullet collide with enemy
     if (collider1->collisionShape == CollisionShape::SPHERE && collider2->collisionShape == CollisionShape::SPHERE) {
@@ -68,12 +61,19 @@ bool HandleCollision::IsColliding(EntityManager& entityManager, Entity entity1, 
         float totalRadius = capsuleRadius + sphereRadius;
         return distance < totalRadius;
     }
-
     return false;
 }
 
-void HandleCollision::HandleCollisionEvent(Entity entity1, Entity entity2)
+void HandleCollision::HandleCollisionEvent(EntityManager& entityManager, Entity entity1, Entity entity2)
 {
     // TODO: add logic to handle a collision event between entity1 and entity2
     // Eg. trigger enemy melting animation when bullet hits enemy
+    std::shared_ptr<Tag> tag1 = entityManager.GetComponent<Tag>(entity1);
+    std::shared_ptr<Tag> tag2 = entityManager.GetComponent<Tag>(entity2);
+    std::string tag1String = Helper::GetEntityTypeString(tag1->entityType);
+    std::string tag2String = Helper::GetEntityTypeString(tag2->entityType);
+
+    Helper::Log("collision!");
+    Helper::Log("entity1: ", tag1String);
+    Helper::Log("entity2: ", tag2String);
 }
