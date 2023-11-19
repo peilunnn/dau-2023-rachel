@@ -27,6 +27,7 @@ Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 	auto playerRenderable = std::make_shared<Renderable>(playerSprite);
 	auto playerCollider = std::make_shared<Collider>();
 	playerCollider->collisionShape = CollisionShape::CAPSULE;
+	playerCollider->collisionType = CollisionType::PLAYER;
 	playerCollider->collisionMask = static_cast<int>(CollisionType::ENEMY);
 	playerCollider->radius = playerDimensions.height / 2;
 	auto playerVelocity = std::make_shared<Velocity>(0.0f, 0.0f);
@@ -60,8 +61,9 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 	auto enemyRenderable = std::make_shared<Renderable>(enemySprite);
 	auto enemyCollider = std::make_shared<Collider>();
 	enemyCollider->collisionShape = CollisionShape::SPHERE;
+	enemyCollider->collisionType = CollisionType::ENEMY;
 	enemyCollider->collisionMask = static_cast<int>(CollisionType::PLAYER) | static_cast<int>(CollisionType::BULLET);
-	enemyCollider->radius = std::min(enemyDimensions.width, enemyDimensions.height) / 2;
+	enemyCollider->radius = enemyDimensions.width / 2;
 	auto enemyVelocity = std::make_shared<Velocity>(randomVelocity.x, randomVelocity.y);
 	auto enemyDirection = std::make_shared<Direction>();
 	auto enemyHealth = std::make_shared<Health>();
@@ -90,8 +92,9 @@ Entity EntityManager::CreateBulletEntity(CSimpleSprite* bulletSprite, const glm:
 	auto bulletRenderable = std::make_shared<Renderable>(bulletSprite);
 	auto bulletCollider = std::make_shared<Collider>();
 	bulletCollider->collisionShape = CollisionShape::SPHERE;
+	bulletCollider->collisionType = CollisionType::BULLET;
 	bulletCollider->collisionMask = static_cast<int>(CollisionType::ENEMY);
-	bulletCollider->radius = std::min(bulletDimensions.width, bulletDimensions.height) / 2;
+	bulletCollider->radius = bulletDimensions.width / 2;
 	auto bulletVelocity = std::make_shared<Velocity>(velocity.x, velocity.y);
 	auto bulletDamage = std::make_shared<Damage>();
 

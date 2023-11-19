@@ -9,6 +9,7 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include "SimpleSprite.h"
+#include "../App/Components/include/Tag.h"
 
 struct SpriteDimensions {
     float width;
@@ -19,6 +20,20 @@ struct SpriteDimensions {
 
 class Helper {
 public:
+    // Getting string representation of an EntityType (for reading Tag)
+    static std::string GetEntityTypeString(EntityType entityType) {
+        switch (entityType) {
+        case EntityType::PLAYER:
+            return "Player";
+        case EntityType::ENEMY:
+            return "Enemy";
+        case EntityType::BULLET:
+            return "Bullet";
+        default:
+            return "Unknown";
+        }
+    }
+
     // Logging functions
     template<typename T>
     static void Log(const std::string& message, T value) {
@@ -36,7 +51,7 @@ public:
         static std::random_device rd;
         static std::mt19937 eng(rd());
         std::uniform_real_distribution<> distr(min, max);
-        return distr(eng);
+        return static_cast<float>(distr(eng));
     }
 
     static glm::vec2 GenerateVec2(float minX, float maxX, float minY, float maxY) {

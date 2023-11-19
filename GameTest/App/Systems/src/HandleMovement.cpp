@@ -24,7 +24,6 @@ void HandleMovement::Update(EntityManager& entityManager, float deltaTime, float
 
 void HandleMovement::HandlePlayerMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight) {
     float multiplier = 0.25f;
-
     auto transform = entityManager.GetComponent<Transform>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
 
@@ -41,34 +40,28 @@ void HandleMovement::HandlePlayerMovement(EntityManager& entityManager, Entity e
 }
 
 void HandleMovement::HandleEnemyMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight) {
-    int multiplier = 0.8f;
     int edgeThreshold = 20;
-    auto sprite = dynamic_cast<CSimpleSprite*>(entityManager.GetComponent<Renderable>(entity)->sprite);
-    auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
-    float edgeThresholdX = dimensions.adjustedWidth + edgeThreshold;
-    float edgeThresholdY = dimensions.adjustedHeight + edgeThreshold;
-
     auto transform = entityManager.GetComponent<Transform>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
     auto direction = entityManager.GetComponent<Direction>(entity);
 
-    if (transform && velocity && direction && sprite) {
+    if (transform && velocity && direction) {
         glm::vec2 movement = velocity->velocity * deltaTime;
         transform->position.x += movement.x;
         transform->position.y += movement.y;
 
         if (!direction->bounced) {
-            if (transform->position.x <= edgeThresholdX || transform->position.x >= screenWidth - edgeThresholdX) {
+            if (transform->position.x <= edgeThreshold || transform->position.x >= screenWidth - edgeThreshold) {
                 velocity->velocity.x *= -1;
                 direction->bounced = true;
             }
-            if (transform->position.y <= edgeThresholdY || transform->position.y >= screenHeight - edgeThresholdY) {
+            if (transform->position.y <= edgeThreshold || transform->position.y >= screenHeight - edgeThreshold) {
                 velocity->velocity.y *= -1;
                 direction->bounced = true;
             }
         }
-        else if (transform->position.x > edgeThresholdX && transform->position.x < screenWidth - edgeThresholdX &&
-            transform->position.y > edgeThresholdY && transform->position.y < screenHeight - edgeThresholdY) {
+        else if (transform->position.x > edgeThreshold && transform->position.x < screenWidth - edgeThreshold &&
+            transform->position.y > edgeThreshold && transform->position.y < screenHeight - edgeThreshold) {
             direction->bounced = false;
         }
     }

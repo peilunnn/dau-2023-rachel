@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../include/HandleCollision.h"
+#include <glm/glm.hpp>
 
 void HandleCollision::Update(EntityManager& entityManager, float deltaTime)
 {
@@ -23,26 +24,50 @@ void HandleCollision::Update(EntityManager& entityManager, float deltaTime)
 
             if (!collider2 || !transform2)
                 continue;
-
-            // Check if collision categories match
-            if (static_cast<int>(collider1->collisionMask) & static_cast<int>(collider2->collisionType) == 0)
+            
+            // Only proceed with detailed collision check if collision masks allow the two entities to collide
+            int bitwiseAndResult = (static_cast<int>(collider1->collisionMask)) & (static_cast<int>(collider2->collisionType));
+            if (bitwiseAndResult == 0)
                 continue;
 
-            // Check for actual collision based on shapes and positions
-            if (IsColliding(transform1, collider1, transform2, collider2))
+            if (IsColliding(entityManager, entity1, entity2, transform1, collider1, transform2, collider2))
             {
-                // Handle collision
                 HandleCollisionEvent(entity1, entity2);
             }
         }
     }
 }
 
-bool HandleCollision::IsColliding(std::shared_ptr<Transform> transform1, std::shared_ptr<Collider> collider1,
-    std::shared_ptr<Transform> transform2, std::shared_ptr<Collider> collider2)
+bool HandleCollision::IsColliding(EntityManager& entityManager, Entity entity1, Entity entity2, std::shared_ptr<Transform> transform1, std::shared_ptr<Collider> collider1, std::shared_ptr<Transform> transform2, std::shared_ptr<Collider> collider2)
 {
-    // TODO: add collision detection logic here based on collider shapes and transform positions
-    // Eg. if both shapes are spheres, check the distance between the entities against the sum of their radii
+    if (!transform1 || !transform2 || !collider1 || !collider2)
+        return false;
+
+    std::shared_ptr<Tag> tag1 = entityManager.GetComponent<Tag>(entity1);
+    std::shared_ptr<Tag> tag2 = entityManager.GetComponent<Tag>(entity2);
+    std::string tag1String = Helper::GetEntityTypeString(tag1->entityType);
+    std::string tag2String = Helper::GetEntityTypeString(tag2->entityType);
+    Helper::Log("collision!");
+    Helper::Log("entity1: ", tag1String);
+    Helper::Log("entity2: ", tag2String);
+
+
+    // Calculate the distance between the centers of the two entities
+    float distance = static_cast<float>(glm::distance(transform1->position, transform2->position));
+
+    // Case 1 - Sphere-Sphere ie. bullet collide with enemy
+    if (collider1->collisionShape == CollisionShape::SPHERE && collider2->collisionShape == CollisionShape::SPHERE) {
+        float totalRadius = collider1->radius + collider2->radius;
+        return distance < totalRadius;
+    }
+    // Case 2 - Capsule-Sphere ie. player collide with enemy
+    // We will treat the capsule as a sphere for a very simple collision check
+    else if (collider1->collisionShape == CollisionShape::CAPSULE || collider2->collisionShape == CollisionShape::SPHERE) {
+        float capsuleRadius = (collider1->collisionShape == CollisionShape::CAPSULE) ? collider1->radius : collider2->radius;
+        float sphereRadius = (collider1->collisionShape == CollisionShape::SPHERE) ? collider1->radius : collider2->radius;
+        float totalRadius = capsuleRadius + sphereRadius;
+        return distance < totalRadius;
+    }
 
     return false;
 }

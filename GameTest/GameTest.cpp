@@ -13,6 +13,7 @@
 #include "App/Systems/include/HandleInput.h"
 #include "App/Systems/include/HandleMovement.h"
 #include "App/Systems/include/RenderEntities.h"
+#include "App/Systems/include/HandleCollision.h"
 #include "App/Systems/include/HandleAnimation.h"
 #include "App/Utilities/include/Helper.h"
 //------------------------------------------------------------------------
@@ -20,14 +21,15 @@
 float screenWidth = 1024.0f;
 float screenHeight = 768.0f;
 EntityManager entityManager;
-Entity playerEntityId;
-Entity enemyEntityId;
-HandleInput handleInput;
-HandleMovement handleMovement;
-RenderEntities renderEntities;
 CSimpleSprite* playerSprite;
 CSimpleSprite* enemySprite;
 CSimpleSprite* bulletSprite;
+Entity playerEntityId;
+Entity enemyEntityId;
+RenderEntities renderEntities;
+HandleInput handleInput;
+HandleMovement handleMovement;
+HandleCollision handleCollision;
 HandleAnimation handleAnimation;
 
 //------------------------------------------------------------------------
@@ -55,6 +57,7 @@ void Update(float deltaTime)
 {
 	handleInput.Update(entityManager, deltaTime, playerEntityId, bulletSprite);
 	handleMovement.Update(entityManager, deltaTime, screenWidth, screenHeight);
+	handleCollision.Update(entityManager, deltaTime);
 	handleAnimation.Update(entityManager, deltaTime);
 }
 
