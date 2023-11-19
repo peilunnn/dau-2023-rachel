@@ -2,7 +2,7 @@
 #include "../include/HandleCollision.h"
 #include <glm/glm.hpp>
 
-void HandleCollision::Update(EntityManager& entityManager, float deltaTime)
+void HandleCollision::Update(EntityManager& entityManager, SystemManager& systemManager, float deltaTime)
 {
     auto allEntities = entityManager.GetAllEntities();
 
@@ -32,7 +32,7 @@ void HandleCollision::Update(EntityManager& entityManager, float deltaTime)
 
             if (IsColliding(transform1, collider1, transform2, collider2))
             {
-                HandleCollisionEvent(entityManager, entity1, entity2);
+                HandleCollisionEvent(entityManager, systemManager, entity1, entity2);
             }
         }
     }
@@ -64,7 +64,7 @@ bool HandleCollision::IsColliding(std::shared_ptr<Transform> transform1, std::sh
     return false;
 }
 
-void HandleCollision::HandleCollisionEvent(EntityManager& entityManager, Entity entity1, Entity entity2)
+void HandleCollision::HandleCollisionEvent(EntityManager& entityManager, SystemManager& systemManager, Entity entity1, Entity entity2)
 {
     auto tag1 = entityManager.GetComponent<Tag>(entity1);
     auto tag2 = entityManager.GetComponent<Tag>(entity2);
@@ -79,7 +79,9 @@ void HandleCollision::HandleCollisionEvent(EntityManager& entityManager, Entity 
 
         if (enemyAnimation && enemySprite)
         {
-
+            event.type = SystemManager::SystemEvent::EventType::BulletHitEnemy;
+            event.entity = enemyEntity;
+            systemManager.SendEvent(event);
         }
     }
     

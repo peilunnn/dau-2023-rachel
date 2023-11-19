@@ -4,6 +4,7 @@
 #include <queue>
 #include "EntityManager.h"
 #include "../../Systems/include/System.h"
+#include "../../Systems/include/HandleAnimation.h"
 
 class SystemManager {
 private:
@@ -16,10 +17,9 @@ public:
     };
     std::queue<SystemEvent> eventQueue;
 
-    void addSystem(std::unique_ptr<System> system);
-    
-    void sendEvent(SystemEvent event);
-    void processEvents();
+    void AddSystem(std::unique_ptr<System> system);
+    void SendEvent(SystemEvent event);
+    void ProcessEvents(EntityManager& entityManager, float deltaTime);
 };
 
 #endif SYSTEM_MANAGER_H

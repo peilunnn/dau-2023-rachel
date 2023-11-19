@@ -10,6 +10,9 @@
 class RenderEntities : public System {
 public:
     void Render(EntityManager& entityManager);
+    Type GetSystemType() const override {
+        return System::Type::RenderEntities;
+    }
 };
 
 #endif // RENDER_ENTITIES_H

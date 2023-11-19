@@ -15,6 +15,9 @@ public:
     void HandlePlayerMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight);
     void HandleEnemyMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight);
     void HandleBulletMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight);
+    Type GetSystemType() const override {
+        return System::Type::HandleMovement;
+    }
 };
 
 #endif // HANDLE_MOVEMENT_H

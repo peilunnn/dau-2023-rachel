@@ -20,7 +20,7 @@ void HandleAnimation::InitPlayerAnimation(CSimpleSprite* playerSprite)
 void HandleAnimation::InitEnemyAnimation(CSimpleSprite* enemySprite)
 {
     if (enemySprite) {
-        float speed = 1.0f / 15.0f;
+        float speed = 1.0f / 100.0f;
         enemySprite->CreateAnimation(ENEMY_ANIM_IDLE, speed, { 0 });
         enemySprite->CreateAnimation(ENEMY_ANIM_MELT, speed, { 1,2,3,4,5,6,7 });
     }
@@ -32,9 +32,6 @@ void HandleAnimation::Update(EntityManager& entityManager, float deltaTime) {
 
         if (tag->entityType == EntityType::PLAYER) {
             UpdatePlayerAnimation(entityManager, entity, deltaTime);
-        }
-        else if (tag->entityType == EntityType::ENEMY) {
-            UpdateEnemyAnimation(entityManager, entity, deltaTime);
         }
     }
 }
@@ -72,11 +69,15 @@ void HandleAnimation::UpdatePlayerAnimation(EntityManager& entityManager, Entity
     }
 }
 
-void HandleAnimation::UpdateEnemyAnimation(EntityManager& entityManager, Entity entity, float deltaTime)
+void HandleAnimation::ProcessBulletHitEnemy(EntityManager& entityManager, Entity entity, float deltaTime)
 {
     auto animation = entityManager.GetComponent<Animation>(entity);
+    auto velocity = entityManager.GetComponent<Velocity>(entity);
+    auto sprite = dynamic_cast<CSimpleSprite*>(entityManager.GetComponent<Renderable>(entity)->sprite);
 
-    if (animation) {
-        // TODO: implement animation logic
-    }
+    if (!animation || !velocity || !sprite) return;
+
+    animation->currentAnimation = ENEMY_ANIM_MELT;
+    velocity->velocity = glm::vec2(0.0f, 0.0f);
+    sprite->Update(deltaTime);
 }

@@ -34,7 +34,10 @@ public:
 	void InitEnemyAnimation(CSimpleSprite *sprite);
 	void Update(EntityManager& entityManager, float deltaTime);
 	void UpdatePlayerAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
-	void UpdateEnemyAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
+	void ProcessBulletHitEnemy(EntityManager& entityManager, Entity entity, float deltaTime);
+	Type GetSystemType() const override {
+		return System::Type::HandleAnimation;
+	}
 };
 
 #endif // HANDLE_ANIMATION_H

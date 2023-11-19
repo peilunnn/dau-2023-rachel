@@ -50,12 +50,12 @@ void Init()
 
 	bulletSprite = App::CreateSprite(".\\Data\\Sprites\\Bullet.bmp", 1, 1);
 
-	systemManager.addSystem(std::make_unique<HandleAnimation>());
-	systemManager.addSystem(std::make_unique<HandleCollision>());
-	systemManager.addSystem(std::make_unique<HandleInput>());
-	systemManager.addSystem(std::make_unique<HandleMovement>());
-	systemManager.addSystem(std::make_unique<HandleShooting>());
-	systemManager.addSystem(std::make_unique<RenderEntities>());
+	systemManager.AddSystem(std::make_unique<HandleAnimation>());
+	systemManager.AddSystem(std::make_unique<HandleCollision>());
+	systemManager.AddSystem(std::make_unique<HandleInput>());
+	systemManager.AddSystem(std::make_unique<HandleMovement>());
+	systemManager.AddSystem(std::make_unique<HandleShooting>());
+	systemManager.AddSystem(std::make_unique<RenderEntities>());
 }
 
 //------------------------------------------------------------------------
@@ -66,8 +66,9 @@ void Update(float deltaTime)
 {
 	handleInput.Update(entityManager, deltaTime, playerEntityId, bulletSprite);
 	handleMovement.Update(entityManager, deltaTime, screenWidth, screenHeight);
-	handleCollision.Update(entityManager, deltaTime);
+	handleCollision.Update(entityManager, systemManager, deltaTime);
 	handleAnimation.Update(entityManager, deltaTime);
+	systemManager.ProcessEvents(entityManager, deltaTime);
 }
 
 //------------------------------------------------------------------------

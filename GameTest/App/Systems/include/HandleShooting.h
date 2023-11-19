@@ -8,12 +8,15 @@
 #include "../../Systems/include/System.h"
 
 class HandleShooting : public System {
-public:
-    static void Shoot(EntityManager& entityManager, Entity playerEntityId, CSimpleSprite* bulletSprite, float mouseX, float mouseY);
-
 private:
     static int bulletCount;
     static constexpr int MAX_BULLETS = 10;
+
+public:
+    static void Shoot(EntityManager& entityManager, Entity playerEntityId, CSimpleSprite* bulletSprite, float mouseX, float mouseY);
+    Type GetSystemType() const override {
+        return System::Type::HandleShooting;
+    }
 };
 
 #endif // HANDLE_SHOOTING_H
