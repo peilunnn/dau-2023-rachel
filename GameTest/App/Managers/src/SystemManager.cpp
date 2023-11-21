@@ -15,8 +15,8 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime)
         eventQueue.pop();
 
         for (const auto& system : systems) {
-            if (system->GetSystemType() == System::Type::HandleAnimation && event.type == SystemEvent::BulletHitEnemy) {
-                auto handleAnimationSystem = dynamic_cast<HandleAnimation*>(system.get());
+            if (system->GetSystemType() == System::Type::AnimationHandler && event.type == SystemEvent::BulletHitEnemy) {
+                auto handleAnimationSystem = dynamic_cast<AnimationHandler*>(system.get());
                 if (handleAnimationSystem) {
                     handleAnimationSystem->ProcessBulletHitEnemy(entityManager, event.entity, deltaTime);
                 }

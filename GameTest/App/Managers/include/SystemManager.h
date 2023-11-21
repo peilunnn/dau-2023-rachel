@@ -4,7 +4,7 @@
 #include <queue>
 #include "EntityManager.h"
 #include "../../Systems/include/System.h"
-#include "../../Systems/include/HandleAnimation.h"
+#include "../../Systems/include/AnimationHandler.h"
 
 class SystemManager {
 private:

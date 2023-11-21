@@ -202,14 +202,14 @@
     <ClInclude Include="App\Entities\include\HealthBar.h" />
     <ClInclude Include="App\Entities\include\Score.h" />
     <ClInclude Include="App\Entities\include\StartButton.h" />
-    <ClInclude Include="App\Systems\include\HandleCollision.h" />
-    <ClInclude Include="App\Systems\include\HandleShooting.h" />
-    <ClInclude Include="App\Systems\include\RenderEntities.h" />
+    <ClInclude Include="App\Systems\include\CollisionHandler.h" />
+    <ClInclude Include="App\Systems\include\ShootingHandler.h" />
+    <ClInclude Include="App\Systems\include\RenderingHandler.h" />
     <ClInclude Include="App\Components\include\Renderable.h" />
     <ClInclude Include="App\Components\include\Component.h" />
-    <ClInclude Include="App\Systems\include\HandleInput.h" />
-    <ClInclude Include="App\Systems\include\HandleAnimation.h" />
-    <ClInclude Include="App\Systems\include\HandleMovement.h" />
+    <ClInclude Include="App\Systems\include\InputHandler.h" />
+    <ClInclude Include="App\Systems\include\AnimationHandler.h" />
+    <ClInclude Include="App\Systems\include\MovementHandler.h" />
     <ClInclude Include="App\Utilities\include\Helper.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
@@ -221,7 +221,7 @@
     <ClInclude Include="App\Components\include\Velocity.h" />
     <ClInclude Include="App\Components\include\Text.h" />
     <ClInclude Include="App\Entities\include\Title.h" />
-    <ClInclude Include="App\Systems\include\HandleHealth.h" />
+    <ClInclude Include="App\Systems\include\HealthHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App\Components\src\Animation.cpp" />
@@ -249,13 +249,13 @@
     <ClCompile Include="App\Entities\src\HealthBar.cpp" />
     <ClCompile Include="App\Entities\src\Score.cpp" />
     <ClCompile Include="App\Entities\src\StartButton.cpp" />
-    <ClCompile Include="App\Systems\src\HandleCollision.cpp" />
-    <ClCompile Include="App\Systems\src\HandleShooting.cpp" />
-    <ClCompile Include="App\Systems\src\RenderEntities.cpp" />
+    <ClCompile Include="App\Systems\src\CollisionHandler.cpp" />
+    <ClCompile Include="App\Systems\src\ShootingHandler.cpp" />
+    <ClCompile Include="App\Systems\src\RenderingHandler.cpp" />
     <ClCompile Include="App\Components\src\Renderable.cpp" />
-    <ClCompile Include="App\Systems\src\HandleInput.cpp" />
-    <ClCompile Include="App\Systems\src\HandleAnimation.cpp" />
-    <ClCompile Include="App\Systems\src\HandleMovement.cpp" />
+    <ClCompile Include="App\Systems\src\InputHandler.cpp" />
+    <ClCompile Include="App\Systems\src\AnimationHandler.cpp" />
+    <ClCompile Include="App\Systems\src\MovementHandler.cpp" />
     <ClCompile Include="App\Utilities\src\Helper.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -268,7 +268,7 @@
     <ClCompile Include="App\Components\src\Velocity.cpp" />
     <ClCompile Include="App\Components\src\Text.cpp" />
     <ClCompile Include="App\Entities\src\Title.cpp" />
-    <ClCompile Include="App\Systems\src\HandleHealth.cpp" />
+    <ClCompile Include="App\Systems\src\HealthHandler.cpp" />
     <ClCompile Include="App\Components\src\Tag.cpp" />
     <ClCompile Include="App\Managers\src\SystemManager.cpp" />
     <ClCompile Include="App\Systems\src\System.cpp" />

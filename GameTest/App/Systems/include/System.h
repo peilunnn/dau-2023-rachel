@@ -8,16 +8,15 @@ public:
     virtual ~System() = default;
 
     enum class Type {
-        HandleAnimation,
-        HandleCollision,
-        HandleHealth,
-        HandleInput,
-        HandleMovement,
-        HandleShooting,
-        RenderEntities,
+        AnimationHandler,
+        CollisionHandler,
+        HealthHandler,
+        InputHandler,
+        MovementHandler,
+        ShootingHandler,
+        RenderingHandler,
     };
     virtual Type GetSystemType() const = 0;
-
 };
 
 #endif // SYSTEM_H

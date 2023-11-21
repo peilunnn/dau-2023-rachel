@@ -11,11 +11,11 @@
 #include "App/Utilities/include/app.h"
 #include "App/Managers/include/EntityManager.h"
 #include "App/Managers/include/SystemManager.h"
-#include "App/Systems/include/HandleInput.h"
-#include "App/Systems/include/HandleMovement.h"
-#include "App/Systems/include/RenderEntities.h"
-#include "App/Systems/include/HandleCollision.h"
-#include "App/Systems/include/HandleAnimation.h"
+#include "App/Systems/include/InputHandler.h"
+#include "App/Systems/include/MovementHandler.h"
+#include "App/Systems/include/RenderingHandler.h"
+#include "App/Systems/include/CollisionHandler.h"
+#include "App/Systems/include/AnimationHandler.h"
 #include "App/Utilities/include/Helper.h"
 //------------------------------------------------------------------------
 
@@ -28,11 +28,11 @@ CSimpleSprite* enemySprite;
 CSimpleSprite* bulletSprite;
 Entity playerEntityId;
 Entity enemyEntityId;
-RenderEntities renderEntities;
-HandleInput handleInput;
-HandleMovement handleMovement;
-HandleCollision handleCollision;
-HandleAnimation handleAnimation;
+RenderingHandler renderingHandler;
+InputHandler inputHandler;
+MovementHandler movementHandler;
+CollisionHandler collisionHandler;
+AnimationHandler animationHandler;
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -41,21 +41,21 @@ void Init()
 {
 	playerSprite = App::CreateSprite(".\\Data\\Sprites\\Player.bmp", 8, 4);
 	playerEntityId = entityManager.CreatePlayerEntity(playerSprite);
-	handleAnimation.InitPlayerAnimation(playerSprite);
+	animationHandler.InitPlayerAnimation(playerSprite);
 
 	enemySprite = App::CreateSprite(".\\Data\\Sprites\\Enemy.png", 4, 2);
 	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->position;
 	enemyEntityId = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
-	handleAnimation.InitEnemyAnimation(enemySprite);
+	animationHandler.InitEnemyAnimation(enemySprite);
 
 	bulletSprite = App::CreateSprite(".\\Data\\Sprites\\Bullet.bmp", 1, 1);
 
-	systemManager.AddSystem(std::make_unique<HandleAnimation>());
-	systemManager.AddSystem(std::make_unique<HandleCollision>());
-	systemManager.AddSystem(std::make_unique<HandleInput>());
-	systemManager.AddSystem(std::make_unique<HandleMovement>());
-	systemManager.AddSystem(std::make_unique<HandleShooting>());
-	systemManager.AddSystem(std::make_unique<RenderEntities>());
+	systemManager.AddSystem(std::make_unique<AnimationHandler>());
+	systemManager.AddSystem(std::make_unique<CollisionHandler>());
+	systemManager.AddSystem(std::make_unique<InputHandler>());
+	systemManager.AddSystem(std::make_unique<MovementHandler>());
+	systemManager.AddSystem(std::make_unique<ShootingHandler>());
+	systemManager.AddSystem(std::make_unique<RenderingHandler>());
 }
 
 //------------------------------------------------------------------------
@@ -64,10 +64,10 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-	handleInput.Update(entityManager, deltaTime, playerEntityId, bulletSprite);
-	handleMovement.Update(entityManager, deltaTime, screenWidth, screenHeight);
-	handleCollision.Update(entityManager, systemManager, deltaTime);
-	handleAnimation.Update(entityManager, deltaTime);
+	inputHandler.Update(entityManager, deltaTime, playerEntityId, bulletSprite);
+	movementHandler.Update(entityManager, deltaTime, screenWidth, screenHeight);
+	collisionHandler.Update(entityManager, systemManager, deltaTime);
+	animationHandler.Update(entityManager, deltaTime);
 	systemManager.ProcessEvents(entityManager, deltaTime);
 }
 
@@ -77,7 +77,7 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {
-	renderEntities.Render(entityManager);
+	renderingHandler.Render(entityManager);
 }
 
 //------------------------------------------------------------------------
