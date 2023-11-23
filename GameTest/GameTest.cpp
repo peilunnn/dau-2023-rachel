@@ -21,6 +21,7 @@
 
 float screenWidth = 1024.0f;
 float screenHeight = 768.0f;
+glm::vec3 playerPos;
 EntityManager entityManager;
 SystemManager systemManager;
 std::shared_ptr<CSimpleSprite> playerSprite;
@@ -46,7 +47,7 @@ void Init()
 
 	CSimpleSprite* rawEnemySprite = App::CreateSprite(".\\Data\\Sprites\\Enemy.png", 4, 2);
 	enemySprite = std::shared_ptr<CSimpleSprite>(rawEnemySprite);
-	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
+	playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
 	enemyEntity = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
 	animationHandler.InitEnemyAnimation(enemySprite);
 
@@ -71,7 +72,8 @@ void Update(float deltaTime)
 	movementHandler.Update(entityManager, deltaTime, screenWidth, screenHeight);
 	collisionHandler.Update(entityManager, systemManager, deltaTime);
 	animationHandler.Update(entityManager, deltaTime);
-	systemManager.ProcessEvents(entityManager, deltaTime);
+	playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
+	systemManager.ProcessEvents(entityManager, deltaTime, enemySprite, playerPos, screenWidth, screenHeight);
 	entityManager.ProcessDeletions();
 }
 

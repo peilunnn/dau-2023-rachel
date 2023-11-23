@@ -106,6 +106,11 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, std::
         }
 
         if (tag->entityType == EntityType::ENEMY) {
+            if (tag->state != EntityState::HIT_BY_BULLET)
+            {
+                return;
+            }
+
             enemyEntity = entity;
             auto enemyAnimation = entityManager.GetComponent<Animation>(enemyEntity);
             auto enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntity);

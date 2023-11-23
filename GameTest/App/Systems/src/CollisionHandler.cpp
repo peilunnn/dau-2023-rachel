@@ -73,15 +73,25 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
     auto tag1 = entityManager.GetComponent<Tag>(entity1);
     auto tag2 = entityManager.GetComponent<Tag>(entity2);
 
-    // Case 1 - one is bullet, the other is enemy
+    // Case 1 - bullet-enemy
     if ((tag1->entityType == EntityType::BULLET && tag2->entityType == EntityType::ENEMY) ||
         (tag1->entityType == EntityType::ENEMY && tag2->entityType == EntityType::BULLET))
     {
+        Entity bulletEntity = (tag1->entityType == EntityType::BULLET) ? entity1 : entity2;
+        Entity enemyEntity = (tag1->entityType == EntityType::ENEMY) ? entity1 : entity2;
+        auto enemyTag = entityManager.GetComponent<Tag>(enemyEntity);
+
+        if (enemyTag->state != EntityState::ALIVE)
+        {
+            return;
+        }
+        
+        enemyTag->state = EntityState::HIT_BY_BULLET;
         event.type = SystemManager::SystemEvent::EventType::BulletHitEnemy;
         event.entities.push_back(entity1);
         event.entities.push_back(entity2);
+        event.newEnemiesCreated = false;
         systemManager.SendEvent(event);
     }
-
     // Case 2 - one is player, the other is enemy
 }

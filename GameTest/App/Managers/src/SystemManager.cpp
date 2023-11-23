@@ -9,10 +9,9 @@ void SystemManager::SendEvent(SystemEvent event) {
     eventQueue.push(event);
 }
 
-void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime) {
+void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime, std::shared_ptr<CSimpleSprite> enemySprite, const glm::vec3& playerPos, float screenWidth, float screenHeight) {
     while (!eventQueue.empty()) {
         SystemEvent event = eventQueue.front();
-        eventQueue.pop();
 
         for (const auto& system : systems) {
             if (system->GetSystemType() == System::Type::AnimationHandler && event.type == SystemEvent::BulletHitEnemy) {
@@ -20,6 +19,12 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime)
                 if (animationHandler) {
                     animationHandler->ProcessBulletHitEnemy(entityManager, event.entities, deltaTime);
                 }
+
+                if (!event.newEnemiesCreated) {
+                    entityManager.ProcessBulletHitEnemy(entityManager, deltaTime, enemySprite, playerPos, screenWidth, screenHeight);
+                    event.newEnemiesCreated = true;
+                }
+
                 break;
             }
             // Handle PlayerHitEnemy event
@@ -27,5 +32,7 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime)
             // Handle PlayerHealthReachZero event
             // Handle CountdownReachZero event
         }
+
+        eventQueue.pop();
     }
 }

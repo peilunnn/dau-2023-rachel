@@ -1,6 +1,7 @@
 #ifndef HANDLE_COLLISION_H
 #define HANDLE_COLLISION_H
 
+#include <set>
 #include "../../Managers/include/EntityManager.h"
 #include "../../Managers/include/SystemManager.h"
 #include "../../Components/include/Collider.h"

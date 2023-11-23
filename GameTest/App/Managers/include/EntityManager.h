@@ -28,6 +28,7 @@ private:
 
 public:
     std::vector<Entity> GetAllEntities();
+
     static Entity CreateEntity()
     {
         return nextEntityId++;
@@ -38,6 +39,8 @@ public:
     
     void MarkEntityForDeletion(Entity entity);
     void ProcessDeletions();
+
+    void ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime, std::shared_ptr<CSimpleSprite> enemySprite, const glm::vec3& playerPos, float screenWidth, float screenHeight);
 
     template <typename T>
     void AddComponent(Entity entity, std::shared_ptr<T> component)
