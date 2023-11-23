@@ -66,7 +66,7 @@ public:
     static bool IsOutOfBounds(float x, float y, float screenWidth, float screenHeight) {
         return (x < 0 || x > screenWidth || y < 0 || y > screenHeight);
     }
-    static SpriteDimensions GetSpriteDimensions(CSimpleSprite* sprite, float multiplier);
+    static SpriteDimensions GetSpriteDimensions(std::shared_ptr<CSimpleSprite> sprite, float multiplier);
 };
 
 #endif // HELPER_H

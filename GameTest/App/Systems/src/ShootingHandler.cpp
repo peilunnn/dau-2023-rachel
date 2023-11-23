@@ -4,7 +4,7 @@
 
 int ShootingHandler::bulletCount = 0;
 
-void ShootingHandler::Shoot(EntityManager &entityManager, Entity playerEntityId, CSimpleSprite *bulletSprite, float mouseX, float mouseY)
+void ShootingHandler::Shoot(EntityManager &entityManager, Entity playerEntityId, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY)
 {
     if (bulletCount < MAX_BULLETS)
     {

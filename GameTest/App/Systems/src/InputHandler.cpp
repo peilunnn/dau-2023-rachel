@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include "../include/InputHandler.h"
 
-void InputHandler::Update(EntityManager& entityManager, float deltaTime, Entity playerEntityId, CSimpleSprite* bulletSprite) {
+void InputHandler::Update(EntityManager& entityManager, float deltaTime, Entity playerEntityId, std::shared_ptr<CSimpleSprite> bulletSprite) {
     InputHandler::HandlePositionInput(entityManager, deltaTime, playerEntityId);
     InputHandler::HandleRotationInput(entityManager, playerEntityId);
     InputHandler::HandleScaleInput(entityManager, playerEntityId);
@@ -45,7 +45,7 @@ void InputHandler::HandleScaleInput(EntityManager& entityManager, Entity playerE
     }
 }
 
-void InputHandler::HandleShootingInput(EntityManager& entityManager, Entity playerEntityId, CSimpleSprite* bulletSprite)
+void InputHandler::HandleShootingInput(EntityManager& entityManager, Entity playerEntityId, std::shared_ptr<CSimpleSprite> bulletSprite)
 {
     if (App::IsKeyPressed(VK_LBUTTON)) {
         auto playerTransform = entityManager.GetComponent<Transform>(playerEntityId);

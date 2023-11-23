@@ -13,7 +13,7 @@ private:
     static constexpr int MAX_BULLETS = 10;
 
 public:
-    static void Shoot(EntityManager& entityManager, Entity playerEntityId, CSimpleSprite* bulletSprite, float mouseX, float mouseY);
+    static void Shoot(EntityManager& entityManager, Entity playerEntityId, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
     Type GetSystemType() const override {
         return System::Type::ShootingHandler;
     }

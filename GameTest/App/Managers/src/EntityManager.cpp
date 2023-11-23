@@ -12,7 +12,7 @@ std::vector<Entity> EntityManager::GetAllEntities()
 	return allEntities;
 }
 
-Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
+Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite)
 {
 	Entity playerEntityId = CreateEntity();
 	float maxX = 800.0f;
@@ -46,7 +46,7 @@ Entity EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 }
 
 
-Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, CSimpleSprite* enemySprite, float screenWidth, float screenHeight)
+Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight)
 {
 	Entity enemyEntity = entityManager.CreateEntity();
 	float minVx = -0.1f, maxVx = 0.3f;
@@ -81,7 +81,7 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 	return enemyEntity;
 }
 
-Entity EntityManager::CreateBulletEntity(CSimpleSprite* bulletSprite, const glm::vec3& position, const glm::vec2& velocity)
+Entity EntityManager::CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3& position, const glm::vec2& velocity)
 {
 	Entity bulletEntity = CreateEntity();
 	float bulletScale = 2.0f;
@@ -106,6 +106,14 @@ Entity EntityManager::CreateBulletEntity(CSimpleSprite* bulletSprite, const glm:
 	AddComponent(bulletEntity, bulletDamage);
 
 	return bulletEntity;
+}
+
+void EntityManager::ProcessDeletions()
+{
+	for (Entity entity : entitiesToDelete) {
+		entityComponents.erase(entity);
+	}
+	entitiesToDelete.clear();
 }
 
 glm::vec3 EntityManager::GetOppositeQuadrantPosition(const glm::vec3& playerPos, float screenWidth, float screenHeight)

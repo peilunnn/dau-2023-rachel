@@ -2,7 +2,7 @@
 #include "../include/AnimationHandler.h"
 #include <glm/glm.hpp>
 
-void AnimationHandler::InitPlayerAnimation(CSimpleSprite *playerSprite)
+void AnimationHandler::InitPlayerAnimation(std::shared_ptr<CSimpleSprite> playerSprite)
 {
     if (playerSprite)
     {
@@ -18,7 +18,7 @@ void AnimationHandler::InitPlayerAnimation(CSimpleSprite *playerSprite)
     }
 }
 
-void AnimationHandler::InitEnemyAnimation(CSimpleSprite *enemySprite)
+void AnimationHandler::InitEnemyAnimation(std::shared_ptr<CSimpleSprite> enemySprite)
 {
     if (enemySprite)
     {
@@ -93,4 +93,5 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
     animation->currentAnimation = ENEMY_ANIM_MELT;
     velocity->velocity = glm::vec2(0.0f, 0.0f);
     sprite->Update(deltaTime);
+    entityManager.MarkEntityForDeletion(entity);
 }

@@ -23,9 +23,9 @@ float screenWidth = 1024.0f;
 float screenHeight = 768.0f;
 EntityManager entityManager;
 SystemManager systemManager;
-CSimpleSprite* playerSprite;
-CSimpleSprite* enemySprite;
-CSimpleSprite* bulletSprite;
+std::shared_ptr<CSimpleSprite> playerSprite;
+std::shared_ptr<CSimpleSprite> enemySprite;
+std::shared_ptr<CSimpleSprite> bulletSprite;
 Entity playerEntityId;
 Entity enemyEntityId;
 RenderingHandler renderingHandler;
@@ -39,16 +39,19 @@ AnimationHandler animationHandler;
 //------------------------------------------------------------------------
 void Init()
 {
-	playerSprite = App::CreateSprite(".\\Data\\Sprites\\Player.bmp", 8, 4);
+	CSimpleSprite* rawPlayerSprite = App::CreateSprite(".\\Data\\Sprites\\Player.bmp", 8, 4);
+	playerSprite = std::shared_ptr<CSimpleSprite>(rawPlayerSprite);
 	playerEntityId = entityManager.CreatePlayerEntity(playerSprite);
 	animationHandler.InitPlayerAnimation(playerSprite);
 
-	enemySprite = App::CreateSprite(".\\Data\\Sprites\\Enemy.png", 4, 2);
+	CSimpleSprite* rawEnemySprite = App::CreateSprite(".\\Data\\Sprites\\Enemy.png", 4, 2);
+	enemySprite = std::shared_ptr<CSimpleSprite>(rawEnemySprite);
 	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->position;
 	enemyEntityId = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
 	animationHandler.InitEnemyAnimation(enemySprite);
 
-	bulletSprite = App::CreateSprite(".\\Data\\Sprites\\Bullet.bmp", 1, 1);
+	CSimpleSprite* rawBulletSprite = App::CreateSprite(".\\Data\\Sprites\\Bullet.bmp", 1, 1);
+	bulletSprite = std::shared_ptr<CSimpleSprite>(rawBulletSprite);
 
 	systemManager.AddSystem(std::make_unique<AnimationHandler>());
 	systemManager.AddSystem(std::make_unique<CollisionHandler>());
@@ -69,6 +72,7 @@ void Update(float deltaTime)
 	collisionHandler.Update(entityManager, systemManager, deltaTime);
 	animationHandler.Update(entityManager, deltaTime);
 	systemManager.ProcessEvents(entityManager, deltaTime);
+	entityManager.ProcessDeletions();
 }
 
 //------------------------------------------------------------------------
@@ -86,7 +90,5 @@ void Render()
 //------------------------------------------------------------------------
 void Shutdown()
 {
-	delete playerSprite;
-	delete enemySprite;
-	delete bulletSprite;
+
 }

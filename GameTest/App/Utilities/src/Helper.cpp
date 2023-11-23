@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "../include/Helper.h"
 
-SpriteDimensions Helper::GetSpriteDimensions(CSimpleSprite* sprite, float multiplier)
+SpriteDimensions Helper::GetSpriteDimensions(std::shared_ptr<CSimpleSprite> sprite, float multiplier)
 {
     SpriteDimensions dimensions;
     if (sprite) {

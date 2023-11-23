@@ -24,6 +24,7 @@ class EntityManager
 private:
     static Entity nextEntityId;
     std::unordered_map<Entity, std::vector<std::shared_ptr<Component>>> entityComponents;
+    std::vector<Entity> entitiesToDelete;
 
 public:
     std::vector<Entity> GetAllEntities();
@@ -31,9 +32,14 @@ public:
     {
         return nextEntityId++;
     }
-    Entity CreatePlayerEntity(CSimpleSprite *sprite);
-    Entity CreateEnemyEntity(EntityManager &entityManager, const glm::vec3 &playerPos, CSimpleSprite *enemySprite, float screenWidth, float screenHeight);
-    Entity CreateBulletEntity(CSimpleSprite *bulletSprite, const glm::vec3 &position, const glm::vec2 &velocity);
+    Entity CreatePlayerEntity(std::shared_ptr<CSimpleSprite> sprite);
+    Entity CreateEnemyEntity(EntityManager &entityManager, const glm::vec3 &playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
+    Entity CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &position, const glm::vec2 &velocity);
+    
+    void MarkEntityForDeletion(Entity entity) {
+        entitiesToDelete.push_back(entity);
+    }
+    void ProcessDeletions();
 
     glm::vec3 GetOppositeQuadrantPosition(const glm::vec3 &playerPos, float screenWidth, float screenHeight);
 
