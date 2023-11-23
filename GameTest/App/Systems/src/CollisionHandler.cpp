@@ -77,16 +77,10 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
     if ((tag1->entityType == EntityType::BULLET && tag2->entityType == EntityType::ENEMY) ||
         (tag1->entityType == EntityType::ENEMY && tag2->entityType == EntityType::BULLET))
     {
-        Entity enemyEntity = (tag1->entityType == EntityType::ENEMY) ? entity1 : entity2;
-        auto enemyAnimation = entityManager.GetComponent<Animation>(enemyEntity);
-        auto enemySprite = entityManager.GetComponent<Renderable>(enemyEntity)->sprite;
-
-        if (enemyAnimation && enemySprite)
-        {
-            event.type = SystemManager::SystemEvent::EventType::BulletHitEnemy;
-            event.entity = enemyEntity;
-            systemManager.SendEvent(event);
-        }
+        event.type = SystemManager::SystemEvent::EventType::BulletHitEnemy;
+        event.entities.push_back(entity1);
+        event.entities.push_back(entity2);
+        systemManager.SendEvent(event);
     }
 
     // Case 2 - one is player, the other is enemy

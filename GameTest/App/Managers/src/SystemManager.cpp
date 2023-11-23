@@ -18,7 +18,7 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime)
             if (system->GetSystemType() == System::Type::AnimationHandler && event.type == SystemEvent::BulletHitEnemy) {
                 auto animationHandler = dynamic_cast<AnimationHandler*>(system.get());
                 if (animationHandler) {
-                    animationHandler->ProcessBulletHitEnemy(entityManager, event.entity, deltaTime);
+                    animationHandler->ProcessBulletHitEnemy(entityManager, event.entities, deltaTime);
                 }
                 break;
             }

@@ -108,13 +108,28 @@ Entity EntityManager::CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSp
 	return bulletEntity;
 }
 
+void EntityManager::MarkEntityForDeletion(Entity entity)
+{
+	// Check if already marked for deletion
+	if (std::find(entitiesToDelete.begin(), entitiesToDelete.end(), entity) == entitiesToDelete.end()) {
+		entitiesToDelete.push_back(entity);
+	}
+}
+
 void EntityManager::ProcessDeletions() {
 	for (Entity entity : entitiesToDelete) {
-		auto animation = GetComponent<Animation>(entity);
-		if (animation && animation->cooldownTimer > 0.0f) {
-			continue;
+		auto tag = GetComponent<Tag>(entity);
+		if (tag->entityType == EntityType::ENEMY) {
+			auto enemyAnimation = GetComponent<Animation>(entity);
+			if (enemyAnimation && enemyAnimation->cooldownTimer > 0.0f) {
+				continue;
+			}
+			entityComponents.erase(entity);
 		}
-		entityComponents.erase(entity);
+		else
+		{
+			entityComponents.erase(entity);
+		}
 	}
 	entitiesToDelete.clear();
 }

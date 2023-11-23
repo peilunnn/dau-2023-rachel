@@ -34,7 +34,7 @@ public:
 	void InitEnemyAnimation(std::shared_ptr<CSimpleSprite> sprite);
 	void Update(EntityManager& entityManager, float deltaTime);
 	void UpdatePlayerAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
-	void ProcessBulletHitEnemy(EntityManager& entityManager, Entity entity, float deltaTime);
+	void ProcessBulletHitEnemy(EntityManager& entityManager, std::vector<Entity> entities, float deltaTime);
 	Type GetSystemType() const override {
 		return System::Type::AnimationHandler;
 	}

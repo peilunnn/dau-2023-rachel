@@ -13,7 +13,7 @@ private:
 public:
     struct SystemEvent {
         enum EventType { BulletHitEnemy, PlayerHitEnemy, PlayerHitReloadingCircle, PlayerHealthReachZero, CountdownReachZero } type;
-        Entity entity;
+        std::vector<Entity> entities;
     };
     std::queue<SystemEvent> eventQueue;
 

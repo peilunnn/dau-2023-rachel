@@ -36,9 +36,7 @@ public:
     Entity CreateEnemyEntity(EntityManager &entityManager, const glm::vec3 &playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
     Entity CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &position, const glm::vec2 &velocity);
     
-    void MarkEntityForDeletion(Entity entity) {
-        entitiesToDelete.push_back(entity);
-    }
+    void MarkEntityForDeletion(Entity entity);
     void ProcessDeletions();
 
     glm::vec3 GetOppositeQuadrantPosition(const glm::vec3 &playerPos, float screenWidth, float screenHeight);
