@@ -39,13 +39,16 @@ void AnimationHandler::Update(EntityManager &entityManager, float deltaTime)
             UpdatePlayerAnimation(entityManager, entity, deltaTime);
         }
 
-        else if (tag->entityType == EntityType::ENEMY)
+        else if (tag->entityType == EntityType::ENEMY && tag->state == EntityState::HIT_BY_BULLET)
         {
+            Helper::Log("enemy hit by bullet: ", entity);
+
             auto animation = entityManager.GetComponent<Animation>(entity);
             if (animation->cooldownTimer > 0.0f) {
                 animation->cooldownTimer -= deltaTime;
                 if (animation->cooldownTimer <= 0.0f) {
                     entityManager.MarkEntityForDeletion(entity);
+                    Helper::Log("enemy marked for deletion: ", entity);
                 }
             }
         }

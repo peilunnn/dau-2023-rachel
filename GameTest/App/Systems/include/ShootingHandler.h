@@ -10,7 +10,7 @@
 class ShootingHandler : public System {
 private:
     static int bulletCount;
-    static constexpr int MAX_BULLETS = 10000;
+    static constexpr int MAX_BULLETS = 100;
 
 public:
     static void Shoot(EntityManager& entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);

@@ -92,6 +92,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
         event.entities.push_back(entity2);
         event.newEnemiesCreated = false;
         systemManager.SendEvent(event);
+        event.entities.clear();
     }
     // Case 2 - one is player, the other is enemy
 }

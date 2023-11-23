@@ -68,6 +68,10 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
+	//std::vector<Entity> allEntities = entityManager.GetAllEntities();
+	//for (const Entity& entity : allEntities) {
+	//	Helper::Log("Entity ID: ", entity);
+	//}
 	inputHandler.Update(entityManager, deltaTime, playerEntity, bulletSprite);
 	movementHandler.Update(entityManager, deltaTime, screenWidth, screenHeight);
 	collisionHandler.Update(entityManager, systemManager, deltaTime);
