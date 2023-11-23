@@ -65,10 +65,7 @@ public:
     // For spawning enemy in the opposite quadrant of player
     static glm::vec3 GetOppositeQuadrantPosition(const glm::vec3& playerPos, float screenWidth, float screenHeight);
 
-    // Out-of-bounds functions
-    static bool IsOutOfBounds(float x, float y, float screenWidth, float screenHeight) {
-        return (x < 0 || x > screenWidth || y < 0 || y > screenHeight);
-    }
+    // For dealing with entities going out of bounds
     static SpriteDimensions GetSpriteDimensions(std::shared_ptr<CSimpleSprite> sprite, float multiplier);
 };
 

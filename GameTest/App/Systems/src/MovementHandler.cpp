@@ -89,7 +89,9 @@ void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Entity 
         transform->position.x += movement.x;
         transform->position.y += movement.y;
 
-        // TODO: add logic to destroy bullet if it's out of bounds
-        // TODO: handling enemy and bullet movement will have duplicate out of bounds check logic
+        if (transform->position.x < 0 || transform->position.x > screenWidth ||
+            transform->position.y < 0 || transform->position.y > screenHeight) {
+            entityManager.MarkEntityForDeletion(entity);
+        }
     }
 }
