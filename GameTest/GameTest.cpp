@@ -77,7 +77,7 @@ void Update(float deltaTime)
 	collisionHandler.Update(entityManager, systemManager, deltaTime);
 	animationHandler.Update(entityManager, deltaTime);
 	playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
-	systemManager.ProcessEvents(entityManager, deltaTime, enemySprite, playerPos, screenWidth, screenHeight);
+	systemManager.ProcessEvents(entityManager, deltaTime, playerPos, screenWidth, screenHeight);
 	entityManager.ProcessDeletions();
 }
 
@@ -96,5 +96,4 @@ void Render()
 //------------------------------------------------------------------------
 void Shutdown()
 {
-
 }

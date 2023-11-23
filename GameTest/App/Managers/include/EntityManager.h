@@ -15,7 +15,9 @@
 #include "../../Components/include/Health.h"
 #include "../../Components/include/Damage.h"
 #include "../../Components/include/Animation.h"
+#include "../../Systems/include/SystemEvent.h"
 #include "../../Utilities/include/Helper.h"
+#include "../../Utilities/include/App.h"
 
 using Entity = unsigned int;
 
@@ -40,7 +42,7 @@ public:
     void MarkEntityForDeletion(Entity entity);
     void ProcessDeletions();
 
-    void ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime, std::shared_ptr<CSimpleSprite> enemySprite, const glm::vec3& playerPos, float screenWidth, float screenHeight);
+    void ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime, SystemEvent event, const glm::vec3& playerPos, float screenWidth, float screenHeight);
 
     template <typename T>
     void AddComponent(Entity entity, std::shared_ptr<T> component)

@@ -52,6 +52,7 @@
     <ClCompile Include="App\Utilities\src\Helper.cpp" />
     <ClCompile Include="App\Managers\src\SystemManager.cpp" />
     <ClCompile Include="App\Systems\src\System.cpp" />
+    <ClCompile Include="App\Systems\src\SystemEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -108,6 +109,7 @@
     <ClInclude Include="App\Utilities\include\Helper.h" />
     <ClInclude Include="App\Managers\include\SystemManager.h" />
     <ClInclude Include="App\Systems\include\System.h" />
+    <ClInclude Include="App\Systems\include\SystemEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

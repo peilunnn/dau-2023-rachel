@@ -41,11 +41,10 @@ CSimpleSprite::CSimpleSprite(const char *fileName, unsigned int nColumns, unsign
 
 void CSimpleSprite::Update(float dt)
 {
-    m_animTime += dt;
+    m_animTime += dt / 1000.0f;
 
     if (m_currentAnim >= 0)
     {
-        m_animTime += dt/1000.0f;
         sAnimation &anim = m_animations[m_currentAnim];
 
         size_t frameCount = anim.m_frames.size();
@@ -55,11 +54,18 @@ void CSimpleSprite::Update(float dt)
             m_animTime -= duration;
         }
         int frameIndex = static_cast<int>(m_animTime / anim.m_speed) % frameCount;
-        SetFrame(anim.m_frames[frameIndex]);        
+        char debugMsg[256];
+        sprintf_s(debugMsg, "m_currentAnim: %d\n", m_currentAnim);
+        //sprintf_s(debugMsg, "frameCount: %d\n", frameCount);
+        //sprintf_s(debugMsg, "frameIndex: %d\n", frameIndex);
+        OutputDebugStringA(debugMsg);
+
+        SetFrame(anim.m_frames[frameIndex]);
     }
 }
 
-bool CSimpleSprite::IsAnimationComplete() {
+bool CSimpleSprite::IsAnimationComplete()
+{
     if (m_currentAnim < 0 || m_currentAnim >= m_animations.size())
         return false;
 

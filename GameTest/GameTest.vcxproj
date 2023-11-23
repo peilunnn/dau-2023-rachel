@@ -216,6 +216,7 @@
     <ClInclude Include="App\Components\include\Tag.h" />
     <ClInclude Include="App\Managers\include\SystemManager.h" />
     <ClInclude Include="App\Systems\include\System.h" />
+    <ClInclude Include="App\Systems\include\SystemEvent.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="App\Components\include\Transform.h" />
     <ClInclude Include="App\Components\include\Velocity.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="App\Components\src\Tag.cpp" />
     <ClCompile Include="App\Managers\src\SystemManager.cpp" />
     <ClCompile Include="App\Systems\src\System.cpp" />
+    <ClCompile Include="App\Systems\src\SystemEvent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

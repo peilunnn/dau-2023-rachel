@@ -10,7 +10,7 @@
 
 class AnimationHandler : public System
 {
-private:
+public:
 	enum PlayerAnimationStates
 	{
 		PLAYER_ANIM_FORWARDS,
@@ -29,12 +29,11 @@ private:
 	};
 	int lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 
-public:
 	void InitPlayerAnimation(std::shared_ptr<CSimpleSprite> sprite);
 	void InitEnemyAnimation(std::shared_ptr<CSimpleSprite> sprite);
 	void Update(EntityManager& entityManager, float deltaTime);
 	void UpdatePlayerAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
-	void ProcessBulletHitEnemy(EntityManager& entityManager, std::vector<Entity> entities, float deltaTime);
+	void ProcessBulletHitEnemy(EntityManager& entityManager, Entity entity1, Entity entity2, float deltaTime);
 	Type GetSystemType() const override {
 		return System::Type::AnimationHandler;
 	}

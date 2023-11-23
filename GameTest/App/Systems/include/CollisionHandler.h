@@ -7,12 +7,10 @@
 #include "../../Components/include/Collider.h"
 #include "../../Utilities/include/Helper.h"
 #include "../../Systems/include/System.h"
+#include "../../Systems/include/SystemEvent.h"
 
 class CollisionHandler : public System 
 {
-private:
-    SystemManager::SystemEvent event;
-
 public:
     void Update(EntityManager& entityManager, SystemManager& systemManager, float deltaTime);
     bool IsColliding(std::shared_ptr<Transform> transform1, std::shared_ptr<Collider> collider1, std::shared_ptr<Transform> transform2, std::shared_ptr<Collider> collider2);

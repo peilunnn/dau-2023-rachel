@@ -9,7 +9,7 @@ void SystemManager::SendEvent(SystemEvent event) {
     eventQueue.push(event);
 }
 
-void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime, std::shared_ptr<CSimpleSprite> enemySprite, const glm::vec3& playerPos, float screenWidth, float screenHeight) {
+void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight) {
     while (!eventQueue.empty()) {
         SystemEvent event = eventQueue.front();
 
@@ -17,11 +17,11 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime,
             if (system->GetSystemType() == System::Type::AnimationHandler && event.type == SystemEvent::BulletHitEnemy) {
                 auto animationHandler = dynamic_cast<AnimationHandler*>(system.get());
                 if (animationHandler) {
-                    animationHandler->ProcessBulletHitEnemy(entityManager, event.entities, deltaTime);
+                    animationHandler->ProcessBulletHitEnemy(entityManager, event.entity1, event.entity2, deltaTime);
                 }
 
                 if (!event.newEnemiesCreated) {
-                    entityManager.ProcessBulletHitEnemy(entityManager, deltaTime, enemySprite, playerPos, screenWidth, screenHeight);
+                    entityManager.ProcessBulletHitEnemy(entityManager, deltaTime, event, playerPos, screenWidth, screenHeight);
                     event.newEnemiesCreated = true;
                 }
 

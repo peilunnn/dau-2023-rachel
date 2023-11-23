@@ -20,15 +20,16 @@ void AnimationHandler::InitPlayerAnimation(std::shared_ptr<CSimpleSprite> player
 
 void AnimationHandler::InitEnemyAnimation(std::shared_ptr<CSimpleSprite> enemySprite)
 {
-    if (enemySprite)
+    if (!enemySprite)
     {
-        float speed = 1.0f / 100.0f;
-        enemySprite->CreateAnimation(ENEMY_ANIM_IDLE, speed, {0});
-        enemySprite->CreateAnimation(ENEMY_ANIM_MELT, speed, {1, 2, 3, 4, 5, 6, 7});
+        return;
     }
+    float speed = 1.0f / 15.0f;
+    enemySprite->CreateAnimation(ENEMY_ANIM_IDLE, speed, {0});
+    enemySprite->CreateAnimation(ENEMY_ANIM_MELT, speed, {1, 2, 3, 4, 5, 6, 7});
 }
 
-void AnimationHandler::Update(EntityManager &entityManager, float deltaTime)
+void AnimationHandler::Update(EntityManager& entityManager, float deltaTime)
 {
     for (auto entity : entityManager.GetEntitiesWithComponents<Animation, Velocity, Tag>())
     {
@@ -39,16 +40,15 @@ void AnimationHandler::Update(EntityManager &entityManager, float deltaTime)
             UpdatePlayerAnimation(entityManager, entity, deltaTime);
         }
 
-        else if (tag->entityType == EntityType::ENEMY && tag->state == EntityState::HIT_BY_BULLET)
-        {
-            Helper::Log("enemy hit by bullet: ", entity);
+        else if (tag->entityType == EntityType::ENEMY) {
+            auto enemySprite = entityManager.GetComponent<Renderable>(entity)->sprite;
+            enemySprite->Update(deltaTime);
 
-            auto animation = entityManager.GetComponent<Animation>(entity);
-            if (animation->cooldownTimer > 0.0f) {
-                animation->cooldownTimer -= deltaTime;
-                if (animation->cooldownTimer <= 0.0f) {
+            auto enemyAnimation = entityManager.GetComponent<Animation>(entity);
+            if (enemyAnimation->cooldownTimer > 0.0f) {
+                enemyAnimation->cooldownTimer -= deltaTime / 1000.0f;
+                if (enemyAnimation->cooldownTimer <= 0.0f) {
                     entityManager.MarkEntityForDeletion(entity);
-                    Helper::Log("enemy marked for deletion: ", entity);
                 }
             }
         }
@@ -88,51 +88,47 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
         }
         else
         {
-            // If not moving, set the animation to the last non-idle state
             animation->currentAnimation = lastPlayerNonIdleAnimState;
         }
+        sprite->SetAnimation(animation->currentAnimation);
         sprite->Update(deltaTime);
     }
 }
 
-void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, std::vector<Entity> entities, float deltaTime)
+void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entity entity1, Entity entity2, float deltaTime)
 {
-    Entity enemyEntity = -1;
-    Entity bulletEntity = -1;
+    Entity bulletEntity, enemyEntity;
 
-    for (Entity entity : entities) {
-        auto tag = entityManager.GetComponent<Tag>(entity);
+    auto tag1 = entityManager.GetComponent<Tag>(entity1);
+    auto tag2 = entityManager.GetComponent<Tag>(entity2);
 
-        if (!tag)
-        {
-            return;
-        }
+    if (!tag1 || !tag2)
+        return;
 
-        if (tag->entityType == EntityType::ENEMY) {
-            if (tag->state != EntityState::HIT_BY_BULLET)
-            {
-                return;
-            }
-
-            enemyEntity = entity;
-            auto enemyAnimation = entityManager.GetComponent<Animation>(enemyEntity);
-            auto enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntity);
-            auto enemySprite = entityManager.GetComponent<Renderable>(enemyEntity)->sprite;
-
-            if (!enemyAnimation || !enemyVelocity || !enemySprite)
-                return;
-
-            enemyAnimation->currentAnimation = ENEMY_ANIM_MELT;
-            enemyVelocity->velocity = glm::vec2(0.0f, 0.0f);
-            enemySprite->Update(deltaTime);
-
-            if (enemySprite->IsAnimationComplete()) {
-                enemyAnimation->cooldownTimer = 1.0f;
-            }
-        }
-        else if (tag->entityType == EntityType::BULLET) {
-            bulletEntity = entity;
-            entityManager.MarkEntityForDeletion(bulletEntity);
-        }
+    if (tag1->entityType == EntityType::BULLET) {
+        bulletEntity = entity1;
+        enemyEntity = entity2;
     }
+    else {
+        bulletEntity = entity2;
+        enemyEntity = entity1;
+    }
+
+    auto enemyAnimation = entityManager.GetComponent<Animation>(enemyEntity);
+    auto enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntity);
+    auto enemySprite = entityManager.GetComponent<Renderable>(enemyEntity)->sprite;
+
+    if (!enemyAnimation || !enemyVelocity || !enemySprite)
+        return;
+
+    Helper::Log("bullet hit enemy");
+    enemyAnimation->currentAnimation = ENEMY_ANIM_MELT;
+    enemySprite->SetAnimation(ENEMY_ANIM_MELT);
+    enemyVelocity->velocity = glm::vec2(0.0f, 0.0f);
+
+    if (enemySprite->IsAnimationComplete()) {
+        enemyAnimation->cooldownTimer = 0.5f;
+    }
+
+    entityManager.MarkEntityForDeletion(bulletEntity);
 }
