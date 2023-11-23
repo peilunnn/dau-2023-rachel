@@ -40,6 +40,9 @@ public:
         m_animations.push_back(anim);        
     };
 
+    // For marking sprite as ready for deletion after animation is finished playing
+    bool IsAnimationComplete();
+
 private:
     void CalculateUVs();
     GLuint m_texture;
@@ -79,7 +82,6 @@ private:
     };
     bool LoadTexture(const char*);
     static std::map<const char *, sTextureDef > m_textures;
-    
 };
 
 #endif

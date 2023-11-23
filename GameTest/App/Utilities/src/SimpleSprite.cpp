@@ -41,6 +41,8 @@ CSimpleSprite::CSimpleSprite(const char *fileName, unsigned int nColumns, unsign
 
 void CSimpleSprite::Update(float dt)
 {
+    m_animTime += dt;
+
     if (m_currentAnim >= 0)
     {
         m_animTime += dt/1000.0f;
@@ -55,6 +57,16 @@ void CSimpleSprite::Update(float dt)
         int frameIndex = static_cast<int>(m_animTime / anim.m_speed) % frameCount;
         SetFrame(anim.m_frames[frameIndex]);        
     }
+}
+
+bool CSimpleSprite::IsAnimationComplete() {
+    if (m_currentAnim < 0 || m_currentAnim >= m_animations.size())
+        return false;
+
+    const auto& anim = m_animations[m_currentAnim];
+    float totalAnimTime = anim.m_speed * anim.m_frames.size();
+
+    return m_animTime >= totalAnimTime;
 }
 
 void CSimpleSprite::CalculateUVs()

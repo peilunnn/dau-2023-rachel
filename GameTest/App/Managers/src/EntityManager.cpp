@@ -14,7 +14,7 @@ std::vector<Entity> EntityManager::GetAllEntities()
 
 Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite)
 {
-	Entity playerEntityId = CreateEntity();
+	Entity playerEntity = CreateEntity();
 	float maxX = 800.0f;
 	float maxY = 400.0f;
 	float playerPosX = Helper::GenerateFloat(0.0, maxX);
@@ -34,15 +34,15 @@ Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSp
 	auto playerHealth = std::make_shared<Health>();
 	auto playerAnimation = std::make_shared<Animation>();
 
-	EntityManager::AddComponent(playerEntityId, playerTag);
-	EntityManager::AddComponent(playerEntityId, playerTransform);
-	EntityManager::AddComponent(playerEntityId, playerRenderable);
-	EntityManager::AddComponent(playerEntityId, playerCollider);
-	EntityManager::AddComponent(playerEntityId, playerVelocity);
-	EntityManager::AddComponent(playerEntityId, playerHealth);
-	EntityManager::AddComponent(playerEntityId, playerAnimation);
+	EntityManager::AddComponent(playerEntity, playerTag);
+	EntityManager::AddComponent(playerEntity, playerTransform);
+	EntityManager::AddComponent(playerEntity, playerRenderable);
+	EntityManager::AddComponent(playerEntity, playerCollider);
+	EntityManager::AddComponent(playerEntity, playerVelocity);
+	EntityManager::AddComponent(playerEntity, playerHealth);
+	EntityManager::AddComponent(playerEntity, playerAnimation);
 
-	return playerEntityId;
+	return playerEntity;
 }
 
 
@@ -108,9 +108,12 @@ Entity EntityManager::CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSp
 	return bulletEntity;
 }
 
-void EntityManager::ProcessDeletions()
-{
+void EntityManager::ProcessDeletions() {
 	for (Entity entity : entitiesToDelete) {
+		auto animation = GetComponent<Animation>(entity);
+		if (animation && animation->cooldownTimer > 0.0f) {
+			continue;
+		}
 		entityComponents.erase(entity);
 	}
 	entitiesToDelete.clear();

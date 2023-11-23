@@ -26,8 +26,8 @@ SystemManager systemManager;
 std::shared_ptr<CSimpleSprite> playerSprite;
 std::shared_ptr<CSimpleSprite> enemySprite;
 std::shared_ptr<CSimpleSprite> bulletSprite;
-Entity playerEntityId;
-Entity enemyEntityId;
+Entity playerEntity;
+Entity enemyEntity;
 RenderingHandler renderingHandler;
 InputHandler inputHandler;
 MovementHandler movementHandler;
@@ -41,13 +41,13 @@ void Init()
 {
 	CSimpleSprite* rawPlayerSprite = App::CreateSprite(".\\Data\\Sprites\\Player.bmp", 8, 4);
 	playerSprite = std::shared_ptr<CSimpleSprite>(rawPlayerSprite);
-	playerEntityId = entityManager.CreatePlayerEntity(playerSprite);
+	playerEntity = entityManager.CreatePlayerEntity(playerSprite);
 	animationHandler.InitPlayerAnimation(playerSprite);
 
 	CSimpleSprite* rawEnemySprite = App::CreateSprite(".\\Data\\Sprites\\Enemy.png", 4, 2);
 	enemySprite = std::shared_ptr<CSimpleSprite>(rawEnemySprite);
-	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->position;
-	enemyEntityId = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
+	glm::vec3 playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
+	enemyEntity = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
 	animationHandler.InitEnemyAnimation(enemySprite);
 
 	CSimpleSprite* rawBulletSprite = App::CreateSprite(".\\Data\\Sprites\\Bullet.bmp", 1, 1);
@@ -67,7 +67,7 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-	inputHandler.Update(entityManager, deltaTime, playerEntityId, bulletSprite);
+	inputHandler.Update(entityManager, deltaTime, playerEntity, bulletSprite);
 	movementHandler.Update(entityManager, deltaTime, screenWidth, screenHeight);
 	collisionHandler.Update(entityManager, systemManager, deltaTime);
 	animationHandler.Update(entityManager, deltaTime);

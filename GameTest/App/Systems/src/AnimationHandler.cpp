@@ -38,6 +38,17 @@ void AnimationHandler::Update(EntityManager &entityManager, float deltaTime)
         {
             UpdatePlayerAnimation(entityManager, entity, deltaTime);
         }
+
+        else if (tag->entityType == EntityType::ENEMY)
+        {
+            auto animation = entityManager.GetComponent<Animation>(entity);
+            if (animation->cooldownTimer > 0.0f) {
+                animation->cooldownTimer -= deltaTime;
+                if (animation->cooldownTimer <= 0.0f) {
+                    entityManager.MarkEntityForDeletion(entity);
+                }
+            }
+        }
     }
 }
 
@@ -85,13 +96,16 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
 {
     auto animation = entityManager.GetComponent<Animation>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
-    auto sprite = entityManager.GetComponent<Renderable>(entity)->sprite;
+    auto enemySprite = entityManager.GetComponent<Renderable>(entity)->sprite;
 
-    if (!animation || !velocity || !sprite)
+    if (!animation || !velocity || !enemySprite)
         return;
 
     animation->currentAnimation = ENEMY_ANIM_MELT;
     velocity->velocity = glm::vec2(0.0f, 0.0f);
-    sprite->Update(deltaTime);
-    entityManager.MarkEntityForDeletion(entity);
+    enemySprite->Update(deltaTime);
+
+    if (enemySprite->IsAnimationComplete()) {
+        animation->cooldownTimer = 1.0f;
+    }
 }

@@ -16,11 +16,11 @@ public:
     static constexpr float ANGLE_DELTA = 0.1f;
     static constexpr float SCALE_DELTA = 0.1f;
 
-    void Update(EntityManager& entityManager, float deltaTime, Entity playerEntityId, std::shared_ptr<CSimpleSprite> bulletSprite);
-    void HandlePositionInput(EntityManager& entityManager, float deltaTime, Entity playerEntityId);
-    void HandleRotationInput(EntityManager& entityManager, Entity playerEntityId);
-    void HandleScaleInput(EntityManager& entityManager, Entity playerEntityId);
-    void HandleShootingInput(EntityManager& entityManager, Entity playerEntityId, std::shared_ptr<CSimpleSprite> bulletSprite);
+    void Update(EntityManager& entityManager, float deltaTime, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite);
+    void HandlePositionInput(EntityManager& entityManager, float deltaTime, Entity playerEntity);
+    void HandleRotationInput(EntityManager& entityManager, Entity playerEntity);
+    void HandleScaleInput(EntityManager& entityManager, Entity playerEntity);
+    void HandleShootingInput(EntityManager& entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite);
     Type GetSystemType() const override {
         return System::Type::InputHandler;
     }
