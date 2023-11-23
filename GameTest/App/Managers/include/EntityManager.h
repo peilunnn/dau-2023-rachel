@@ -39,8 +39,6 @@ public:
     void MarkEntityForDeletion(Entity entity);
     void ProcessDeletions();
 
-    glm::vec3 GetOppositeQuadrantPosition(const glm::vec3 &playerPos, float screenWidth, float screenHeight);
-
     template <typename T>
     void AddComponent(Entity entity, std::shared_ptr<T> component)
     {

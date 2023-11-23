@@ -51,7 +51,7 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 	Entity enemyEntity = entityManager.CreateEntity();
 	float minVx = -0.1f, maxVx = 0.3f;
 	float minVy = -0.1f, maxVy = 0.3f;
-	glm::vec3 enemyPos = GetOppositeQuadrantPosition(playerPos, 1024.0f, 768.0f);
+	glm::vec3 enemyPos = Helper::GetOppositeQuadrantPosition(playerPos, 1024.0f, 768.0f);
 	glm::vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 	float enemyScale = 0.5f;
 	SpriteDimensions enemyDimensions = Helper::GetSpriteDimensions(enemySprite, 1.0f);
@@ -132,22 +132,4 @@ void EntityManager::ProcessDeletions() {
 		}
 	}
 	entitiesToDelete.clear();
-}
-
-glm::vec3 EntityManager::GetOppositeQuadrantPosition(const glm::vec3& playerPos, float screenWidth, float screenHeight)
-{
-	glm::vec3 enemyPos;
-	if (playerPos.x < screenWidth / 2) {
-		enemyPos.x = screenWidth * 0.75f; // Spawn in the right half
-	}
-	else {
-		enemyPos.x = screenWidth * 0.25f; // Spawn in the left half
-	}
-	if (playerPos.y < screenHeight / 2) {
-		enemyPos.y = screenHeight * 0.75f; // Spawn in the lower half
-	}
-	else {
-		enemyPos.y = screenHeight * 0.25f; // Spawn in the upper half
-	}
-	return enemyPos;
 }

@@ -61,6 +61,9 @@ public:
     static glm::vec3 GenerateVec3(float minX, float maxX, float minY, float maxY, float minZ, float maxZ) {
         return glm::vec3(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY), GenerateFloat(minZ, maxZ));
     }
+    
+    // For spawning enemy in the opposite quadrant of player
+    static glm::vec3 GetOppositeQuadrantPosition(const glm::vec3& playerPos, float screenWidth, float screenHeight);
 
     // Out-of-bounds functions
     static bool IsOutOfBounds(float x, float y, float screenWidth, float screenHeight) {
