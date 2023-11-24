@@ -26,6 +26,9 @@ public:
     static void SetTimeSinceLastShot(float time) {
         timeSinceLastShot = time;
     }
+    static float GetMaxBullets() {
+        return MAX_BULLETS;
+    }
 };
 
 #endif // HANDLE_SHOOTING_H

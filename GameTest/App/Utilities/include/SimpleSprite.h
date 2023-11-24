@@ -23,12 +23,19 @@ public:
     void SetScale(float s) { m_scale = s; }
     void SetFrame(unsigned int f);
     void SetAnimation(int id);
+    void SetVisible(bool isVisible) {
+        isVisible = true; // For ammo
+    }
+
 	void GetPosition(float &x, float &y) { x = m_xpos; y = m_ypos; }
     float GetWidth()  const { return m_width;  }
     float GetHeight() const { return m_height; }
     float GetAngle()  const { return m_angle;  }
     float GetScale()  const { return m_scale;  }
     unsigned int GetFrame()  const { return m_frame; }
+    bool GetIsVisible() const {
+        return isVisible;
+    }
 	void SetColor(float r, float g, float b) { m_red = r; m_green = g; m_blue = b; }
     void CreateAnimation( unsigned int id, float speed, const std::vector<int> &frames)
     {
@@ -81,6 +88,8 @@ private:
     };
     bool LoadTexture(const char*);
     static std::map<const char *, sTextureDef > m_textures;
+
+    bool isVisible = true;
 };
 
 #endif

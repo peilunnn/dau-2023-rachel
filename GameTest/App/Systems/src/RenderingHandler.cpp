@@ -11,11 +11,20 @@ void RenderingHandler::Render(EntityManager &entityManager)
         auto renderable = entityManager.GetComponent<Renderable>(entity);
 
         if (!(transform && renderable))
-            return;
+            continue;
 
         renderable->sprite->SetPosition(transform->position.x, transform->position.y);
         renderable->sprite->SetScale(transform->scale.x);
         renderable->sprite->SetAngle(transform->rotation.z);
+
+        if (tag->entityType == EntityType::AMMO_FILLED)
+        {
+            Helper::Log("found ammo_filled via tag");
+            bool isVisible = renderable->sprite->GetIsVisible();
+            if (!isVisible)
+                continue;
+        }
+
         renderable->sprite->Draw();
     }
 }

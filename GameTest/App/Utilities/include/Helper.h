@@ -24,7 +24,9 @@ public:
     static inline const char* pathToPlayerSpriteSheet = ".\\Data\\SpriteSheets\\Player.bmp";
     static inline const char* pathToEnemySpriteSheet = ".\\Data\\SpriteSheets\\Enemy.png";
     static inline const char* pathToBulletSprite = ".\\Data\\Sprites\\Bullet.bmp";
-    static inline const char* pathToReloadingCircleSpriteSheet = ".\\Data\\SpriteSheets\\reloadingCircle.png";
+    static inline const char* pathToReloadingCircleSpriteSheet = ".\\Data\\SpriteSheets\\ReloadingCircle.png";
+    static inline const char* pathToAmmoEmptySprite = ".\\Data\\Sprites\\AmmoEmpty.png";
+    static inline const char* pathToAmmoFilledSprite = ".\\Data\\Sprites\\AmmoFilled.png";
 
     // Getting string representation of an EntityType (for reading Tag)
     static std::string GetEntityTypeString(EntityType entityType) {

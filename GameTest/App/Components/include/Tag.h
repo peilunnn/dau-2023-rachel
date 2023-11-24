@@ -9,7 +9,9 @@ enum class EntityType {
     PLAYER,
     ENEMY,
     BULLET,
-    RELOADING_CIRCLE
+    RELOADING_CIRCLE,
+    AMMO_EMPTY,
+    AMMO_FILLED
 };
 
 enum class EntityState {

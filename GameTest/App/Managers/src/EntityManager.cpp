@@ -135,9 +135,42 @@ Entity EntityManager::CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite>
 	return reloadingCircleEntity;
 }
 
-Entity EntityManager::CreateBulletBar()
+Entity EntityManager::CreateAmmoEmptyEntity(std::shared_ptr<CSimpleSprite> ammoEmptySprite, float screenWidth, float screenHeight)
 {
-	return Entity();
+	Entity ammoEmptyEntity = CreateEntity();
+	float ammoEmptyPosX = screenWidth - 80;
+	float ammoEmptyPosY = screenHeight - 80;
+	float ammoEmptyPosZ = 0.0f;
+	float ammoEmptyScale = 0.5f;
+
+	auto ammoEmptyTag = std::make_shared<Tag>(EntityType::AMMO_EMPTY);
+	auto ammoEmptyTransform = std::make_shared<Transform>(glm::vec3(ammoEmptyPosX, ammoEmptyPosY, ammoEmptyPosZ), glm::vec3(0.0f), glm::vec3(ammoEmptyScale));
+	auto ammoEmptyRenderable = std::make_shared<Renderable>(ammoEmptySprite);
+
+	AddComponent(ammoEmptyEntity, ammoEmptyTag);
+	AddComponent(ammoEmptyEntity, ammoEmptyTransform);
+	AddComponent(ammoEmptyEntity, ammoEmptyRenderable);
+
+	return ammoEmptyEntity;
+}
+
+Entity EntityManager::CreateAmmoFilledEntity(std::shared_ptr<CSimpleSprite> ammoFilledSprite, float screenWidth, float screenHeight)
+{
+	Entity ammoFilledEntity = CreateEntity();
+	float ammoFilledPosX = screenWidth - 80;
+	float ammoFilledPosY = screenHeight - 80;
+	float ammoFilledPosZ = 0.0f;
+	float ammoFilledScale = 0.5f;
+
+	auto ammoFilledTag = std::make_shared<Tag>(EntityType::AMMO_FILLED);
+	auto ammoFilledTransform = std::make_shared<Transform>(glm::vec3(ammoFilledPosX, ammoFilledPosY, ammoFilledPosZ), glm::vec3(0.0f), glm::vec3(ammoFilledScale));
+	auto ammoFilledRenderable = std::make_shared<Renderable>(ammoFilledSprite);
+
+	AddComponent(ammoFilledEntity, ammoFilledTag);
+	AddComponent(ammoFilledEntity, ammoFilledTransform);
+	AddComponent(ammoFilledEntity, ammoFilledRenderable);
+
+	return ammoFilledEntity;
 }
 
 void EntityManager::MarkEntityForDeletion(Entity entity)

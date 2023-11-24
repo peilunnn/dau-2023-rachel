@@ -46,16 +46,15 @@ void AnimationHandler::Update(EntityManager& entityManager, float deltaTime)
         switch (tag->entityType)
         {
         case EntityType::PLAYER:
-        }
-
-        if (tag->entityType == EntityType::PLAYER)
             UpdatePlayerAnimation(entityManager, entity, deltaTime);
-
-        else if (tag->entityType == EntityType::ENEMY)
+            break;
+        case EntityType::ENEMY:
             UpdateEnemyAnimation(entityManager, entity, deltaTime);
-
-        else if (tag->entityType == EntityType::RELOADING_CIRCLE)
+            break;
+        case EntityType::RELOADING_CIRCLE:
             UpdateReloadingCircleAnimation(entityManager, entity, deltaTime);
+            break;
+        }
     }
 }
 
