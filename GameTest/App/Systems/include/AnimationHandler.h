@@ -38,6 +38,8 @@ public:
 	void InitReloadingCircleAnimation(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
 	void Update(EntityManager& entityManager, float deltaTime);
 	void UpdatePlayerAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
+	void UpdateEnemyAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
+	void UpdateReloadingCircleAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
 	void ProcessBulletHitEnemy(EntityManager& entityManager, Entity entity1, Entity entity2, float deltaTime);
 	Type GetSystemType() const override {
 		return System::Type::AnimationHandler;

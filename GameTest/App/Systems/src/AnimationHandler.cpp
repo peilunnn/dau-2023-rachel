@@ -41,30 +41,13 @@ void AnimationHandler::Update(EntityManager& entityManager, float deltaTime)
         auto tag = entityManager.GetComponent<Tag>(entity);
 
         if (tag->entityType == EntityType::PLAYER)
-        {
             UpdatePlayerAnimation(entityManager, entity, deltaTime);
-        }
 
-        else if (tag->entityType == EntityType::ENEMY) {
-            auto enemySprite = entityManager.GetComponent<Renderable>(entity)->sprite;
-            auto enemyAnimation = entityManager.GetComponent<Animation>(entity);
-            enemySprite->Update(deltaTime);
+        else if (tag->entityType == EntityType::ENEMY)
+            UpdateEnemyAnimation(entityManager, entity, deltaTime);
 
-            if (enemyAnimation->cooldownTimer > 0.0f) {
-                enemyAnimation->cooldownTimer -= deltaTime;
-                if (enemyAnimation->cooldownTimer <= 0.0f) {
-                    entityManager.MarkEntityForDeletion(entity);
-                }
-            }
-        }
-
-        else if (tag->entityType == EntityType::RELOADING_CIRCLE) {
-            auto reloadingCircleSprite = entityManager.GetComponent<Renderable>(entity)->sprite;
-            auto reloadingCircleAnimation = entityManager.GetComponent<Animation>(entity);
-            reloadingCircleAnimation->currentAnimation = RELOADING_CIRCLE_ANIM_SPIN;
-            reloadingCircleSprite->SetAnimation(RELOADING_CIRCLE_ANIM_SPIN);
-            reloadingCircleSprite->Update(deltaTime);
-        }
+        else if (tag->entityType == EntityType::RELOADING_CIRCLE)
+            UpdateReloadingCircleAnimation(entityManager, entity, deltaTime);
     }
 }
 
@@ -106,6 +89,29 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
         sprite->SetAnimation(animation->currentAnimation);
         sprite->Update(deltaTime);
     }
+}
+
+void AnimationHandler::UpdateEnemyAnimation(EntityManager& entityManager, Entity entity, float deltaTime)
+{
+    auto enemySprite = entityManager.GetComponent<Renderable>(entity)->sprite;
+    auto enemyAnimation = entityManager.GetComponent<Animation>(entity);
+    enemySprite->Update(deltaTime);
+
+    if (enemyAnimation->cooldownTimer > 0.0f) {
+        enemyAnimation->cooldownTimer -= deltaTime;
+        if (enemyAnimation->cooldownTimer <= 0.0f) {
+            entityManager.MarkEntityForDeletion(entity);
+        }
+    }
+}
+
+void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager& entityManager, Entity entity, float deltaTime)
+{
+    auto reloadingCircleSprite = entityManager.GetComponent<Renderable>(entity)->sprite;
+    auto reloadingCircleAnimation = entityManager.GetComponent<Animation>(entity);
+    reloadingCircleAnimation->currentAnimation = RELOADING_CIRCLE_ANIM_SPIN;
+    reloadingCircleSprite->SetAnimation(RELOADING_CIRCLE_ANIM_SPIN);
+    reloadingCircleSprite->Update(deltaTime);
 }
 
 void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entity entity1, Entity entity2, float deltaTime)
