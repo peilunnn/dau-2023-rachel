@@ -54,12 +54,6 @@ void CSimpleSprite::Update(float dt)
             m_animTime -= duration;
         }
         int frameIndex = static_cast<int>(m_animTime / anim.m_speed) % frameCount;
-        char debugMsg[256];
-        sprintf_s(debugMsg, "m_currentAnim: %d\n", m_currentAnim);
-        //sprintf_s(debugMsg, "frameCount: %d\n", frameCount);
-        //sprintf_s(debugMsg, "frameIndex: %d\n", frameIndex);
-        OutputDebugStringA(debugMsg);
-
         SetFrame(anim.m_frames[frameIndex]);
     }
 }

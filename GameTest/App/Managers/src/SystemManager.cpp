@@ -12,6 +12,8 @@ void SystemManager::SendEvent(SystemEvent event) {
 void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight) {
     while (!eventQueue.empty()) {
         SystemEvent event = eventQueue.front();
+        Helper::Log("in ProcessEvents, entity1: ", event.entity1);
+        Helper::Log("in ProcessEvents, entity2: ", event.entity2);
 
         for (const auto& system : systems) {
             if (system->GetSystemType() == System::Type::AnimationHandler && event.type == SystemEvent::BulletHitEnemy) {

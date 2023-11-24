@@ -114,6 +114,9 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
         enemyEntity = entity1;
     }
 
+    Helper::Log("in ProcessBulletHitEnemy, bulletEntity: ", bulletEntity);
+    Helper::Log("in ProcessBulletHitEnemy, enemyEntity: ", enemyEntity);
+
     auto enemyAnimation = entityManager.GetComponent<Animation>(enemyEntity);
     auto enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntity);
     auto enemySprite = entityManager.GetComponent<Renderable>(enemyEntity)->sprite;
@@ -121,7 +124,6 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
     if (!enemyAnimation || !enemyVelocity || !enemySprite)
         return;
 
-    Helper::Log("bullet hit enemy");
     enemyAnimation->currentAnimation = ENEMY_ANIM_MELT;
     enemySprite->SetAnimation(ENEMY_ANIM_MELT);
     enemyVelocity->velocity = glm::vec2(0.0f, 0.0f);

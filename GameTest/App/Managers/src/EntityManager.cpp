@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../include/EntityManager.h"
+#include "../../Systems/include/AnimationHandler.h"
 
 Entity EntityManager::nextEntityId = 0;
 
@@ -122,6 +123,7 @@ void EntityManager::ProcessDeletions() {
 		if (tag->entityType == EntityType::ENEMY) {
 			auto enemyAnimation = GetComponent<Animation>(entity);
 			if (enemyAnimation && enemyAnimation->cooldownTimer > 0.0f) {
+				Helper::Log("still in cooldown, can't delete enemy");
 				continue;
 			}
 			entityComponents.erase(entity);
@@ -142,6 +144,9 @@ void EntityManager::ProcessBulletHitEnemy(EntityManager& entityManager, float de
 	CSimpleSprite* rawEnemySprite2 = App::CreateSprite(".\\Data\\Sprites\\Enemy.png", 4, 2);
 	std::shared_ptr<CSimpleSprite> enemySprite2 = std::shared_ptr<CSimpleSprite>(rawEnemySprite2);
 
-	CreateEnemyEntity(entityManager, playerPos, enemySprite1, screenWidth, screenHeight);
-	CreateEnemyEntity(entityManager, playerPos, enemySprite2, screenWidth, screenHeight);
+	Entity enemyEntity1 = CreateEnemyEntity(entityManager, playerPos, enemySprite1, screenWidth, screenHeight);
+	AnimationHandler::InitEnemyAnimation(enemySprite1);
+
+	Entity enemyEntity2 = CreateEnemyEntity(entityManager, playerPos, enemySprite2, screenWidth, screenHeight);
+	AnimationHandler::InitEnemyAnimation(enemySprite2);
 }

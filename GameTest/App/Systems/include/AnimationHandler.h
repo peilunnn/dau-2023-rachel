@@ -30,7 +30,7 @@ public:
 	int lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 
 	void InitPlayerAnimation(std::shared_ptr<CSimpleSprite> sprite);
-	void InitEnemyAnimation(std::shared_ptr<CSimpleSprite> sprite);
+	static void InitEnemyAnimation(std::shared_ptr<CSimpleSprite> sprite);
 	void Update(EntityManager& entityManager, float deltaTime);
 	void UpdatePlayerAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
 	void ProcessBulletHitEnemy(EntityManager& entityManager, Entity entity1, Entity entity2, float deltaTime);
