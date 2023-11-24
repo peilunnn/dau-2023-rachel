@@ -13,7 +13,6 @@
 #include "../../Components/include/Velocity.h"
 #include "../../Components/include/Direction.h"
 #include "../../Components/include/Health.h"
-#include "../../Components/include/Damage.h"
 #include "../../Components/include/Animation.h"
 #include "../../Systems/include/SystemEvent.h"
 #include "../../Utilities/include/Helper.h"
@@ -35,10 +34,11 @@ public:
     {
         return nextEntityId++;
     }
-    Entity CreatePlayerEntity(std::shared_ptr<CSimpleSprite> sprite);
+    Entity CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite);
     Entity CreateEnemyEntity(EntityManager &entityManager, const glm::vec3 &playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
     Entity CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &position, const glm::vec2 &velocity);
-    
+    Entity CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
+
     void MarkEntityForDeletion(Entity entity);
     void ProcessDeletions();
 

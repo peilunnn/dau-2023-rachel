@@ -4,7 +4,7 @@ using namespace std;
 
 void MovementHandler::Update(EntityManager &entityManager, float deltaTime, float screenWidth, float screenHeight)
 {
-    for (auto entity : entityManager.GetEntitiesWithComponents<Transform, Velocity, Tag>())
+    for (auto entity : entityManager.GetEntitiesWithComponents<Tag, Transform, Velocity>())
     {
         auto tag = entityManager.GetComponent<Tag>(entity);
         if (tag)

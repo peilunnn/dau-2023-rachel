@@ -67,7 +67,6 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 	enemyCollider->radius = enemyDimensions.width / 2;
 	auto enemyVelocity = std::make_shared<Velocity>(randomVelocity.x, randomVelocity.y);
 	auto enemyDirection = std::make_shared<Direction>();
-	auto enemyHealth = std::make_shared<Health>();
 	auto enemyAnimation = std::make_shared<Animation>();
 
 	EntityManager::AddComponent(enemyEntity, enemyTag);
@@ -76,7 +75,6 @@ Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm:
 	EntityManager::AddComponent(enemyEntity, enemyCollider);
 	EntityManager::AddComponent(enemyEntity, enemyVelocity);
 	EntityManager::AddComponent(enemyEntity, enemyDirection);
-	EntityManager::AddComponent(enemyEntity, enemyHealth);
 	EntityManager::AddComponent(enemyEntity, enemyAnimation);
 
 	return enemyEntity;
@@ -97,16 +95,44 @@ Entity EntityManager::CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSp
 	bulletCollider->collisionMask = static_cast<int>(CollisionType::ENEMY);
 	bulletCollider->radius = bulletDimensions.width / 2;
 	auto bulletVelocity = std::make_shared<Velocity>(velocity.x, velocity.y);
-	auto bulletDamage = std::make_shared<Damage>();
 
 	AddComponent(bulletEntity, bulletTag);
 	AddComponent(bulletEntity, bulletTransform);
 	AddComponent(bulletEntity, bulletRenderable);
 	AddComponent(bulletEntity, bulletCollider);
 	AddComponent(bulletEntity, bulletVelocity);
-	AddComponent(bulletEntity, bulletDamage);
 
 	return bulletEntity;
+}
+
+Entity EntityManager::CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite)
+{
+	Entity reloadingCircleEntity = CreateEntity();
+	float reloadingCircleScale = 0.5f;
+	float maxX = 800.0f;
+	float maxY = 400.0f;
+	float reloadingCirclePosX = Helper::GenerateFloat(0.0, maxX);
+	float reloadingCirclePosY = Helper::GenerateFloat(0.0, maxY);
+	float reloadingCirclePosZ = 0.0f;
+	SpriteDimensions reloadingCircleDimensions = Helper::GetSpriteDimensions(reloadingCircleSprite, 1.0f);
+
+	auto reloadingCircleTag = std::make_shared<Tag>(EntityType::RELOADING_CIRCLE);
+	auto reloadingCircleTransform = std::make_shared<Transform>(glm::vec3(reloadingCirclePosX, reloadingCirclePosY, reloadingCirclePosZ), glm::vec3(0.0f), glm::vec3(reloadingCircleScale));
+	auto reloadingCircleRenderable = std::make_shared<Renderable>(reloadingCircleSprite);
+	auto reloadingCircleCollider = std::make_shared<Collider>();
+	reloadingCircleCollider->collisionShape = CollisionShape::SPHERE;
+	reloadingCircleCollider->collisionType = CollisionType::BULLET;
+	reloadingCircleCollider->collisionMask = static_cast<int>(CollisionType::PLAYER);
+	reloadingCircleCollider->radius = reloadingCircleDimensions.width / 2;
+	auto reloadingCircleAnimation = std::make_shared<Animation>();
+
+	AddComponent(reloadingCircleEntity, reloadingCircleTag);
+	AddComponent(reloadingCircleEntity, reloadingCircleTransform);
+	AddComponent(reloadingCircleEntity, reloadingCircleRenderable);
+	AddComponent(reloadingCircleEntity, reloadingCircleCollider);
+	AddComponent(reloadingCircleEntity, reloadingCircleAnimation);
+
+	return reloadingCircleEntity;
 }
 
 void EntityManager::MarkEntityForDeletion(Entity entity)

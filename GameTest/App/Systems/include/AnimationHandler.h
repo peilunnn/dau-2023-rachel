@@ -27,10 +27,15 @@ public:
 		ENEMY_ANIM_IDLE,
 		ENEMY_ANIM_MELT,
 	};
+	enum ReloadingCircleAnimationStates
+	{
+		RELOADING_CIRCLE_ANIM_SPIN
+	};
 	int lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 
-	void InitPlayerAnimation(std::shared_ptr<CSimpleSprite> sprite);
-	static void InitEnemyAnimation(std::shared_ptr<CSimpleSprite> sprite);
+	void InitPlayerAnimation(std::shared_ptr<CSimpleSprite> playerSprite);
+	static void InitEnemyAnimation(std::shared_ptr<CSimpleSprite> enemySprite);
+	void InitReloadingCircleAnimation(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
 	void Update(EntityManager& entityManager, float deltaTime);
 	void UpdatePlayerAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
 	void ProcessBulletHitEnemy(EntityManager& entityManager, Entity entity1, Entity entity2, float deltaTime);

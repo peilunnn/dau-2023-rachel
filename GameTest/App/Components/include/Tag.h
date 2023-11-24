@@ -5,9 +5,11 @@
 #include "Component.h"
 
 enum class EntityType {
+    NONE,
     PLAYER,
     ENEMY,
     BULLET,
+    RELOADING_CIRCLE
 };
 
 enum class EntityState {
@@ -20,10 +22,10 @@ enum class EntityState {
 class Tag : public Component {
 public:
     EntityType entityType;
-    EntityState state;
+    EntityState entityState;
 
-    Tag(EntityType type = EntityType::ENEMY, EntityState initialState = EntityState::ALIVE)
-        : entityType(type), state(initialState) {}
+    Tag(EntityType type = EntityType::NONE, EntityState initialState = EntityState::ALIVE)
+        : entityType(type), entityState(initialState) {}
 };
 
 #endif // TAG_H

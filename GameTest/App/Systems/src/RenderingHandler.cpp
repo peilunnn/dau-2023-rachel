@@ -9,7 +9,6 @@ void RenderingHandler::Render(EntityManager &entityManager)
         auto tag = entityManager.GetComponent<Tag>(entity);
         auto transform = entityManager.GetComponent<Transform>(entity);
         auto renderable = entityManager.GetComponent<Renderable>(entity);
-        auto animation = entityManager.GetComponent<Animation>(entity);
 
         if (transform && renderable)
         {

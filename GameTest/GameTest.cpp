@@ -27,8 +27,10 @@ SystemManager systemManager;
 std::shared_ptr<CSimpleSprite> playerSprite;
 std::shared_ptr<CSimpleSprite> enemySprite;
 std::shared_ptr<CSimpleSprite> bulletSprite;
+std::shared_ptr<CSimpleSprite> reloadingCircleSprite;
 Entity playerEntity;
 Entity enemyEntity;
+Entity reloadingCircleEntity;
 RenderingHandler renderingHandler;
 InputHandler inputHandler;
 MovementHandler movementHandler;
@@ -54,6 +56,11 @@ void Init()
 	CSimpleSprite* rawBulletSprite = App::CreateSprite(".\\Data\\Sprites\\Bullet.bmp", 1, 1);
 	bulletSprite = std::shared_ptr<CSimpleSprite>(rawBulletSprite);
 
+	CSimpleSprite* rawReloadingCircleSprite = App::CreateSprite(".\\Data\\Sprites\\reloadingCircle.png", 5, 2);
+	reloadingCircleSprite = std::shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
+	reloadingCircleEntity = entityManager.CreateReloadingCircleEntity(reloadingCircleSprite);
+	animationHandler.InitReloadingCircleAnimation(reloadingCircleSprite);
+
 	systemManager.AddSystem(std::make_unique<AnimationHandler>());
 	systemManager.AddSystem(std::make_unique<CollisionHandler>());
 	systemManager.AddSystem(std::make_unique<InputHandler>());
@@ -68,10 +75,6 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-	//std::vector<Entity> allEntities = entityManager.GetAllEntities();
-	//for (const Entity& entity : allEntities) {
-	//	Helper::Log("Entity ID: ", entity);
-	//}
 	inputHandler.Update(entityManager, deltaTime, playerEntity, bulletSprite);
 	movementHandler.Update(entityManager, deltaTime, screenWidth, screenHeight);
 	collisionHandler.Update(entityManager, systemManager, deltaTime);

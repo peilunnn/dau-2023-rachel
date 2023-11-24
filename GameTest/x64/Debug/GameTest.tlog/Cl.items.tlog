@@ -5,7 +5,6 @@ C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Utilitie
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Utilities\src\SimpleSound.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\SimpleSound.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Utilities\src\SimpleSprite.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\SimpleSprite.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Components\src\Collider.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Collider.obj
-C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Components\src\Damage.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Damage.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Components\src\Direction.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Direction.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Entities\src\Bullet.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Bullet.obj
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\App\Entities\src\Enemy.cpp;C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\x64\Debug\Enemy.obj

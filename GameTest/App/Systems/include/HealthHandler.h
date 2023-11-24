@@ -3,7 +3,6 @@
 
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Health.h"
-#include "../../Components/include/Damage.h"
 #include "../../Systems/include/System.h"
 
 class HealthHandler : public System

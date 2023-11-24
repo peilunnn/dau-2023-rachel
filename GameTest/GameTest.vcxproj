@@ -186,7 +186,6 @@
     <ClInclude Include="App\Utilities\include\SimpleSound.h" />
     <ClInclude Include="App\Utilities\include\SimpleSprite.h" />
     <ClInclude Include="App\Components\include\Collider.h" />
-    <ClInclude Include="App\Components\include\Damage.h" />
     <ClInclude Include="App\Components\include\Direction.h" />
     <ClInclude Include="App\Components\include\Health.h" />
     <ClInclude Include="App\Entities\include\Bullet.h" />
@@ -232,7 +231,6 @@
     <ClCompile Include="App\Utilities\src\SimpleSound.cpp" />
     <ClCompile Include="App\Utilities\src\SimpleSprite.cpp" />
     <ClCompile Include="App\Components\src\Collider.cpp" />
-    <ClCompile Include="App\Components\src\Damage.cpp" />
     <ClCompile Include="App\Components\src\Direction.cpp" />
     <ClCompile Include="App\Entities\src\Bullet.cpp" />
     <ClCompile Include="App\Entities\src\Enemy.cpp" />

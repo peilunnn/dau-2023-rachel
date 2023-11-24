@@ -82,12 +82,12 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
         Entity enemyEntity = (tag1->entityType == EntityType::ENEMY) ? entity1 : entity2;
         auto enemyTag = entityManager.GetComponent<Tag>(enemyEntity);
 
-        if (enemyTag->state != EntityState::ALIVE)
+        if (enemyTag->entityState != EntityState::ALIVE)
         {
             return;
         }
         
-        enemyTag->state = EntityState::HIT_BY_BULLET;
+        enemyTag->entityState = EntityState::HIT_BY_BULLET;
         event.type = SystemEvent::EventType::BulletHitEnemy;
         event.entity1 = bulletEntity;
         event.entity2 = enemyEntity;
