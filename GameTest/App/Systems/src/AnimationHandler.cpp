@@ -43,6 +43,11 @@ void AnimationHandler::Update(EntityManager& entityManager, float deltaTime)
     {
         auto tag = entityManager.GetComponent<Tag>(entity);
 
+        switch (tag->entityType)
+        {
+        case EntityType::PLAYER:
+        }
+
         if (tag->entityType == EntityType::PLAYER)
             UpdatePlayerAnimation(entityManager, entity, deltaTime);
 
