@@ -59,7 +59,6 @@ void AnimationHandler::Update(EntityManager& entityManager, float deltaTime)
         }
 
         else if (tag->entityType == EntityType::RELOADING_CIRCLE) {
-            Helper::Log("reloading circle found via tag");
             auto reloadingCircleSprite = entityManager.GetComponent<Renderable>(entity)->sprite;
             auto reloadingCircleAnimation = entityManager.GetComponent<Animation>(entity);
             reloadingCircleAnimation->currentAnimation = RELOADING_CIRCLE_ANIM_SPIN;

@@ -135,6 +135,11 @@ Entity EntityManager::CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite>
 	return reloadingCircleEntity;
 }
 
+Entity EntityManager::CreateBulletBar()
+{
+	return Entity();
+}
+
 void EntityManager::MarkEntityForDeletion(Entity entity)
 {
 	// Check if already marked for deletion

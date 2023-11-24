@@ -3,10 +3,12 @@
 #include <glm/glm.hpp>
 
 int ShootingHandler::bulletCount = 0;
+float ShootingHandler::cooldownTimer = 0.5f;
+float ShootingHandler::timeSinceLastShot = 0.0f;
 
 void ShootingHandler::Shoot(EntityManager &entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY)
 {
-    if (bulletCount < MAX_BULLETS)
+    if (bulletCount < MAX_BULLETS && timeSinceLastShot >= cooldownTimer)
     {
         auto playerTransform = entityManager.GetComponent<Transform>(playerEntity);
 
@@ -20,11 +22,12 @@ void ShootingHandler::Shoot(EntityManager &entityManager, Entity playerEntity, s
                 direction = glm::vec2(1.0f, 0.0f);
             }
 
-            float bulletSpeed = 0.7f;
+            float bulletSpeed = 1.0f;
             glm::vec2 bulletVelocity = direction * bulletSpeed;
 
             entityManager.CreateBulletEntity(bulletSprite, bulletPos, bulletVelocity);
             bulletCount++;
+            timeSinceLastShot = 0.0f;
         }
     }
 }
