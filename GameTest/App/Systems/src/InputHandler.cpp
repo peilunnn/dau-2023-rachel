@@ -47,16 +47,14 @@ void InputHandler::HandleScaleInput(EntityManager& entityManager, Entity playerE
 void InputHandler::HandleShootingInput(EntityManager& entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite)
 {
     float mouseX, mouseY;
+    auto playerTransform = entityManager.GetComponent<Transform>(playerEntity);
 
-    if (!(App::IsKeyPressed(VK_LBUTTON)))
+    if (!(playerTransform && App::IsKeyPressed(VK_LBUTTON)))
         return;
 
-    auto playerTransform = entityManager.GetComponent<Transform>(playerEntity);
-    if (playerTransform) {
-        glm::vec3 bulletPos = playerTransform->position;
-        App::GetMousePos(mouseX, mouseY);
-        ShootingHandler::Shoot(entityManager, playerEntity, bulletSprite, mouseX, mouseY);
-    }
+    glm::vec3 bulletPos = playerTransform->position;
+    App::GetMousePos(mouseX, mouseY);
+    ShootingHandler::Shoot(entityManager, playerEntity, bulletSprite, mouseX, mouseY);
 }
 
 

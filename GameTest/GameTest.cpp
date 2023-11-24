@@ -77,14 +77,12 @@ void Init()
 
 		CSimpleSprite *rawAmmoEmptySprite = App::CreateSprite(Helper::pathToAmmoEmptySprite, 1, 1);
 		ammoEmptySprite = std::shared_ptr<CSimpleSprite>(rawAmmoEmptySprite);
-		ammoEmptyEntity = entityManager.CreateAmmoEmptyEntity(ammoEmptySprite, xPos, yPos);
-		auto ammoEmptyTransform = entityManager.GetComponent<Transform>(ammoFilledEntity);
+		ammoEmptyEntity = entityManager.CreateAmmoEntity(ammoEmptySprite, EntityType::AMMO_EMPTY, xPos, yPos);
 		ammoEmptyEntities.push_back(ammoEmptyEntity);
 
 		CSimpleSprite *rawAmmoFilledSprite = App::CreateSprite(Helper::pathToAmmoFilledSprite, 1, 1);
 		ammoFilledSprite = std::shared_ptr<CSimpleSprite>(rawAmmoFilledSprite);
-		ammoFilledEntity = entityManager.CreateAmmoFilledEntity(ammoFilledSprite, xPos, yPos);
-		auto ammoFilledTransform = entityManager.GetComponent<Transform>(ammoFilledEntity);
+		ammoFilledEntity = entityManager.CreateAmmoEntity(ammoFilledSprite, EntityType::AMMO_FILLED, xPos, yPos);
 		ammoFilledEntities.push_back(ammoFilledEntity);
 	}
 	

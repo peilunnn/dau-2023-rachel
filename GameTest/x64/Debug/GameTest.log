@@ -1,18 +1,7 @@
-﻿  EntityManager.cpp
-  SystemManager.cpp
-  AnimationHandler.cpp
-  CollisionHandler.cpp
-  HealthHandler.cpp
-  InputHandler.cpp
-  MovementHandler.cpp
-  RenderingHandler.cpp
-  ShootingHandler.cpp
-  System.cpp
-  GameTest.cpp
+﻿  GameTest.cpp
 C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\GameTest\GameTest.cpp(73,17): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   (compiling source file '/GameTest.cpp')
   
-  Generating Code...
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\humanitys-onslaught-pew-pew\x64\Debug\GameTest.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

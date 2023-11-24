@@ -35,10 +35,9 @@ public:
     }
     Entity CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite);
     Entity CreateEnemyEntity(EntityManager &entityManager, const glm::vec3 &playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
-    Entity CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &position, const glm::vec2 &velocity);
+    Entity CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &position, const glm::vec2 &targetVelocity);
     Entity CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
-    Entity CreateAmmoEmptyEntity(std::shared_ptr<CSimpleSprite> ammoEmptySprite, float screenWidth, float screenHeight);
-    Entity CreateAmmoFilledEntity(std::shared_ptr<CSimpleSprite> ammoEmptySprite, float screenWidth, float screenHeight);
+    Entity CreateAmmoEntity(std::shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos);
 
     void MarkEntityForDeletion(Entity entity);
     void ProcessDeletions();

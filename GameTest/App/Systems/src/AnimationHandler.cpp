@@ -151,7 +151,7 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
     enemyVelocity->velocity = glm::vec2(0.0f, 0.0f);
 
     if (enemySprite->IsAnimationComplete())
-        enemyAnimation->cooldownTimer = 0.5f;
+        enemyAnimation->cooldownTimer = 0.3f;
 
     entityManager.MarkEntityForDeletion(bulletEntity);
 }

@@ -31,9 +31,7 @@ void CollisionHandler::Update(EntityManager &entityManager, SystemManager &syste
                 continue;
 
             if (IsColliding(transform1, collider1, transform2, collider2))
-            {
                 HandleCollisionEvent(entityManager, systemManager, entity1, entity2);
-            }
         }
     }
 }
