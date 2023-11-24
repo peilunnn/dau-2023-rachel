@@ -83,9 +83,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
         auto enemyTag = entityManager.GetComponent<Tag>(enemyEntity);
 
         if (enemyTag->entityState != EntityState::ALIVE)
-        {
             return;
-        }
         
         enemyTag->entityState = EntityState::HIT_BY_BULLET;
         event.type = SystemEvent::EventType::BulletHitEnemy;
@@ -94,5 +92,6 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
         event.newEnemiesCreated = false;
         systemManager.SendEvent(event);
     }
+    
     // Case 2 - one is player, the other is enemy
 }

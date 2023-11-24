@@ -6,6 +6,7 @@ void AnimationHandler::InitPlayerAnimation(std::shared_ptr<CSimpleSprite> player
 {
     if (!playerSprite)
         return;
+
     float speed = 1.0f / 15.0f;
     playerSprite->CreateAnimation(PLAYER_ANIM_FORWARDS, speed, {24, 25, 26, 27, 28, 29, 30, 31});
     playerSprite->CreateAnimation(PLAYER_ANIM_BACKWARDS, speed, {0, 1, 2, 3, 4, 5, 6, 7});
@@ -21,6 +22,7 @@ void AnimationHandler::InitEnemyAnimation(std::shared_ptr<CSimpleSprite> enemySp
 {
     if (!enemySprite)
         return;
+
     float speed = 1.0f / 15.0f;
     enemySprite->CreateAnimation(ENEMY_ANIM_IDLE, speed, {0});
     enemySprite->CreateAnimation(ENEMY_ANIM_MELT, speed, {1, 2, 3, 4, 5, 6, 7});
@@ -30,6 +32,7 @@ void AnimationHandler::InitReloadingCircleAnimation(std::shared_ptr<CSimpleSprit
 {
     if (!reloadingCircleSprite)
         return;
+
     float speed = 1.0f / 15.0f;
     reloadingCircleSprite->CreateAnimation(RELOADING_CIRCLE_ANIM_SPIN, speed, { 1, 2, 3, 4, 5, 6 });
 }
@@ -57,38 +60,37 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
     auto velocity = entityManager.GetComponent<Velocity>(entity);
     auto sprite = entityManager.GetComponent<Renderable>(entity)->sprite;
 
-    if (velocity && animation)
+    if (!(velocity && animation))
+        return;
+
+    if (glm::length(velocity->velocity) > 0)
     {
-        if (glm::length(velocity->velocity) > 0)
+        if (velocity->velocity.x > 0)
         {
-            if (velocity->velocity.x > 0)
-            {
-                animation->currentAnimation = PLAYER_ANIM_RIGHT;
-                lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_RIGHT;
-            }
-            else if (velocity->velocity.x < 0)
-            {
-                animation->currentAnimation = PLAYER_ANIM_LEFT;
-                lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_LEFT;
-            }
-            else if (velocity->velocity.y > 0)
-            {
-                animation->currentAnimation = PLAYER_ANIM_FORWARDS;
-                lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
-            }
-            else if (velocity->velocity.y < 0)
-            {
-                animation->currentAnimation = PLAYER_ANIM_BACKWARDS;
-                lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_BACKWARDS;
-            }
+            animation->currentAnimation = PLAYER_ANIM_RIGHT;
+            lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_RIGHT;
         }
-        else
+        else if (velocity->velocity.x < 0)
         {
-            animation->currentAnimation = lastPlayerNonIdleAnimState;
+            animation->currentAnimation = PLAYER_ANIM_LEFT;
+            lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_LEFT;
         }
-        sprite->SetAnimation(animation->currentAnimation);
-        sprite->Update(deltaTime);
+        else if (velocity->velocity.y > 0)
+        {
+            animation->currentAnimation = PLAYER_ANIM_FORWARDS;
+            lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
+        }
+        else if (velocity->velocity.y < 0)
+        {
+            animation->currentAnimation = PLAYER_ANIM_BACKWARDS;
+            lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_BACKWARDS;
+        }
     }
+    else
+        animation->currentAnimation = lastPlayerNonIdleAnimState;
+
+    sprite->SetAnimation(animation->currentAnimation);
+    sprite->Update(deltaTime);
 }
 
 void AnimationHandler::UpdateEnemyAnimation(EntityManager& entityManager, Entity entity, float deltaTime)
@@ -133,9 +135,6 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
         enemyEntity = entity1;
     }
 
-    Helper::Log("in ProcessBulletHitEnemy, bulletEntity: ", bulletEntity);
-    Helper::Log("in ProcessBulletHitEnemy, enemyEntity: ", enemyEntity);
-
     auto enemyAnimation = entityManager.GetComponent<Animation>(enemyEntity);
     auto enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntity);
     auto enemySprite = entityManager.GetComponent<Renderable>(enemyEntity)->sprite;
@@ -147,9 +146,8 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
     enemySprite->SetAnimation(ENEMY_ANIM_MELT);
     enemyVelocity->velocity = glm::vec2(0.0f, 0.0f);
 
-    if (enemySprite->IsAnimationComplete()) {
+    if (enemySprite->IsAnimationComplete())
         enemyAnimation->cooldownTimer = 0.5f;
-    }
 
     entityManager.MarkEntityForDeletion(bulletEntity);
 }

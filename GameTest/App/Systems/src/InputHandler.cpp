@@ -27,40 +27,35 @@ void InputHandler::HandlePositionInput(EntityManager& entityManager, float delta
 void InputHandler::HandleRotationInput(EntityManager& entityManager, Entity playerEntity) {
     auto transform = entityManager.GetComponent<Transform>(playerEntity);
     if (transform) {
-        if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT, false)) {
+        if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT, false))
             transform->rotation.z += ANGLE_DELTA;
-        }
-        else if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT, false)) {
+        else if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT, false))
             transform->rotation.z -= ANGLE_DELTA;
-        }
     }
 }
 
 void InputHandler::HandleScaleInput(EntityManager& entityManager, Entity playerEntity) {
     auto transform = entityManager.GetComponent<Transform>(playerEntity);
     if (transform) {
-        if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP, false)) {
+        if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP, false))
             transform->scale += glm::vec3(SCALE_DELTA);
-        }
-        else if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN, false)) {
+        else if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN, false))
             transform->scale -= glm::vec3(SCALE_DELTA);
-        }
     }
 }
 
 void InputHandler::HandleShootingInput(EntityManager& entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite)
 {
-    if (App::IsKeyPressed(VK_LBUTTON)) {
-        auto playerTransform = entityManager.GetComponent<Transform>(playerEntity);
+    float mouseX, mouseY;
 
-        if (playerTransform) {
-            glm::vec3 bulletPos = playerTransform->position;
+    if (!(App::IsKeyPressed(VK_LBUTTON)))
+        return;
 
-            float mouseX, mouseY;
-            App::GetMousePos(mouseX, mouseY);
-
-            ShootingHandler::Shoot(entityManager, playerEntity, bulletSprite, mouseX, mouseY);
-        }
+    auto playerTransform = entityManager.GetComponent<Transform>(playerEntity);
+    if (playerTransform) {
+        glm::vec3 bulletPos = playerTransform->position;
+        App::GetMousePos(mouseX, mouseY);
+        ShootingHandler::Shoot(entityManager, playerEntity, bulletSprite, mouseX, mouseY);
     }
 }
 

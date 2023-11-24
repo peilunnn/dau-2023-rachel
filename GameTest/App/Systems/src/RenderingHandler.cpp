@@ -10,12 +10,12 @@ void RenderingHandler::Render(EntityManager &entityManager)
         auto transform = entityManager.GetComponent<Transform>(entity);
         auto renderable = entityManager.GetComponent<Renderable>(entity);
 
-        if (transform && renderable)
-        {
-            renderable->sprite->SetPosition(transform->position.x, transform->position.y);
-            renderable->sprite->SetScale(transform->scale.x);
-            renderable->sprite->SetAngle(transform->rotation.z);
-            renderable->sprite->Draw();
-        }
+        if (!(transform && renderable))
+            return;
+
+        renderable->sprite->SetPosition(transform->position.x, transform->position.y);
+        renderable->sprite->SetScale(transform->scale.x);
+        renderable->sprite->SetAngle(transform->rotation.z);
+        renderable->sprite->Draw();
     }
 }

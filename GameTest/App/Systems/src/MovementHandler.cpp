@@ -7,20 +7,20 @@ void MovementHandler::Update(EntityManager &entityManager, float deltaTime, floa
     for (auto entity : entityManager.GetEntitiesWithComponents<Tag, Transform, Velocity>())
     {
         auto tag = entityManager.GetComponent<Tag>(entity);
-        if (tag)
+        if (!tag)
+            return;
+
+        switch (tag->entityType)
         {
-            switch (tag->entityType)
-            {
-            case EntityType::PLAYER:
-                HandlePlayerMovement(entityManager, entity, deltaTime, screenWidth, screenHeight);
-                break;
-            case EntityType::ENEMY:
-                HandleEnemyMovement(entityManager, entity, deltaTime, screenWidth, screenHeight);
-                break;
-            case EntityType::BULLET:
-                HandleBulletMovement(entityManager, entity, deltaTime, screenWidth, screenHeight);
-                break;
-            }
+        case EntityType::PLAYER:
+            HandlePlayerMovement(entityManager, entity, deltaTime, screenWidth, screenHeight);
+            break;
+        case EntityType::ENEMY:
+            HandleEnemyMovement(entityManager, entity, deltaTime, screenWidth, screenHeight);
+            break;
+        case EntityType::BULLET:
+            HandleBulletMovement(entityManager, entity, deltaTime, screenWidth, screenHeight);
+            break;
         }
     }
 }
@@ -31,17 +31,17 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Entity 
     auto transform = entityManager.GetComponent<Transform>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
 
-    if (transform && velocity)
-    {
-        float newX = transform->position.x + velocity->velocity.x * deltaTime;
-        float newY = transform->position.y + velocity->velocity.y * deltaTime;
+    if (!(transform && velocity))
+        return;
 
-        auto sprite = entityManager.GetComponent<Renderable>(entity)->sprite;
-        auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
+    float newX = transform->position.x + velocity->velocity.x * deltaTime;
+    float newY = transform->position.y + velocity->velocity.y * deltaTime;
 
-        transform->position.x = max(dimensions.adjustedWidth, min(newX, screenWidth - dimensions.adjustedWidth));
-        transform->position.y = max(dimensions.adjustedHeight, min(newY, screenHeight - dimensions.adjustedHeight));
-    }
+    auto sprite = entityManager.GetComponent<Renderable>(entity)->sprite;
+    auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
+
+    transform->position.x = max(dimensions.adjustedWidth, min(newX, screenWidth - dimensions.adjustedWidth));
+    transform->position.y = max(dimensions.adjustedHeight, min(newY, screenHeight - dimensions.adjustedHeight));
 }
 
 void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight)
@@ -51,31 +51,29 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Entity e
     auto velocity = entityManager.GetComponent<Velocity>(entity);
     auto direction = entityManager.GetComponent<Direction>(entity);
 
-    if (transform && velocity && direction)
-    {
+    if (!(transform && velocity && direction))
+        return;
+
         glm::vec2 movement = velocity->velocity * deltaTime;
         transform->position.x += movement.x;
         transform->position.y += movement.y;
 
-        if (!direction->bounced)
+    if (!(direction->bounced))
+    {
+        if (transform->position.x <= edgeThreshold || transform->position.x >= screenWidth - edgeThreshold)
         {
-            if (transform->position.x <= edgeThreshold || transform->position.x >= screenWidth - edgeThreshold)
-            {
-                velocity->velocity.x *= -1;
-                direction->bounced = true;
-            }
-            if (transform->position.y <= edgeThreshold || transform->position.y >= screenHeight - edgeThreshold)
-            {
-                velocity->velocity.y *= -1;
-                direction->bounced = true;
-            }
+            velocity->velocity.x *= -1;
+            direction->bounced = true;
         }
-        else if (transform->position.x > edgeThreshold && transform->position.x < screenWidth - edgeThreshold &&
-                 transform->position.y > edgeThreshold && transform->position.y < screenHeight - edgeThreshold)
+        if (transform->position.y <= edgeThreshold || transform->position.y >= screenHeight - edgeThreshold)
         {
-            direction->bounced = false;
+            velocity->velocity.y *= -1;
+            direction->bounced = true;
         }
     }
+    else if (transform->position.x > edgeThreshold && transform->position.x < screenWidth - edgeThreshold &&
+                transform->position.y > edgeThreshold && transform->position.y < screenHeight - edgeThreshold)
+        direction->bounced = false;
 }
 
 void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight)
@@ -83,15 +81,14 @@ void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Entity 
     auto transform = entityManager.GetComponent<Transform>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
 
-    if (transform && velocity)
-    {
-        glm::vec2 movement = velocity->velocity * deltaTime;
-        transform->position.x += movement.x;
-        transform->position.y += movement.y;
+    if (!(transform && velocity))
+        return;
 
-        if (transform->position.x < 0 || transform->position.x > screenWidth ||
-            transform->position.y < 0 || transform->position.y > screenHeight) {
-            entityManager.MarkEntityForDeletion(entity);
-        }
-    }
+    glm::vec2 movement = velocity->velocity * deltaTime;
+    transform->position.x += movement.x;
+    transform->position.y += movement.y;
+
+    if (transform->position.x < 0 || transform->position.x > screenWidth ||
+        transform->position.y < 0 || transform->position.y > screenHeight)
+        entityManager.MarkEntityForDeletion(entity);
 }
