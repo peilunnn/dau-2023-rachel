@@ -46,7 +46,6 @@ Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSp
 	return playerEntity;
 }
 
-
 Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight)
 {
 	Entity enemyEntity = entityManager.CreateEntity();
@@ -135,16 +134,14 @@ Entity EntityManager::CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite>
 	return reloadingCircleEntity;
 }
 
-Entity EntityManager::CreateAmmoEmptyEntity(std::shared_ptr<CSimpleSprite> ammoEmptySprite, float screenWidth, float screenHeight)
+Entity EntityManager::CreateAmmoEmptyEntity(std::shared_ptr<CSimpleSprite> ammoEmptySprite, float xPos, float yPos)
 {
 	Entity ammoEmptyEntity = CreateEntity();
-	float ammoEmptyPosX = screenWidth - 80;
-	float ammoEmptyPosY = screenHeight - 80;
-	float ammoEmptyPosZ = 0.0f;
+	float zPos = 0.0f;
 	float ammoEmptyScale = 0.5f;
 
 	auto ammoEmptyTag = std::make_shared<Tag>(EntityType::AMMO_EMPTY);
-	auto ammoEmptyTransform = std::make_shared<Transform>(glm::vec3(ammoEmptyPosX, ammoEmptyPosY, ammoEmptyPosZ), glm::vec3(0.0f), glm::vec3(ammoEmptyScale));
+	auto ammoEmptyTransform = std::make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(ammoEmptyScale));
 	auto ammoEmptyRenderable = std::make_shared<Renderable>(ammoEmptySprite);
 
 	AddComponent(ammoEmptyEntity, ammoEmptyTag);
@@ -154,16 +151,14 @@ Entity EntityManager::CreateAmmoEmptyEntity(std::shared_ptr<CSimpleSprite> ammoE
 	return ammoEmptyEntity;
 }
 
-Entity EntityManager::CreateAmmoFilledEntity(std::shared_ptr<CSimpleSprite> ammoFilledSprite, float screenWidth, float screenHeight)
+Entity EntityManager::CreateAmmoFilledEntity(std::shared_ptr<CSimpleSprite> ammoFilledSprite, float xPos, float yPos)
 {
 	Entity ammoFilledEntity = CreateEntity();
-	float ammoFilledPosX = screenWidth - 80;
-	float ammoFilledPosY = screenHeight - 80;
-	float ammoFilledPosZ = 0.0f;
+	float zPos = 0.0f;
 	float ammoFilledScale = 0.5f;
 
 	auto ammoFilledTag = std::make_shared<Tag>(EntityType::AMMO_FILLED);
-	auto ammoFilledTransform = std::make_shared<Transform>(glm::vec3(ammoFilledPosX, ammoFilledPosY, ammoFilledPosZ), glm::vec3(0.0f), glm::vec3(ammoFilledScale));
+	auto ammoFilledTransform = std::make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(ammoFilledScale));
 	auto ammoFilledRenderable = std::make_shared<Renderable>(ammoFilledSprite);
 
 	AddComponent(ammoFilledEntity, ammoFilledTag);

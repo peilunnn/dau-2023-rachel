@@ -67,25 +67,27 @@ void Init()
 	reloadingCircleEntity = entityManager.CreateReloadingCircleEntity(reloadingCircleSprite);
 	animationHandler.InitReloadingCircleAnimation(reloadingCircleSprite);
 
+	float startingX = screenWidth - 20;
+	float yPos = screenHeight - 40;
+	float ammoSpriteSpacing = 30;
 	int maxBullets = ShootingHandler::GetMaxBullets();
 	for (int i = 0; i < maxBullets; ++i)
 	{
+		float xPos = startingX - i * ammoSpriteSpacing;
+
 		CSimpleSprite *rawAmmoEmptySprite = App::CreateSprite(Helper::pathToAmmoEmptySprite, 1, 1);
 		ammoEmptySprite = std::shared_ptr<CSimpleSprite>(rawAmmoEmptySprite);
-		ammoEmptyEntity = entityManager.CreateAmmoEmptyEntity(ammoEmptySprite, screenWidth, screenHeight);
+		ammoEmptyEntity = entityManager.CreateAmmoEmptyEntity(ammoEmptySprite, xPos, yPos);
+		auto ammoEmptyTransform = entityManager.GetComponent<Transform>(ammoFilledEntity);
 		ammoEmptyEntities.push_back(ammoEmptyEntity);
 
 		CSimpleSprite *rawAmmoFilledSprite = App::CreateSprite(Helper::pathToAmmoFilledSprite, 1, 1);
 		ammoFilledSprite = std::shared_ptr<CSimpleSprite>(rawAmmoFilledSprite);
-		ammoFilledEntity = entityManager.CreateAmmoFilledEntity(ammoFilledSprite, screenWidth, screenHeight);
+		ammoFilledEntity = entityManager.CreateAmmoFilledEntity(ammoFilledSprite, xPos, yPos);
+		auto ammoFilledTransform = entityManager.GetComponent<Transform>(ammoFilledEntity);
 		ammoFilledEntities.push_back(ammoFilledEntity);
 	}
 	
-	for (int i = 0; i < ammoFilledEntities.size(); i++)
-	{
-		Helper::Log("ammo filled sprite isVisible:", entityManager.GetComponent<Renderable>(ammoFilledEntities[i])->sprite->GetIsVisible());
-	}
-
 	systemManager.AddSystem(std::make_unique<AnimationHandler>());
 	systemManager.AddSystem(std::make_unique<CollisionHandler>());
 	systemManager.AddSystem(std::make_unique<InputHandler>());

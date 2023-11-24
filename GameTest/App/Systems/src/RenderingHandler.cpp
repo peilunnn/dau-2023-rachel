@@ -19,7 +19,6 @@ void RenderingHandler::Render(EntityManager &entityManager)
 
         if (tag->entityType == EntityType::AMMO_FILLED)
         {
-            Helper::Log("found ammo_filled via tag");
             bool isVisible = renderable->sprite->GetIsVisible();
             if (!isVisible)
                 continue;
