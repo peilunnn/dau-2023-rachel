@@ -169,10 +169,10 @@ void EntityManager::ProcessDeletions() {
 
 void EntityManager::ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime, SystemEvent event, const glm::vec3& playerPos, float screenWidth, float screenHeight)
 {
-	CSimpleSprite* rawEnemySprite1 = App::CreateSprite(".\\Data\\Sprites\\Enemy.png", 4, 2);
+	CSimpleSprite* rawEnemySprite1 = App::CreateSprite(Helper::pathToEnemySpriteSheet, 4, 2);
 	std::shared_ptr<CSimpleSprite> enemySprite1 = std::shared_ptr<CSimpleSprite>(rawEnemySprite1);
 
-	CSimpleSprite* rawEnemySprite2 = App::CreateSprite(".\\Data\\Sprites\\Enemy.png", 4, 2);
+	CSimpleSprite* rawEnemySprite2 = App::CreateSprite(Helper::pathToEnemySpriteSheet, 4, 2);
 	std::shared_ptr<CSimpleSprite> enemySprite2 = std::shared_ptr<CSimpleSprite>(rawEnemySprite2);
 
 	Entity enemyEntity1 = CreateEnemyEntity(entityManager, playerPos, enemySprite1, screenWidth, screenHeight);

@@ -42,21 +42,21 @@ AnimationHandler animationHandler;
 //------------------------------------------------------------------------
 void Init()
 {
-	CSimpleSprite* rawPlayerSprite = App::CreateSprite(".\\Data\\Sprites\\Player.bmp", 8, 4);
+	CSimpleSprite* rawPlayerSprite = App::CreateSprite(Helper::pathToPlayerSpriteSheet, 8, 4);
 	playerSprite = std::shared_ptr<CSimpleSprite>(rawPlayerSprite);
 	playerEntity = entityManager.CreatePlayerEntity(playerSprite);
 	animationHandler.InitPlayerAnimation(playerSprite);
 
-	CSimpleSprite* rawEnemySprite = App::CreateSprite(".\\Data\\Sprites\\Enemy.png", 4, 2);
+	CSimpleSprite* rawEnemySprite = App::CreateSprite(Helper::pathToEnemySpriteSheet, 4, 2);
 	enemySprite = std::shared_ptr<CSimpleSprite>(rawEnemySprite);
 	playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
 	enemyEntity = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
 	animationHandler.InitEnemyAnimation(enemySprite);
 
-	CSimpleSprite* rawBulletSprite = App::CreateSprite(".\\Data\\Sprites\\Bullet.bmp", 1, 1);
+	CSimpleSprite* rawBulletSprite = App::CreateSprite(Helper::pathToBulletSprite, 1, 1);
 	bulletSprite = std::shared_ptr<CSimpleSprite>(rawBulletSprite);
 
-	CSimpleSprite* rawReloadingCircleSprite = App::CreateSprite(".\\Data\\Sprites\\reloadingCircle.png", 5, 2);
+	CSimpleSprite* rawReloadingCircleSprite = App::CreateSprite(Helper::pathToReloadingCircleSpriteSheet, 5, 2);
 	reloadingCircleSprite = std::shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
 	reloadingCircleEntity = entityManager.CreateReloadingCircleEntity(reloadingCircleSprite);
 	animationHandler.InitReloadingCircleAnimation(reloadingCircleSprite);

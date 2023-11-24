@@ -20,6 +20,12 @@ struct SpriteDimensions {
 
 class Helper {
 public:
+    // For getting sprites and sprite sheets
+    static inline const char* pathToPlayerSpriteSheet = ".\\Data\\SpriteSheets\\Player.bmp";
+    static inline const char* pathToEnemySpriteSheet = ".\\Data\\SpriteSheets\\Enemy.png";
+    static inline const char* pathToBulletSprite = ".\\Data\\Sprites\\Bullet.bmp";
+    static inline const char* pathToReloadingCircleSpriteSheet = ".\\Data\\SpriteSheets\\reloadingCircle.png";
+
     // Getting string representation of an EntityType (for reading Tag)
     static std::string GetEntityTypeString(EntityType entityType) {
         switch (entityType) {
