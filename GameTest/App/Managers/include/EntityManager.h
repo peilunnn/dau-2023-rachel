@@ -14,7 +14,7 @@
 #include "../../Components/include/Direction.h"
 #include "../../Components/include/Health.h"
 #include "../../Components/include/Animation.h"
-#include "../../Systems/include/SystemEvent.h"
+#include "../../Systems/include/Event.h"
 #include "../../Utilities/include/Helper.h"
 #include "../../Utilities/include/App.h"
 
@@ -29,7 +29,6 @@ private:
 
 public:
     std::vector<Entity> GetAllEntities();
-
     static Entity CreateEntity()
     {
         return nextEntityId++;
@@ -44,7 +43,7 @@ public:
     void MarkEntityForDeletion(Entity entity);
     void ProcessDeletions();
 
-    void ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime, SystemEvent event, const glm::vec3& playerPos, float screenWidth, float screenHeight);
+    void ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime, Event event, const glm::vec3& playerPos, float screenWidth, float screenHeight);
 
     template <typename T>
     void AddComponent(Entity entity, std::shared_ptr<T> component)

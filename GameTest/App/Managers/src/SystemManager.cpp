@@ -5,36 +5,37 @@ void SystemManager::AddSystem(std::unique_ptr<System> system) {
     systems.push_back(std::move(system));
 }
 
-void SystemManager::SendEvent(SystemEvent event) {
+void SystemManager::SendEvent(Event event) {
     eventQueue.push(event);
 }
 
 void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight) {
     while (!eventQueue.empty()) {
-        SystemEvent event = eventQueue.front();
-        Helper::Log("in ProcessEvents, entity1: ", event.entity1);
-        Helper::Log("in ProcessEvents, entity2: ", event.entity2);
+        Event event = eventQueue.front();
 
-        for (const auto& system : systems) {
-            if (system->GetSystemType() == System::Type::AnimationHandler && event.type == SystemEvent::BulletHitEnemy) {
-                auto animationHandler = dynamic_cast<AnimationHandler*>(system.get());
-                if (animationHandler) {
-                    animationHandler->ProcessBulletHitEnemy(entityManager, event.entity1, event.entity2, deltaTime);
-                }
-
-                if (!event.newEnemiesCreated) {
-                    entityManager.ProcessBulletHitEnemy(entityManager, deltaTime, event, playerPos, screenWidth, screenHeight);
-                    event.newEnemiesCreated = true;
-                }
-
-                break;
-            }
-            // Handle PlayerHitEnemy event
-            // Handle PlayerHitReloadingCircle event
-            // Handle PlayerHealthReachZero event
-            // Handle CountdownReachZero event
+        switch (event.eventType) {
+        case EventType::BulletHitEnemy:
+            HandleBulletHitEnemyEvent(entityManager, event, deltaTime, playerPos, screenWidth, screenHeight);
+            break;
         }
+        // Handle PlayerHitEnemy event
+        // Handle PlayerHitReloadingCircle event
+        // Handle PlayerHealthReachZero event
+        // Handle CountdownReachZero event
 
         eventQueue.pop();
     }
+}
+
+void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, const Event& event, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight)
+{
+    for (const auto& system : systems) {
+        if (system->GetSystemType() == System::Type::AnimationHandler) {
+            auto animationHandler = dynamic_cast<AnimationHandler*>(system.get());
+            if (animationHandler && event.entities.size() == 2)
+                animationHandler->ProcessBulletHitEnemy(entityManager, event.entities[0], event.entities[1], deltaTime);
+        }
+    }
+
+    entityManager.ProcessBulletHitEnemy(entityManager, deltaTime, event, playerPos, screenWidth, screenHeight);
 }

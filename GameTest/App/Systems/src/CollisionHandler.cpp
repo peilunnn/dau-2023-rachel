@@ -70,7 +70,6 @@ bool CollisionHandler::IsColliding(std::shared_ptr<Transform> transform1, std::s
 
 void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, SystemManager &systemManager, Entity entity1, Entity entity2)
 {
-    SystemEvent event;
     auto tag1 = entityManager.GetComponent<Tag>(entity1);
     auto tag2 = entityManager.GetComponent<Tag>(entity2);
 
@@ -86,11 +85,8 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
             return;
         
         enemyTag->entityState = EntityState::HIT_BY_BULLET;
-        event.type = SystemEvent::EventType::BulletHitEnemy;
-        event.entity1 = bulletEntity;
-        event.entity2 = enemyEntity;
-        event.newEnemiesCreated = false;
-        systemManager.SendEvent(event);
+        Event bulletHitEnemyEvent(EventType::BulletHitEnemy, { bulletEntity, enemyEntity });
+        systemManager.SendEvent(bulletHitEnemyEvent);
     }
     
     // Case 2 - one is player, the other is enemy

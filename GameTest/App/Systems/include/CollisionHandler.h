@@ -7,7 +7,7 @@
 #include "../../Components/include/Collider.h"
 #include "../../Utilities/include/Helper.h"
 #include "../../Systems/include/System.h"
-#include "../../Systems/include/SystemEvent.h"
+#include "../../Systems/include/Event.h"
 
 class CollisionHandler : public System 
 {

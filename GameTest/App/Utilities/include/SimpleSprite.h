@@ -24,7 +24,7 @@ public:
     void SetFrame(unsigned int f);
     void SetAnimation(int id);
     void SetVisible(bool isVisible) {
-        isVisible = true; // For ammo
+        this->isVisible = isVisible; // For ammo
     }
 
 	void GetPosition(float &x, float &y) { x = m_xpos; y = m_ypos; }
