@@ -108,7 +108,7 @@ Entity EntityManager::CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSp
 Entity EntityManager::CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite)
 {
 	Entity reloadingCircleEntity = CreateEntity();
-	float reloadingCircleScale = 0.5f;
+	float reloadingCircleScale = 0.4f;
 	float maxX = 800.0f;
 	float maxY = 400.0f;
 	float reloadingCirclePosX = Helper::GenerateFloat(0.0, maxX);
