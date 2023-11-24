@@ -41,7 +41,7 @@ CSimpleSprite::CSimpleSprite(const char *fileName, unsigned int nColumns, unsign
 
 void CSimpleSprite::Update(float dt)
 {
-    m_animTime += dt / 1000.0f;
+    m_animTime += dt;
 
     if (m_currentAnim >= 0)
     {

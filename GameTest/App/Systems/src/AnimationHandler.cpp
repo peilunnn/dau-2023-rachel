@@ -51,7 +51,7 @@ void AnimationHandler::Update(EntityManager& entityManager, float deltaTime)
             enemySprite->Update(deltaTime);
 
             if (enemyAnimation->cooldownTimer > 0.0f) {
-                enemyAnimation->cooldownTimer -= deltaTime / 1000.0f;
+                enemyAnimation->cooldownTimer -= deltaTime;
                 if (enemyAnimation->cooldownTimer <= 0.0f) {
                     entityManager.MarkEntityForDeletion(entity);
                 }

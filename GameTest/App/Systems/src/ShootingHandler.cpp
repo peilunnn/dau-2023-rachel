@@ -22,7 +22,7 @@ void ShootingHandler::Shoot(EntityManager &entityManager, Entity playerEntity, s
                 direction = glm::vec2(1.0f, 0.0f);
             }
 
-            float bulletSpeed = 1.0f;
+            float bulletSpeed = 1000.0f;
             glm::vec2 bulletVelocity = direction * bulletSpeed;
 
             entityManager.CreateBulletEntity(bulletSprite, bulletPos, bulletVelocity);

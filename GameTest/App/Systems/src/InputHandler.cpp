@@ -8,7 +8,7 @@ void InputHandler::Update(EntityManager& entityManager, float deltaTime, Entity 
     InputHandler::HandleRotationInput(entityManager, playerEntity);
     InputHandler::HandleScaleInput(entityManager, playerEntity);
  
-    float newTimeSinceLastShot = ShootingHandler::GetTimeSinceLastShot() + deltaTime / 1000.0f;
+    float newTimeSinceLastShot = ShootingHandler::GetTimeSinceLastShot() + deltaTime;
     ShootingHandler::SetTimeSinceLastShot(newTimeSinceLastShot);
     InputHandler::HandleShootingInput(entityManager, playerEntity, bulletSprite);
 }

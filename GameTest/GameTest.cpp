@@ -75,12 +75,13 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-	inputHandler.Update(entityManager, deltaTime, playerEntity, bulletSprite);
-	movementHandler.Update(entityManager, deltaTime, screenWidth, screenHeight);
-	collisionHandler.Update(entityManager, systemManager, deltaTime);
-	animationHandler.Update(entityManager, deltaTime);
+	float deltaTimeInSeconds = deltaTime / 1000.0f;
+	inputHandler.Update(entityManager, deltaTimeInSeconds, playerEntity, bulletSprite);
+	movementHandler.Update(entityManager, deltaTimeInSeconds, screenWidth, screenHeight);
+	collisionHandler.Update(entityManager, systemManager, deltaTimeInSeconds);
+	animationHandler.Update(entityManager, deltaTimeInSeconds);
 	playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
-	systemManager.ProcessEvents(entityManager, deltaTime, playerPos, screenWidth, screenHeight);
+	systemManager.ProcessEvents(entityManager, deltaTimeInSeconds, playerPos, screenWidth, screenHeight);
 	entityManager.ProcessDeletions();
 }
 

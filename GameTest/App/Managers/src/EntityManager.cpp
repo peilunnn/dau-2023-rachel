@@ -50,8 +50,8 @@ Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSp
 Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight)
 {
 	Entity enemyEntity = entityManager.CreateEntity();
-	float minVx = -0.1f, maxVx = 0.3f;
-	float minVy = -0.1f, maxVy = 0.3f;
+	float minVx = -100.0f, maxVx = 300.0f;
+	float minVy = -100.0, maxVy = 300.0f;
 	glm::vec3 enemyPos = Helper::GetOppositeQuadrantPosition(playerPos, 1024.0f, 768.0f);
 	glm::vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 	float enemyScale = 0.5f;
