@@ -213,13 +213,26 @@ void EntityManager::HideAmmoFilledEntity(int index)
 	}
 }
 
-void EntityManager::ShowAllAmmoFilled()
+void EntityManager::ShowAllAmmoFilledEntity()
 {
 	for (int i = 0; i < ammoFilledEntities.size(); i++)
 	{
 		auto ammoFilledSprite = GetComponent<Renderable>(ammoFilledEntities[i])->sprite;
 		ammoFilledSprite->SetVisible(true);
 	}
+}
+
+void EntityManager::MoveEntityToRandomPos(Entity entity)
+{
+	float maxX = 800.0f;
+	float maxY = 400.0f;
+	float xPos = Helper::GenerateFloat(0.0, maxX);
+	float yPos = Helper::GenerateFloat(0.0, maxY);
+	float zPos = 0.0f;
+
+	glm::vec3 newPos = glm::vec3(xPos, yPos, zPos);
+	auto transform = GetComponent<Transform>(entity);
+	transform->position = newPos;
 }
 
 void EntityManager::MarkEntityForDeletion(Entity entity)

@@ -1,5 +1,4 @@
-﻿  Tag.cpp
-  EntityManager.cpp
+﻿  EntityManager.cpp
   SystemManager.cpp
   AnimationHandler.cpp
   CollisionHandler.cpp
@@ -9,7 +8,6 @@
   RenderingHandler.cpp
   ShootingHandler.cpp
   System.cpp
-  Helper.cpp
   GameTest.cpp
   Generating Code...
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe

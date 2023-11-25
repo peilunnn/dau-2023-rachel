@@ -28,6 +28,8 @@ void ShootingHandler::Shoot(EntityManager &entityManager, Entity playerEntity, s
 
 void ShootingHandler::ProcessPlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
 {
+    auto reloadingCircleEntity = entityManager.GetReloadingCircleEntity();
     bulletsShotsSoFar = 0;
-    entityManager.ShowAllAmmoFilled();
+    entityManager.ShowAllAmmoFilledEntity();
+    entityManager.MoveEntityToRandomPos(reloadingCircleEntity);
 }
