@@ -2,7 +2,7 @@
 #include "../include/ShootingHandler.h"
 #include <glm/glm.hpp>
 
-int ShootingHandler::bulletCount = 0;
+int ShootingHandler::bulletsShotsSoFar = 0;
 float ShootingHandler::cooldownTimer = 0.5f;
 float ShootingHandler::timeSinceLastShot = 0.0f;
 
@@ -10,7 +10,7 @@ void ShootingHandler::Shoot(EntityManager &entityManager, Entity playerEntity, s
 {
     auto playerTransform = entityManager.GetComponent<Transform>(playerEntity);
 
-    if (!(bulletCount < MAX_BULLETS && timeSinceLastShot >= cooldownTimer && playerTransform))
+    if (!(bulletsShotsSoFar < MAX_BULLETS && timeSinceLastShot >= cooldownTimer && playerTransform))
         return;
 
     glm::vec3 bulletPos = playerTransform->position;
@@ -21,7 +21,13 @@ void ShootingHandler::Shoot(EntityManager &entityManager, Entity playerEntity, s
     glm::vec2 bulletVelocity = direction * bulletSpeed;
     entityManager.CreateBulletEntity(bulletSprite, bulletPos, bulletVelocity);
 
-    bulletCount++;
+    bulletsShotsSoFar++;
     timeSinceLastShot = 0.0f;
-    entityManager.HideAmmoFilledEntity(bulletCount - 1);
+    entityManager.HideAmmoFilledEntity(bulletsShotsSoFar - 1);
+}
+
+void ShootingHandler::ProcessPlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
+{
+    bulletsShotsSoFar = 0;
+    entityManager.ShowAllAmmoFilled();
 }

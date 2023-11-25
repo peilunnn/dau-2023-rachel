@@ -67,6 +67,7 @@ public:
     Entity CreateAmmoEntity(std::shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos);
     Entity CreateHealthBarEntity(std::shared_ptr<CSimpleSprite> sprite, float xPos, float yPos);
     void HideAmmoFilledEntity(int index);
+    void ShowAllAmmoFilled();
 
     void MarkEntityForDeletion(Entity entity);
     void ProcessDeletions();

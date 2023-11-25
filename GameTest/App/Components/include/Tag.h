@@ -16,9 +16,11 @@ enum class EntityType {
 };
 
 enum class EntityState {
+    // For player
     ALIVE,
-    HIT_BY_BULLET, // For enemies
-    HIT_BY_ENEMY,  // For player
+    HIT_BY_ENEMY,
+    // For enemies
+    HIT_BY_BULLET,
 };
 
 

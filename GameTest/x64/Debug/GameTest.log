@@ -1,4 +1,5 @@
-﻿  EntityManager.cpp
+﻿  Tag.cpp
+  EntityManager.cpp
   SystemManager.cpp
   AnimationHandler.cpp
   CollisionHandler.cpp

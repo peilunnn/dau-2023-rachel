@@ -46,7 +46,7 @@ bool CollisionHandler::IsColliding(std::shared_ptr<Transform> transform1, std::s
     glm::vec2 posEntity2 = glm::vec2(transform2->position.x, transform2->position.y);
     float distance = glm::distance(posEntity1, posEntity2);
 
-    // Case 1 - Sphere-Sphere ie. bullet collide with enemy
+    // Case 1 - Sphere-Sphere ie. bullet collide with enemy, or player collide with reloadingCircle
     if (collider1->collisionShape == CollisionShape::SPHERE && collider2->collisionShape == CollisionShape::SPHERE)
     {
         float totalRadius = collider1->radius + collider2->radius;
@@ -101,5 +101,17 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
         playerTag->entityState = EntityState::HIT_BY_ENEMY;
         Event enemyHitPlayerEvent(EventType::EnemyHitPlayer, { playerEntity, enemyEntity });
         systemManager.SendEvent(enemyHitPlayerEvent);
+    }
+
+    // Case 3 - one is player, the other is reloadingCircle
+    else if ((tag1->entityType == EntityType::PLAYER && tag2->entityType == EntityType::RELOADING_CIRCLE) ||
+        (tag1->entityType == EntityType::RELOADING_CIRCLE && tag2->entityType == EntityType::PLAYER))
+    {
+        Entity playerEntity = (tag1->entityType == EntityType::PLAYER) ? entity1 : entity2;
+        Entity reloadingCircleEntity = (tag1->entityType == EntityType::RELOADING_CIRCLE) ? entity1 : entity2;
+        auto playerTag = entityManager.GetComponent<Tag>(playerEntity);
+
+        Event playerHitReloadingCircleEvent(EventType::PlayerHitReloadingCircle, { playerEntity, reloadingCircleEntity });
+        systemManager.SendEvent(playerHitReloadingCircleEvent);
     }
 }

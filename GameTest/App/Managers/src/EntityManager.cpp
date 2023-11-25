@@ -61,7 +61,7 @@ Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSp
 	auto collider = std::make_shared<Collider>();
 	collider->collisionShape = CollisionShape::CAPSULE;
 	collider->collisionType = CollisionType::PLAYER;
-	collider->collisionMask = static_cast<int>(CollisionType::ENEMY);
+	collider->collisionMask = static_cast<int>(CollisionType::ENEMY) | static_cast<int>(CollisionType::RELOADING_CIRCLE);
 	collider->radius = dimensions.height / 2;
 	auto velocity = std::make_shared<Velocity>(0.0f, 0.0f);
 	auto health = std::make_shared<Health>();
@@ -152,7 +152,7 @@ Entity EntityManager::CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite>
 	auto renderable = std::make_shared<Renderable>(reloadingCircleSprite);
 	auto collider = std::make_shared<Collider>();
 	collider->collisionShape = CollisionShape::SPHERE;
-	collider->collisionType = CollisionType::BULLET;
+	collider->collisionType = CollisionType::RELOADING_CIRCLE;
 	collider->collisionMask = static_cast<int>(CollisionType::PLAYER);
 	collider->radius = dimensions.width / 2;
 	auto animation = std::make_shared<Animation>();
@@ -210,6 +210,15 @@ void EntityManager::HideAmmoFilledEntity(int index)
 			return;
 
 		ammoFilledSprite->SetVisible(false);
+	}
+}
+
+void EntityManager::ShowAllAmmoFilled()
+{
+	for (int i = 0; i < ammoFilledEntities.size(); i++)
+	{
+		auto ammoFilledSprite = GetComponent<Renderable>(ammoFilledEntities[i])->sprite;
+		ammoFilledSprite->SetVisible(true);
 	}
 }
 

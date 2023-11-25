@@ -38,7 +38,9 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime,
         case EventType::EnemyHitPlayer:
             HandleEnemyHitPlayerEvent(entityManager, event, deltaTime);
             break;
-            // Handle PlayerHitReloadingCircle event
+        case EventType::PlayerHitReloadingCircle:
+            HandlePlayerHitPlayerReloadingCircle(entityManager, event, deltaTime);
+            break;
             // Handle PlayerHealthReachZero event
             // Handle CountdownReachZero event
         }
@@ -91,4 +93,20 @@ void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, cons
     }
 
     entityManager.ProcessEnemyHitPlayer(entityManager, event, deltaTime);
+}
+
+void SystemManager::HandlePlayerHitPlayerReloadingCircle(EntityManager& entityManager, const Event& event, float deltaTime)
+{
+    for (const auto& system : systems) {
+        if (system->GetSystemType() == System::Type::ShootingHandler)
+        {
+            auto shootingHandler = dynamic_cast<ShootingHandler*>(system.get());
+
+            if (!(shootingHandler && event.entities.size() == 2))
+                return;
+
+            shootingHandler->ProcessPlayerHitReloadingCircle(entityManager, deltaTime);
+            break;
+        }
+    }
 }

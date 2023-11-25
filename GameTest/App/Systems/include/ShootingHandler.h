@@ -9,14 +9,15 @@
 
 class ShootingHandler : public System {
 private:
-    static int bulletCount;
+    static int bulletsShotsSoFar;
     static constexpr int MAX_BULLETS = 10;
     static float cooldownTimer;
     static float timeSinceLastShot;
 
 public:
     static void Shoot(EntityManager& entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
-    
+    void ProcessPlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime);
+
     Type GetSystemType() const override {
         return System::Type::ShootingHandler;
     }

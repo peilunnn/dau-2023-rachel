@@ -12,7 +12,8 @@ enum class CollisionType {
     NONE = 0,
     PLAYER = 1 << 0,  // 0001
     ENEMY = 1 << 1,   // 0010
-    BULLET = 1 << 2   // 0100
+    BULLET = 1 << 2,   // 0100
+    RELOADING_CIRCLE = 1 << 3 // 1000
 };
 
 class Collider : public Component {
