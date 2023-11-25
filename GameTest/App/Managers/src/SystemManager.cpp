@@ -5,7 +5,7 @@
 #include "../../Systems/include/MovementHandler.h"
 #include "../../Systems/include/RenderingHandler.h"
 #include "../../Systems/include/CollisionHandler.h"
-#include "../../Systems/include/AnimationHandler.h"
+#include "../../Systems/include/HealthHandler.h"
 
 void SystemManager::Init()
 {
@@ -15,6 +15,7 @@ void SystemManager::Init()
     AddSystem(std::make_unique<MovementHandler>());
     AddSystem(std::make_unique<ShootingHandler>());
     AddSystem(std::make_unique<RenderingHandler>());
+    AddSystem(std::make_unique<HealthHandler>());
 }
 
 void SystemManager::AddSystem(std::unique_ptr<System> system) {
@@ -50,15 +51,44 @@ void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, cons
     for (const auto& system : systems) {
         if (system->GetSystemType() == System::Type::AnimationHandler) {
             auto animationHandler = dynamic_cast<AnimationHandler*>(system.get());
-            if (animationHandler && event.entities.size() == 2)
-                animationHandler->ProcessBulletHitEnemy(entityManager, event.entities[0], event.entities[1], deltaTime);
+            
+            if (!(animationHandler && event.entities.size() == 2))
+                return;
+            
+            animationHandler->ProcessBulletHitEnemy(entityManager, event.entities[0], event.entities[1], deltaTime);
         }
     }
 
-    entityManager.ProcessBulletHitEnemy(entityManager, deltaTime, event, playerPos, screenWidth, screenHeight);
+    entityManager.ProcessBulletHitEnemy(entityManager, event, deltaTime, playerPos, screenWidth, screenHeight);
 }
 
 void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, const Event& event, float deltaTime)
 {
+    // We do two separate loops because order is important - we want to update health before updating animation
+    for (const auto& system : systems) {
+        if (system->GetSystemType() == System::Type::HealthHandler) {
+            auto healthHandler = dynamic_cast<HealthHandler*>(system.get());
 
+            if (!(healthHandler && event.entities.size() == 2))
+                return;
+
+            healthHandler->ProcessEnemyHitPlayer(entityManager);
+            break;
+        }
+    }
+
+    for (const auto& system : systems) {
+        if (system->GetSystemType() == System::Type::AnimationHandler)
+        {
+            auto animationHandler = dynamic_cast<AnimationHandler*>(system.get());
+
+            if (!(animationHandler && event.entities.size() == 2))
+                return;
+
+            animationHandler->ProcessEnemyHitPlayer(entityManager, deltaTime);
+            break;
+        }
+    }
+
+    entityManager.ProcessEnemyHitPlayer(entityManager, event, deltaTime);
 }

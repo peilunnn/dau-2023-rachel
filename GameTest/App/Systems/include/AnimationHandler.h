@@ -51,7 +51,9 @@ public:
 	void UpdatePlayerAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
 	void UpdateEnemyAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
 	void UpdateReloadingCircleAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
+	void UpdateHealthBarAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
 	void ProcessBulletHitEnemy(EntityManager& entityManager, Entity entity1, Entity entity2, float deltaTime);
+	void ProcessEnemyHitPlayer(EntityManager& entityManager, float deltaTime);
 	Type GetSystemType() const override {
 		return System::Type::AnimationHandler;
 	}

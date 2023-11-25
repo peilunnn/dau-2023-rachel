@@ -10,8 +10,8 @@ void EntityManager::Init(std::shared_ptr<CSimpleSprite> playerSprite, std::share
 	float ammoStartingX = screenWidth - 20;
 	float ammoYPos = screenHeight - 40;
 
-	float healthBarXPos = screenWidth - 900;
-	float healthBarYPos = screenHeight - 720;
+	float healthBarXPos = screenWidth - 880;
+	float healthBarYPos = screenHeight - 700;
 
 	playerEntity = CreatePlayerEntity(playerSprite);
 	glm::vec3 playerPos = GetComponent<Transform>(playerEntity)->position;
@@ -191,10 +191,12 @@ Entity EntityManager::CreateHealthBarEntity(std::shared_ptr<CSimpleSprite> sprit
 	auto tag = std::make_shared<Tag>(EntityType::HEALTH_BAR);
 	auto transform = std::make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
 	auto renderable = std::make_shared<Renderable>(sprite);
+	auto animation = std::make_shared<Animation>();
 
 	AddComponent(healthBarEntity, tag);
 	AddComponent(healthBarEntity, transform);
 	AddComponent(healthBarEntity, renderable);
+	AddComponent(healthBarEntity, animation);
 
 	return healthBarEntity;
 }
@@ -234,7 +236,7 @@ void EntityManager::ProcessDeletions() {
 	entitiesToDelete.clear();
 }
 
-void EntityManager::ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime, Event event, const glm::vec3& playerPos, float screenWidth, float screenHeight)
+void EntityManager::ProcessBulletHitEnemy(EntityManager& entityManager, Event event, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight)
 {
 	CSimpleSprite* rawEnemySprite1 = App::CreateSprite(Helper::pathToEnemySpriteSheet, 4, 2);
 	std::shared_ptr<CSimpleSprite> enemySprite1 = std::shared_ptr<CSimpleSprite>(rawEnemySprite1);
@@ -245,4 +247,28 @@ void EntityManager::ProcessBulletHitEnemy(EntityManager& entityManager, float de
 	AnimationHandler::InitEnemyAnimation(enemySprite1);
 	Entity enemyEntity2 = CreateEnemyEntity(playerPos, enemySprite2, screenWidth, screenHeight);
 	AnimationHandler::InitEnemyAnimation(enemySprite2);
+}
+
+void EntityManager::ProcessEnemyHitPlayer(EntityManager& entityManager, Event event, float deltaTime)
+{
+	Entity playerEntity, enemyEntity;
+	Entity entity1 = event.entities[0];
+	Entity entity2 = event.entities[1];
+	
+	auto tag1 = entityManager.GetComponent<Tag>(entity1);
+	auto tag2 = entityManager.GetComponent<Tag>(entity2);
+
+	if (!tag1 || !tag2)
+		return;
+
+	if (tag1->entityType == EntityType::PLAYER) {
+		playerEntity = entity1;
+		enemyEntity = entity2;
+	}
+	else {
+		playerEntity = entity2;
+		enemyEntity = entity1;
+	}
+
+	MarkEntityForDeletion(enemyEntity);
 }

@@ -12,7 +12,7 @@ class InputHandler : public System
 {
 public:
     static constexpr float THUMB_STICK_THRESHOLD = 0.5f;
-    static constexpr float VELOCITY_MULTIPLIER = 80.0f;
+    static constexpr float VELOCITY_MULTIPLIER = 150.0f;
     static constexpr float ANGLE_DELTA = 0.1f;
     static constexpr float SCALE_DELTA = 0.1f;
 

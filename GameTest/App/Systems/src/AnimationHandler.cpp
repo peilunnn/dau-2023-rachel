@@ -51,7 +51,12 @@ void AnimationHandler::InitHealthBarAnimation(std::shared_ptr<CSimpleSprite> hea
         return;
 
     float speed = 1.0f / 15.0f;
-    healthBarSprite->CreateAnimation(HEALTH_100, speed, { 0, 2, 4, 1, 3, 5 });
+    healthBarSprite->CreateAnimation(HEALTH_100, speed, { 0 });
+    healthBarSprite->CreateAnimation(HEALTH_80, speed, { 2 });
+    healthBarSprite->CreateAnimation(HEALTH_60, speed, { 4 });
+    healthBarSprite->CreateAnimation(HEALTH_40, speed, { 1 });
+    healthBarSprite->CreateAnimation(HEALTH_20, speed, { 3 });
+    healthBarSprite->CreateAnimation(HEALTH_0, speed, { 5 });
 }
 
 void AnimationHandler::Update(EntityManager& entityManager, float deltaTime)
@@ -71,6 +76,9 @@ void AnimationHandler::Update(EntityManager& entityManager, float deltaTime)
         case EntityType::RELOADING_CIRCLE:
             UpdateReloadingCircleAnimation(entityManager, entity, deltaTime);
             break;
+        case EntityType::HEALTH_BAR:
+            UpdateHealthBarAnimation(entityManager, entity, deltaTime);
+            break;
         }
     }
 }
@@ -80,6 +88,7 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
     auto animation = entityManager.GetComponent<Animation>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
     auto sprite = entityManager.GetComponent<Renderable>(entity)->sprite;
+    auto tag = entityManager.GetComponent<Tag>(entity);
 
     if (!(velocity && animation))
         return;
@@ -137,6 +146,12 @@ void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager& entityManag
     reloadingCircleSprite->Update(deltaTime);
 }
 
+void AnimationHandler::UpdateHealthBarAnimation(EntityManager& entityManager, Entity entity, float deltaTime)
+{
+    auto healthBarSprite = entityManager.GetComponent<Renderable>(entity)->sprite;
+    healthBarSprite->Update(deltaTime);
+}
+
 void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entity entity1, Entity entity2, float deltaTime)
 {
     Entity bulletEntity, enemyEntity;
@@ -171,4 +186,21 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
         enemyAnimation->cooldownTimer = 0.3f;
 
     entityManager.MarkEntityForDeletion(bulletEntity);
+}
+
+void AnimationHandler::ProcessEnemyHitPlayer(EntityManager& entityManager, float deltaTime)
+{
+    Entity playerEntity = entityManager.GetPlayerEntity();
+    Entity healthBarEntity = entityManager.GetHealthBarEntity();
+    auto health = entityManager.GetComponent<Health>(playerEntity);
+    auto animation = entityManager.GetComponent<Animation>(healthBarEntity);
+    auto healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntity)->sprite;
+
+    if (!health || !healthBarSprite)
+        return;
+
+    int frameIndex = static_cast<int>((100 - health->currentHealth) / 20);
+    frameIndex = std::min(frameIndex, 5);
+    animation->currentAnimation = frameIndex;
+    healthBarSprite->SetAnimation(frameIndex);
 }

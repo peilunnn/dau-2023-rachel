@@ -25,7 +25,6 @@ class EntityManager
 private:
     Entity playerEntity;
     Entity enemyEntity;
-    std::shared_ptr<CSimpleSprite> bulletSprite;
     Entity reloadingCircleEntity;
     Entity ammoEmptyEntity;
     Entity ammoFilledEntity;
@@ -72,7 +71,8 @@ public:
     void MarkEntityForDeletion(Entity entity);
     void ProcessDeletions();
 
-    void ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime, Event event, const glm::vec3& playerPos, float screenWidth, float screenHeight);
+    void ProcessBulletHitEnemy(EntityManager& entityManager, Event event, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight);
+    void ProcessEnemyHitPlayer(EntityManager& entityManager, Event event, float deltaTime);
 
     template <typename T>
     void AddComponent(Entity entity, std::shared_ptr<T> component)
