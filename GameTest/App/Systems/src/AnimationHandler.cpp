@@ -2,11 +2,12 @@
 #include "../include/AnimationHandler.h"
 #include <glm/glm.hpp>
 
-void AnimationHandler::Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite)
+void AnimationHandler::Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> healthBarSprite)
 {
     InitPlayerAnimation(playerSprite);
     InitEnemyAnimation(enemySprite);
     InitReloadingCircleAnimation(reloadingCircleSprite);
+    InitHealthBarAnimation(healthBarSprite);
 }
 
 void AnimationHandler::InitPlayerAnimation(std::shared_ptr<CSimpleSprite> playerSprite)
@@ -42,6 +43,15 @@ void AnimationHandler::InitReloadingCircleAnimation(std::shared_ptr<CSimpleSprit
 
     float speed = 1.0f / 15.0f;
     reloadingCircleSprite->CreateAnimation(RELOADING_CIRCLE_ANIM_SPIN, speed, { 1, 2, 3, 4, 5, 6 });
+}
+
+void AnimationHandler::InitHealthBarAnimation(std::shared_ptr<CSimpleSprite> healthBarSprite)
+{
+    if (!healthBarSprite)
+        return;
+
+    float speed = 1.0f / 15.0f;
+    healthBarSprite->CreateAnimation(HEALTH_100, speed, { 0, 2, 4, 1, 3, 5 });
 }
 
 void AnimationHandler::Update(EntityManager& entityManager, float deltaTime)

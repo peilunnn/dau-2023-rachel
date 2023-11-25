@@ -29,16 +29,18 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime,
     while (!eventQueue.empty()) {
         Event event = eventQueue.front();
 
-        switch (event.eventType) {
+        switch (event.eventType)
+        {
         case EventType::BulletHitEnemy:
             HandleBulletHitEnemyEvent(entityManager, event, deltaTime, playerPos, screenWidth, screenHeight);
             break;
+        case EventType::EnemyHitPlayer:
+            HandleEnemyHitPlayerEvent(entityManager, event, deltaTime);
+            break;
+            // Handle PlayerHitReloadingCircle event
+            // Handle PlayerHealthReachZero event
+            // Handle CountdownReachZero event
         }
-        // Handle PlayerHitEnemy event
-        // Handle PlayerHitReloadingCircle event
-        // Handle PlayerHealthReachZero event
-        // Handle CountdownReachZero event
-
         eventQueue.pop();
     }
 }
@@ -54,4 +56,9 @@ void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, cons
     }
 
     entityManager.ProcessBulletHitEnemy(entityManager, deltaTime, event, playerPos, screenWidth, screenHeight);
+}
+
+void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, const Event& event, float deltaTime)
+{
+
 }

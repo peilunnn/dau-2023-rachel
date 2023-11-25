@@ -22,7 +22,7 @@ public:
     int collisionMask;
     float radius;
 
-    Collider() : collisionShape(CollisionShape::SPHERE), collisionType(CollisionType::NONE), collisionMask(0) {}
+    Collider() : collisionShape(CollisionShape::SPHERE), collisionType(CollisionType::NONE), collisionMask(0), radius(0.0f) {}
 };
 
 

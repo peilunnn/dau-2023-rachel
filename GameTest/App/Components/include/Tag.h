@@ -11,7 +11,8 @@ enum class EntityType {
     BULLET,
     RELOADING_CIRCLE,
     AMMO_EMPTY,
-    AMMO_FILLED
+    AMMO_FILLED,
+    HEALTH_BAR
 };
 
 enum class EntityState {

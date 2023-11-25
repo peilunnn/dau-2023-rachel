@@ -18,6 +18,7 @@ public:
     void SendEvent(Event event);
     void ProcessEvents(EntityManager& entityManager, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight);
     void HandleBulletHitEnemyEvent(EntityManager& entityManager, const Event& event, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight);
+    void HandleEnemyHitPlayerEvent(EntityManager& entityManager, const Event& event, float deltaTime);
 };
 
 #endif SYSTEM_MANAGER_H

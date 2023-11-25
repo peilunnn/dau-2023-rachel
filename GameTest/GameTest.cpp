@@ -37,6 +37,7 @@ Entity enemyEntity;
 Entity reloadingCircleEntity;
 Entity ammoEmptyEntity;
 Entity ammoFilledEntity;
+Entity healthBarEntity;
 RenderingHandler renderingHandler;
 InputHandler inputHandler;
 MovementHandler movementHandler;
@@ -49,8 +50,6 @@ AnimationHandler animationHandler;
 void Init()
 {
 	// Set up variables for ammo display
-	float startingX = screenWidth - 20;
-	float yPos = screenHeight - 40;
 	float ammoSpriteSpacing = 30;
 	int maxBullets = ShootingHandler::GetMaxBullets();
 
@@ -63,15 +62,18 @@ void Init()
 	bulletSprite = std::shared_ptr<CSimpleSprite>(rawBulletSprite);
 	CSimpleSprite* rawReloadingCircleSprite = App::CreateSprite(Helper::pathToReloadingCircleSpriteSheet, 5, 2);
 	std::shared_ptr<CSimpleSprite> reloadingCircleSprite = std::shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
+	CSimpleSprite* rawHealthBarSprite = App::CreateSprite(Helper::pathToHealthBarSpriteSheet, 2, 3);
+	std::shared_ptr<CSimpleSprite> healthBarSprite = std::shared_ptr<CSimpleSprite>(rawHealthBarSprite);
 
 	// Set up entities
-	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, screenWidth, screenHeight, startingX, yPos, ammoSpriteSpacing, maxBullets);
+	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, healthBarSprite, screenWidth, screenHeight, ammoSpriteSpacing, maxBullets);
 	playerEntity = entityManager.GetPlayerEntity();
 	enemyEntity = entityManager.GetEnemyEntity();
 	reloadingCircleEntity = entityManager.GetReloadingCircleEntity();
+	healthBarEntity = entityManager.GetHealthBarEntity();
 
 	// Set up animations
-	animationHandler.Init(playerSprite, enemySprite, reloadingCircleSprite);
+	animationHandler.Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite);
 	
 	// Set up systems
 	systemManager.Init();

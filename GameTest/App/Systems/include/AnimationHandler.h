@@ -31,12 +31,22 @@ public:
 	{
 		RELOADING_CIRCLE_ANIM_SPIN
 	};
+	enum HealthBarAnimationStates
+	{
+		HEALTH_100,
+		HEALTH_80,
+		HEALTH_60,
+		HEALTH_40,
+		HEALTH_20,
+		HEALTH_0,
+	};
 	int lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 
-	void Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
+	void Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> healthBarSprite);
 	void InitPlayerAnimation(std::shared_ptr<CSimpleSprite> playerSprite);
 	static void InitEnemyAnimation(std::shared_ptr<CSimpleSprite> enemySprite);
 	void InitReloadingCircleAnimation(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
+	void InitHealthBarAnimation(std::shared_ptr<CSimpleSprite> healthBarSprite);
 	void Update(EntityManager& entityManager, float deltaTime);
 	void UpdatePlayerAnimation(EntityManager& entityManager, Entity entity, float deltaTime);
 	void UpdateEnemyAnimation(EntityManager& entityManager, Entity entity, float deltaTime);

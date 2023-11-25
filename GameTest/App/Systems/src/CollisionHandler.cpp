@@ -88,4 +88,18 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
     }
     
     // Case 2 - one is player, the other is enemy
+    else if ((tag1->entityType == EntityType::PLAYER && tag2->entityType == EntityType::ENEMY) ||
+        (tag1->entityType == EntityType::ENEMY && tag2->entityType == EntityType::PLAYER))
+    {
+        Entity playerEntity = (tag1->entityType == EntityType::PLAYER) ? entity1 : entity2;
+        Entity enemyEntity = (tag1->entityType == EntityType::ENEMY) ? entity1 : entity2;
+        auto playerTag = entityManager.GetComponent<Tag>(playerEntity);
+
+        if (playerTag->entityState != EntityState::ALIVE)
+            return;
+
+        playerTag->entityState = EntityState::HIT_BY_ENEMY;
+        Event enemyHitPlayerEvent(EventType::EnemyHitPlayer, { playerEntity, enemyEntity });
+        systemManager.SendEvent(enemyHitPlayerEvent);
+    }
 }

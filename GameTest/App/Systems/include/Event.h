@@ -8,7 +8,7 @@ using Entity = unsigned int;
 enum class EventType {
     PlayerShoot,
     BulletHitEnemy,
-    PlayerHitEnemy,
+    EnemyHitPlayer,
     PlayerHitReloadingCircle,
     PlayerHealthReachZero,
     CountdownReachZero

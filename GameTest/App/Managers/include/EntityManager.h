@@ -29,6 +29,7 @@ private:
     Entity reloadingCircleEntity;
     Entity ammoEmptyEntity;
     Entity ammoFilledEntity;
+    Entity healthBarEntity;
 
     static Entity nextEntityId;
     std::unordered_map<Entity, std::vector<std::shared_ptr<Component>>> entityComponents;
@@ -49,8 +50,12 @@ public:
     {
         return reloadingCircleEntity;
     }
+    Entity GetHealthBarEntity() const
+    {
+        return healthBarEntity;
+    }
 
-    void Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> ammoEmptySprite, std::shared_ptr<CSimpleSprite> ammoFilledSprite, float screenWidth, float screenHeight, float startingX, float yPos, float ammoSpriteSpacing, int maxBullets);
+    void Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> ammoEmptySprite, std::shared_ptr<CSimpleSprite> ammoFilledSprite, std::shared_ptr<CSimpleSprite> healthBarSprite, float screenWidth, float screenHeight, float ammoSpriteSpacing, int maxBullets);
     std::vector<Entity> GetAllEntities();
     static Entity CreateEntity()
     {
@@ -61,6 +66,7 @@ public:
     Entity CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &position, const glm::vec2 &targetVelocity);
     Entity CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
     Entity CreateAmmoEntity(std::shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos);
+    Entity CreateHealthBarEntity(std::shared_ptr<CSimpleSprite> sprite, float xPos, float yPos);
     void HideAmmoFilledEntity(int index);
 
     void MarkEntityForDeletion(Entity entity);
