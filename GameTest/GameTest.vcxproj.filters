@@ -33,7 +33,6 @@
     <ClCompile Include="App\Entities\src\Score.cpp" />
     <ClCompile Include="App\Entities\src\Countdown.cpp" />
     <ClCompile Include="App\Entities\src\HealthBar.cpp" />
-    <ClCompile Include="App\Entities\src\BulletBar.cpp" />
     <ClCompile Include="App\Systems\src\RenderingHandler.cpp" />
     <ClCompile Include="App\Systems\src\ShootingHandler.cpp" />
     <ClCompile Include="App\Systems\src\HealthHandler.cpp" />
@@ -88,7 +87,6 @@
     <ClInclude Include="App\Entities\include\Score.h" />
     <ClInclude Include="App\Entities\include\Countdown.h" />
     <ClInclude Include="App\Entities\include\HealthBar.h" />
-    <ClInclude Include="App\Entities\include\BulletBar.h" />
     <ClInclude Include="App\Systems\include\RenderingHandler.h" />
     <ClInclude Include="App\Systems\include\ShootingHandler.h" />
     <ClInclude Include="App\Systems\include\HealthHandler.h" />

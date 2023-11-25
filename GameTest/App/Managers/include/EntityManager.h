@@ -23,21 +23,45 @@ using Entity = unsigned int;
 class EntityManager
 {
 private:
+    Entity playerEntity;
+    Entity enemyEntity;
+    std::shared_ptr<CSimpleSprite> bulletSprite;
+    Entity reloadingCircleEntity;
+    Entity ammoEmptyEntity;
+    Entity ammoFilledEntity;
+
     static Entity nextEntityId;
     std::unordered_map<Entity, std::vector<std::shared_ptr<Component>>> entityComponents;
     std::vector<Entity> entitiesToDelete;
+    std::vector<Entity> ammoEmptyEntities;
+    std::vector<Entity> ammoFilledEntities;
 
 public:
+    Entity GetPlayerEntity() const
+    {
+        return playerEntity;
+    }
+    Entity GetEnemyEntity() const
+    {
+        return enemyEntity;
+    }
+    Entity GetReloadingCircleEntity() const
+    {
+        return reloadingCircleEntity;
+    }
+
+    void Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> ammoEmptySprite, std::shared_ptr<CSimpleSprite> ammoFilledSprite, float screenWidth, float screenHeight, float startingX, float yPos, float ammoSpriteSpacing, int maxBullets);
     std::vector<Entity> GetAllEntities();
     static Entity CreateEntity()
     {
         return nextEntityId++;
     }
     Entity CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite);
-    Entity CreateEnemyEntity(EntityManager &entityManager, const glm::vec3 &playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
+    Entity CreateEnemyEntity(const glm::vec3 &playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
     Entity CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &position, const glm::vec2 &targetVelocity);
     Entity CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
     Entity CreateAmmoEntity(std::shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos);
+    void HideAmmoFilledEntity(int index);
 
     void MarkEntityForDeletion(Entity entity);
     void ProcessDeletions();

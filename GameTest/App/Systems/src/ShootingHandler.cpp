@@ -17,10 +17,11 @@ void ShootingHandler::Shoot(EntityManager &entityManager, Entity playerEntity, s
     glm::vec2 direction = glm::normalize(glm::vec2(mouseX, mouseY) - glm::vec2(bulletPos.x, bulletPos.y));
     if (glm::length(direction) == 0)
         direction = glm::vec2(1.0f, 0.0f);
-    float bulletSpeed = 1000.0f;
+    float bulletSpeed = 1500.0f;
     glm::vec2 bulletVelocity = direction * bulletSpeed;
     entityManager.CreateBulletEntity(bulletSprite, bulletPos, bulletVelocity);
 
     bulletCount++;
     timeSinceLastShot = 0.0f;
+    entityManager.HideAmmoFilledEntity(bulletCount - 1);
 }

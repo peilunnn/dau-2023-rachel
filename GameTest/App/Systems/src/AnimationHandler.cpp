@@ -2,6 +2,13 @@
 #include "../include/AnimationHandler.h"
 #include <glm/glm.hpp>
 
+void AnimationHandler::Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite)
+{
+    InitPlayerAnimation(playerSprite);
+    InitEnemyAnimation(enemySprite);
+    InitReloadingCircleAnimation(reloadingCircleSprite);
+}
+
 void AnimationHandler::InitPlayerAnimation(std::shared_ptr<CSimpleSprite> playerSprite)
 {
     if (!playerSprite)

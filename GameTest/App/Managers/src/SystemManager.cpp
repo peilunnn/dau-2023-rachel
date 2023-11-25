@@ -1,5 +1,21 @@
 #include "stdafx.h"
 #include "../include/SystemManager.h"
+#include "../../Systems/include/AnimationHandler.h"
+#include "../../Systems/include/InputHandler.h"
+#include "../../Systems/include/MovementHandler.h"
+#include "../../Systems/include/RenderingHandler.h"
+#include "../../Systems/include/CollisionHandler.h"
+#include "../../Systems/include/AnimationHandler.h"
+
+void SystemManager::Init()
+{
+    AddSystem(std::make_unique<AnimationHandler>());
+    AddSystem(std::make_unique<CollisionHandler>());
+    AddSystem(std::make_unique<InputHandler>());
+    AddSystem(std::make_unique<MovementHandler>());
+    AddSystem(std::make_unique<ShootingHandler>());
+    AddSystem(std::make_unique<RenderingHandler>());
+}
 
 void SystemManager::AddSystem(std::unique_ptr<System> system) {
     systems.push_back(std::move(system));

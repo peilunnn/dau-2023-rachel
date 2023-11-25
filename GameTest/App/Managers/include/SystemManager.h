@@ -5,7 +5,6 @@
 #include "EntityManager.h"
 #include "../../Systems/include/System.h"
 #include "../../Systems/include/Event.h"
-#include "../../Systems/include/AnimationHandler.h"
 
 class SystemManager {
 private:
@@ -13,7 +12,8 @@ private:
 
 public:
     std::queue<Event> eventQueue;
-
+    
+    void Init();
     void AddSystem(std::unique_ptr<System> system);
     void SendEvent(Event event);
     void ProcessEvents(EntityManager& entityManager, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight);

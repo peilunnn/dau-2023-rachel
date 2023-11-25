@@ -1,8 +1,33 @@
 #include "stdafx.h"
 #include "../include/EntityManager.h"
 #include "../../Systems/include/AnimationHandler.h"
+#include "../../Systems/include/ShootingHandler.h"
 
 Entity EntityManager::nextEntityId = 0;
+
+void EntityManager::Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> ammoEmptySprite, std::shared_ptr<CSimpleSprite> ammoFilledSprite, float screenWidth, float screenHeight, float startingX, float yPos, float ammoSpriteSpacing, int maxBullets)
+{
+	playerEntity = CreatePlayerEntity(playerSprite);
+	glm::vec3 playerPos = GetComponent<Transform>(playerEntity)->position;
+	enemyEntity = CreateEnemyEntity(playerPos, enemySprite, screenWidth, screenHeight);
+	reloadingCircleEntity = CreateReloadingCircleEntity(reloadingCircleSprite);
+
+	for (int i = 0; i < maxBullets; ++i)
+	{
+		float xPos = startingX - i * ammoSpriteSpacing;
+		
+		// Have to create a new sprite for every entity
+		CSimpleSprite* rawAmmoEmptySprite = App::CreateSprite(Helper::pathToAmmoEmptySprite, 1, 1);
+		std::shared_ptr<CSimpleSprite> ammoEmptySprite = std::shared_ptr<CSimpleSprite>(rawAmmoEmptySprite);
+		CSimpleSprite* rawAmmoFilledSprite = App::CreateSprite(Helper::pathToAmmoFilledSprite, 1, 1);
+		std::shared_ptr<CSimpleSprite> ammoFilledSprite = std::shared_ptr<CSimpleSprite>(rawAmmoFilledSprite);
+
+		ammoEmptyEntity = CreateAmmoEntity(ammoEmptySprite, EntityType::AMMO_EMPTY, xPos, yPos);
+		ammoEmptyEntities.push_back(ammoEmptyEntity);
+		ammoFilledEntity = CreateAmmoEntity(ammoFilledSprite, EntityType::AMMO_FILLED, xPos, yPos);
+		ammoFilledEntities.push_back(ammoFilledEntity);
+	}
+}
 
 std::vector<Entity> EntityManager::GetAllEntities()
 {
@@ -46,9 +71,9 @@ Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSp
 	return player;
 }
 
-Entity EntityManager::CreateEnemyEntity(EntityManager& entityManager, const glm::vec3& playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight)
+Entity EntityManager::CreateEnemyEntity(const glm::vec3& playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight)
 {
-	Entity enemy = entityManager.CreateEntity();
+	Entity enemy = CreateEntity();
 	float minVx = -100.0f, maxVx = 300.0f;
 	float minVy = -100.0, maxVy = 300.0f;
 	glm::vec3 pos = Helper::GetOppositeQuadrantPosition(playerPos, 1024.0f, 768.0f);
@@ -151,6 +176,18 @@ Entity EntityManager::CreateAmmoEntity(std::shared_ptr<CSimpleSprite> sprite, En
 	return ammoEntity;
 }
 
+void EntityManager::HideAmmoFilledEntity(int index)
+{
+	if (index >= 0 && index < ammoFilledEntities.size()) {
+		auto ammoFilledSprite = GetComponent<Renderable>(ammoFilledEntities[index])->sprite;
+
+		if (!ammoFilledSprite)
+			return;
+
+		ammoFilledSprite->SetVisible(false);
+	}
+}
+
 void EntityManager::MarkEntityForDeletion(Entity entity)
 {
 	// Check if already marked for deletion
@@ -181,8 +218,8 @@ void EntityManager::ProcessBulletHitEnemy(EntityManager& entityManager, float de
 	CSimpleSprite* rawEnemySprite2 = App::CreateSprite(Helper::pathToEnemySpriteSheet, 4, 2);
 	std::shared_ptr<CSimpleSprite> enemySprite2 = std::shared_ptr<CSimpleSprite>(rawEnemySprite2);
 
-	Entity enemyEntity1 = CreateEnemyEntity(entityManager, playerPos, enemySprite1, screenWidth, screenHeight);
+	Entity enemyEntity1 = CreateEnemyEntity(playerPos, enemySprite1, screenWidth, screenHeight);
 	AnimationHandler::InitEnemyAnimation(enemySprite1);
-	Entity enemyEntity2 = CreateEnemyEntity(entityManager, playerPos, enemySprite2, screenWidth, screenHeight);
+	Entity enemyEntity2 = CreateEnemyEntity(playerPos, enemySprite2, screenWidth, screenHeight);
 	AnimationHandler::InitEnemyAnimation(enemySprite2);
 }

@@ -1,5 +1,5 @@
-#ifndef HANDLE_COLLISION_H
-#define HANDLE_COLLISION_H
+#ifndef COLLISION_HANDLER_H
+#define COLLISION_HANDLER_H
 
 #include <set>
 #include "../../Managers/include/EntityManager.h"
@@ -20,4 +20,4 @@ public:
     }
 };
 
-#endif // HANDLE_COLLISION_H
+#endif // COLLISION_HANDLER_H

@@ -11,12 +11,14 @@
 #include "App/Utilities/include/app.h"
 #include "App/Managers/include/EntityManager.h"
 #include "App/Managers/include/SystemManager.h"
+#include "App/Utilities/include/Helper.h"
+#include "App/Systems/include/AnimationHandler.h"
 #include "App/Systems/include/InputHandler.h"
 #include "App/Systems/include/MovementHandler.h"
 #include "App/Systems/include/RenderingHandler.h"
 #include "App/Systems/include/CollisionHandler.h"
 #include "App/Systems/include/AnimationHandler.h"
-#include "App/Utilities/include/Helper.h"
+
 //------------------------------------------------------------------------
 
 float screenWidth = 1024.0f;
@@ -30,8 +32,6 @@ std::shared_ptr<CSimpleSprite> bulletSprite;
 std::shared_ptr<CSimpleSprite> reloadingCircleSprite;
 std::shared_ptr<CSimpleSprite> ammoEmptySprite;
 std::shared_ptr<CSimpleSprite> ammoFilledSprite;
-std::vector<Entity> ammoEmptyEntities;
-std::vector<Entity> ammoFilledEntities;
 Entity playerEntity;
 Entity enemyEntity;
 Entity reloadingCircleEntity;
@@ -48,50 +48,33 @@ AnimationHandler animationHandler;
 //------------------------------------------------------------------------
 void Init()
 {
-	CSimpleSprite *rawPlayerSprite = App::CreateSprite(Helper::pathToPlayerSpriteSheet, 8, 4);
-	playerSprite = std::shared_ptr<CSimpleSprite>(rawPlayerSprite);
-	playerEntity = entityManager.CreatePlayerEntity(playerSprite);
-	animationHandler.InitPlayerAnimation(playerSprite);
-
-	CSimpleSprite *rawEnemySprite = App::CreateSprite(Helper::pathToEnemySpriteSheet, 4, 2);
-	enemySprite = std::shared_ptr<CSimpleSprite>(rawEnemySprite);
-	playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
-	enemyEntity = entityManager.CreateEnemyEntity(entityManager, playerPos, enemySprite, screenWidth, screenHeight);
-	animationHandler.InitEnemyAnimation(enemySprite);
-
-	CSimpleSprite *rawBulletSprite = App::CreateSprite(Helper::pathToBulletSprite, 1, 1);
-	bulletSprite = std::shared_ptr<CSimpleSprite>(rawBulletSprite);
-
-	CSimpleSprite *rawReloadingCircleSprite = App::CreateSprite(Helper::pathToReloadingCircleSpriteSheet, 5, 2);
-	reloadingCircleSprite = std::shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
-	reloadingCircleEntity = entityManager.CreateReloadingCircleEntity(reloadingCircleSprite);
-	animationHandler.InitReloadingCircleAnimation(reloadingCircleSprite);
-
+	// Set up variables for ammo display
 	float startingX = screenWidth - 20;
 	float yPos = screenHeight - 40;
 	float ammoSpriteSpacing = 30;
 	int maxBullets = ShootingHandler::GetMaxBullets();
-	for (int i = 0; i < maxBullets; ++i)
-	{
-		float xPos = startingX - i * ammoSpriteSpacing;
 
-		CSimpleSprite *rawAmmoEmptySprite = App::CreateSprite(Helper::pathToAmmoEmptySprite, 1, 1);
-		ammoEmptySprite = std::shared_ptr<CSimpleSprite>(rawAmmoEmptySprite);
-		ammoEmptyEntity = entityManager.CreateAmmoEntity(ammoEmptySprite, EntityType::AMMO_EMPTY, xPos, yPos);
-		ammoEmptyEntities.push_back(ammoEmptyEntity);
+	// Set up sprites
+	CSimpleSprite* rawPlayerSprite = App::CreateSprite(Helper::pathToPlayerSpriteSheet, 8, 4);
+	std::shared_ptr<CSimpleSprite> playerSprite = std::shared_ptr<CSimpleSprite>(rawPlayerSprite);
+	CSimpleSprite* rawEnemySprite = App::CreateSprite(Helper::pathToEnemySpriteSheet, 4, 2);
+	std::shared_ptr<CSimpleSprite> enemySprite = std::shared_ptr<CSimpleSprite>(rawEnemySprite);
+	CSimpleSprite* rawBulletSprite = App::CreateSprite(Helper::pathToBulletSprite, 1, 1);
+	bulletSprite = std::shared_ptr<CSimpleSprite>(rawBulletSprite);
+	CSimpleSprite* rawReloadingCircleSprite = App::CreateSprite(Helper::pathToReloadingCircleSpriteSheet, 5, 2);
+	std::shared_ptr<CSimpleSprite> reloadingCircleSprite = std::shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
 
-		CSimpleSprite *rawAmmoFilledSprite = App::CreateSprite(Helper::pathToAmmoFilledSprite, 1, 1);
-		ammoFilledSprite = std::shared_ptr<CSimpleSprite>(rawAmmoFilledSprite);
-		ammoFilledEntity = entityManager.CreateAmmoEntity(ammoFilledSprite, EntityType::AMMO_FILLED, xPos, yPos);
-		ammoFilledEntities.push_back(ammoFilledEntity);
-	}
+	// Set up entities
+	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, screenWidth, screenHeight, startingX, yPos, ammoSpriteSpacing, maxBullets);
+	playerEntity = entityManager.GetPlayerEntity();
+	enemyEntity = entityManager.GetEnemyEntity();
+	reloadingCircleEntity = entityManager.GetReloadingCircleEntity();
+
+	// Set up animations
+	animationHandler.Init(playerSprite, enemySprite, reloadingCircleSprite);
 	
-	systemManager.AddSystem(std::make_unique<AnimationHandler>());
-	systemManager.AddSystem(std::make_unique<CollisionHandler>());
-	systemManager.AddSystem(std::make_unique<InputHandler>());
-	systemManager.AddSystem(std::make_unique<MovementHandler>());
-	systemManager.AddSystem(std::make_unique<ShootingHandler>());
-	systemManager.AddSystem(std::make_unique<RenderingHandler>());
+	// Set up systems
+	systemManager.Init();
 }
 
 //------------------------------------------------------------------------

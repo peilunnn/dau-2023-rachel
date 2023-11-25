@@ -1,5 +1,5 @@
-#ifndef HANDLE_SHOOTING_H
-#define HANDLE_SHOOTING_H
+#ifndef SHOOTING_HANDLER_H
+#define SHOOTING_HANDLER_H
 
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
@@ -26,9 +26,9 @@ public:
     static void SetTimeSinceLastShot(float time) {
         timeSinceLastShot = time;
     }
-    static float GetMaxBullets() {
+    static int GetMaxBullets() {
         return MAX_BULLETS;
     }
 };
 
-#endif // HANDLE_SHOOTING_H
+#endif // SHOOTING_HANDLER_H

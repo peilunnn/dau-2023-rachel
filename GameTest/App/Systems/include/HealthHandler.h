@@ -1,5 +1,5 @@
-#ifndef HANDLE_HEALTH_H
-#define HANDLE_HEALTH_H
+#ifndef HEALTH_HANDLER_H
+#define HEALTH_HANDLER_H
 
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Health.h"
@@ -12,4 +12,4 @@ public:
     }
 };
 
-#endif // HANDLE_HEALTH_H
+#endif // HEALTH_HANDLER_H

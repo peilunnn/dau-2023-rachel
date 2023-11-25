@@ -195,7 +195,6 @@
     <ClInclude Include="App\Managers\include\EntityManager.h" />
     <ClInclude Include="App\Components\include\Bar.h" />
     <ClInclude Include="App\Components\include\Button.h" />
-    <ClInclude Include="App\Entities\include\BulletBar.h" />
     <ClInclude Include="App\Entities\include\Countdown.h" />
     <ClInclude Include="App\Entities\include\Description.h" />
     <ClInclude Include="App\Entities\include\HealthBar.h" />
@@ -237,7 +236,6 @@
     <ClCompile Include="App\Managers\src\EntityManager.cpp" />
     <ClCompile Include="App\Components\src\Bar.cpp" />
     <ClCompile Include="App\Components\src\Button.cpp" />
-    <ClCompile Include="App\Entities\src\BulletBar.cpp" />
     <ClCompile Include="App\Entities\src\Countdown.cpp" />
     <ClCompile Include="App\Entities\src\Description.cpp" />
     <ClCompile Include="App\Components\src\Component.cpp" />

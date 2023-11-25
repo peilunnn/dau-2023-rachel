@@ -1,5 +1,5 @@
-#ifndef HANDLE_INPUT_H
-#define HANDLE_INPUT_H
+#ifndef INPUT_HANDLER_H
+#define INPUT_HANDLER_H
 
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
@@ -26,4 +26,4 @@ public:
     }
 };
 
-#endif // HANDLE_INPUT_H
+#endif // INPUT_HANDLER_H

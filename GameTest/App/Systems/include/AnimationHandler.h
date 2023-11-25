@@ -1,5 +1,5 @@
-#ifndef HANDLE_ANIMATION_H
-#define HANDLE_ANIMATION_H
+#ifndef ANIMATION_HANDLER_H
+#define ANIMATION_HANDLER_H
 
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Animation.h"
@@ -33,6 +33,7 @@ public:
 	};
 	int lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 
+	void Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
 	void InitPlayerAnimation(std::shared_ptr<CSimpleSprite> playerSprite);
 	static void InitEnemyAnimation(std::shared_ptr<CSimpleSprite> enemySprite);
 	void InitReloadingCircleAnimation(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
@@ -46,4 +47,4 @@ public:
 	}
 };
 
-#endif // HANDLE_ANIMATION_H
+#endif // ANIMATION_HANDLER_H

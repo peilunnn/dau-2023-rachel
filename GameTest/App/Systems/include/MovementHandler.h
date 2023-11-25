@@ -1,5 +1,5 @@
-#ifndef HANDLE_MOVEMENT_H
-#define HANDLE_MOVEMENT_H
+#ifndef MOVEMENT_HANDLER_H
+#define MOVEMENT_HANDLER_H
 
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
@@ -20,4 +20,4 @@ public:
     }
 };
 
-#endif // HANDLE_MOVEMENT_H
+#endif // MOVEMENT_HANDLER_H

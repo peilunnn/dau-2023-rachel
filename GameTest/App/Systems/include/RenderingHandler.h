@@ -1,5 +1,5 @@
-#ifndef RENDER_ENTITIES_H
-#define RENDER_ENTITIES_H
+#ifndef RENDERING_HANDLER_H
+#define RENDERING_HANDLER_H
 
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
@@ -15,4 +15,4 @@ public:
     }
 };
 
-#endif // RENDER_ENTITIES_H
+#endif // RENDERING_HANDLER_H
