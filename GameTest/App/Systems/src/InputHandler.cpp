@@ -17,13 +17,15 @@ void InputHandler::Update(EntityManager& entityManager, float deltaTime, EntityI
 
 void InputHandler::HandlePositionInput(EntityManager& entityManager, float deltaTime, EntityId playerEntity) {
     auto velocity = entityManager.GetComponent<Velocity>(playerEntity);
-    if (velocity) {
-        float thumbStickX = App::GetController().GetLeftThumbStickX();
-        float thumbStickY = App::GetController().GetLeftThumbStickY();
 
-        velocity->velocity.x = (thumbStickX > THUMB_STICK_THRESHOLD || thumbStickX < -THUMB_STICK_THRESHOLD) ? thumbStickX * VELOCITY_MULTIPLIER : 0.0f;
-        velocity->velocity.y = (fabs(thumbStickY) > THUMB_STICK_THRESHOLD) ? -thumbStickY * VELOCITY_MULTIPLIER : 0.0f;
-    }
+    if (!velocity)
+        return;
+
+    float thumbStickX = App::GetController().GetLeftThumbStickX();
+    float thumbStickY = App::GetController().GetLeftThumbStickY();
+
+    velocity->velocity.x = (fabs(thumbStickX) > THUMB_STICK_THRESHOLD) ? thumbStickX * VELOCITY_MULTIPLIER * deltaTime : 0.0f;
+    velocity->velocity.y = (fabs(thumbStickY) > THUMB_STICK_THRESHOLD) ? -thumbStickY * VELOCITY_MULTIPLIER * deltaTime : 0.0f;
 }
 
 void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntity, shared_ptr<CSimpleSprite> bulletSprite)

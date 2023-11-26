@@ -44,8 +44,10 @@ void MovementHandler::HandlePlayerMovement(EntityManager& entityManager, EntityI
 	if (!(transform && velocity))
 		return;
 
-	float newX = transform->position.x + velocity->velocity.x * deltaTime;
-	float newY = transform->position.y + velocity->velocity.y * deltaTime;
+	float movementX = velocity->velocity.x * deltaTime;
+	float movementY = velocity->velocity.y * deltaTime;
+	float newX = transform->position.x + movementX;
+	float newY = transform->position.y + movementY;
 
 	auto sprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
 	auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
