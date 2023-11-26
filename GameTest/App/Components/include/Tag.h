@@ -5,9 +5,8 @@
 
 class Tag : public Component {
 public:
-    EntityType entityType;
-    EntityState entityState;
+    EntityType entityType = EntityType::NONE;
+    EntityState entityState = EntityState::ALIVE;
 
-    Tag(EntityType type = EntityType::NONE, EntityState initialState = EntityState::ALIVE)
-        : entityType(type), entityState(initialState) {}
+    Tag(EntityType type) : entityType(type) {}
 };

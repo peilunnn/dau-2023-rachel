@@ -78,7 +78,7 @@ EntityId EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> player
 	collider->collisionType = CollisionType::PLAYER;
 	collider->collisionMask = static_cast<int>(CollisionType::ENEMY) | static_cast<int>(CollisionType::RELOADING_CIRCLE);
 	collider->radius = dimensions.height / 2;
-	auto velocity = std::make_shared<Velocity>(0.0f, 0.0f);
+	auto velocity = std::make_shared<Velocity>(glm::vec2(0.0f));
 	auto health = std::make_shared<Health>();
 	auto animation = std::make_shared<Animation>();
 
@@ -111,7 +111,7 @@ EntityId EntityManager::CreateEnemyEntity(const glm::vec3& playerPos, std::share
 	collider->collisionType = CollisionType::ENEMY;
 	collider->collisionMask = static_cast<int>(CollisionType::PLAYER) | static_cast<int>(CollisionType::BULLET);
 	collider->radius = dimensions.width / 2;
-	auto velocity = std::make_shared<Velocity>(randomVelocity.x, randomVelocity.y);
+	auto velocity = std::make_shared<Velocity>(randomVelocity);
 	auto direction = std::make_shared<Direction>();
 	auto animation = std::make_shared<Animation>();
 
@@ -140,7 +140,7 @@ EntityId EntityManager::CreateBulletEntity(std::shared_ptr<CSimpleSprite> bullet
 	collider->collisionType = CollisionType::BULLET;
 	collider->collisionMask = static_cast<int>(CollisionType::ENEMY);
 	collider->radius = dimensions.width / 2;
-	auto velocity = std::make_shared<Velocity>(targetVelocity.x, targetVelocity.y);
+	auto velocity = std::make_shared<Velocity>(targetVelocity);
 
 	AddComponent(bulletEntity, tag);
 	AddComponent(bulletEntity, transform);
@@ -219,7 +219,6 @@ EntityId EntityManager::CreateHealthBarEntity(std::shared_ptr<CSimpleSprite> spr
 EntityId EntityManager::CreateScoreEntity()
 {
 	EntityId scoreEntity = CreateEntity();
-	int initialScore = 0;
 	float yOffset = 50.0f;
 	float xPos = ScreenHandler::SCREEN_WIDTH / 2;
 	float yPos = ScreenHandler::SCREEN_HEIGHT - yOffset;
@@ -227,7 +226,7 @@ EntityId EntityManager::CreateScoreEntity()
 
 	auto tag = std::make_shared<Tag>(EntityType::SCORE);
 	auto transform = std::make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
-	auto score = std::make_shared<Score>(initialScore);
+	auto score = std::make_shared<Score>();
 
 	AddComponent(scoreEntity, tag);
 	AddComponent(scoreEntity, transform);
@@ -239,7 +238,6 @@ EntityId EntityManager::CreateScoreEntity()
 EntityId EntityManager::CreateTimerEntity()
 {
 	EntityId timerEntity = CreateEntity();
-	int initialTime = 60;
 	float xOffset = 1000.0f;
 	float yOffset = 50.0f;
 	float xPos = ScreenHandler::SCREEN_WIDTH - xOffset;
@@ -248,7 +246,7 @@ EntityId EntityManager::CreateTimerEntity()
 
 	auto tag = std::make_shared<Tag>(EntityType::TIMER);
 	auto transform = std::make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
-	auto timer = std::make_shared<Timer>(initialTime);
+	auto timer = std::make_shared<Timer>();
 
 	AddComponent(timerEntity, tag);
 	AddComponent(timerEntity, transform);

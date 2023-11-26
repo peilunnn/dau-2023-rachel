@@ -4,10 +4,10 @@
 
 class Collider : public Component {
 public:
-    CollisionShape collisionShape;
-    CollisionType collisionType;
-    int collisionMask;
-    float radius;
+    CollisionShape collisionShape = CollisionShape::SPHERE;
+    CollisionType collisionType = CollisionType::NONE;
+    int collisionMask = 0;
+    float radius = 0.0f;
 
-    Collider() : collisionShape(CollisionShape::SPHERE), collisionType(CollisionType::NONE), collisionMask(0), radius(0.0f) {}
+    Collider() = default;
 };

@@ -3,8 +3,8 @@
 
 class Health : public Component {
 public:
-    int currentHealth;
-    int maxHealth;
+    int currentHealth = 100;
+    int maxHealth = 100;
 
-    Health() : currentHealth(100), maxHealth(100) {}
+    Health() = default;
 };

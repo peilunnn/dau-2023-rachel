@@ -3,9 +3,9 @@
 #include "Component.h"
 
 struct Button : public Component {
-    bool isHovered;
-    bool isPressed;
+    bool isHovered = false;
+    bool isPressed = false;
     std::function<void()> onClick;
 
-    Button(std::function<void()> click) : isHovered(false), isPressed(false), onClick(click) {}
+    Button(std::function<void()> click) : onClick(click) {}
 };

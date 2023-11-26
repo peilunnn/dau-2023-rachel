@@ -2,7 +2,7 @@
 #include "Component.h"
 
 struct Timer : public Component {
-    float countdownTime;
+    float countdownTime = 60;
 
-    Timer(float startTime) : countdownTime(startTime) {}
+    Timer() = default;
 };

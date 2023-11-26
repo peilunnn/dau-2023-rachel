@@ -4,7 +4,8 @@
 
 class Velocity : public Component {
 public:
-    glm::vec2 velocity;
+    glm::vec2 velocity = glm::vec2(0.0f);
 
-    Velocity(float vx = 0.0f, float vy = 0.0f) : velocity(vx, vy) {}
+    Velocity(const glm::vec2& vel = glm::vec2(0.0f))
+        : velocity(vel) {}
 };
