@@ -54,6 +54,8 @@ std::vector<Entity> EntityManager::GetAllEntities()
 Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite)
 {
 	Entity playerEntity = CreateEntity();
+
+
 	float maxX = 800.0f;
 	float maxY = 400.0f;
 	float xPos = Helper::GenerateFloat(0.0, maxX);
@@ -146,7 +148,7 @@ Entity EntityManager::CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSp
 Entity EntityManager::CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite)
 {
 	Entity reloadingCircleEntity = CreateEntity();
-	float scale = 0.2f;
+	float scale = 0.4f;
 	float maxX = 800.0f;
 	float maxY = 400.0f;
 	float xPos = Helper::GenerateFloat(0.0, maxX);
