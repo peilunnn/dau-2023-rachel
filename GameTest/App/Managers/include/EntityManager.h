@@ -14,6 +14,7 @@
 #include "../../Components/include/Direction.h"
 #include "../../Components/include/Health.h"
 #include "../../Components/include/Animation.h"
+#include "../../Components/include/Score.h"
 #include "../../Systems/include/Event.h"
 #include "../../Systems/include/ScreenHandler.h"
 #include "../../Utilities/include/Helper.h"
@@ -31,6 +32,7 @@ private:
     Entity ammoEmptyEntity;
     Entity ammoFilledEntity;
     Entity healthBarEntity;
+    Entity scoreEntity;
 
     static Entity nextEntityId;
     std::unordered_map<Entity, std::vector<std::shared_ptr<Component>>> entityComponents;
@@ -55,23 +57,26 @@ public:
     {
         return healthBarEntity;
     }
+    Entity GetScoreEntity() const
+    {
+        return scoreEntity;
+    }
 
     void Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> ammoEmptySprite, std::shared_ptr<CSimpleSprite> ammoFilledSprite, std::shared_ptr<CSimpleSprite> healthBarSprite);
     std::vector<Entity> GetAllEntities();
-    static Entity CreateEntity()
-    {
-        return nextEntityId++;
-    }
+    static Entity CreateEntity();
     Entity CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite);
     Entity CreateEnemyEntity(const glm::vec3 &playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
     Entity CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &position, const glm::vec2 &targetVelocity);
     Entity CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
     Entity CreateAmmoEntity(std::shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos);
     Entity CreateHealthBarEntity(std::shared_ptr<CSimpleSprite> sprite, float xPos, float yPos);
+    
+    Entity CreateScoreEntity();
+
     void HideAmmoFilledEntity(int index);
     void ShowAllAmmoFilledEntity();
     void MoveEntityToRandomPos(Entity entity);
-
     void MarkEntityForDeletion(Entity entity);
     void ProcessDeletions();
 

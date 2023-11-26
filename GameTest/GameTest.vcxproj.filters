@@ -43,6 +43,8 @@
     <ClCompile Include="App\Systems\src\Event.cpp" />
     <ClCompile Include="App\Systems\src\ScreenHandler.cpp" />
     <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
+    <ClCompile Include="App\Systems\src\ScoreHandler.cpp" />
+    <ClCompile Include="App\Components\src\Score.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -91,6 +93,8 @@
     <ClInclude Include="App\Systems\include\ScreenHandler.h" />
     <ClInclude Include="App\Managers\SpriteManager.h" />
     <ClInclude Include="App\Managers\include\SpriteManager.h" />
+    <ClInclude Include="App\Systems\include\ScoreHandler.h" />
+    <ClInclude Include="App\Components\include\Score.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

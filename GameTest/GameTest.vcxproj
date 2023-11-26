@@ -203,6 +203,8 @@
     <ClInclude Include="App\Utilities\include\Helper.h" />
     <ClInclude Include="App\Systems\include\ScreenHandler.h" />
     <ClInclude Include="App\Managers\SpriteManager.h" />
+    <ClInclude Include="App\Systems\include\ScoreHandler.h" />
+    <ClInclude Include="App\Components\include\Score.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -240,6 +242,8 @@
     <ClCompile Include="App\Utilities\src\Helper.cpp" />
     <ClCompile Include="App\Systems\src\ScreenHandler.cpp" />
     <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
+    <ClCompile Include="App\Systems\src\ScoreHandler.cpp" />
+    <ClCompile Include="App\Components\src\Score.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

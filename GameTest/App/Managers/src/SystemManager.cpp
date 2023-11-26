@@ -6,6 +6,8 @@
 #include "../../Systems/include/RenderingHandler.h"
 #include "../../Systems/include/CollisionHandler.h"
 #include "../../Systems/include/HealthHandler.h"
+#include "../../Systems/include/ScreenHandler.h"
+#include "../../Systems/include/ScoreHandler.h"
 
 void SystemManager::Init()
 {
@@ -16,6 +18,8 @@ void SystemManager::Init()
     AddSystem(std::make_unique<ShootingHandler>());
     AddSystem(std::make_unique<RenderingHandler>());
     AddSystem(std::make_unique<HealthHandler>());
+    AddSystem(std::make_unique<ScreenHandler>());
+    AddSystem(std::make_unique<ScoreHandler>());
 }
 
 void SystemManager::AddSystem(std::unique_ptr<System> system) {
@@ -26,7 +30,7 @@ void SystemManager::SendEvent(Event event) {
     eventQueue.push(event);
 }
 
-void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime, const glm::vec3& playerPos) {
+void SystemManager::ProcessEvents(EntityManager& entityManager, ScoreHandler& scoreHandler, float deltaTime, const glm::vec3& playerPos) {
     float screenWidth = ScreenHandler::SCREEN_WIDTH;
     float screenHeight = ScreenHandler::SCREEN_HEIGHT;
     
@@ -36,7 +40,7 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime,
         switch (event.eventType)
         {
         case EventType::BulletHitEnemy:
-            HandleBulletHitEnemyEvent(entityManager, event, deltaTime, playerPos);
+            HandleBulletHitEnemyEvent(entityManager, scoreHandler, event, deltaTime, playerPos);
             break;
         case EventType::EnemyHitPlayer:
             HandleEnemyHitPlayerEvent(entityManager, event, deltaTime);
@@ -51,7 +55,7 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, float deltaTime,
     }
 }
 
-void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, const Event& event, float deltaTime, const glm::vec3& playerPos)
+void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, ScoreHandler& scoreHandler, const Event& event, float deltaTime, const glm::vec3& playerPos)
 {
     float screenWidth = ScreenHandler::SCREEN_WIDTH;
     float screenHeight = ScreenHandler::SCREEN_HEIGHT;
@@ -68,6 +72,7 @@ void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, cons
     }
 
     entityManager.ProcessBulletHitEnemy(entityManager, event, deltaTime, playerPos, screenWidth, screenHeight);
+    scoreHandler.ProcessBulletHitEnemy(entityManager, deltaTime);
 }
 
 void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, const Event& event, float deltaTime)

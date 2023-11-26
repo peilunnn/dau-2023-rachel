@@ -1,7 +1,9 @@
 #ifndef SCREEN_HANDLER_H
 #define SCREEN_HANDLER_H
 
-class ScreenHandler
+#include "../../Systems/include/System.h"
+
+class ScreenHandler : public System
 {
 public:
     static constexpr float SCREEN_WIDTH = 1024.0f;
@@ -27,6 +29,9 @@ public:
     static float NDCtoScreenY(float ndcY, float screenHeight)
     {
         return (1.0f - ndcY) * 0.5f * screenHeight;
+    }
+    Type GetSystemType() const override {
+        return System::Type::ScreenHandler;
     }
 };
 

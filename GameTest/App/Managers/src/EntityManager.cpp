@@ -40,6 +40,8 @@ void EntityManager::Init(std::shared_ptr<CSimpleSprite> playerSprite, std::share
 		ammoFilledEntity = CreateAmmoEntity(ammoFilledSprite, EntityType::AMMO_FILLED, xPos, ammoYPos);
 		ammoFilledEntities.push_back(ammoFilledEntity);
 	}
+
+	scoreEntity = CreateScoreEntity();
 }
 
 std::vector<Entity> EntityManager::GetAllEntities()
@@ -49,6 +51,11 @@ std::vector<Entity> EntityManager::GetAllEntities()
 		allEntities.push_back(pair.first);
 	}
 	return allEntities;
+}
+
+Entity EntityManager::CreateEntity()
+{
+	return nextEntityId++;
 }
 
 Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite)
@@ -206,6 +213,25 @@ Entity EntityManager::CreateHealthBarEntity(std::shared_ptr<CSimpleSprite> sprit
 	AddComponent(healthBarEntity, animation);
 
 	return healthBarEntity;
+}
+
+Entity EntityManager::CreateScoreEntity()
+{
+	Entity scoreEntity = CreateEntity();
+	int initialScore = 0;
+	float xPos = (ScreenHandler::SCREEN_LEFT + ScreenHandler::SCREEN_RIGHT) / 2.0f;
+	float yPos = ScreenHandler::SCREEN_TOP - 50.0f;
+	float zPos = 0.0f;
+
+	auto tag = std::make_shared<Tag>(EntityType::HEALTH_BAR);
+	auto transform = std::make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
+	auto score = std::make_shared<Score>(initialScore);
+
+	AddComponent(scoreEntity, tag);
+	AddComponent(scoreEntity, transform);
+	AddComponent(scoreEntity, score);
+
+	return scoreEntity;
 }
 
 void EntityManager::HideAmmoFilledEntity(int index)

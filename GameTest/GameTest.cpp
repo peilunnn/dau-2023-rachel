@@ -39,11 +39,13 @@ Entity reloadingCircleEntity;
 Entity ammoEmptyEntity;
 Entity ammoFilledEntity;
 Entity healthBarEntity;
+Entity scoreEntity;
 RenderingHandler renderingHandler;
 InputHandler inputHandler;
 MovementHandler movementHandler;
 CollisionHandler collisionHandler;
 AnimationHandler animationHandler;
+ScoreHandler scoreHandler;
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -74,6 +76,7 @@ void Init()
 	enemyEntity = entityManager.GetEnemyEntity();
 	reloadingCircleEntity = entityManager.GetReloadingCircleEntity();
 	healthBarEntity = entityManager.GetHealthBarEntity();
+	scoreEntity = entityManager.GetScoreEntity();
 
 	// Set up animations
 	animationHandler.Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite);
@@ -94,7 +97,7 @@ void Update(float deltaTime)
 	collisionHandler.Update(entityManager, systemManager, deltaTimeInSeconds);
 	animationHandler.Update(entityManager, deltaTimeInSeconds);
 	playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
-	systemManager.ProcessEvents(entityManager, deltaTimeInSeconds, playerPos);
+	systemManager.ProcessEvents(entityManager, scoreHandler, deltaTimeInSeconds, playerPos);
 	entityManager.ProcessDeletions();
 }
 
