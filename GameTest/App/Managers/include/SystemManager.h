@@ -1,6 +1,4 @@
-#ifndef SYSTEM_MANAGER_H
-#define SYSTEM_MANAGER_H
-
+#pragma once
 #include <queue>
 #include "EntityManager.h"
 #include "../../Systems/include/System.h"
@@ -23,5 +21,3 @@ public:
     void HandleEnemyHitPlayerEvent(EntityManager& entityManager, const Event& event, float deltaTime);
     void HandlePlayerHitPlayerReloadingCircle(EntityManager& entityManager, const Event& event, float deltaTime);
 };
-
-#endif SYSTEM_MANAGER_H

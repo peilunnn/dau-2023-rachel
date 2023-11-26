@@ -1,6 +1,4 @@
-#ifndef HEALTH_H
-#define HEALTH_H
-
+#pragma once
 #include "Component.h"
 
 class Health : public Component {
@@ -10,5 +8,3 @@ public:
 
     Health() : currentHealth(100), maxHealth(100) {}
 };
-
-#endif // HEALTH_H

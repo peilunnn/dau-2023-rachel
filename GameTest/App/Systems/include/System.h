@@ -1,5 +1,4 @@
-#ifndef SYSTEM_H
-#define SYSTEM_H
+#pragma once
 
 class System {
 public:
@@ -19,5 +18,3 @@ public:
     };
     virtual Type GetSystemType() const = 0;
 };
-
-#endif // SYSTEM_H

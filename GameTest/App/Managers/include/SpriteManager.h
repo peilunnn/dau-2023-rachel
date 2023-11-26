@@ -1,6 +1,4 @@
-#ifndef SPRITE_MANAGER_H
-#define SPRITE_MANAGER_H
-
+#pragma once
 #include <memory>
 #include "../App/Utilities/include/SimpleSprite.h"
 #include "../App/Utilities/include/App.h"
@@ -11,5 +9,3 @@ public:
     static std::shared_ptr<CSimpleSprite> CreateSprite(const std::string& path, int columns, int rows);
 
 };
-
-#endif // SPRITE_MANAGER_H

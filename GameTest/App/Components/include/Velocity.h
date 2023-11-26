@@ -1,6 +1,4 @@
-#ifndef VELOCITY_H
-#define VELOCITY_H
-
+#pragma once
 #include <glm/vec2.hpp>
 #include "Component.h"
 
@@ -10,5 +8,3 @@ public:
 
     Velocity(float vx = 0.0f, float vy = 0.0f) : velocity(vx, vy) {}
 };
-
-#endif // VELOCITY_H

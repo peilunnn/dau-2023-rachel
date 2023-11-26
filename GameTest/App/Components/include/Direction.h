@@ -1,6 +1,4 @@
-#ifndef DIRECTION_H
-#define DIRECTION_H
-
+#pragma once
 #include <glm/vec2.hpp>
 #include "Component.h"
 
@@ -10,5 +8,3 @@ public:
 
     Direction() : bounced(false) {}
 };
-
-#endif // DIRECTION_H

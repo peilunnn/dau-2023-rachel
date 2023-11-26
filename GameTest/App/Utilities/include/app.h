@@ -108,4 +108,5 @@ namespace App
 	//-------------------------------------------------------------------------------------------
 	const CController &GetController( int pad = 0 );
 };
-#endif //_APP_H
+
+#endif

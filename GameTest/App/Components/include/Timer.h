@@ -1,6 +1,4 @@
-#ifndef TIMER_H
-#define TIMER_H
-
+#pragma once
 #include "Component.h"
 
 struct Timer : public Component {
@@ -8,5 +6,3 @@ struct Timer : public Component {
 
     Timer(float startTime) : countdownTime(startTime) {}
 };
-
-#endif // TIMER_H

@@ -1,6 +1,4 @@
-#ifndef COUNTDOWN_HANDLER_H
-#define COUNTDOWN_HANDLER_H
-
+#pragma once
 #include "../App/Managers/include/EntityManager.h"
 #include "../App/Components/include/Timer.h"
 #include "System.h"
@@ -13,5 +11,3 @@ public:
         return System::Type::TimerHandler;
     }
 };
-
-#endif // TIMER_HANDLER_H

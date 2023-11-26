@@ -1,6 +1,4 @@
-#ifndef INPUT_HANDLER_H
-#define INPUT_HANDLER_H
-
+#pragma once
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Velocity.h"
@@ -25,5 +23,3 @@ public:
         return System::Type::InputHandler;
     }
 };
-
-#endif // INPUT_HANDLER_H

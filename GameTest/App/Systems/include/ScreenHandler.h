@@ -1,6 +1,4 @@
-#ifndef SCREEN_HANDLER_H
-#define SCREEN_HANDLER_H
-
+#pragma once
 #include "../../Systems/include/System.h"
 
 class ScreenHandler : public System
@@ -34,5 +32,3 @@ public:
         return System::Type::ScreenHandler;
     }
 };
-
-#endif // SCREEN_HANDLER_H

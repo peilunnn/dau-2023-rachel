@@ -1,6 +1,4 @@
-#ifndef RENDERING_HANDLER_H
-#define RENDERING_HANDLER_H
-
+#pragma once
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Renderable.h"
@@ -21,5 +19,3 @@ public:
         return System::Type::RenderingHandler;
     }
 };
-
-#endif // RENDERING_HANDLER_H

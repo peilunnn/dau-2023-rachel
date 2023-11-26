@@ -1,6 +1,4 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
-
+#pragma once
 #include "Component.h"
 #include <vector>
 
@@ -14,5 +12,3 @@ public:
     Animation(int anim = 0, float speed = 0.0f, const std::vector<int>& frms = {})
         : currentAnimation(anim), animationSpeed(speed), frames(frms), cooldownTimer(0.0f) {}
 };
-
-#endif // ANIMATION_H

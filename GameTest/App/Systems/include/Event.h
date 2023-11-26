@@ -1,6 +1,4 @@
-#ifndef EVENT_H
-#define EVENT_H
-
+#pragma once
 #include <vector>
 
 using Entity = unsigned int;
@@ -22,5 +20,3 @@ public:
     Event(EventType type, std::initializer_list<Entity> ents, bool newEnemies = false)
         : eventType(type), entities(ents) {}
 };
-
-#endif // EVENT_H

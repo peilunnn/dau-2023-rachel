@@ -1,6 +1,4 @@
-#ifndef HELPER_H
-#define HELPER_H
-
+#pragma once
 #include <Windows.h>
 #include <string>
 #include <iostream>
@@ -77,5 +75,3 @@ public:
     // For dealing with entities going out of bounds
     static SpriteDimensions GetSpriteDimensions(std::shared_ptr<CSimpleSprite> sprite, float multiplier);
 };
-
-#endif // HELPER_H

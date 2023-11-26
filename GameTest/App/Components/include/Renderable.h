@@ -1,6 +1,4 @@
-#ifndef RENDERABLE_H
-#define RENDERABLE_H
-
+#pragma once
 #include <memory>
 #include "../../Utilities/include/SimpleSprite.h"
 #include "Component.h"
@@ -10,5 +8,3 @@ struct Renderable : public Component {
 
     Renderable(std::shared_ptr<CSimpleSprite> sprite) : sprite(sprite) {}
 };
-
-#endif // RENDERABLE_H

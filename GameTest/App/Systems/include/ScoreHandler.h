@@ -1,6 +1,4 @@
-#ifndef SCORE_HANDLER_H
-#define SCORE_HANDLER_H
-
+#pragma once
 #include "../../Managers/include/EntityManager.h"
 #include "../../Systems/include/System.h"
 #include "../../Utilities/include/Helper.h"
@@ -13,5 +11,3 @@ public:
         return System::Type::ScreenHandler;
     }
 };
-
-#endif // SCORE_HANDLER_H

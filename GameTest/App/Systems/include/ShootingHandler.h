@@ -1,6 +1,4 @@
-#ifndef SHOOTING_HANDLER_H
-#define SHOOTING_HANDLER_H
-
+#pragma once
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Velocity.h"
@@ -31,5 +29,3 @@ public:
         return System::Type::ShootingHandler;
     }
 };
-
-#endif // SHOOTING_HANDLER_H

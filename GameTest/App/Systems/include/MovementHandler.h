@@ -1,6 +1,4 @@
-#ifndef MOVEMENT_HANDLER_H
-#define MOVEMENT_HANDLER_H
-
+#pragma once
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Transform.h"
 #include "../../Components/include/Velocity.h"
@@ -20,5 +18,3 @@ public:
         return System::Type::MovementHandler;
     }
 };
-
-#endif // MOVEMENT_HANDLER_H

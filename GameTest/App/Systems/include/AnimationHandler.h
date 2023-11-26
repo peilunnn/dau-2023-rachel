@@ -1,6 +1,4 @@
-#ifndef ANIMATION_HANDLER_H
-#define ANIMATION_HANDLER_H
-
+#pragma once
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Animation.h"
 #include "../../Components/include/Velocity.h"
@@ -58,5 +56,3 @@ public:
 		return System::Type::AnimationHandler;
 	}
 };
-
-#endif // ANIMATION_HANDLER_H

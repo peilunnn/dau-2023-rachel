@@ -1,6 +1,4 @@
-#ifndef COLLISION_HANDLER_H
-#define COLLISION_HANDLER_H
-
+#pragma once
 #include <set>
 #include "../../Managers/include/EntityManager.h"
 #include "../../Managers/include/SystemManager.h"
@@ -19,5 +17,3 @@ public:
         return System::Type::CollisionHandler;
     }
 };
-
-#endif // COLLISION_HANDLER_H

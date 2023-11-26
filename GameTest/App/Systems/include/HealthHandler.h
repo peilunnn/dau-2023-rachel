@@ -1,6 +1,4 @@
-#ifndef HEALTH_HANDLER_H
-#define HEALTH_HANDLER_H
-
+#pragma once
 #include "../../Managers/include/EntityManager.h"
 #include "../../Components/include/Health.h"
 #include "../../Systems/include/System.h"
@@ -14,5 +12,3 @@ public:
 		return System::Type::HealthHandler;
 	}
 };
-
-#endif // HEALTH_HANDLER_H

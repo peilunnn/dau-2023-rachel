@@ -1,6 +1,4 @@
-#ifndef COLLIDER_H
-#define COLLIDER_H
-
+#pragma once
 #include "Component.h"
 
 enum class CollisionShape {
@@ -25,6 +23,3 @@ public:
 
     Collider() : collisionShape(CollisionShape::SPHERE), collisionType(CollisionType::NONE), collisionMask(0), radius(0.0f) {}
 };
-
-
-#endif // COLLIDER_H

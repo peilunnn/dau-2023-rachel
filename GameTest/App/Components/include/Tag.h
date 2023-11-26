@@ -1,6 +1,4 @@
-#ifndef TAG_H
-#define TAG_H
-
+#pragma once
 #include <string>
 #include "Component.h"
 
@@ -34,5 +32,3 @@ public:
     Tag(EntityType type = EntityType::NONE, EntityState initialState = EntityState::ALIVE)
         : entityType(type), entityState(initialState) {}
 };
-
-#endif // TAG_H
