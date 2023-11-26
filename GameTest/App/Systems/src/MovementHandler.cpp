@@ -30,15 +30,10 @@ void MovementHandler::Update(EntityManager &entityManager, float deltaTime)
 
 void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Entity entity, float deltaTime)
 {
-    float borderLeftX = ScreenHandler::BORDER_LEFT_X;
-    float borderRightX = ScreenHandler::BORDER_RIGHT_X;
-    float borderTopY = ScreenHandler::BORDER_TOP_Y;
-    float borderBottomY = ScreenHandler::BORDER_BOTTOM_Y;
-
-    float screenLeft = ScreenHandler::NDCtoScreenX(borderLeftX, ScreenHandler::SCREEN_WIDTH);
-    float screenRight = ScreenHandler::NDCtoScreenX(borderRightX, ScreenHandler::SCREEN_WIDTH);
-    float screenTop = ScreenHandler::NDCtoScreenY(borderTopY, ScreenHandler::SCREEN_HEIGHT);
-    float screenBottom = ScreenHandler::NDCtoScreenY(borderBottomY, ScreenHandler::SCREEN_HEIGHT);
+    float screenLeft = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_LEFT_X, ScreenHandler::SCREEN_WIDTH);
+    float screenRight = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_RIGHT_X, ScreenHandler::SCREEN_WIDTH);
+    float screenTop = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_TOP_Y, ScreenHandler::SCREEN_HEIGHT);
+    float screenBottom = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_BOTTOM_Y, ScreenHandler::SCREEN_HEIGHT);
     float topAdjustment = 60.0f;
 
     float multiplier = 0.25f;
@@ -63,15 +58,10 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Entity 
 
 void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, Entity entity, float deltaTime)
 {
-    float borderLeftX = ScreenHandler::BORDER_LEFT_X;
-    float borderRightX = ScreenHandler::BORDER_RIGHT_X;
-    float borderTopY = ScreenHandler::BORDER_TOP_Y;
-    float borderBottomY = ScreenHandler::BORDER_BOTTOM_Y;
-
-    float screenLeft = ScreenHandler::NDCtoScreenX(borderLeftX, ScreenHandler::SCREEN_WIDTH);
-    float screenRight = ScreenHandler::NDCtoScreenX(borderRightX, ScreenHandler::SCREEN_WIDTH);
-    float screenTop = ScreenHandler::NDCtoScreenY(borderTopY, ScreenHandler::SCREEN_HEIGHT);
-    float screenBottom = ScreenHandler::NDCtoScreenY(borderBottomY, ScreenHandler::SCREEN_HEIGHT);
+    float screenLeft = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_LEFT_X, ScreenHandler::SCREEN_WIDTH);
+    float screenRight = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_RIGHT_X, ScreenHandler::SCREEN_WIDTH);
+    float screenTop = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_TOP_Y, ScreenHandler::SCREEN_HEIGHT);
+    float screenBottom = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_BOTTOM_Y, ScreenHandler::SCREEN_HEIGHT);
     float topAdjustment = 20.0f;
     float bottomAdjustment = -15.0f;
 

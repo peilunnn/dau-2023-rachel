@@ -54,12 +54,15 @@ std::vector<Entity> EntityManager::GetAllEntities()
 Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite)
 {
 	Entity playerEntity = CreateEntity();
+	float screenLeft = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_LEFT_X, ScreenHandler::SCREEN_WIDTH);
+	float screenRight = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_RIGHT_X, ScreenHandler::SCREEN_WIDTH);
+	float screenTop = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_TOP_Y, ScreenHandler::SCREEN_HEIGHT);
+	float screenBottom = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_BOTTOM_Y, ScreenHandler::SCREEN_HEIGHT);
 
-
-	float maxX = 800.0f;
-	float maxY = 400.0f;
-	float xPos = Helper::GenerateFloat(0.0, maxX);
-	float yPos = Helper::GenerateFloat(0.0, maxY);
+	float maxX = screenRight - screenLeft;
+	float maxY = screenBottom - screenTop;
+	float xPos = Helper::GenerateFloat(screenLeft, screenRight);
+	float yPos = Helper::GenerateFloat(screenTop, screenBottom);
 	float zPos = 0.0f;
 	float scale = 0.75f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(playerSprite, 1.0f);
@@ -148,12 +151,17 @@ Entity EntityManager::CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSp
 Entity EntityManager::CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite)
 {
 	Entity reloadingCircleEntity = CreateEntity();
-	float scale = 0.4f;
-	float maxX = 800.0f;
-	float maxY = 400.0f;
-	float xPos = Helper::GenerateFloat(0.0, maxX);
-	float yPos = Helper::GenerateFloat(0.0, maxY);
+	float screenLeft = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_LEFT_X, ScreenHandler::SCREEN_WIDTH);
+	float screenRight = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_RIGHT_X, ScreenHandler::SCREEN_WIDTH);
+	float screenTop = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_TOP_Y, ScreenHandler::SCREEN_HEIGHT);
+	float screenBottom = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_BOTTOM_Y, ScreenHandler::SCREEN_HEIGHT);
+
+	float maxX = screenRight - screenLeft;
+	float maxY = screenBottom - screenTop;
+	float xPos = Helper::GenerateFloat(screenLeft, screenRight);
+	float yPos = Helper::GenerateFloat(screenTop, screenBottom);
 	float zPos = 0.0f;
+	float scale = 0.4f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(reloadingCircleSprite, 1.0f);
 
 	auto tag = std::make_shared<Tag>(EntityType::RELOADING_CIRCLE);
