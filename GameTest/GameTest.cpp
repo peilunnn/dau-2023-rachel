@@ -104,31 +104,9 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {
-	float borderThickness = 10.0f;
-
-	// Set the color to grey for the entire background
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	// White border
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glLineWidth(borderThickness);
-	glBegin(GL_LINE_LOOP);
-	glVertex2f(-0.9f, 0.75f); // top left
-	glVertex2f(0.9f, 0.75f); // top right
-	glVertex2f(0.9f, -0.68f); // bottom right
-	glVertex2f(-0.9f, -0.68f); // bottom left
-	glEnd();
-
-	// Black background enclosed by the border
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glBegin(GL_QUADS);
-	glVertex2f(-0.9f, 0.75f); // top left
-	glVertex2f(0.9f, 0.75f); // top right
-	glVertex2f(0.9f, -0.68f); // bottom right
-	glVertex2f(-0.9f, -0.68f); // bottom left
-	glEnd();
-
+	renderingHandler.SetBackground(0.2f, 0.2f, 0.2f, 1.0f);
+	renderingHandler.DrawBorder(1.0f, 1.0f, 1.0f);
+	renderingHandler.DrawBackgroundInBorder(0.0f, 0.0f, 0.0f);
 	renderingHandler.Render(entityManager);
 }
 

@@ -27,3 +27,33 @@ void RenderingHandler::Render(EntityManager &entityManager)
         renderable->sprite->Draw();
     }
 }
+
+void RenderingHandler::SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
+{
+    glClearColor(red, green, blue, alpha);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void RenderingHandler::DrawBorder(GLfloat red, GLfloat green, GLfloat blue)
+{
+    glColor3f(red, green, blue);
+    glLineWidth(borderThickness);
+    glBegin(GL_LINE_LOOP);
+    glVertex2f(borderLeftX, borderTopY);
+    glVertex2f(borderRightX, borderTopY);
+    glVertex2f(borderRightX, borderBottomY);
+    glVertex2f(borderLeftX, borderBottomY);
+    glEnd();
+}
+
+void RenderingHandler::DrawBackgroundInBorder(GLfloat red, GLfloat green, GLfloat blue)
+{
+    glColor3f(red, green, blue);
+    glBegin(GL_QUADS);
+    glVertex2f(borderLeftX, borderTopY);
+    glVertex2f(borderRightX, borderTopY);
+    glVertex2f(borderRightX, borderBottomY);
+    glVertex2f(borderLeftX, borderBottomY);
+    glEnd();
+
+}

@@ -8,8 +8,19 @@
 #include "../../Systems/include/System.h"
 
 class RenderingHandler : public System {
+private:
+    const float borderLeftX = -0.9f;
+    const float borderTopY = 0.75f;
+    const float borderRightX = 0.9f;
+    const float borderBottomY = -0.68f;
+    const float borderThickness = 10.0f;
+
 public:
     void Render(EntityManager& entityManager);
+    void SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+    void DrawBorder(GLfloat red, GLfloat green, GLfloat blue);
+    void DrawBackgroundInBorder(GLfloat red, GLfloat green, GLfloat blue);
+
     Type GetSystemType() const override {
         return System::Type::RenderingHandler;
     }
