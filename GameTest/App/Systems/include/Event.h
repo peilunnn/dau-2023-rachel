@@ -1,13 +1,14 @@
 #pragma once
-#include <vector>
+#include "../App/Components/include/EntityId.h"
 #include "../App/Utilities/include/Enums.h"
-#include "../App/Components/include/EntityID.h"
+#include <vector>
+using namespace std;
 
 class Event {
 public:
-    EventType eventType;
-    std::vector<EntityId> entities;
+	EventType eventType;
+	vector<EntityId> entities;
 
-    Event(EventType type, std::initializer_list<EntityId> ents, bool newEnemies = false)
-        : eventType(type), entities(ents) {}
+	Event(EventType type, initializer_list<EntityId> ents, bool newEnemies = false)
+		: eventType(type), entities(ents) {}
 };

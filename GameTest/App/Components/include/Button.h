@@ -1,11 +1,12 @@
 #pragma once
-#include <functional>
 #include "Component.h"
+#include <functional>
+using namespace std;
 
 struct Button : public Component {
-    bool isHovered = false;
-    bool isPressed = false;
-    std::function<void()> onClick;
+	bool isHovered = false;
+	bool isPressed = false;
+	function<void()> onClick;
 
-    Button(std::function<void()> click) : onClick(click) {}
+	Button(function<void()> click) : onClick(click) {}
 };

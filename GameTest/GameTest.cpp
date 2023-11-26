@@ -20,6 +20,7 @@
 #include "App/Systems/include/CollisionHandler.h"
 #include "App/Systems/include/AnimationHandler.h"
 #include "App/Systems/include/TimerHandler.h"
+using namespace std;
 
 //------------------------------------------------------------------------
 
@@ -27,13 +28,13 @@ int maxBullets;
 glm::vec3 playerPos;
 EntityManager entityManager;
 SystemManager systemManager;
-std::shared_ptr<CSimpleSprite> playerSprite;
-std::shared_ptr<CSimpleSprite> enemySprite;
-std::shared_ptr<CSimpleSprite> bulletSprite;
-std::shared_ptr<CSimpleSprite> reloadingCircleSprite;
-std::shared_ptr<CSimpleSprite> ammoEmptySprite;
-std::shared_ptr<CSimpleSprite> ammoFilledSprite;
-std::shared_ptr<CSimpleSprite> healthBarSprite;
+shared_ptr<CSimpleSprite> playerSprite;
+shared_ptr<CSimpleSprite> enemySprite;
+shared_ptr<CSimpleSprite> bulletSprite;
+shared_ptr<CSimpleSprite> reloadingCircleSprite;
+shared_ptr<CSimpleSprite> ammoEmptySprite;
+shared_ptr<CSimpleSprite> ammoFilledSprite;
+shared_ptr<CSimpleSprite> healthBarSprite;
 EntityId playerEntity;
 EntityId enemyEntity;
 EntityId reloadingCircleEntity;
@@ -57,15 +58,15 @@ void Init()
 {
 	// Set up sprites
 	CSimpleSprite* rawPlayerSprite = App::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 8, 4);
-	playerSprite = std::shared_ptr<CSimpleSprite>(rawPlayerSprite);
+	playerSprite = shared_ptr<CSimpleSprite>(rawPlayerSprite);
 	CSimpleSprite* rawEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
-	enemySprite = std::shared_ptr<CSimpleSprite>(rawEnemySprite);
+	enemySprite = shared_ptr<CSimpleSprite>(rawEnemySprite);
 	CSimpleSprite* rawBulletSprite = App::CreateSprite(Helper::PATH_TO_BULLET_SPRITE, 1, 1);
-	bulletSprite = std::shared_ptr<CSimpleSprite>(rawBulletSprite);
+	bulletSprite = shared_ptr<CSimpleSprite>(rawBulletSprite);
 	CSimpleSprite* rawReloadingCircleSprite = App::CreateSprite(Helper::PATH_TO_RELOADING_CIRCLE_SPRITE_SHEET, 5, 2);
-	reloadingCircleSprite = std::shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
+	reloadingCircleSprite = shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
 	CSimpleSprite* rawHealthBarSprite = App::CreateSprite(Helper::PATH_TO_HEALTH_BAR_SPRITE_SHEET, 2, 3);
-	healthBarSprite = std::shared_ptr<CSimpleSprite>(rawHealthBarSprite);
+	healthBarSprite = shared_ptr<CSimpleSprite>(rawHealthBarSprite);
 
 	// playerSprite = SpriteManager::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 8, 4);
 	// enemySprite = SpriteManager::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);

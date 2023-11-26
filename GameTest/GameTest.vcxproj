@@ -206,7 +206,7 @@
     <ClInclude Include="App\Components\include\Score.h" />
     <ClInclude Include="App\Systems\include\TimerHandler.h" />
     <ClInclude Include="App\Utilities\include\Enums.h" />
-    <ClInclude Include="App\Components\include\EntityID.h" />
+    <ClInclude Include="App\Components\include\EntityId.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -233,7 +233,7 @@
     <ClCompile Include="App\Components\src\Component.cpp" />
     <ClCompile Include="App\Systems\src\TimerHandler.cpp" />
     <ClCompile Include="App\Utilities\src\Enums.cpp" />
-    <ClCompile Include="App\Components\src\EntityID.cpp" />
+    <ClCompile Include="App\Components\src\EntityId.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Systems\src\CollisionHandler.cpp" />

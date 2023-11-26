@@ -2,11 +2,13 @@
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 #include "../include/InputHandler.h"
+#include "../../Components/include/Transform.h"
+#include "../../Components/include/Velocity.h"
+#include "../../Systems/include/ShootingHandler.h"
+#include "../../Utilities/include/app.h"
 
-void InputHandler::Update(EntityManager& entityManager, float deltaTime, EntityId playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite) {
+void InputHandler::Update(EntityManager& entityManager, float deltaTime, EntityId playerEntity, shared_ptr<CSimpleSprite> bulletSprite) {
     InputHandler::HandlePositionInput(entityManager, deltaTime, playerEntity);
-    InputHandler::HandleRotationInput(entityManager, playerEntity);
-    InputHandler::HandleScaleInput(entityManager, playerEntity);
  
     float newTimeSinceLastShot = ShootingHandler::GetTimeSinceLastShot() + deltaTime;
     ShootingHandler::SetTimeSinceLastShot(newTimeSinceLastShot);
@@ -24,27 +26,7 @@ void InputHandler::HandlePositionInput(EntityManager& entityManager, float delta
     }
 }
 
-void InputHandler::HandleRotationInput(EntityManager& entityManager, EntityId playerEntity) {
-    auto transform = entityManager.GetComponent<Transform>(playerEntity);
-    if (transform) {
-        if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT, false))
-            transform->rotation.z += ANGLE_DELTA;
-        else if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT, false))
-            transform->rotation.z -= ANGLE_DELTA;
-    }
-}
-
-void InputHandler::HandleScaleInput(EntityManager& entityManager, EntityId playerEntity) {
-    auto transform = entityManager.GetComponent<Transform>(playerEntity);
-    if (transform) {
-        if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP, false))
-            transform->scale += glm::vec3(SCALE_DELTA);
-        else if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN, false))
-            transform->scale -= glm::vec3(SCALE_DELTA);
-    }
-}
-
-void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite)
+void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntity, shared_ptr<CSimpleSprite> bulletSprite)
 {
     float mouseX, mouseY;
     auto playerTransform = entityManager.GetComponent<Transform>(playerEntity);

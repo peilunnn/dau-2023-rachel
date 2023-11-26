@@ -8,22 +8,23 @@
 #include "../../Systems/include/HealthHandler.h"
 #include "../../Systems/include/ScreenHandler.h"
 #include "../../Systems/include/ScoreHandler.h"
+#include "../../Systems/include/ShootingHandler.h"
 
 void SystemManager::Init()
 {
-    AddSystem(std::make_unique<AnimationHandler>());
-    AddSystem(std::make_unique<CollisionHandler>());
-    AddSystem(std::make_unique<InputHandler>());
-    AddSystem(std::make_unique<MovementHandler>());
-    AddSystem(std::make_unique<ShootingHandler>());
-    AddSystem(std::make_unique<RenderingHandler>());
-    AddSystem(std::make_unique<HealthHandler>());
-    AddSystem(std::make_unique<ScreenHandler>());
-    AddSystem(std::make_unique<ScoreHandler>());
+    AddSystem(make_unique<AnimationHandler>());
+    AddSystem(make_unique<CollisionHandler>());
+    AddSystem(make_unique<InputHandler>());
+    AddSystem(make_unique<MovementHandler>());
+    AddSystem(make_unique<ShootingHandler>());
+    AddSystem(make_unique<RenderingHandler>());
+    AddSystem(make_unique<HealthHandler>());
+    AddSystem(make_unique<ScreenHandler>());
+    AddSystem(make_unique<ScoreHandler>());
 }
 
-void SystemManager::AddSystem(std::unique_ptr<System> system) {
-    systems.push_back(std::move(system));
+void SystemManager::AddSystem(unique_ptr<System> system) {
+    systems.push_back(move(system));
 }
 
 void SystemManager::SendEvent(Event event) {

@@ -3,7 +3,7 @@
 
 class Direction : public Component {
 public:
-    bool bounced = false;
+	bool bounced = false;
 
-    Direction() = default;
+	Direction() = default;
 };

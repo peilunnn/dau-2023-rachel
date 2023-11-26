@@ -1,10 +1,7 @@
 #pragma once
 #include "../../Managers/include/EntityManager.h"
-#include "../../Components/include/Transform.h"
-#include "../../Components/include/Velocity.h"
-#include "../../Utilities/include/app.h"
 #include "../../Systems/include/System.h"
-#include "../App/Utilities/include/Enums.h"
+using namespace std;
 
 class ShootingHandler : public System
 {
@@ -15,7 +12,7 @@ private:
     static float timeSinceLastShot;
 
 public:
-    static void Shoot(EntityManager &entityManager, EntityId playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
+    static void Shoot(EntityManager &entityManager, EntityId playerEntity, shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
     void ProcessPlayerHitReloadingCircle(EntityManager &entityManager, float deltaTime);
 
     static float GetTimeSinceLastShot()

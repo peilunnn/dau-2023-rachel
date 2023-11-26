@@ -1,10 +1,11 @@
 #pragma once
-#include <memory>
 #include "../../Utilities/include/SimpleSprite.h"
 #include "Component.h"
+#include <memory>
+using namespace std;
 
 struct Renderable : public Component {
-    std::shared_ptr<CSimpleSprite> sprite = nullptr;
+	shared_ptr<CSimpleSprite> sprite = nullptr;
 
-    Renderable(std::shared_ptr<CSimpleSprite> sprite) : sprite(sprite) {}
+	Renderable(shared_ptr<CSimpleSprite> sprite) : sprite(sprite) {}
 };
