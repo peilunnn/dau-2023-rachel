@@ -23,6 +23,8 @@
 
 float screenWidth = 1024.0f;
 float screenHeight = 768.0f;
+int maxBullets;
+float ammoSpriteSpacing;
 glm::vec3 playerPos;
 EntityManager entityManager;
 SystemManager systemManager;
@@ -32,6 +34,7 @@ std::shared_ptr<CSimpleSprite> bulletSprite;
 std::shared_ptr<CSimpleSprite> reloadingCircleSprite;
 std::shared_ptr<CSimpleSprite> ammoEmptySprite;
 std::shared_ptr<CSimpleSprite> ammoFilledSprite;
+std::shared_ptr<CSimpleSprite> healthBarSprite;
 Entity playerEntity;
 Entity enemyEntity;
 Entity reloadingCircleEntity;
@@ -50,20 +53,20 @@ AnimationHandler animationHandler;
 void Init()
 {
 	// Set up variables for ammo display
-	float ammoSpriteSpacing = 30;
-	int maxBullets = ShootingHandler::GetMaxBullets();
+	ammoSpriteSpacing = 30;
+	maxBullets = ShootingHandler::GetMaxBullets();
 
 	// Set up sprites
 	CSimpleSprite* rawPlayerSprite = App::CreateSprite(Helper::pathToPlayerSpriteSheet, 8, 4);
-	std::shared_ptr<CSimpleSprite> playerSprite = std::shared_ptr<CSimpleSprite>(rawPlayerSprite);
+	playerSprite = std::shared_ptr<CSimpleSprite>(rawPlayerSprite);
 	CSimpleSprite* rawEnemySprite = App::CreateSprite(Helper::pathToEnemySpriteSheet, 4, 2);
-	std::shared_ptr<CSimpleSprite> enemySprite = std::shared_ptr<CSimpleSprite>(rawEnemySprite);
+	enemySprite = std::shared_ptr<CSimpleSprite>(rawEnemySprite);
 	CSimpleSprite* rawBulletSprite = App::CreateSprite(Helper::pathToBulletSprite, 1, 1);
 	bulletSprite = std::shared_ptr<CSimpleSprite>(rawBulletSprite);
 	CSimpleSprite* rawReloadingCircleSprite = App::CreateSprite(Helper::pathToReloadingCircleSpriteSheet, 5, 2);
-	std::shared_ptr<CSimpleSprite> reloadingCircleSprite = std::shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
+	reloadingCircleSprite = std::shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
 	CSimpleSprite* rawHealthBarSprite = App::CreateSprite(Helper::pathToHealthBarSpriteSheet, 2, 3);
-	std::shared_ptr<CSimpleSprite> healthBarSprite = std::shared_ptr<CSimpleSprite>(rawHealthBarSprite);
+	healthBarSprite = std::shared_ptr<CSimpleSprite>(rawHealthBarSprite);
 
 	// Set up entities
 	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, healthBarSprite, screenWidth, screenHeight, ammoSpriteSpacing, maxBullets);
@@ -101,6 +104,31 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {
+	float borderThickness = 10.0f;
+
+	// Set the color to grey for the entire background
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	// White border
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glLineWidth(borderThickness);
+	glBegin(GL_LINE_LOOP);
+	glVertex2f(-0.9f, 0.75f); // top left
+	glVertex2f(0.9f, 0.75f); // top right
+	glVertex2f(0.9f, -0.68f); // bottom right
+	glVertex2f(-0.9f, -0.68f); // bottom left
+	glEnd();
+
+	// Black background enclosed by the border
+	glColor3f(0.0f, 0.0f, 0.0f);
+	glBegin(GL_QUADS);
+	glVertex2f(-0.9f, 0.75f); // top left
+	glVertex2f(0.9f, 0.75f); // top right
+	glVertex2f(0.9f, -0.68f); // bottom right
+	glVertex2f(-0.9f, -0.68f); // bottom left
+	glEnd();
+
 	renderingHandler.Render(entityManager);
 }
 
