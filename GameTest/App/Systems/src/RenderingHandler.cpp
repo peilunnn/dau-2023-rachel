@@ -2,29 +2,40 @@
 #include "../include/RenderingHandler.h"
 #include "../../Utilities/include/Helper.h"
 
-void RenderingHandler::Render(EntityManager &entityManager)
+void RenderingHandler::Render(EntityManager& entityManager)
 {
-    for (auto entity : entityManager.GetEntitiesWithComponents<Tag, Transform, Renderable>())
+    for (auto entity : entityManager.GetEntitiesWithComponents<Tag, Transform>())
     {
         auto tag = entityManager.GetComponent<Tag>(entity);
         auto transform = entityManager.GetComponent<Transform>(entity);
+
+        // Render sprites
         auto renderable = entityManager.GetComponent<Renderable>(entity);
-
-        if (!(transform && renderable))
-            continue;
-
-        renderable->sprite->SetPosition(transform->position.x, transform->position.y);
-        renderable->sprite->SetScale(transform->scale.x);
-        renderable->sprite->SetAngle(transform->rotation.z);
-
-        if (tag->entityType == EntityType::AMMO_FILLED)
+        if (renderable)
         {
-            bool isVisible = renderable->sprite->GetIsVisible();
-            if (!isVisible)
-                continue;
+            renderable->sprite->SetPosition(transform->position.x, transform->position.y);
+            renderable->sprite->SetScale(transform->scale.x);
+            renderable->sprite->SetAngle(transform->rotation.z);
+
+            if (tag->entityType == EntityType::AMMO_FILLED)
+            {
+                bool isVisible = renderable->sprite->GetIsVisible();
+                if (!isVisible)
+                    continue;
+            }
+
+            renderable->sprite->Draw();
         }
 
-        renderable->sprite->Draw();
+        // Render score
+        auto score = entityManager.GetComponent<Score>(entity);
+        if (score && tag->entityType == EntityType::SCORE)
+        {
+            std::string scoreText = "Score: " + std::to_string(score->score);
+            float x = transform->position.x;
+            float y = transform->position.y;
+            App::Print(x, y, scoreText.c_str(), 1.0f, 1.0f, 1.0f);
+        }
     }
 }
 

@@ -219,11 +219,12 @@ Entity EntityManager::CreateScoreEntity()
 {
 	Entity scoreEntity = CreateEntity();
 	int initialScore = 0;
-	float xPos = (ScreenHandler::SCREEN_LEFT + ScreenHandler::SCREEN_RIGHT) / 2.0f;
-	float yPos = ScreenHandler::SCREEN_TOP - 50.0f;
+	float yOffset = 50.0f;
+	float xPos = ScreenHandler::SCREEN_WIDTH / 2;
+	float yPos = ScreenHandler::SCREEN_HEIGHT - yOffset;
 	float zPos = 0.0f;
 
-	auto tag = std::make_shared<Tag>(EntityType::HEALTH_BAR);
+	auto tag = std::make_shared<Tag>(EntityType::SCORE);
 	auto transform = std::make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
 	auto score = std::make_shared<Score>(initialScore);
 

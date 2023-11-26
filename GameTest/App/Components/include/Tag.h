@@ -12,7 +12,8 @@ enum class EntityType {
     RELOADING_CIRCLE,
     AMMO_EMPTY,
     AMMO_FILLED,
-    HEALTH_BAR
+    HEALTH_BAR,
+    SCORE
 };
 
 enum class EntityState {
