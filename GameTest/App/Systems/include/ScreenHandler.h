@@ -13,6 +13,11 @@ public:
     static constexpr float BORDER_THICKNESS = 10.0f;
     static constexpr int AMMO_SPRITE_SPACING = 30;
 
+    static const float SCREEN_LEFT;
+    static const float SCREEN_RIGHT;
+    static const float SCREEN_TOP;
+    static const float SCREEN_BOTTOM;
+
     // For converting normalized device coordinates to screen coordinates
     static float NDCtoScreenX(float ndcX, float screenWidth)
     {

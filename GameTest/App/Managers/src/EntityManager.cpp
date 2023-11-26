@@ -54,15 +54,10 @@ std::vector<Entity> EntityManager::GetAllEntities()
 Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite)
 {
 	Entity playerEntity = CreateEntity();
-	float screenLeft = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_LEFT_X, ScreenHandler::SCREEN_WIDTH);
-	float screenRight = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_RIGHT_X, ScreenHandler::SCREEN_WIDTH);
-	float screenTop = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_TOP_Y, ScreenHandler::SCREEN_HEIGHT);
-	float screenBottom = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_BOTTOM_Y, ScreenHandler::SCREEN_HEIGHT);
-
-	float maxX = screenRight - screenLeft;
-	float maxY = screenBottom - screenTop;
-	float xPos = Helper::GenerateFloat(screenLeft, screenRight);
-	float yPos = Helper::GenerateFloat(screenTop, screenBottom);
+	float maxX = ScreenHandler::SCREEN_RIGHT - ScreenHandler::SCREEN_LEFT;
+	float maxY = ScreenHandler::SCREEN_BOTTOM - ScreenHandler::SCREEN_TOP;
+	float xPos = Helper::GenerateFloat(ScreenHandler::SCREEN_LEFT, ScreenHandler::SCREEN_RIGHT);
+	float yPos = Helper::GenerateFloat(ScreenHandler::SCREEN_TOP, ScreenHandler::SCREEN_BOTTOM);
 	float zPos = 0.0f;
 	float scale = 0.75f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(playerSprite, 1.0f);
@@ -151,15 +146,10 @@ Entity EntityManager::CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSp
 Entity EntityManager::CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite)
 {
 	Entity reloadingCircleEntity = CreateEntity();
-	float screenLeft = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_LEFT_X, ScreenHandler::SCREEN_WIDTH);
-	float screenRight = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_RIGHT_X, ScreenHandler::SCREEN_WIDTH);
-	float screenTop = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_TOP_Y, ScreenHandler::SCREEN_HEIGHT);
-	float screenBottom = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_BOTTOM_Y, ScreenHandler::SCREEN_HEIGHT);
-
-	float maxX = screenRight - screenLeft;
-	float maxY = screenBottom - screenTop;
-	float xPos = Helper::GenerateFloat(screenLeft, screenRight);
-	float yPos = Helper::GenerateFloat(screenTop, screenBottom);
+	float maxX = ScreenHandler::SCREEN_RIGHT - ScreenHandler::SCREEN_LEFT;
+	float maxY = ScreenHandler::SCREEN_BOTTOM - ScreenHandler::SCREEN_TOP;
+	float xPos = Helper::GenerateFloat(ScreenHandler::SCREEN_LEFT, ScreenHandler::SCREEN_RIGHT);
+	float yPos = Helper::GenerateFloat(ScreenHandler::SCREEN_TOP, ScreenHandler::SCREEN_BOTTOM);
 	float zPos = 0.0f;
 	float scale = 0.4f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(reloadingCircleSprite, 1.0f);
@@ -241,13 +231,8 @@ void EntityManager::ShowAllAmmoFilledEntity()
 
 void EntityManager::MoveEntityToRandomPos(Entity entity)
 {
-	float screenLeft = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_LEFT_X, ScreenHandler::SCREEN_WIDTH);
-	float screenRight = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_RIGHT_X, ScreenHandler::SCREEN_WIDTH);
-	float screenTop = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_TOP_Y, ScreenHandler::SCREEN_HEIGHT);
-	float screenBottom = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_BOTTOM_Y, ScreenHandler::SCREEN_HEIGHT);
-
-	float xPos = Helper::GenerateFloat(screenLeft, screenRight);
-	float yPos = Helper::GenerateFloat(screenTop, screenBottom);
+	float xPos = Helper::GenerateFloat(ScreenHandler::SCREEN_LEFT, ScreenHandler::SCREEN_RIGHT);
+	float yPos = Helper::GenerateFloat(ScreenHandler::SCREEN_TOP, ScreenHandler::SCREEN_BOTTOM);
 	float zPos = 0.0f;
 
 	glm::vec3 newPos = glm::vec3(xPos, yPos, zPos);
