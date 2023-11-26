@@ -59,10 +59,11 @@ Entity EntityManager::CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSp
 	float xPos = Helper::GenerateFloat(0.0, maxX);
 	float yPos = Helper::GenerateFloat(0.0, maxY);
 	float zPos = 0.0f;
+	float scale = 0.75f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(playerSprite, 1.0f);
 
 	auto tag = std::make_shared<Tag>(EntityType::PLAYER);
-	auto transform = std::make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
+	auto transform = std::make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(scale));
 	auto renderable = std::make_shared<Renderable>(playerSprite);
 	auto collider = std::make_shared<Collider>();
 	collider->collisionShape = CollisionShape::CAPSULE;
@@ -91,7 +92,7 @@ Entity EntityManager::CreateEnemyEntity(const glm::vec3& playerPos, std::shared_
 	float minVy = -100.0, maxVy = 300.0f;
 	glm::vec3 pos = Helper::GetOppositeQuadrantPosition(playerPos, 1024.0f, 768.0f);
 	glm::vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
-	float scale = 0.5f;
+	float scale = 0.4f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(enemySprite, 1.0f);
 
 	auto tag = std::make_shared<Tag>(EntityType::ENEMY);
@@ -120,7 +121,7 @@ Entity EntityManager::CreateEnemyEntity(const glm::vec3& playerPos, std::shared_
 Entity EntityManager::CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3& position, const glm::vec2& targetVelocity)
 {
 	Entity bulletEntity = CreateEntity();
-	float scale = 2.0f;
+	float scale = 1.0f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(bulletSprite, 1.0f);
 
 	auto tag = std::make_shared<Tag>(EntityType::BULLET);
@@ -145,7 +146,7 @@ Entity EntityManager::CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSp
 Entity EntityManager::CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite)
 {
 	Entity reloadingCircleEntity = CreateEntity();
-	float scale = 0.4f;
+	float scale = 0.2f;
 	float maxX = 800.0f;
 	float maxY = 400.0f;
 	float xPos = Helper::GenerateFloat(0.0, maxX);

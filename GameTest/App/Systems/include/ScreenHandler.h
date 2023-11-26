@@ -9,7 +9,7 @@ public:
     static constexpr float BORDER_LEFT_X = -0.9f;
     static constexpr float BORDER_TOP_Y = 0.75f;
     static constexpr float BORDER_RIGHT_X = 0.9f;
-    static constexpr float BORDER_BOTTOM_Y = -0.68f;
+    static constexpr float BORDER_BOTTOM_Y = -0.7f;
     static constexpr float BORDER_THICKNESS = 10.0f;
     static constexpr int AMMO_SPRITE_SPACING = 30;
 

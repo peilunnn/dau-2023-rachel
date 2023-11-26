@@ -32,6 +32,16 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Entity 
 {
     float screenWidth = ScreenHandler::SCREEN_WIDTH;
     float screenHeight = ScreenHandler::SCREEN_HEIGHT;
+    float borderLeftX = ScreenHandler::BORDER_LEFT_X;
+    float borderRightX = ScreenHandler::BORDER_RIGHT_X;
+    float borderTopY = ScreenHandler::BORDER_TOP_Y;
+    float borderBottomY = ScreenHandler::BORDER_BOTTOM_Y;
+
+    float screenLeft = ScreenHandler::NDCtoScreenX(borderLeftX, ScreenHandler::SCREEN_WIDTH);
+    float screenRight = ScreenHandler::NDCtoScreenX(borderRightX, ScreenHandler::SCREEN_WIDTH);
+    float screenTop = ScreenHandler::NDCtoScreenY(borderTopY, ScreenHandler::SCREEN_HEIGHT);
+    float screenBottom = ScreenHandler::NDCtoScreenY(borderBottomY, ScreenHandler::SCREEN_HEIGHT);
+    float topAdjustment = 60.0f;
 
     float multiplier = 0.25f;
     auto transform = entityManager.GetComponent<Transform>(entity);
@@ -46,8 +56,11 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Entity 
     auto sprite = entityManager.GetComponent<Renderable>(entity)->sprite;
     auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
 
-    transform->position.x = max(dimensions.adjustedWidth, min(newX, screenWidth - dimensions.adjustedWidth));
-    transform->position.y = max(dimensions.adjustedHeight, min(newY, screenHeight - dimensions.adjustedHeight));
+    transform->position.x = std::max(screenLeft + dimensions.adjustedWidth / 2,
+        std::min(newX, screenRight - dimensions.adjustedWidth / 2));
+
+    transform->position.y = std::max(screenTop + dimensions.adjustedHeight / 2 + topAdjustment,
+        std::min(newY, screenBottom - dimensions.adjustedHeight / 2));
 }
 
 void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Entity entity, float deltaTime)
