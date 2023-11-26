@@ -3,7 +3,7 @@
 
 void HealthHandler::ProcessEnemyHitPlayer(EntityManager& entityManager)
 {
-	Entity playerEntity = entityManager.GetPlayerEntity();
+	EntityId playerEntity = entityManager.GetPlayerEntityId();
 	auto tag = entityManager.GetComponent<Tag>(playerEntity);
 	auto health = entityManager.GetComponent<Health>(playerEntity);
 	

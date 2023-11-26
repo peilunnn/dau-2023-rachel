@@ -14,90 +14,89 @@
 #include "../../Components/include/Animation.h"
 #include "../../Components/include/Score.h"
 #include "../../Components/include/Timer.h"
+#include "../../Components/include/EntityID.h"
 #include "../../Systems/include/Event.h"
 #include "../../Systems/include/ScreenHandler.h"
 #include "../../Utilities/include/Helper.h"
 #include "../../Utilities/include/App.h"
 #include "../../Managers/include/SpriteManager.h"
 
-using Entity = unsigned int;
-
 class EntityManager
 {
 private:
-    Entity playerEntity;
-    Entity enemyEntity;
-    Entity reloadingCircleEntity;
-    Entity ammoEmptyEntity;
-    Entity ammoFilledEntity;
-    Entity healthBarEntity;
-    Entity scoreEntity;
-    Entity timerEntity;
+    EntityId playerEntity;
+    EntityId enemyEntity;
+    EntityId reloadingCircleEntity;
+    EntityId ammoEmptyEntity;
+    EntityId ammoFilledEntity;
+    EntityId healthBarEntity;
+    EntityId scoreEntity;
+    EntityId timerEntity;
 
-    static Entity nextEntityId;
-    std::unordered_map<Entity, std::vector<std::shared_ptr<Component>>> entityComponents;
-    std::vector<Entity> entitiesToDelete;
-    std::vector<Entity> ammoEmptyEntities;
-    std::vector<Entity> ammoFilledEntities;
+    static EntityId nextEntityId;
+    std::unordered_map<EntityId, std::vector<std::shared_ptr<Component>>> entityComponents;
+    std::vector<EntityId> entitiesToDelete;
+    std::vector<EntityId> ammoEmptyEntities;
+    std::vector<EntityId> ammoFilledEntities;
 
 public:
-    Entity GetPlayerEntity() const
+    EntityId GetPlayerEntityId() const
     {
         return playerEntity;
     }
-    Entity GetEnemyEntity() const
+    EntityId GetEnemyEntityId() const
     {
         return enemyEntity;
     }
-    Entity GetReloadingCircleEntity() const
+    EntityId GetReloadingCircleEntityId() const
     {
         return reloadingCircleEntity;
     }
-    Entity GetHealthBarEntity() const
+    EntityId GetHealthBarEntityId() const
     {
         return healthBarEntity;
     }
-    Entity GetScoreEntity() const
+    EntityId GetScoreEntityId() const
     {
         return scoreEntity;
     }
-    Entity GetTimerEntity() const
+    EntityId GetTimerEntityId() const
     {
         return timerEntity;
     }
 
     void Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> ammoEmptySprite, std::shared_ptr<CSimpleSprite> ammoFilledSprite, std::shared_ptr<CSimpleSprite> healthBarSprite);
-    std::vector<Entity> GetAllEntities();
-    static Entity CreateEntity();
-    Entity CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite);
-    Entity CreateEnemyEntity(const glm::vec3 &playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
-    Entity CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &position, const glm::vec2 &targetVelocity);
-    Entity CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
-    Entity CreateAmmoEntity(std::shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos);
-    Entity CreateHealthBarEntity(std::shared_ptr<CSimpleSprite> sprite, float xPos, float yPos);
+    std::vector<EntityId> GetAllEntities();
+    static EntityId CreateEntity();
+    EntityId CreatePlayerEntity(std::shared_ptr<CSimpleSprite> playerSprite);
+    EntityId CreateEnemyEntity(const glm::vec3 &playerPos, std::shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
+    EntityId CreateBulletEntity(std::shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &position, const glm::vec2 &targetVelocity);
+    EntityId CreateReloadingCircleEntity(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
+    EntityId CreateAmmoEntity(std::shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos);
+    EntityId CreateHealthBarEntity(std::shared_ptr<CSimpleSprite> sprite, float xPos, float yPos);
     
-    Entity CreateScoreEntity();
-    Entity CreateTimerEntity();
+    EntityId CreateScoreEntity();
+    EntityId CreateTimerEntity();
 
     void HideAmmoFilledEntity(int index);
     void ShowAllAmmoFilledEntity();
-    void MoveEntityToRandomPos(Entity entity);
-    void MarkEntityForDeletion(Entity entity);
+    void MoveEntityToRandomPos(EntityId entityId);
+    void MarkEntityForDeletion(EntityId entityId);
     void ProcessDeletions();
 
     void ProcessBulletHitEnemy(EntityManager& entityManager, Event event, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight);
     void ProcessEnemyHitPlayer(EntityManager& entityManager, Event event, float deltaTime);
 
     template <typename T>
-    void AddComponent(Entity entity, std::shared_ptr<T> component)
+    void AddComponent(EntityId entityId, std::shared_ptr<T> component)
     {
-        entityComponents[entity].push_back(component);
+        entityComponents[entityId].push_back(component);
     }
 
     template <typename T>
-    std::shared_ptr<T> GetComponent(Entity entity)
+    std::shared_ptr<T> GetComponent(EntityId entityId)
     {
-        auto it = entityComponents.find(entity);
+        auto it = entityComponents.find(entityId);
         if (it != entityComponents.end())
         {
             for (auto &comp : it->second)
@@ -113,9 +112,9 @@ public:
     }
 
     template <typename... Components>
-    std::vector<Entity> GetEntitiesWithComponents()
+    std::vector<EntityId> GetEntitiesWithComponents()
     {
-        std::vector<Entity> entitiesWithComponents;
+        std::vector<EntityId> entitiesWithComponents;
         for (const auto &pair : entityComponents)
         {
             bool hasAllComponents = ((GetComponent<Components>(pair.first) != nullptr) && ...);

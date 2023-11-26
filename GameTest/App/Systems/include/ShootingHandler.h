@@ -15,7 +15,7 @@ private:
     static float timeSinceLastShot;
 
 public:
-    static void Shoot(EntityManager &entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
+    static void Shoot(EntityManager &entityManager, EntityId playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
     void ProcessPlayerHitReloadingCircle(EntityManager &entityManager, float deltaTime);
 
     static float GetTimeSinceLastShot()

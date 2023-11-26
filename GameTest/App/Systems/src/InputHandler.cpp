@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include "../include/InputHandler.h"
 
-void InputHandler::Update(EntityManager& entityManager, float deltaTime, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite) {
+void InputHandler::Update(EntityManager& entityManager, float deltaTime, EntityId playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite) {
     InputHandler::HandlePositionInput(entityManager, deltaTime, playerEntity);
     InputHandler::HandleRotationInput(entityManager, playerEntity);
     InputHandler::HandleScaleInput(entityManager, playerEntity);
@@ -13,7 +13,7 @@ void InputHandler::Update(EntityManager& entityManager, float deltaTime, Entity 
     InputHandler::HandleShootingInput(entityManager, playerEntity, bulletSprite);
 }
 
-void InputHandler::HandlePositionInput(EntityManager& entityManager, float deltaTime, Entity playerEntity) {
+void InputHandler::HandlePositionInput(EntityManager& entityManager, float deltaTime, EntityId playerEntity) {
     auto velocity = entityManager.GetComponent<Velocity>(playerEntity);
     if (velocity) {
         float thumbStickX = App::GetController().GetLeftThumbStickX();
@@ -24,7 +24,7 @@ void InputHandler::HandlePositionInput(EntityManager& entityManager, float delta
     }
 }
 
-void InputHandler::HandleRotationInput(EntityManager& entityManager, Entity playerEntity) {
+void InputHandler::HandleRotationInput(EntityManager& entityManager, EntityId playerEntity) {
     auto transform = entityManager.GetComponent<Transform>(playerEntity);
     if (transform) {
         if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT, false))
@@ -34,7 +34,7 @@ void InputHandler::HandleRotationInput(EntityManager& entityManager, Entity play
     }
 }
 
-void InputHandler::HandleScaleInput(EntityManager& entityManager, Entity playerEntity) {
+void InputHandler::HandleScaleInput(EntityManager& entityManager, EntityId playerEntity) {
     auto transform = entityManager.GetComponent<Transform>(playerEntity);
     if (transform) {
         if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP, false))
@@ -44,7 +44,7 @@ void InputHandler::HandleScaleInput(EntityManager& entityManager, Entity playerE
     }
 }
 
-void InputHandler::HandleShootingInput(EntityManager& entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite)
+void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite)
 {
     float mouseX, mouseY;
     auto playerTransform = entityManager.GetComponent<Transform>(playerEntity);

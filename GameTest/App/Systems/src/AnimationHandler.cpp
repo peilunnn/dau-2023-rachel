@@ -83,12 +83,12 @@ void AnimationHandler::Update(EntityManager& entityManager, float deltaTime)
     }
 }
 
-void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entity entity, float deltaTime)
+void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-    auto animation = entityManager.GetComponent<Animation>(entity);
-    auto velocity = entityManager.GetComponent<Velocity>(entity);
-    auto sprite = entityManager.GetComponent<Renderable>(entity)->sprite;
-    auto tag = entityManager.GetComponent<Tag>(entity);
+    auto animation = entityManager.GetComponent<Animation>(entityId);
+    auto velocity = entityManager.GetComponent<Velocity>(entityId);
+    auto sprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
+    auto tag = entityManager.GetComponent<Tag>(entityId);
 
     if (!(velocity && animation))
         return;
@@ -123,52 +123,52 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
     sprite->Update(deltaTime);
 }
 
-void AnimationHandler::UpdateEnemyAnimation(EntityManager& entityManager, Entity entity, float deltaTime)
+void AnimationHandler::UpdateEnemyAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
-    auto enemySprite = entityManager.GetComponent<Renderable>(entity)->sprite;
-    auto enemyAnimation = entityManager.GetComponent<Animation>(entity);
+    auto enemySprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
+    auto enemyAnimation = entityManager.GetComponent<Animation>(entityId);
     enemySprite->Update(deltaTime);
 
     if (enemyAnimation->cooldownTimer > 0.0f) {
         enemyAnimation->cooldownTimer -= deltaTime;
         if (enemyAnimation->cooldownTimer <= 0.0f) {
-            entityManager.MarkEntityForDeletion(entity);
+            entityManager.MarkEntityForDeletion(entityId);
         }
     }
 }
 
-void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager& entityManager, Entity entity, float deltaTime)
+void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
-    auto reloadingCircleSprite = entityManager.GetComponent<Renderable>(entity)->sprite;
-    auto reloadingCircleAnimation = entityManager.GetComponent<Animation>(entity);
+    auto reloadingCircleSprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
+    auto reloadingCircleAnimation = entityManager.GetComponent<Animation>(entityId);
     reloadingCircleAnimation->currentAnimation = RELOADING_CIRCLE_ANIM_SPIN;
     reloadingCircleSprite->SetAnimation(RELOADING_CIRCLE_ANIM_SPIN);
     reloadingCircleSprite->Update(deltaTime);
 }
 
-void AnimationHandler::UpdateHealthBarAnimation(EntityManager& entityManager, Entity entity, float deltaTime)
+void AnimationHandler::UpdateHealthBarAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
-    auto healthBarSprite = entityManager.GetComponent<Renderable>(entity)->sprite;
+    auto healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
     healthBarSprite->Update(deltaTime);
 }
 
-void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entity entity1, Entity entity2, float deltaTime)
+void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, EntityId entity1Id, EntityId entity2Id, float deltaTime)
 {
-    Entity bulletEntity, enemyEntity;
+    EntityId bulletEntity, enemyEntity;
 
-    auto tag1 = entityManager.GetComponent<Tag>(entity1);
-    auto tag2 = entityManager.GetComponent<Tag>(entity2);
+    auto tag1 = entityManager.GetComponent<Tag>(entity1Id);
+    auto tag2 = entityManager.GetComponent<Tag>(entity2Id);
 
     if (!tag1 || !tag2)
         return;
 
     if (tag1->entityType == EntityType::BULLET) {
-        bulletEntity = entity1;
-        enemyEntity = entity2;
+        bulletEntity = entity1Id;
+        enemyEntity = entity2Id;
     }
     else {
-        bulletEntity = entity2;
-        enemyEntity = entity1;
+        bulletEntity = entity2Id;
+        enemyEntity = entity1Id;
     }
 
     auto enemyAnimation = entityManager.GetComponent<Animation>(enemyEntity);
@@ -190,8 +190,8 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
 
 void AnimationHandler::ProcessEnemyHitPlayer(EntityManager& entityManager, float deltaTime)
 {
-    Entity playerEntity = entityManager.GetPlayerEntity();
-    Entity healthBarEntity = entityManager.GetHealthBarEntity();
+    EntityId playerEntity = entityManager.GetPlayerEntityId();
+    EntityId healthBarEntity = entityManager.GetHealthBarEntityId();
     auto health = entityManager.GetComponent<Health>(playerEntity);
     auto animation = entityManager.GetComponent<Animation>(healthBarEntity);
     auto healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntity)->sprite;

@@ -34,14 +34,14 @@ std::shared_ptr<CSimpleSprite> reloadingCircleSprite;
 std::shared_ptr<CSimpleSprite> ammoEmptySprite;
 std::shared_ptr<CSimpleSprite> ammoFilledSprite;
 std::shared_ptr<CSimpleSprite> healthBarSprite;
-Entity playerEntity;
-Entity enemyEntity;
-Entity reloadingCircleEntity;
-Entity ammoEmptyEntity;
-Entity ammoFilledEntity;
-Entity healthBarEntity;
-Entity scoreEntity;
-Entity timerEntity;
+EntityId playerEntity;
+EntityId enemyEntity;
+EntityId reloadingCircleEntity;
+EntityId ammoEmptyEntity;
+EntityId ammoFilledEntity;
+EntityId healthBarEntity;
+EntityId scoreEntity;
+EntityId timerEntity;
 RenderingHandler renderingHandler;
 InputHandler inputHandler;
 MovementHandler movementHandler;
@@ -75,12 +75,12 @@ void Init()
 
 	// Set up entities
 	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, healthBarSprite);
-	playerEntity = entityManager.GetPlayerEntity();
-	enemyEntity = entityManager.GetEnemyEntity();
-	reloadingCircleEntity = entityManager.GetReloadingCircleEntity();
-	healthBarEntity = entityManager.GetHealthBarEntity();
-	scoreEntity = entityManager.GetScoreEntity();
-	timerEntity = entityManager.GetTimerEntity();
+	playerEntity = entityManager.GetPlayerEntityId();
+	enemyEntity = entityManager.GetEnemyEntityId();
+	reloadingCircleEntity = entityManager.GetReloadingCircleEntityId();
+	healthBarEntity = entityManager.GetHealthBarEntityId();
+	scoreEntity = entityManager.GetScoreEntityId();
+	timerEntity = entityManager.GetTimerEntityId();
 
 	// Set up animations
 	animationHandler.Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite);

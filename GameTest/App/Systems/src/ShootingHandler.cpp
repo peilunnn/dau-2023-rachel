@@ -6,7 +6,7 @@ int ShootingHandler::bulletsShotsSoFar = 0;
 float ShootingHandler::cooldownTimer = 0.5f;
 float ShootingHandler::timeSinceLastShot = 0.0f;
 
-void ShootingHandler::Shoot(EntityManager &entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY)
+void ShootingHandler::Shoot(EntityManager &entityManager, EntityId playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY)
 {
     auto playerTransform = entityManager.GetComponent<Transform>(playerEntity);
 
@@ -28,7 +28,7 @@ void ShootingHandler::Shoot(EntityManager &entityManager, Entity playerEntity, s
 
 void ShootingHandler::ProcessPlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
 {
-    auto reloadingCircleEntity = entityManager.GetReloadingCircleEntity();
+    auto reloadingCircleEntity = entityManager.GetReloadingCircleEntityId();
     bulletsShotsSoFar = 0;
     entityManager.ShowAllAmmoFilledEntity();
     entityManager.MoveEntityToRandomPos(reloadingCircleEntity);

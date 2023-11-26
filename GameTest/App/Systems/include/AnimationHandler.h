@@ -17,11 +17,11 @@ public:
 	void InitReloadingCircleAnimation(std::shared_ptr<CSimpleSprite> reloadingCircleSprite);
 	void InitHealthBarAnimation(std::shared_ptr<CSimpleSprite> healthBarSprite);
 	void Update(EntityManager &entityManager, float deltaTime);
-	void UpdatePlayerAnimation(EntityManager &entityManager, Entity entity, float deltaTime);
-	void UpdateEnemyAnimation(EntityManager &entityManager, Entity entity, float deltaTime);
-	void UpdateReloadingCircleAnimation(EntityManager &entityManager, Entity entity, float deltaTime);
-	void UpdateHealthBarAnimation(EntityManager &entityManager, Entity entity, float deltaTime);
-	void ProcessBulletHitEnemy(EntityManager &entityManager, Entity entity1, Entity entity2, float deltaTime);
+	void UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
+	void UpdateEnemyAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
+	void UpdateReloadingCircleAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
+	void UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
+	void ProcessBulletHitEnemy(EntityManager &entityManager, EntityId entity1Id, EntityId entity2Id, float deltaTime);
 	void ProcessEnemyHitPlayer(EntityManager &entityManager, float deltaTime);
 	SystemType GetSystemType() const override
 	{

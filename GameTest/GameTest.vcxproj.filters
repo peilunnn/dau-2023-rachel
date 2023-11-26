@@ -46,6 +46,7 @@
     <ClCompile Include="App\Systems\src\TimerHandler.cpp" />
     <ClCompile Include="App\Components\src\Timer.cpp" />
     <ClCompile Include="App\Utilities\src\Enums.cpp" />
+    <ClCompile Include="App\Components\src\EntityID.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -97,6 +98,7 @@
     <ClInclude Include="App\Systems\include\TimerHandler.h" />
     <ClInclude Include="App\Components\include\Timer.h" />
     <ClInclude Include="App\Utilities\include\Enums.h" />
+    <ClInclude Include="App\Components\include\EntityID.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

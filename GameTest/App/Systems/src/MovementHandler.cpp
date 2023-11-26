@@ -28,12 +28,12 @@ void MovementHandler::Update(EntityManager &entityManager, float deltaTime)
     }
 }
 
-void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Entity entity, float deltaTime)
+void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
     float topAdjustment = 60.0f;
     float multiplier = 0.25f;
-    auto transform = entityManager.GetComponent<Transform>(entity);
-    auto velocity = entityManager.GetComponent<Velocity>(entity);
+    auto transform = entityManager.GetComponent<Transform>(entityId);
+    auto velocity = entityManager.GetComponent<Velocity>(entityId);
 
     if (!(transform && velocity))
         return;
@@ -41,7 +41,7 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Entity 
     float newX = transform->position.x + velocity->velocity.x * deltaTime;
     float newY = transform->position.y + velocity->velocity.y * deltaTime;
 
-    auto sprite = entityManager.GetComponent<Renderable>(entity)->sprite;
+    auto sprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
     auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
 
     transform->position.x = std::max(ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2,
@@ -51,14 +51,14 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Entity 
                                      std::min(newY, ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2));
 }
 
-void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, Entity entity, float deltaTime)
+void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
     float topAdjustment = 20.0f;
     float bottomAdjustment = -15.0f;
     float multiplier = 0.25f;
-    auto transform = entityManager.GetComponent<Transform>(entity);
-    auto velocity = entityManager.GetComponent<Velocity>(entity);
-    auto direction = entityManager.GetComponent<Direction>(entity);
+    auto transform = entityManager.GetComponent<Transform>(entityId);
+    auto velocity = entityManager.GetComponent<Velocity>(entityId);
+    auto direction = entityManager.GetComponent<Direction>(entityId);
 
     if (!(transform && velocity && direction))
         return;
@@ -67,7 +67,7 @@ void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, Entity e
     transform->position.x += movement.x;
     transform->position.y += movement.y;
 
-    auto sprite = entityManager.GetComponent<Renderable>(entity)->sprite;
+    auto sprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
     auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
 
     if (!(direction->bounced))
@@ -94,10 +94,10 @@ void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, Entity e
     }
 }
 
-void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Entity entity, float deltaTime)
+void MovementHandler::HandleBulletMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-    auto transform = entityManager.GetComponent<Transform>(entity);
-    auto velocity = entityManager.GetComponent<Velocity>(entity);
+    auto transform = entityManager.GetComponent<Transform>(entityId);
+    auto velocity = entityManager.GetComponent<Velocity>(entityId);
 
     if (!(transform && velocity))
         return;
@@ -108,5 +108,5 @@ void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Entity 
 
     if (transform->position.x < ScreenHandler::SCREEN_LEFT || transform->position.x > ScreenHandler::SCREEN_RIGHT ||
         transform->position.y < ScreenHandler::SCREEN_TOP || transform->position.y > ScreenHandler::SCREEN_BOTTOM)
-        entityManager.MarkEntityForDeletion(entity);
+        entityManager.MarkEntityForDeletion(entityId);
 }
