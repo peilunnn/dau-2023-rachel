@@ -41,6 +41,8 @@
     <ClCompile Include="App\Managers\src\SystemManager.cpp" />
     <ClCompile Include="App\Systems\src\System.cpp" />
     <ClCompile Include="App\Systems\src\Event.cpp" />
+    <ClCompile Include="App\Systems\src\ScreenHandler.cpp" />
+    <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -86,6 +88,9 @@
     <ClInclude Include="App\Managers\include\SystemManager.h" />
     <ClInclude Include="App\Systems\include\System.h" />
     <ClInclude Include="App\Systems\include\Event.h" />
+    <ClInclude Include="App\Systems\include\ScreenHandler.h" />
+    <ClInclude Include="App\Managers\SpriteManager.h" />
+    <ClInclude Include="App\Managers\include\SpriteManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

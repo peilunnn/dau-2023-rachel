@@ -18,6 +18,7 @@
 #include "../../Systems/include/ScreenHandler.h"
 #include "../../Utilities/include/Helper.h"
 #include "../../Utilities/include/App.h"
+#include "../../Managers/include/SpriteManager.h"
 
 using Entity = unsigned int;
 

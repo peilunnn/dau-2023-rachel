@@ -11,6 +11,7 @@
 #include "App/Utilities/include/app.h"
 #include "App/Managers/include/EntityManager.h"
 #include "App/Managers/include/SystemManager.h"
+#include "App/Managers/include/SpriteManager.h"
 #include "App/Utilities/include/Helper.h"
 #include "App/Systems/include/AnimationHandler.h"
 #include "App/Systems/include/InputHandler.h"
@@ -60,6 +61,12 @@ void Init()
 	reloadingCircleSprite = std::shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
 	CSimpleSprite* rawHealthBarSprite = App::CreateSprite(Helper::PATH_TO_HEALTH_BAR_SPRITE_SHEET, 2, 3);
 	healthBarSprite = std::shared_ptr<CSimpleSprite>(rawHealthBarSprite);
+
+	// playerSprite = SpriteManager::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 8, 4);
+	// enemySprite = SpriteManager::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
+	// bulletSprite = SpriteManager::CreateSprite(Helper::PATH_TO_BULLET_SPRITE, 1, 1);
+	// reloadingCircleSprite = SpriteManager::CreateSprite(Helper::PATH_TO_RELOADING_CIRCLE_SPRITE_SHEET, 5, 2);
+	// healthBarSprite = SpriteManager::CreateSprite(Helper::PATH_TO_HEALTH_BAR_SPRITE_SHEET, 2, 3);
 
 	// Set up entities
 	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, healthBarSprite);
