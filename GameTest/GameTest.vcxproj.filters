@@ -20,8 +20,6 @@
     <ClCompile Include="App\Components\src\Velocity.cpp" />
     <ClCompile Include="App\Components\src\Direction.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
-    <ClCompile Include="App\Components\src\Text.cpp" />
-    <ClCompile Include="App\Components\src\Bar.cpp" />
     <ClCompile Include="App\Components\src\Button.cpp" />
     <ClCompile Include="App\Systems\src\RenderingHandler.cpp" />
     <ClCompile Include="App\Systems\src\ShootingHandler.cpp" />
@@ -45,6 +43,8 @@
     <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
     <ClCompile Include="App\Systems\src\ScoreHandler.cpp" />
     <ClCompile Include="App\Components\src\Score.cpp" />
+    <ClCompile Include="App\Systems\src\TimerHandler.cpp" />
+    <ClCompile Include="App\Components\src\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -68,8 +68,6 @@
     <ClInclude Include="App\Components\include\Velocity.h" />
     <ClInclude Include="App\Components\include\Direction.h" />
     <ClInclude Include="App\Components\include\Health.h" />
-    <ClInclude Include="App\Components\include\Text.h" />
-    <ClInclude Include="App\Components\include\Bar.h" />
     <ClInclude Include="App\Components\include\Button.h" />
     <ClInclude Include="App\Systems\include\RenderingHandler.h" />
     <ClInclude Include="App\Systems\include\ShootingHandler.h" />
@@ -95,6 +93,8 @@
     <ClInclude Include="App\Managers\include\SpriteManager.h" />
     <ClInclude Include="App\Systems\include\ScoreHandler.h" />
     <ClInclude Include="App\Components\include\Score.h" />
+    <ClInclude Include="App\Systems\include\TimerHandler.h" />
+    <ClInclude Include="App\Components\include\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

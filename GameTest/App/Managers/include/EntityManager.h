@@ -15,6 +15,7 @@
 #include "../../Components/include/Health.h"
 #include "../../Components/include/Animation.h"
 #include "../../Components/include/Score.h"
+#include "../../Components/include/Timer.h"
 #include "../../Systems/include/Event.h"
 #include "../../Systems/include/ScreenHandler.h"
 #include "../../Utilities/include/Helper.h"
@@ -33,6 +34,7 @@ private:
     Entity ammoFilledEntity;
     Entity healthBarEntity;
     Entity scoreEntity;
+    Entity timerEntity;
 
     static Entity nextEntityId;
     std::unordered_map<Entity, std::vector<std::shared_ptr<Component>>> entityComponents;
@@ -61,6 +63,10 @@ public:
     {
         return scoreEntity;
     }
+    Entity GetTimerEntity() const
+    {
+        return timerEntity;
+    }
 
     void Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> ammoEmptySprite, std::shared_ptr<CSimpleSprite> ammoFilledSprite, std::shared_ptr<CSimpleSprite> healthBarSprite);
     std::vector<Entity> GetAllEntities();
@@ -73,6 +79,7 @@ public:
     Entity CreateHealthBarEntity(std::shared_ptr<CSimpleSprite> sprite, float xPos, float yPos);
     
     Entity CreateScoreEntity();
+    Entity CreateTimerEntity();
 
     void HideAmmoFilledEntity(int index);
     void ShowAllAmmoFilledEntity();

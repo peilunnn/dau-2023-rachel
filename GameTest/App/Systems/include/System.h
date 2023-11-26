@@ -14,7 +14,8 @@ public:
         ShootingHandler,
         RenderingHandler,
         ScreenHandler,
-        ScoreHandler
+        ScoreHandler,
+        TimerHandler
     };
     virtual Type GetSystemType() const = 0;
 };

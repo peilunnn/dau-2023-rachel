@@ -36,6 +36,16 @@ void RenderingHandler::Render(EntityManager& entityManager)
             float y = transform->position.y;
             App::Print(x, y, scoreText.c_str(), 1.0f, 1.0f, 1.0f);
         }
+
+        // Render timer
+        auto timer = entityManager.GetComponent<Timer>(entity);
+        if (timer && tag->entityType == EntityType::TIMER)
+        {
+            std::string timerText = std::to_string(static_cast<int>(timer->countdownTime));
+            float x = transform->position.x;
+            float y = transform->position.y;
+            App::Print(x, y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
+        }
     }
 }
 

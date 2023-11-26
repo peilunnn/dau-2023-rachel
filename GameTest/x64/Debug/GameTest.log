@@ -1,4 +1,23 @@
-﻿  ScoreHandler.cpp
+﻿  EntityManager.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\xutility(255,82): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  (compiling source file '/App/Managers/src/EntityManager.cpp')
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\xutility(255,82):
+  the template instantiation context (the oldest one first) is
+  	C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Managers\src\EntityManager.cpp(251,20):
+  	see reference to function template instantiation 'std::shared_ptr<Timer> std::make_shared<Timer,int&>(int &)' being compiled
+  	C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\memory(2769,46):
+  	see reference to function template instantiation 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<int&>(int &)' being compiled
+          with
+          [
+              _Ty=Timer
+          ]
+  	C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\memory(2094,18):
+  	see reference to function template instantiation 'void std::_Construct_in_place<_Ty,int&>(_Ty &,int &) noexcept(false)' being compiled
+          with
+          [
+              _Ty=Timer
+          ]
+  
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

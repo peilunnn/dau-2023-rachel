@@ -19,6 +19,7 @@
 #include "App/Systems/include/RenderingHandler.h"
 #include "App/Systems/include/CollisionHandler.h"
 #include "App/Systems/include/AnimationHandler.h"
+#include "App/Systems/include/TimerHandler.h"
 
 //------------------------------------------------------------------------
 
@@ -40,12 +41,14 @@ Entity ammoEmptyEntity;
 Entity ammoFilledEntity;
 Entity healthBarEntity;
 Entity scoreEntity;
+Entity timerEntity;
 RenderingHandler renderingHandler;
 InputHandler inputHandler;
 MovementHandler movementHandler;
 CollisionHandler collisionHandler;
 AnimationHandler animationHandler;
 ScoreHandler scoreHandler;
+TimerHandler timerHandler;
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -77,6 +80,7 @@ void Init()
 	reloadingCircleEntity = entityManager.GetReloadingCircleEntity();
 	healthBarEntity = entityManager.GetHealthBarEntity();
 	scoreEntity = entityManager.GetScoreEntity();
+	timerEntity = entityManager.GetTimerEntity();
 
 	// Set up animations
 	animationHandler.Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite);
@@ -99,6 +103,7 @@ void Update(float deltaTime)
 	playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
 	systemManager.ProcessEvents(entityManager, scoreHandler, deltaTimeInSeconds, playerPos);
 	entityManager.ProcessDeletions();
+	timerHandler.Update(entityManager, deltaTimeInSeconds);
 }
 
 //------------------------------------------------------------------------

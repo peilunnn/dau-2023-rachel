@@ -18,9 +18,6 @@ public:
     static void Shoot(EntityManager& entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
     void ProcessPlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime);
 
-    Type GetSystemType() const override {
-        return System::Type::ShootingHandler;
-    }
     static float GetTimeSinceLastShot() {
         return timeSinceLastShot;
     }
@@ -29,6 +26,9 @@ public:
     }
     static int GetMaxBullets() {
         return MAX_BULLETS;
+    }
+    Type GetSystemType() const override {
+        return System::Type::ShootingHandler;
     }
 };
 

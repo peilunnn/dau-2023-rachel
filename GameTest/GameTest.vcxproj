@@ -190,7 +190,6 @@
     <ClInclude Include="App\Components\include\Direction.h" />
     <ClInclude Include="App\Components\include\Health.h" />
     <ClInclude Include="App\Managers\include\EntityManager.h" />
-    <ClInclude Include="App\Components\include\Bar.h" />
     <ClInclude Include="App\Components\include\Button.h" />
     <ClInclude Include="App\Systems\include\CollisionHandler.h" />
     <ClInclude Include="App\Systems\include\ShootingHandler.h" />
@@ -205,6 +204,7 @@
     <ClInclude Include="App\Managers\SpriteManager.h" />
     <ClInclude Include="App\Systems\include\ScoreHandler.h" />
     <ClInclude Include="App\Components\include\Score.h" />
+    <ClInclude Include="App\Systems\include\TimerHandler.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -214,8 +214,8 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="App\Components\include\Transform.h" />
     <ClInclude Include="App\Components\include\Velocity.h" />
-    <ClInclude Include="App\Components\include\Text.h" />
     <ClInclude Include="App\Systems\include\HealthHandler.h" />
+    <ClInclude Include="App\Components\include\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App\Components\src\Animation.cpp" />
@@ -227,9 +227,9 @@
     <ClCompile Include="App\Components\src\Collider.cpp" />
     <ClCompile Include="App\Components\src\Direction.cpp" />
     <ClCompile Include="App\Managers\src\EntityManager.cpp" />
-    <ClCompile Include="App\Components\src\Bar.cpp" />
     <ClCompile Include="App\Components\src\Button.cpp" />
     <ClCompile Include="App\Components\src\Component.cpp" />
+    <ClCompile Include="App\Systems\src\TimerHandler.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Systems\src\CollisionHandler.cpp" />
@@ -253,12 +253,12 @@
     </ClCompile>
     <ClCompile Include="App\Components\src\Transform.cpp" />
     <ClCompile Include="App\Components\src\Velocity.cpp" />
-    <ClCompile Include="App\Components\src\Text.cpp" />
     <ClCompile Include="App\Systems\src\HealthHandler.cpp" />
     <ClCompile Include="App\Components\src\Tag.cpp" />
     <ClCompile Include="App\Managers\src\SystemManager.cpp" />
     <ClCompile Include="App\Systems\src\System.cpp" />
     <ClCompile Include="App\Systems\src\Event.cpp" />
+    <ClCompile Include="App\Components\src\Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

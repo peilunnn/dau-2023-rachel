@@ -13,7 +13,8 @@ enum class EntityType {
     AMMO_EMPTY,
     AMMO_FILLED,
     HEALTH_BAR,
-    SCORE
+    SCORE,
+    TIMER
 };
 
 enum class EntityState {

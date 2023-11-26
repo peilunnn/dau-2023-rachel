@@ -42,6 +42,7 @@ void EntityManager::Init(std::shared_ptr<CSimpleSprite> playerSprite, std::share
 	}
 
 	scoreEntity = CreateScoreEntity();
+	timerEntity = CreateTimerEntity();
 }
 
 std::vector<Entity> EntityManager::GetAllEntities()
@@ -233,6 +234,27 @@ Entity EntityManager::CreateScoreEntity()
 	AddComponent(scoreEntity, score);
 
 	return scoreEntity;
+}
+
+Entity EntityManager::CreateTimerEntity()
+{
+	Entity timerEntity = CreateEntity();
+	int initialTime = 60;
+	float xOffset = 1000.0f;
+	float yOffset = 50.0f;
+	float xPos = ScreenHandler::SCREEN_WIDTH - xOffset;
+	float yPos = ScreenHandler::SCREEN_HEIGHT - yOffset;
+	float zPos = 0.0f;
+
+	auto tag = std::make_shared<Tag>(EntityType::TIMER);
+	auto transform = std::make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
+	auto timer = std::make_shared<Timer>(initialTime);
+
+	AddComponent(timerEntity, tag);
+	AddComponent(timerEntity, transform);
+	AddComponent(timerEntity, timer);
+
+	return timerEntity;
 }
 
 void EntityManager::HideAmmoFilledEntity(int index)
