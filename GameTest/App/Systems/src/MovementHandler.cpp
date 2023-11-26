@@ -106,8 +106,11 @@ void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, Entity e
 
 void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Entity entity, float deltaTime)
 {
-    float screenWidth = ScreenHandler::SCREEN_WIDTH;
-    float screenHeight = ScreenHandler::SCREEN_HEIGHT;
+    float screenLeft = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_LEFT_X, ScreenHandler::SCREEN_WIDTH);
+    float screenRight = ScreenHandler::NDCtoScreenX(ScreenHandler::BORDER_RIGHT_X, ScreenHandler::SCREEN_WIDTH);
+    float screenTop = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_TOP_Y, ScreenHandler::SCREEN_HEIGHT);
+    float screenBottom = ScreenHandler::NDCtoScreenY(ScreenHandler::BORDER_BOTTOM_Y, ScreenHandler::SCREEN_HEIGHT);
+
     auto transform = entityManager.GetComponent<Transform>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
 
@@ -118,7 +121,7 @@ void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Entity 
     transform->position.x += movement.x;
     transform->position.y += movement.y;
 
-    if (transform->position.x < 0 || transform->position.x > screenWidth ||
-        transform->position.y < 0 || transform->position.y > screenHeight)
+    if (transform->position.x < screenLeft || transform->position.x > screenRight ||
+        transform->position.y < screenTop || transform->position.y > screenBottom)
         entityManager.MarkEntityForDeletion(entity);
 }
