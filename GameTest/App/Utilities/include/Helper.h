@@ -21,13 +21,13 @@ struct SpriteDimensions {
 class Helper {
 public:
     // For getting sprites and sprite sheets
-    static inline const char* pathToPlayerSpriteSheet = ".\\Data\\SpriteSheets\\Player.bmp";
-    static inline const char* pathToEnemySpriteSheet = ".\\Data\\SpriteSheets\\Enemy.png";
-    static inline const char* pathToBulletSprite = ".\\Data\\Sprites\\Bullet.bmp";
-    static inline const char* pathToReloadingCircleSpriteSheet = ".\\Data\\SpriteSheets\\ReloadingCircle.png";
-    static inline const char* pathToAmmoEmptySprite = ".\\Data\\Sprites\\AmmoEmpty.png";
-    static inline const char* pathToAmmoFilledSprite = ".\\Data\\Sprites\\AmmoFilled.png";
-    static inline const char* pathToHealthBarSpriteSheet = ".\\Data\\SpriteSheets\\HealthBar.png";
+    static inline const char* PATH_TO_PLAYER_SPRITE_SHEET = ".\\Data\\SpriteSheets\\Player.bmp";
+    static inline const char* PATH_TO_ENEMY_SPRITE_SHEET = ".\\Data\\SpriteSheets\\Enemy.png";
+    static inline const char* PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
+    static inline const char* PATH_TO_RELOADING_CIRCLE_SPRITE_SHEET = ".\\Data\\SpriteSheets\\ReloadingCircle.png";
+    static inline const char* PATH_TO_AMMO_EMPTY_SPRITE = ".\\Data\\Sprites\\AmmoEmpty.png";
+    static inline const char* PATH_TO_AMMO_FILLED_SPRITE = ".\\Data\\Sprites\\AmmoFilled.png";
+    static inline const char* PATH_TO_HEALTH_BAR_SPRITE_SHEET = ".\\Data\\SpriteSheets\\HealthBar.png";
 
     // Getting string representation of an EntityType (for reading Tag)
     static std::string GetEntityTypeString(EntityType entityType) {

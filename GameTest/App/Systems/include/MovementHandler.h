@@ -8,13 +8,14 @@
 #include "../../Components/include/Tag.h"
 #include "../../Utilities/include/Helper.h"
 #include "../../Systems/include/System.h"
+#include "../../Systems/include/ScreenHandler.h"
 
 class MovementHandler : public System {
 public:
-    void Update(EntityManager& entityManager, float deltaTime, float screenWidth, float screenHeight);
-    void HandlePlayerMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight);
-    void HandleEnemyMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight);
-    void HandleBulletMovement(EntityManager& entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight);
+    void Update(EntityManager& entityManager, float deltaTime);
+    void HandlePlayerMovement(EntityManager& entityManager, Entity entity, float deltaTime);
+    void HandleEnemyMovement(EntityManager& entityManager, Entity entity, float deltaTime);
+    void HandleBulletMovement(EntityManager& entityManager, Entity entity, float deltaTime);
     Type GetSystemType() const override {
         return System::Type::MovementHandler;
     }

@@ -21,10 +21,7 @@
 
 //------------------------------------------------------------------------
 
-float screenWidth = 1024.0f;
-float screenHeight = 768.0f;
 int maxBullets;
-float ammoSpriteSpacing;
 glm::vec3 playerPos;
 EntityManager entityManager;
 SystemManager systemManager;
@@ -52,24 +49,20 @@ AnimationHandler animationHandler;
 //------------------------------------------------------------------------
 void Init()
 {
-	// Set up variables for ammo display
-	ammoSpriteSpacing = 30;
-	maxBullets = ShootingHandler::GetMaxBullets();
-
 	// Set up sprites
-	CSimpleSprite* rawPlayerSprite = App::CreateSprite(Helper::pathToPlayerSpriteSheet, 8, 4);
+	CSimpleSprite* rawPlayerSprite = App::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 8, 4);
 	playerSprite = std::shared_ptr<CSimpleSprite>(rawPlayerSprite);
-	CSimpleSprite* rawEnemySprite = App::CreateSprite(Helper::pathToEnemySpriteSheet, 4, 2);
+	CSimpleSprite* rawEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
 	enemySprite = std::shared_ptr<CSimpleSprite>(rawEnemySprite);
-	CSimpleSprite* rawBulletSprite = App::CreateSprite(Helper::pathToBulletSprite, 1, 1);
+	CSimpleSprite* rawBulletSprite = App::CreateSprite(Helper::PATH_TO_BULLET_SPRITE, 1, 1);
 	bulletSprite = std::shared_ptr<CSimpleSprite>(rawBulletSprite);
-	CSimpleSprite* rawReloadingCircleSprite = App::CreateSprite(Helper::pathToReloadingCircleSpriteSheet, 5, 2);
+	CSimpleSprite* rawReloadingCircleSprite = App::CreateSprite(Helper::PATH_TO_RELOADING_CIRCLE_SPRITE_SHEET, 5, 2);
 	reloadingCircleSprite = std::shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
-	CSimpleSprite* rawHealthBarSprite = App::CreateSprite(Helper::pathToHealthBarSpriteSheet, 2, 3);
+	CSimpleSprite* rawHealthBarSprite = App::CreateSprite(Helper::PATH_TO_HEALTH_BAR_SPRITE_SHEET, 2, 3);
 	healthBarSprite = std::shared_ptr<CSimpleSprite>(rawHealthBarSprite);
 
 	// Set up entities
-	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, healthBarSprite, screenWidth, screenHeight, ammoSpriteSpacing, maxBullets);
+	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, healthBarSprite);
 	playerEntity = entityManager.GetPlayerEntity();
 	enemyEntity = entityManager.GetEnemyEntity();
 	reloadingCircleEntity = entityManager.GetReloadingCircleEntity();
@@ -90,11 +83,11 @@ void Update(float deltaTime)
 {
 	float deltaTimeInSeconds = deltaTime / 1000.0f;
 	inputHandler.Update(entityManager, deltaTimeInSeconds, playerEntity, bulletSprite);
-	movementHandler.Update(entityManager, deltaTimeInSeconds, screenWidth, screenHeight);
+	movementHandler.Update(entityManager, deltaTimeInSeconds);
 	collisionHandler.Update(entityManager, systemManager, deltaTimeInSeconds);
 	animationHandler.Update(entityManager, deltaTimeInSeconds);
 	playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
-	systemManager.ProcessEvents(entityManager, deltaTimeInSeconds, playerPos, screenWidth, screenHeight);
+	systemManager.ProcessEvents(entityManager, deltaTimeInSeconds, playerPos);
 	entityManager.ProcessDeletions();
 }
 

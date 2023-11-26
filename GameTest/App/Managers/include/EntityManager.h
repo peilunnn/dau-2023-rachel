@@ -15,6 +15,7 @@
 #include "../../Components/include/Health.h"
 #include "../../Components/include/Animation.h"
 #include "../../Systems/include/Event.h"
+#include "../../Systems/include/ScreenHandler.h"
 #include "../../Utilities/include/Helper.h"
 #include "../../Utilities/include/App.h"
 
@@ -54,7 +55,7 @@ public:
         return healthBarEntity;
     }
 
-    void Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> ammoEmptySprite, std::shared_ptr<CSimpleSprite> ammoFilledSprite, std::shared_ptr<CSimpleSprite> healthBarSprite, float screenWidth, float screenHeight, float ammoSpriteSpacing, int maxBullets);
+    void Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> ammoEmptySprite, std::shared_ptr<CSimpleSprite> ammoFilledSprite, std::shared_ptr<CSimpleSprite> healthBarSprite);
     std::vector<Entity> GetAllEntities();
     static Entity CreateEntity()
     {

@@ -20,6 +20,7 @@ C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\InputHan
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\AnimationHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\AnimationHandler.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\MovementHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\MovementHandler.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Utilities\src\Helper.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Helper.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\ScreenHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\ScreenHandler.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\stb_image\stb_image.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\stb_image.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\stdafx.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\stdafx.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Transform.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Transform.obj

@@ -5,11 +5,14 @@
 
 Entity EntityManager::nextEntityId = 0;
 
-void EntityManager::Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> ammoEmptySprite, std::shared_ptr<CSimpleSprite> ammoFilledSprite, std::shared_ptr<CSimpleSprite> healthBarSprite, float screenWidth, float screenHeight, float ammoSpriteSpacing, int maxBullets)
+void EntityManager::Init(std::shared_ptr<CSimpleSprite> playerSprite, std::shared_ptr<CSimpleSprite> enemySprite, std::shared_ptr<CSimpleSprite> reloadingCircleSprite, std::shared_ptr<CSimpleSprite> ammoEmptySprite, std::shared_ptr<CSimpleSprite> ammoFilledSprite, std::shared_ptr<CSimpleSprite> healthBarSprite)
 {
+	float screenWidth = ScreenHandler::SCREEN_WIDTH;
+	float screenHeight = ScreenHandler::SCREEN_HEIGHT;
+	float ammoSpriteSpacing = ScreenHandler::AMMO_SPRITE_SPACING;
+	int maxBullets = ShootingHandler::GetMaxBullets();
 	float ammoStartingX = screenWidth - 20;
 	float ammoYPos = screenHeight - 40;
-
 	float healthBarXPos = screenWidth - 880;
 	float healthBarYPos = screenHeight - 700;
 
@@ -24,9 +27,9 @@ void EntityManager::Init(std::shared_ptr<CSimpleSprite> playerSprite, std::share
 		float xPos = ammoStartingX - i * ammoSpriteSpacing;
 		
 		// Have to create a new sprite for every entity
-		CSimpleSprite* rawAmmoEmptySprite = App::CreateSprite(Helper::pathToAmmoEmptySprite, 1, 1);
+		CSimpleSprite* rawAmmoEmptySprite = App::CreateSprite(Helper::PATH_TO_AMMO_EMPTY_SPRITE, 1, 1);
 		std::shared_ptr<CSimpleSprite> ammoEmptySprite = std::shared_ptr<CSimpleSprite>(rawAmmoEmptySprite);
-		CSimpleSprite* rawAmmoFilledSprite = App::CreateSprite(Helper::pathToAmmoFilledSprite, 1, 1);
+		CSimpleSprite* rawAmmoFilledSprite = App::CreateSprite(Helper::PATH_TO_AMMO_FILLED_SPRITE, 1, 1);
 		std::shared_ptr<CSimpleSprite> ammoFilledSprite = std::shared_ptr<CSimpleSprite>(rawAmmoFilledSprite);
 
 		ammoEmptyEntity = CreateAmmoEntity(ammoEmptySprite, EntityType::AMMO_EMPTY, xPos, ammoYPos);
@@ -260,9 +263,9 @@ void EntityManager::ProcessDeletions() {
 
 void EntityManager::ProcessBulletHitEnemy(EntityManager& entityManager, Event event, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight)
 {
-	CSimpleSprite* rawEnemySprite1 = App::CreateSprite(Helper::pathToEnemySpriteSheet, 4, 2);
+	CSimpleSprite* rawEnemySprite1 = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
 	std::shared_ptr<CSimpleSprite> enemySprite1 = std::shared_ptr<CSimpleSprite>(rawEnemySprite1);
-	CSimpleSprite* rawEnemySprite2 = App::CreateSprite(Helper::pathToEnemySpriteSheet, 4, 2);
+	CSimpleSprite* rawEnemySprite2 = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
 	std::shared_ptr<CSimpleSprite> enemySprite2 = std::shared_ptr<CSimpleSprite>(rawEnemySprite2);
 
 	Entity enemyEntity1 = CreateEnemyEntity(playerPos, enemySprite1, screenWidth, screenHeight);

@@ -36,6 +36,12 @@ void RenderingHandler::SetBackground(GLfloat red, GLfloat green, GLfloat blue, G
 
 void RenderingHandler::DrawBorder(GLfloat red, GLfloat green, GLfloat blue)
 {
+    float borderThickness = ScreenHandler::BORDER_THICKNESS;
+    float borderLeftX = ScreenHandler::BORDER_LEFT_X;
+    float borderRightX = ScreenHandler::BORDER_RIGHT_X;
+    float borderTopY = ScreenHandler::BORDER_TOP_Y;
+    float borderBottomY = ScreenHandler::BORDER_BOTTOM_Y;
+
     glColor3f(red, green, blue);
     glLineWidth(borderThickness);
     glBegin(GL_LINE_LOOP);
@@ -48,6 +54,12 @@ void RenderingHandler::DrawBorder(GLfloat red, GLfloat green, GLfloat blue)
 
 void RenderingHandler::DrawBackgroundInBorder(GLfloat red, GLfloat green, GLfloat blue)
 {
+    float borderThickness = ScreenHandler::BORDER_THICKNESS;
+    float borderLeftX = ScreenHandler::BORDER_LEFT_X;
+    float borderRightX = ScreenHandler::BORDER_RIGHT_X;
+    float borderTopY = ScreenHandler::BORDER_TOP_Y;
+    float borderBottomY = ScreenHandler::BORDER_BOTTOM_Y;
+
     glColor3f(red, green, blue);
     glBegin(GL_QUADS);
     glVertex2f(borderLeftX, borderTopY);
@@ -55,5 +67,4 @@ void RenderingHandler::DrawBackgroundInBorder(GLfloat red, GLfloat green, GLfloa
     glVertex2f(borderRightX, borderBottomY);
     glVertex2f(borderLeftX, borderBottomY);
     glEnd();
-
 }

@@ -2,8 +2,11 @@
 #include "../include/MovementHandler.h"
 using namespace std;
 
-void MovementHandler::Update(EntityManager &entityManager, float deltaTime, float screenWidth, float screenHeight)
+void MovementHandler::Update(EntityManager &entityManager, float deltaTime)
 {
+    float screenWidth = ScreenHandler::SCREEN_WIDTH;
+    float screenHeight = ScreenHandler::SCREEN_HEIGHT;
+
     for (auto entity : entityManager.GetEntitiesWithComponents<Tag, Transform, Velocity>())
     {
         auto tag = entityManager.GetComponent<Tag>(entity);
@@ -13,20 +16,23 @@ void MovementHandler::Update(EntityManager &entityManager, float deltaTime, floa
         switch (tag->entityType)
         {
         case EntityType::PLAYER:
-            HandlePlayerMovement(entityManager, entity, deltaTime, screenWidth, screenHeight);
+            HandlePlayerMovement(entityManager, entity, deltaTime);
             break;
         case EntityType::ENEMY:
-            HandleEnemyMovement(entityManager, entity, deltaTime, screenWidth, screenHeight);
+            HandleEnemyMovement(entityManager, entity, deltaTime);
             break;
         case EntityType::BULLET:
-            HandleBulletMovement(entityManager, entity, deltaTime, screenWidth, screenHeight);
+            HandleBulletMovement(entityManager, entity, deltaTime);
             break;
         }
     }
 }
 
-void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight)
+void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Entity entity, float deltaTime)
 {
+    float screenWidth = ScreenHandler::SCREEN_WIDTH;
+    float screenHeight = ScreenHandler::SCREEN_HEIGHT;
+
     float multiplier = 0.25f;
     auto transform = entityManager.GetComponent<Transform>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
@@ -44,8 +50,10 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Entity 
     transform->position.y = max(dimensions.adjustedHeight, min(newY, screenHeight - dimensions.adjustedHeight));
 }
 
-void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight)
+void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Entity entity, float deltaTime)
 {
+    float screenWidth = ScreenHandler::SCREEN_WIDTH;
+    float screenHeight = ScreenHandler::SCREEN_HEIGHT;
     int edgeThreshold = 20;
     auto transform = entityManager.GetComponent<Transform>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
@@ -76,8 +84,10 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Entity e
         direction->bounced = false;
 }
 
-void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Entity entity, float deltaTime, float screenWidth, float screenHeight)
+void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Entity entity, float deltaTime)
 {
+    float screenWidth = ScreenHandler::SCREEN_WIDTH;
+    float screenHeight = ScreenHandler::SCREEN_HEIGHT;
     auto transform = entityManager.GetComponent<Transform>(entity);
     auto velocity = entityManager.GetComponent<Velocity>(entity);
 
