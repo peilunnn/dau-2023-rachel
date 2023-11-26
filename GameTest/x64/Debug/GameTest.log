@@ -1,9 +1,4 @@
-﻿  Animation.cpp
-  app.cpp
-  main.cpp
-  SimpleController.cpp
-  SimpleSprite.cpp
-  EntityManager.cpp
+﻿  EntityManager.cpp
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\xutility(255,82): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   (compiling source file '/App/Managers/src/EntityManager.cpp')
   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\xutility(255,82):
@@ -31,14 +26,12 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.3313
   InputHandler.cpp
   AnimationHandler.cpp
   MovementHandler.cpp
-  Helper.cpp
+  ScreenHandler.cpp
   SpriteManager.cpp
   ScoreHandler.cpp
   HealthHandler.cpp
   SystemManager.cpp
   System.cpp
-  Generating Code...
-  Compiling...
   Event.cpp
   Generating Code...
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe

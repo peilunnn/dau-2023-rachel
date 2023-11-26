@@ -1,28 +1,7 @@
 #pragma once
 #include <string>
 #include "Component.h"
-
-enum class EntityType {
-    NONE,
-    PLAYER,
-    ENEMY,
-    BULLET,
-    RELOADING_CIRCLE,
-    AMMO_EMPTY,
-    AMMO_FILLED,
-    HEALTH_BAR,
-    SCORE,
-    TIMER
-};
-
-enum class EntityState {
-    // For player
-    ALIVE,
-    HIT_BY_ENEMY,
-    // For enemies
-    HIT_BY_BULLET,
-};
-
+#include "../App/Utilities/include/Enums.h"
 
 class Tag : public Component {
 public:

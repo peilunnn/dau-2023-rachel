@@ -1,20 +1,9 @@
 #pragma once
+#include "../App/Utilities/include/Enums.h"
 
-class System {
+class System
+{
 public:
     virtual ~System() = default;
-
-    enum class Type {
-        AnimationHandler,
-        CollisionHandler,
-        HealthHandler,
-        InputHandler,
-        MovementHandler,
-        ShootingHandler,
-        RenderingHandler,
-        ScreenHandler,
-        ScoreHandler,
-        TimerHandler
-    };
-    virtual Type GetSystemType() const = 0;
+    virtual SystemType GetSystemType() const = 0;
 };

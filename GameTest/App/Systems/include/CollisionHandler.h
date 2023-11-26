@@ -7,13 +7,14 @@
 #include "../../Systems/include/System.h"
 #include "../../Systems/include/Event.h"
 
-class CollisionHandler : public System 
+class CollisionHandler : public System
 {
 public:
-    void Update(EntityManager& entityManager, SystemManager& systemManager, float deltaTime);
+    void Update(EntityManager &entityManager, SystemManager &systemManager, float deltaTime);
     bool IsColliding(std::shared_ptr<Transform> transform1, std::shared_ptr<Collider> collider1, std::shared_ptr<Transform> transform2, std::shared_ptr<Collider> collider2);
-    void HandleCollisionEvent(EntityManager& entityManager, SystemManager& systemManager, Entity entity1, Entity entity2);
-    Type GetSystemType() const override {
-        return System::Type::CollisionHandler;
+    void HandleCollisionEvent(EntityManager &entityManager, SystemManager &systemManager, Entity entity1, Entity entity2);
+    SystemType GetSystemType() const override
+    {
+        return SystemType::CollisionHandler;
     }
 };

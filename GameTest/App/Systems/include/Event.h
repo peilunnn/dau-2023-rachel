@@ -1,16 +1,8 @@
 #pragma once
 #include <vector>
+#include "../App/Utilities/include/Enums.h"
 
 using Entity = unsigned int;
-
-enum class EventType {
-    PlayerShoot,
-    BulletHitEnemy,
-    EnemyHitPlayer,
-    PlayerHitReloadingCircle,
-    PlayerHealthReachZero,
-    CountdownReachZero
-};
 
 class Event {
 public:

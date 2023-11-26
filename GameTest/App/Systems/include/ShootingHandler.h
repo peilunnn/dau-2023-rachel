@@ -4,8 +4,10 @@
 #include "../../Components/include/Velocity.h"
 #include "../../Utilities/include/app.h"
 #include "../../Systems/include/System.h"
+#include "../App/Utilities/include/Enums.h"
 
-class ShootingHandler : public System {
+class ShootingHandler : public System
+{
 private:
     static int bulletsShotsSoFar;
     static constexpr int MAX_BULLETS = 10;
@@ -13,19 +15,23 @@ private:
     static float timeSinceLastShot;
 
 public:
-    static void Shoot(EntityManager& entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
-    void ProcessPlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime);
+    static void Shoot(EntityManager &entityManager, Entity playerEntity, std::shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
+    void ProcessPlayerHitReloadingCircle(EntityManager &entityManager, float deltaTime);
 
-    static float GetTimeSinceLastShot() {
+    static float GetTimeSinceLastShot()
+    {
         return timeSinceLastShot;
     }
-    static void SetTimeSinceLastShot(float time) {
+    static void SetTimeSinceLastShot(float time)
+    {
         timeSinceLastShot = time;
     }
-    static int GetMaxBullets() {
+    static int GetMaxBullets()
+    {
         return MAX_BULLETS;
     }
-    Type GetSystemType() const override {
-        return System::Type::ShootingHandler;
+    SystemType GetSystemType() const override
+    {
+        return SystemType::ShootingHandler;
     }
 };

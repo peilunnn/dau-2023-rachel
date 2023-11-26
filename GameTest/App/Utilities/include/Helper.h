@@ -8,6 +8,7 @@
 #include <glm/vec3.hpp>
 #include "SimpleSprite.h"
 #include "../App/Components/include/Tag.h"
+#include "../App/Utilities/include/Enums.h"
 
 struct SpriteDimensions {
     float width;

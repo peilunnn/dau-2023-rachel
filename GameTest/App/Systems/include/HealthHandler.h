@@ -7,8 +7,9 @@
 class HealthHandler : public System
 {
 public:
-    void ProcessEnemyHitPlayer(EntityManager& entityManager);
-	Type GetSystemType() const override {
-		return System::Type::HealthHandler;
+	void ProcessEnemyHitPlayer(EntityManager &entityManager);
+	SystemType GetSystemType() const override
+	{
+		return SystemType::HealthHandler;
 	}
 };

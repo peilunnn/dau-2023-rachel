@@ -61,7 +61,7 @@ void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, Scor
     float screenHeight = ScreenHandler::SCREEN_HEIGHT;
 
     for (const auto& system : systems) {
-        if (system->GetSystemType() == System::Type::AnimationHandler) {
+        if (system->GetSystemType() == SystemType::AnimationHandler) {
             auto animationHandler = dynamic_cast<AnimationHandler*>(system.get());
             
             if (!(animationHandler && event.entities.size() == 2))
@@ -79,7 +79,7 @@ void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, cons
 {
     // We do two separate loops because order is important - we want to update health before updating animation
     for (const auto& system : systems) {
-        if (system->GetSystemType() == System::Type::HealthHandler) {
+        if (system->GetSystemType() == SystemType::HealthHandler) {
             auto healthHandler = dynamic_cast<HealthHandler*>(system.get());
 
             if (!(healthHandler && event.entities.size() == 2))
@@ -91,7 +91,7 @@ void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, cons
     }
 
     for (const auto& system : systems) {
-        if (system->GetSystemType() == System::Type::AnimationHandler)
+        if (system->GetSystemType() == SystemType::AnimationHandler)
         {
             auto animationHandler = dynamic_cast<AnimationHandler*>(system.get());
 
@@ -109,7 +109,7 @@ void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, cons
 void SystemManager::HandlePlayerHitPlayerReloadingCircle(EntityManager& entityManager, const Event& event, float deltaTime)
 {
     for (const auto& system : systems) {
-        if (system->GetSystemType() == System::Type::ShootingHandler)
+        if (system->GetSystemType() == SystemType::ShootingHandler)
         {
             auto shootingHandler = dynamic_cast<ShootingHandler*>(system.get());
 

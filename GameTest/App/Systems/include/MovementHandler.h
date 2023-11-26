@@ -8,13 +8,15 @@
 #include "../../Systems/include/System.h"
 #include "../../Systems/include/ScreenHandler.h"
 
-class MovementHandler : public System {
+class MovementHandler : public System
+{
 public:
-    void Update(EntityManager& entityManager, float deltaTime);
-    void HandlePlayerMovement(EntityManager& entityManager, Entity entity, float deltaTime);
-    void HandleEnemyMovement(EntityManager& entityManager, Entity entity, float deltaTime);
-    void HandleBulletMovement(EntityManager& entityManager, Entity entity, float deltaTime);
-    Type GetSystemType() const override {
-        return System::Type::MovementHandler;
+    void Update(EntityManager &entityManager, float deltaTime);
+    void HandlePlayerMovement(EntityManager &entityManager, Entity entity, float deltaTime);
+    void HandleEnemyMovement(EntityManager &entityManager, Entity entity, float deltaTime);
+    void HandleBulletMovement(EntityManager &entityManager, Entity entity, float deltaTime);
+    SystemType GetSystemType() const override
+    {
+        return SystemType::MovementHandler;
     }
 };

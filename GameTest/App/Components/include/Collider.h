@@ -1,18 +1,6 @@
 #pragma once
 #include "Component.h"
-
-enum class CollisionShape {
-    SPHERE,
-    CAPSULE,
-};
-
-enum class CollisionType {
-    NONE = 0,
-    PLAYER = 1 << 0,  // 0001
-    ENEMY = 1 << 1,   // 0010
-    BULLET = 1 << 2,   // 0100
-    RELOADING_CIRCLE = 1 << 3 // 1000
-};
+#include "../App/Utilities/include/Enums.h"
 
 class Collider : public Component {
 public:

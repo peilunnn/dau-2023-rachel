@@ -14,8 +14,8 @@ public:
     void DrawBorder(GLfloat red, GLfloat green, GLfloat blue);
     void DrawBackgroundInBorder(GLfloat red, GLfloat green, GLfloat blue);
 
-    Type GetSystemType() const override
+    SystemType GetSystemType() const override
     {
-        return System::Type::RenderingHandler;
+        return SystemType::RenderingHandler;
     }
 };
