@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "../include/ScoreHandler.h"
-#include "../../Components/include/Score.h"
+#include "Components/include/Score.h"
 
 void ScoreHandler::ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime) {
 	EntityId scoreEntity = entityManager.GetScoreEntityId();

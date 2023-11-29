@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "../include/MovementHandler.h"
-#include "../../Components/include/Direction.h"
-#include "../../Components/include/Tag.h"
-#include "../../Components/include/Transform.h"
-#include "../../Components/include/Renderable.h"
-#include "../../Components/include/Velocity.h"
-#include "../../Systems/include/ScreenHandler.h"
-#include "../../Utilities/include/Helper.h"
+#include "Components/include/Direction.h"
+#include "Components/include/Tag.h"
+#include "Components/include/Transform.h"
+#include "Components/include/Renderable.h"
+#include "Components/include/Velocity.h"
+#include "Systems/include/ScreenHandler.h"
+#include "Utilities/include/Helper.h"
 
 void MovementHandler::Update(EntityManager& entityManager, float deltaTime)
 {

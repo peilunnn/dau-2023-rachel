@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Systems/include/System.h"
+#include "Systems/include/System.h"
 
 class ScreenHandler : public System
 {

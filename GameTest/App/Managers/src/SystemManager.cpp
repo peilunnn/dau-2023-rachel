@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "../include/SystemManager.h"
-#include "../../Systems/include/AnimationHandler.h"
-#include "../../Systems/include/InputHandler.h"
-#include "../../Systems/include/MovementHandler.h"
-#include "../../Systems/include/RenderingHandler.h"
-#include "../../Systems/include/CollisionHandler.h"
-#include "../../Systems/include/HealthHandler.h"
-#include "../../Systems/include/ScreenHandler.h"
-#include "../../Systems/include/ScoreHandler.h"
-#include "../../Systems/include/ShootingHandler.h"
+#include "Systems/include/AnimationHandler.h"
+#include "Systems/include/InputHandler.h"
+#include "Systems/include/MovementHandler.h"
+#include "Systems/include/RenderingHandler.h"
+#include "Systems/include/CollisionHandler.h"
+#include "Systems/include/HealthHandler.h"
+#include "Systems/include/ScreenHandler.h"
+#include "Systems/include/ScoreHandler.h"
+#include "Systems/include/ShootingHandler.h"
 
 void SystemManager::Init()
 {

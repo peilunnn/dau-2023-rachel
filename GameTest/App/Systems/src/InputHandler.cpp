@@ -2,10 +2,10 @@
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 #include "../include/InputHandler.h"
-#include "../../Components/include/Transform.h"
-#include "../../Components/include/Velocity.h"
-#include "../../Systems/include/ShootingHandler.h"
-#include "../../Utilities/include/app.h"
+#include "Components/include/Transform.h"
+#include "Components/include/Velocity.h"
+#include "Systems/include/ShootingHandler.h"
+#include "Utilities/include/app.h"
 
 void InputHandler::Update(EntityManager& entityManager, float deltaTime, EntityId playerEntity, shared_ptr<CSimpleSprite> bulletSprite) {
     InputHandler::HandlePositionInput(entityManager, deltaTime, playerEntity);

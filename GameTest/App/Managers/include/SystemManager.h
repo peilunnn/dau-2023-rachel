@@ -1,8 +1,8 @@
 #pragma once
-#include "../../Systems/include/Event.h"
-#include "../../Systems/include/ScoreHandler.h"
-#include "../../Systems/include/ScreenHandler.h"
-#include "../../Systems/include/System.h"
+#include "Systems/include/Event.h"
+#include "Systems/include/ScoreHandler.h"
+#include "Systems/include/ScreenHandler.h"
+#include "Systems/include/System.h"
 #include "EntityManager.h"
 #include <queue>
 using namespace std;

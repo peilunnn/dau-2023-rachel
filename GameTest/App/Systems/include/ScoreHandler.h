@@ -1,6 +1,6 @@
 #pragma once
-#include "../../Managers/include/EntityManager.h"
-#include "../../Systems/include/System.h"
+#include "Managers/include/EntityManager.h"
+#include "Systems/include/System.h"
 
 class ScoreHandler : public System
 {

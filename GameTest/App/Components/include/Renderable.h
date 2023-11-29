@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Utilities/include/SimpleSprite.h"
+#include "Utilities/include/SimpleSprite.h"
 #include "Component.h"
 #include <memory>
 using namespace std;

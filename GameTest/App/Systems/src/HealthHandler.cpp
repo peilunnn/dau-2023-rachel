@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "../../Components/include/Health.h"
-#include "../../Components/include/Tag.h"
+#include "Components/include/Health.h"
+#include "Components/include/Tag.h"
 #include "../include/HealthHandler.h"
 #include <algorithm>
 

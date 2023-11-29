@@ -1,6 +1,6 @@
 #pragma once
-#include "../../Components/include/Transform.h"
-#include "../../Components/include/Collider.h"
+#include "Components/include/Transform.h"
+#include "Components/include/Collider.h"
 using namespace std;
 
 class CollisionHandler : public System
