@@ -10,8 +10,8 @@
 
 void MovementHandler::Update(EntityManager& entityManager, float deltaTime)
 {
-	float screenWidth = ScreenHandler::SCREEN_WIDTH;
-	float screenHeight = ScreenHandler::SCREEN_HEIGHT;
+	constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
+	constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
 
 	for (auto entity : entityManager.GetEntitiesWithComponents<Tag, Transform, Velocity>())
 	{
@@ -36,8 +36,8 @@ void MovementHandler::Update(EntityManager& entityManager, float deltaTime)
 
 void MovementHandler::HandlePlayerMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
-	float topAdjustment = 60.0f;
-	float multiplier = 0.25f;
+	constexpr float topOffset = 60.0f;
+	constexpr float multiplier = 0.25f;
 	auto transform = entityManager.GetComponent<Transform>(entityId);
 	auto velocity = entityManager.GetComponent<Velocity>(entityId);
 
@@ -55,15 +55,15 @@ void MovementHandler::HandlePlayerMovement(EntityManager& entityManager, EntityI
 	transform->position.x = max(ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2,
 		min(newX, ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2));
 
-	transform->position.y = max(ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topAdjustment,
+	transform->position.y = max(ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset,
 		min(newY, ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2));
 }
 
 void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
-	float topAdjustment = 20.0f;
-	float bottomAdjustment = -15.0f;
-	float multiplier = 0.25f;
+	constexpr float topOffset = 20.0f;
+	constexpr float bottomOffset = -15.0f;
+	constexpr float multiplier = 0.25f;
 	auto transform = entityManager.GetComponent<Transform>(entityId);
 	auto velocity = entityManager.GetComponent<Velocity>(entityId);
 	auto direction = entityManager.GetComponent<Direction>(entityId);
@@ -86,8 +86,8 @@ void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, EntityId
 			velocity->velocity.x *= -1;
 			direction->bounced = true;
 		}
-		if (transform->position.y <= ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topAdjustment ||
-			transform->position.y >= ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2 - bottomAdjustment)
+		if (transform->position.y <= ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset ||
+			transform->position.y >= ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2 - bottomOffset)
 		{
 			velocity->velocity.y *= -1;
 			direction->bounced = true;

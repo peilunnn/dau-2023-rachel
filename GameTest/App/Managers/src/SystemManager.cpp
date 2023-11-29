@@ -32,8 +32,8 @@ void SystemManager::SendEvent(Event event) {
 }
 
 void SystemManager::ProcessEvents(EntityManager& entityManager, ScoreHandler& scoreHandler, float deltaTime, const glm::vec3& playerPos) {
-    float screenWidth = ScreenHandler::SCREEN_WIDTH;
-    float screenHeight = ScreenHandler::SCREEN_HEIGHT;
+    constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
+    constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
     
     while (!eventQueue.empty()) {
         Event event = eventQueue.front();
@@ -58,8 +58,8 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, ScoreHandler& sc
 
 void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, ScoreHandler& scoreHandler, const Event& event, float deltaTime, const glm::vec3& playerPos)
 {
-    float screenWidth = ScreenHandler::SCREEN_WIDTH;
-    float screenHeight = ScreenHandler::SCREEN_HEIGHT;
+    constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
+    constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
 
     for (const auto& system : systems) {
         if (system->GetSystemType() == SystemType::AnimationHandler) {

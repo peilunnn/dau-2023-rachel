@@ -23,14 +23,14 @@ EntityId EntityManager::nextEntityId = 0;
 
 void EntityManager::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSimpleSprite> enemySprite, shared_ptr<CSimpleSprite> reloadingCircleSprite, shared_ptr<CSimpleSprite> ammoEmptySprite, shared_ptr<CSimpleSprite> ammoFilledSprite, shared_ptr<CSimpleSprite> healthBarSprite)
 {
-	float screenWidth = ScreenHandler::SCREEN_WIDTH;
-	float screenHeight = ScreenHandler::SCREEN_HEIGHT;
-	float ammoSpriteSpacing = ScreenHandler::AMMO_SPRITE_SPACING;
-	int maxBullets = ShootingHandler::GetMaxBullets();
-	float ammoStartingX = screenWidth - 20;
-	float ammoYPos = screenHeight - 40;
-	float healthBarXPos = screenWidth - 880;
-	float healthBarYPos = screenHeight - 700;
+	constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
+	constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
+	constexpr float ammoSpriteSpacing = ScreenHandler::AMMO_SPRITE_SPACING;
+	constexpr int maxBullets = ShootingHandler::MAX_BULLETS;
+	constexpr float ammoStartingX = screenWidth - 20;
+	constexpr float ammoYPos = screenHeight - 40;
+	constexpr float healthBarXPos = screenWidth - 880;
+	constexpr float healthBarYPos = screenHeight - 700;
 
 	playerEntity = CreatePlayerEntity(playerSprite);
 	glm::vec3 playerPos = GetComponent<Transform>(playerEntity)->position;
@@ -78,12 +78,12 @@ EntityId EntityManager::CreateEntity()
 EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprite)
 {
 	EntityId playerEntity = CreateEntity();
-	float maxX = ScreenHandler::SCREEN_RIGHT - ScreenHandler::SCREEN_LEFT;
-	float maxY = ScreenHandler::SCREEN_BOTTOM - ScreenHandler::SCREEN_TOP;
+	const float maxX = ScreenHandler::SCREEN_RIGHT - ScreenHandler::SCREEN_LEFT;
+	const float maxY = ScreenHandler::SCREEN_BOTTOM - ScreenHandler::SCREEN_TOP;
 	float xPos = Helper::GenerateFloat(ScreenHandler::SCREEN_LEFT, ScreenHandler::SCREEN_RIGHT);
 	float yPos = Helper::GenerateFloat(ScreenHandler::SCREEN_TOP, ScreenHandler::SCREEN_BOTTOM);
-	float zPos = 0.0f;
-	float scale = 0.75f;
+	constexpr float zPos = 0.0f;
+	constexpr float scale = 0.75f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(playerSprite, 1.0f);
 
 	auto tag = make_shared<Tag>(EntityType::PLAYER);
@@ -112,11 +112,11 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 EntityId EntityManager::CreateEnemyEntity(const glm::vec3& playerPos, shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight)
 {
 	EntityId enemyEntity = CreateEntity();
-	float minVx = -100.0f, maxVx = 300.0f;
-	float minVy = -100.0, maxVy = 300.0f;
+	constexpr float minVx = -100.0f, maxVx = 300.0f;
+	constexpr float minVy = -100.0, maxVy = 300.0f;
 	glm::vec3 pos = Helper::GetOppositeQuadrantPosition(playerPos, 1024.0f, 768.0f);
 	glm::vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
-	float scale = 0.4f;
+	constexpr float scale = 0.4f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(enemySprite, 1.0f);
 
 	auto tag = make_shared<Tag>(EntityType::ENEMY);
@@ -145,7 +145,7 @@ EntityId EntityManager::CreateEnemyEntity(const glm::vec3& playerPos, shared_ptr
 EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3& position, const glm::vec2& targetVelocity)
 {
 	EntityId bulletEntity = CreateEntity();
-	float scale = 1.0f;
+	constexpr float scale = 1.0f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(bulletSprite, 1.0f);
 
 	auto tag = make_shared<Tag>(EntityType::BULLET);
@@ -170,12 +170,12 @@ EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprit
 EntityId EntityManager::CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> reloadingCircleSprite)
 {
 	EntityId reloadingCircleEntity = CreateEntity();
-	float maxX = ScreenHandler::SCREEN_RIGHT - ScreenHandler::SCREEN_LEFT;
-	float maxY = ScreenHandler::SCREEN_BOTTOM - ScreenHandler::SCREEN_TOP;
+	const float maxX = ScreenHandler::SCREEN_RIGHT - ScreenHandler::SCREEN_LEFT;
+	const float maxY = ScreenHandler::SCREEN_BOTTOM - ScreenHandler::SCREEN_TOP;
 	float xPos = Helper::GenerateFloat(ScreenHandler::SCREEN_LEFT, ScreenHandler::SCREEN_RIGHT);
 	float yPos = Helper::GenerateFloat(ScreenHandler::SCREEN_TOP, ScreenHandler::SCREEN_BOTTOM);
-	float zPos = 0.0f;
-	float scale = 0.4f;
+	constexpr float zPos = 0.0f;
+	constexpr float scale = 0.4f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(reloadingCircleSprite, 1.0f);
 
 	auto tag = make_shared<Tag>(EntityType::RELOADING_CIRCLE);
@@ -185,7 +185,7 @@ EntityId EntityManager::CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> re
 	collider->collisionShape = CollisionShape::SPHERE;
 	collider->collisionType = CollisionType::RELOADING_CIRCLE;
 	collider->collisionMask = static_cast<int>(CollisionType::PLAYER);
-	collider->radius = dimensions.width / 2;
+	collider->radius = dimensions.width / 2.0f;
 	auto animation = make_shared<Animation>();
 
 	AddComponent(reloadingCircleEntity, tag);
@@ -200,8 +200,8 @@ EntityId EntityManager::CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> re
 EntityId EntityManager::CreateAmmoEntity(shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos)
 {
 	EntityId ammoEntity = CreateEntity();
-	float zPos = 0.0f;
-	float scale = 0.5f;
+	constexpr float zPos = 0.0f;
+	constexpr float scale = 0.5f;
 
 	auto tag = make_shared<Tag>(entityType);
 	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(scale));
@@ -217,7 +217,7 @@ EntityId EntityManager::CreateAmmoEntity(shared_ptr<CSimpleSprite> sprite, Entit
 EntityId EntityManager::CreateHealthBarEntity(shared_ptr<CSimpleSprite> sprite, float xPos, float yPos)
 {
 	EntityId healthBarEntity = CreateEntity();
-	float zPos = 0.0f;
+	constexpr float zPos = 0.0f;
 
 	auto tag = make_shared<Tag>(EntityType::HEALTH_BAR);
 	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
@@ -235,10 +235,10 @@ EntityId EntityManager::CreateHealthBarEntity(shared_ptr<CSimpleSprite> sprite, 
 EntityId EntityManager::CreateScoreEntity()
 {
 	EntityId scoreEntity = CreateEntity();
-	float yOffset = 50.0f;
-	float xPos = ScreenHandler::SCREEN_WIDTH / 2;
-	float yPos = ScreenHandler::SCREEN_HEIGHT - yOffset;
-	float zPos = 0.0f;
+	constexpr float yOffset = 50.0f;
+	constexpr float xPos = ScreenHandler::SCREEN_WIDTH / 2;
+	constexpr float yPos = ScreenHandler::SCREEN_HEIGHT - yOffset;
+	constexpr float zPos = 0.0f;
 
 	auto tag = make_shared<Tag>(EntityType::SCORE);
 	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
@@ -254,11 +254,11 @@ EntityId EntityManager::CreateScoreEntity()
 EntityId EntityManager::CreateTimerEntity()
 {
 	EntityId timerEntity = CreateEntity();
-	float xOffset = 1000.0f;
-	float yOffset = 50.0f;
+	constexpr float xOffset = 1000.0f;
+	constexpr float yOffset = 50.0f;
 	float xPos = ScreenHandler::SCREEN_WIDTH - xOffset;
 	float yPos = ScreenHandler::SCREEN_HEIGHT - yOffset;
-	float zPos = 0.0f;
+	constexpr float zPos = 0.0f;
 
 	auto tag = make_shared<Tag>(EntityType::TIMER);
 	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
@@ -296,7 +296,7 @@ void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 {
 	float xPos = Helper::GenerateFloat(ScreenHandler::SCREEN_LEFT, ScreenHandler::SCREEN_RIGHT);
 	float yPos = Helper::GenerateFloat(ScreenHandler::SCREEN_TOP, ScreenHandler::SCREEN_BOTTOM);
-	float zPos = 0.0f;
+	constexpr float zPos = 0.0f;
 
 	glm::vec3 newPos = glm::vec3(xPos, yPos, zPos);
 	auto transform = GetComponent<Transform>(entityId);

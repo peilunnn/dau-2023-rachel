@@ -6,15 +6,14 @@
 #include "../include/ShootingHandler.h"
 #include <glm/glm.hpp>
 
-int ShootingHandler::bulletsShotsSoFar = 0;
-float ShootingHandler::cooldownTimer = 0.5f;
+int ShootingHandler::bulletsShotSoFar = 0;
 float ShootingHandler::timeSinceLastShot = 0.0f;
 
 void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntity, shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY)
 {
 	auto playerTransform = entityManager.GetComponent<Transform>(playerEntity);
 
-	if (!(bulletsShotsSoFar < MAX_BULLETS && timeSinceLastShot >= cooldownTimer && playerTransform))
+	if (!(bulletsShotSoFar < MAX_BULLETS && timeSinceLastShot >= cooldownTimer && playerTransform))
 		return;
 
 	glm::vec3 bulletPos = playerTransform->position;
@@ -25,15 +24,15 @@ void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntity,
 	glm::vec2 bulletVelocity = direction * bulletSpeed;
 	entityManager.CreateBulletEntity(bulletSprite, bulletPos, bulletVelocity);
 
-	bulletsShotsSoFar++;
+	bulletsShotSoFar++;
 	timeSinceLastShot = 0.0f;
-	entityManager.HideAmmoFilledEntity(bulletsShotsSoFar - 1);
+	entityManager.HideAmmoFilledEntity(bulletsShotSoFar - 1);
 }
 
 void ShootingHandler::ProcessPlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
 {
 	auto reloadingCircleEntity = entityManager.GetReloadingCircleEntityId();
-	bulletsShotsSoFar = 0;
+	bulletsShotSoFar = 0;
 	entityManager.ShowAllAmmoFilledEntity();
 	entityManager.MoveEntityToRandomPos(reloadingCircleEntity);
 }

@@ -24,7 +24,6 @@ using namespace std;
 
 //------------------------------------------------------------------------
 
-int maxBullets;
 glm::vec3 playerPos;
 EntityManager entityManager;
 SystemManager systemManager;

@@ -64,11 +64,11 @@ void RenderingHandler::SetBackground(GLfloat red, GLfloat green, GLfloat blue, G
 
 void RenderingHandler::DrawBorder(GLfloat red, GLfloat green, GLfloat blue)
 {
-	float borderThickness = ScreenHandler::BORDER_THICKNESS;
-	float borderLeftX = ScreenHandler::BORDER_LEFT_X;
-	float borderRightX = ScreenHandler::BORDER_RIGHT_X;
-	float borderTopY = ScreenHandler::BORDER_TOP_Y;
-	float borderBottomY = ScreenHandler::BORDER_BOTTOM_Y;
+	constexpr float borderThickness = ScreenHandler::BORDER_THICKNESS;
+	constexpr float borderLeftX = ScreenHandler::BORDER_LEFT_X;
+	constexpr float borderRightX = ScreenHandler::BORDER_RIGHT_X;
+	constexpr float borderTopY = ScreenHandler::BORDER_TOP_Y;
+	constexpr float borderBottomY = ScreenHandler::BORDER_BOTTOM_Y;
 
 	glColor3f(red, green, blue);
 	glLineWidth(borderThickness);

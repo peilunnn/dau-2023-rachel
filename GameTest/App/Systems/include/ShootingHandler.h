@@ -6,12 +6,13 @@ using namespace std;
 class ShootingHandler : public System
 {
 private:
-    static int bulletsShotsSoFar;
-    static constexpr int MAX_BULLETS = 10;
-    static float cooldownTimer;
+    static int bulletsShotSoFar;
+    static constexpr float cooldownTimer = 0.5f;
     static float timeSinceLastShot;
 
 public:
+    static constexpr int MAX_BULLETS = 10;
+
     static void Shoot(EntityManager &entityManager, EntityId playerEntity, shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
     void ProcessPlayerHitReloadingCircle(EntityManager &entityManager, float deltaTime);
 
@@ -22,10 +23,6 @@ public:
     static void SetTimeSinceLastShot(float time)
     {
         timeSinceLastShot = time;
-    }
-    static int GetMaxBullets()
-    {
-        return MAX_BULLETS;
     }
     SystemType GetSystemType() const override
     {
