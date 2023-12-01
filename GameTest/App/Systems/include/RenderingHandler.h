@@ -13,10 +13,10 @@ public:
     }
 
 private:
-    void RenderEntities(EntityManager& entityManager, EntityId entity);
-    void RenderSprites(EntityManager& entityManager, EntityId entity, shared_ptr<Tag> tag, shared_ptr<Transform> transform);
-    void RenderScore(EntityManager& entityManager, EntityId entity, shared_ptr<Tag> tag, shared_ptr<Transform> transform);
-    void RenderTimer(EntityManager& entityManager, EntityId entity, shared_ptr<Tag> tag, shared_ptr<Transform> transform);
+    void RenderEntities(EntityManager& entityManager, EntityId entityId);
+    void RenderSprites(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform);
+    void RenderScore(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform);
+    void RenderTimer(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform);
 
     void SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
     void DrawBorder(GLfloat red, GLfloat green, GLfloat blue);

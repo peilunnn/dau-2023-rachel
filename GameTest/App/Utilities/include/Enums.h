@@ -3,7 +3,6 @@
 enum class CollisionShape
 {
 	SPHERE,
-	CAPSULE,
 };
 
 enum class CollisionType

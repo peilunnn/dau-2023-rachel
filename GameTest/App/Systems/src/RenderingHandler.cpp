@@ -15,42 +15,43 @@ void RenderingHandler::Render(EntityManager& entityManager)
     DrawBorder(1.0f, 1.0f, 1.0f);
     DrawBackgroundInBorder(0.0f, 0.0f, 0.0f);
 
-    for (auto entity : entityManager.GetEntitiesWithComponents<Tag, Transform>())
+    for (auto entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
     {
-        RenderEntities(entityManager, entity);
+        RenderEntities(entityManager, entityId);
     }
 }
 
-void RenderingHandler::RenderEntities(EntityManager& entityManager, EntityId entity)
+void RenderingHandler::RenderEntities(EntityManager& entityManager, EntityId entityId)
 {
-    auto tag = entityManager.GetComponent<Tag>(entity);
-    auto transform = entityManager.GetComponent<Transform>(entity);
+    auto tag = entityManager.GetComponent<Tag>(entityId);
+    auto transform = entityManager.GetComponent<Transform>(entityId);
 
-    RenderSprites(entityManager, entity, tag, transform);
-    RenderScore(entityManager, entity, tag, transform);
-    RenderTimer(entityManager, entity, tag, transform);
+    RenderSprites(entityManager, entityId, tag, transform);
+    RenderScore(entityManager, entityId, tag, transform);
+    RenderTimer(entityManager, entityId, tag, transform);
 }
 
-void RenderingHandler::RenderSprites(EntityManager& entityManager, EntityId entity, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
+void RenderingHandler::RenderSprites(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
 {
-    auto renderable = entityManager.GetComponent<Renderable>(entity);
-    if (renderable)
-    {
-        renderable->GetSprite()->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
-        renderable->GetSprite()->SetScale(transform->GetScale().x);
+    auto renderable = entityManager.GetComponent<Renderable>(entityId);
 
-        if (tag->GetEntityType() == EntityType::AMMO_FILLED && !renderable->GetSprite()->GetIsVisible())
-        {
-            return;
-        }
+    if (!renderable)
+        return;
 
-        renderable->GetSprite()->Draw();
-    }
+    auto sprite = renderable->GetSprite();
+
+    sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
+    sprite->SetScale(transform->GetScale().x);
+
+    if (tag->GetEntityType() == EntityType::AMMO_FILLED && !(sprite->GetIsVisible()))
+        return;
+
+    sprite->Draw();
 }
 
-void RenderingHandler::RenderScore(EntityManager& entityManager, EntityId entity, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
+void RenderingHandler::RenderScore(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
 {
-    auto score = entityManager.GetComponent<Score>(entity);
+    auto score = entityManager.GetComponent<Score>(entityId);
     if (score && tag->GetEntityType() == EntityType::SCORE)
     {
         string scoreText = "Score: " + to_string(score->GetScore());
@@ -58,9 +59,9 @@ void RenderingHandler::RenderScore(EntityManager& entityManager, EntityId entity
     }
 }
 
-void RenderingHandler::RenderTimer(EntityManager& entityManager, EntityId entity, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
+void RenderingHandler::RenderTimer(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
 {
-    auto timer = entityManager.GetComponent<Timer>(entity);
+    auto timer = entityManager.GetComponent<Timer>(entityId);
     if (timer && tag->GetEntityType() == EntityType::TIMER)
     {
         string timerText = to_string(static_cast<int>(timer->GetCountdownTime()));

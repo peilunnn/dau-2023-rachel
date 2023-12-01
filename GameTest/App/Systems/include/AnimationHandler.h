@@ -12,7 +12,7 @@ public:
         return SystemType::AnimationHandler;
     }
     static void InitEnemyAnimation(shared_ptr<CSimpleSprite> enemySprite);
-    void ProcessBulletHitEnemy(EntityManager& entityManager, EntityId entity1Id, EntityId entity2Id, float deltaTime);
+    void ProcessBulletHitEnemy(EntityManager& entityManager, EntityId firstEntityId, EntityId entity2Id, float deltaTime);
     void ProcessEnemyHitPlayer(EntityManager& entityManager, float deltaTime);
 
 private:

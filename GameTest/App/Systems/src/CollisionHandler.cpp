@@ -6,39 +6,41 @@
 #include "Systems/include/System.h"
 #include "Utilities/include/Helper.h"
 #include "../include/CollisionHandler.h"
-#include <glm/glm.hpp>
 #include <set>
+#include <glm/glm.hpp>
+using glm::dot;
+using glm::vec2;
 
 void CollisionHandler::Update(EntityManager& entityManager, SystemManager& systemManager, float deltaTime)
 {
 	auto allEntities = entityManager.GetAllEntities();
 
-	for (auto& entity1 : allEntities)
+	for (auto& i : allEntities)
 	{
-		auto collider1 = entityManager.GetComponent<Collider>(entity1);
-		auto transform1 = entityManager.GetComponent<Transform>(entity1);
+		auto iCollider = entityManager.GetComponent<Collider>(i);
+		auto iTransform = entityManager.GetComponent<Transform>(i);
 
-		if (!collider1 || !transform1)
+		if (!iCollider || !iTransform)
 			continue;
 
-		for (auto& entity2 : allEntities)
+		for (auto& j : allEntities)
 		{
-			if (entity1 == entity2)
+			if (i == j)
 				continue;
 
-			auto collider2 = entityManager.GetComponent<Collider>(entity2);
-			auto transform2 = entityManager.GetComponent<Transform>(entity2);
+			auto jCollider = entityManager.GetComponent<Collider>(j);
+			auto jTransform = entityManager.GetComponent<Transform>(j);
 
-			if (!collider2 || !transform2)
+			if (!jCollider || !jTransform)
 				continue;
 
 			// Only proceed with detailed collision check if collision masks allow the two entities to collide
-			int bitwiseAndResult = (static_cast<int>(collider1->GetCollisionMask())) & (static_cast<int>(collider2->GetCollisionType()));
+			int bitwiseAndResult = (static_cast<int>(iCollider->GetCollisionMask())) & (static_cast<int>(jCollider->GetCollisionType()));
 			if (bitwiseAndResult == 0)
 				continue;
 
-			if (IsColliding(transform1, collider1, transform2, collider2))
-				HandleCollisionEvent(entityManager, systemManager, entity1, entity2);
+			if (IsColliding(iTransform, iCollider, jTransform, jCollider))
+				HandleCollisionEvent(entityManager, systemManager, i, j);
 		}
 	}
 }
@@ -48,77 +50,63 @@ bool CollisionHandler::IsColliding(shared_ptr<Transform> transform1, shared_ptr<
 	if (!transform1 || !transform2 || !collider1 || !collider2)
 		return false;
 
-	// Calculate the distance between the centers of the two entities
-	glm::vec2 posEntity1 = glm::vec2(transform1->GetPosition().x, transform1->GetPosition().y);
-	glm::vec2 posEntity2 = glm::vec2(transform2->GetPosition().x, transform2->GetPosition().y);
-	float distance = glm::distance(posEntity1, posEntity2);
+	vec2 firstEntityPos = vec2(transform1->GetPosition().x, transform1->GetPosition().y);
+	vec2 secondEntityPos = vec2(transform2->GetPosition().x, transform2->GetPosition().y);
+	vec2 diff = firstEntityPos - secondEntityPos;
+	float squaredDistance = dot(diff, diff);
 
-	// Case 1 - Sphere-Sphere ie. bullet collide with enemy, or player collide with reloadingCircle
-	if (collider1->GetCollisionShape() == CollisionShape::SPHERE && collider2->GetCollisionShape() == CollisionShape::SPHERE)
-	{
-		float totalRadius = collider1->GetRadius() + collider2->GetRadius();
-		return distance < totalRadius;
-	}
+	float totalRadius = collider1->GetRadius() + collider2->GetRadius();
+	float squaredTotalRadius = totalRadius * totalRadius;
 
-	// Case 2 - Capsule-Sphere ie. player collide with enemy
-	// We will treat the capsule as a sphere for a very simple collision check
-	else if (collider1->GetCollisionShape() == CollisionShape::CAPSULE || collider2->GetCollisionShape()  == CollisionShape::SPHERE)
-	{
-		float capsuleRadius = (collider1->GetCollisionShape() == CollisionShape::CAPSULE) ? collider1->GetRadius() : collider2->GetRadius();
-		float sphereRadius = (collider1->GetCollisionShape() == CollisionShape::SPHERE) ? collider1->GetRadius() : collider2->GetRadius();
-		float totalRadius = capsuleRadius + sphereRadius;
-		return distance < totalRadius;
-	}
-
-	return false;
+	return squaredDistance < squaredTotalRadius;
 }
 
-void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, SystemManager& systemManager, EntityId entity1Id, EntityId entity2Id)
+void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, SystemManager& systemManager, EntityId firstEntityId, EntityId secondEntityId)
 {
-	auto tag1 = entityManager.GetComponent<Tag>(entity1Id);
-	auto tag2 = entityManager.GetComponent<Tag>(entity2Id);
+	auto firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
+	auto secondEntityType = entityManager.GetComponent<Tag>(secondEntityId)->GetEntityType();
 
 	// Case 1 - bullet-enemy
-	if ((tag1->GetEntityType() == EntityType::BULLET && tag2->GetEntityType() == EntityType::ENEMY) ||
-		(tag1->GetEntityType() == EntityType::ENEMY && tag2->GetEntityType() == EntityType::BULLET))
+	if ((firstEntityType == EntityType::BULLET && secondEntityType == EntityType::ENEMY) ||
+		(firstEntityType == EntityType::ENEMY && secondEntityType == EntityType::BULLET))
 	{
-		EntityId bulletEntity = (tag1->GetEntityType() == EntityType::BULLET) ? entity1Id : entity2Id;
-		EntityId enemyEntity = (tag1->GetEntityType() == EntityType::ENEMY) ? entity1Id : entity2Id;
-		auto enemyTag = entityManager.GetComponent<Tag>(enemyEntity);
+		EntityId bulletEntity = (firstEntityType == EntityType::BULLET) ? firstEntityId : secondEntityId;
+		EntityId enemyEntityId = (firstEntityType == EntityType::ENEMY) ? firstEntityId : secondEntityId;
+		auto enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
 
 		if (enemyTag->GetEntityState() != EntityState::ALIVE)
 			return;
 
 		enemyTag->SetEntityState(EntityState::HIT_BY_BULLET);
-		Event bulletHitEnemyEvent(EventType::BulletHitEnemy, { bulletEntity, enemyEntity });
+		Event bulletHitEnemyEvent(EventType::BulletHitEnemy, { bulletEntity, enemyEntityId });
 		systemManager.SendEvent(bulletHitEnemyEvent);
 	}
 
 	// Case 2 - one is player, the other is enemy
-	else if ((tag1->GetEntityType() == EntityType::PLAYER && tag2->GetEntityType() == EntityType::ENEMY) ||
-		(tag1->GetEntityType() == EntityType::ENEMY && tag2->GetEntityType() == EntityType::PLAYER))
+	else if ((firstEntityType == EntityType::PLAYER && secondEntityType == EntityType::ENEMY) ||
+		(firstEntityType == EntityType::ENEMY && secondEntityType == EntityType::PLAYER))
 	{
-		EntityId playerEntityId = (tag1->GetEntityType() == EntityType::PLAYER) ? entity1Id : entity2Id;
-		EntityId enemyEntity = (tag1->GetEntityType() == EntityType::ENEMY) ? entity1Id : entity2Id;
+		EntityId playerEntityId = (firstEntityType == EntityType::PLAYER) ? firstEntityId : secondEntityId;
+		EntityId enemyEntityId = (firstEntityType == EntityType::ENEMY) ? firstEntityId : secondEntityId;
 		auto playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 
 		if (playerTag->GetEntityState() != EntityState::ALIVE)
 			return;
 
 		playerTag->SetEntityState(EntityState::HIT_BY_ENEMY);
-		Event enemyHitPlayerEvent(EventType::EnemyHitPlayer, { playerEntityId, enemyEntity });
+		Event enemyHitPlayerEvent(EventType::EnemyHitPlayer, { playerEntityId, enemyEntityId });
 		systemManager.SendEvent(enemyHitPlayerEvent);
 	}
 
 	// Case 3 - one is player, the other is reloadingCircle
-	else if ((tag1->GetEntityType() == EntityType::PLAYER && tag2->GetEntityType() == EntityType::RELOADING_CIRCLE) ||
-		(tag1->GetEntityType() == EntityType::RELOADING_CIRCLE && tag2->GetEntityType() == EntityType::PLAYER))
+	else if ((firstEntityType == EntityType::PLAYER && secondEntityType == EntityType::RELOADING_CIRCLE) ||
+		(firstEntityType == EntityType::RELOADING_CIRCLE && secondEntityType == EntityType::PLAYER))
 	{
-		EntityId playerEntityId = (tag1->GetEntityType() == EntityType::PLAYER) ? entity1Id : entity2Id;
-		EntityId reloadingCircleEntity = (tag1->GetEntityType() == EntityType::RELOADING_CIRCLE) ? entity1Id : entity2Id;
+		EntityId playerEntityId = (firstEntityType == EntityType::PLAYER) ? firstEntityId : secondEntityId;
+		EntityId reloadingCircleEntityId = (firstEntityType == EntityType::RELOADING_CIRCLE) ? firstEntityId : secondEntityId;
 		auto playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 
-		Event playerHitReloadingCircleEvent(EventType::PlayerHitReloadingCircle, { playerEntityId, reloadingCircleEntity });
+		Event playerHitReloadingCircleEvent(EventType::PlayerHitReloadingCircle, { playerEntityId, reloadingCircleEntityId });
 		systemManager.SendEvent(playerHitReloadingCircleEvent);
 	}
 }

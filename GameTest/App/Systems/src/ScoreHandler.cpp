@@ -3,7 +3,8 @@
 #include "Components/include/Score.h"
 
 void ScoreHandler::ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime) {
-	EntityId scoreEntity = entityManager.GetScoreEntityId();
-	auto score = entityManager.GetComponent<Score>(scoreEntity);
-	score->SetScore(score->GetScore() + 1);
+	EntityId scoreEntityId = entityManager.GetScoreEntityId();
+	auto score = entityManager.GetComponent<Score>(scoreEntityId);
+	auto currentScore = score->GetScore();
+	score->SetScore(currentScore + 1);
 }

@@ -90,10 +90,10 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(scale));
 	auto renderable = make_shared<Renderable>(playerSprite);
 	auto collider = make_shared<Collider>();
-	collider->SetCollisionShape(CollisionShape::CAPSULE);
+	collider->SetCollisionShape(CollisionShape::SPHERE);
 	collider->SetCollisionType(CollisionType::PLAYER);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::ENEMY) | static_cast<int>(CollisionType::RELOADING_CIRCLE));
-	collider->SetRadius(dimensions.height / 2);
+	collider->SetRadius(dimensions.width / 2);
 	auto velocity = make_shared<Velocity>(glm::vec2(0.0f));
 	auto health = make_shared<Health>();
 	auto animation = make_shared<Animation>();
@@ -328,39 +328,33 @@ void EntityManager::ProcessDeletions() {
 
 void EntityManager::ProcessBulletHitEnemy(Event event, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight)
 {
-	CSimpleSprite* rawEnemySprite1 = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
-	shared_ptr<CSimpleSprite> enemySprite1 = shared_ptr<CSimpleSprite>(rawEnemySprite1);
-	CSimpleSprite* rawEnemySprite2 = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
-	shared_ptr<CSimpleSprite> enemySprite2 = shared_ptr<CSimpleSprite>(rawEnemySprite2);
+	CSimpleSprite* rawFirstEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
+	shared_ptr<CSimpleSprite> firstEnemySprite = shared_ptr<CSimpleSprite>(rawFirstEnemySprite);
+	CSimpleSprite* rawSecondEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
+	shared_ptr<CSimpleSprite> secondEnemySprite = shared_ptr<CSimpleSprite>(rawSecondEnemySprite);
 
-	//shared_ptr<CSimpleSprite> enemySprite1 = SpriteManager::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
-	//shared_ptr<CSimpleSprite> enemySprite2 = SpriteManager::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
-
-	EntityId enemyEntity1 = CreateEnemyEntity(playerPos, enemySprite1, screenWidth, screenHeight);
-	AnimationHandler::InitEnemyAnimation(enemySprite1);
-	EntityId enemyEntity2 = CreateEnemyEntity(playerPos, enemySprite2, screenWidth, screenHeight);
-	AnimationHandler::InitEnemyAnimation(enemySprite2);
+	EntityId firstEnemyEntityId = CreateEnemyEntity(playerPos, firstEnemySprite, screenWidth, screenHeight);
+	AnimationHandler::InitEnemyAnimation(firstEnemySprite);
+	EntityId secondEnemyEntityId = CreateEnemyEntity(playerPos, secondEnemySprite, screenWidth, screenHeight);
+	AnimationHandler::InitEnemyAnimation(secondEnemySprite);
 }
 
 void EntityManager::ProcessEnemyHitPlayer(EntityManager& entityManager, Event event, float deltaTime)
 {
 	EntityId playerEntityId, enemyEntityId;
-	EntityId entity1Id = event.entities[0];
-	EntityId entity2Id = event.entities[1];
+	EntityId firstEntityId = event.entities[0];
+	EntityId secondEntityId = event.entities[1];
 
-	auto tag1 = entityManager.GetComponent<Tag>(entity1Id);
-	auto tag2 = entityManager.GetComponent<Tag>(entity2Id);
+	auto firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
 
-	if (!tag1 || !tag2)
-		return;
-
-	if (tag1->GetEntityType() == EntityType::PLAYER) {
-		playerEntityId = entity1Id;
-		enemyEntityId = entity2Id;
+	if (firstEntityType == EntityType::PLAYER)
+	{
+		playerEntityId = firstEntityId;
+		enemyEntityId = secondEntityId;
 	}
 	else {
-		playerEntityId = entity2Id;
-		enemyEntityId = entity1Id;
+		playerEntityId = secondEntityId;
+		enemyEntityId = firstEntityId;
 	}
 
 	MarkEntityForDeletion(enemyEntityId);

@@ -22,4 +22,5 @@ private:
     static int s_bulletsShotSoFar;
     static constexpr float s_cooldownTimer = 0.5f;
     static float s_timeSinceLastShot;
+    static constexpr float s_bulletSpeed = 1500.0f;
 };

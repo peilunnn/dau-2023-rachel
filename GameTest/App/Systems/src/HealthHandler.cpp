@@ -2,6 +2,7 @@
 #include "Components/include/Health.h"
 #include "Components/include/Tag.h"
 #include "../include/HealthHandler.h"
+#include "Utilities/include/Helper.h"
 #include <algorithm>
 
 void HealthHandler::ProcessEnemyHitPlayer(EntityManager& entityManager)
@@ -13,12 +14,13 @@ void HealthHandler::ProcessEnemyHitPlayer(EntityManager& entityManager)
 	if (!health)
 		return;
 
-	health->SetCurrentHealth(health->GetCurrentHealth() - 20);
+	auto currentHealth = health->GetCurrentHealth();
+	health->SetCurrentHealth(currentHealth - 20);
 
-	if (health->GetCurrentHealth() > 0)
+	if (currentHealth > 0)
 		tag->SetEntityState(EntityState::ALIVE);
-
-	if (health->GetCurrentHealth() <= 0) {
+	else {
 		// TODO: end the game
+		Helper::Log("game over");
 	}
 }

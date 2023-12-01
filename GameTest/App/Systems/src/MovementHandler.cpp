@@ -8,33 +8,31 @@
 #include "Systems/include/ScreenHandler.h"
 #include "Utilities/include/Helper.h"
 
-void MovementHandler::Update(EntityManager &entityManager, float deltaTime)
+void MovementHandler::Update(EntityManager& entityManager, float deltaTime)
 {
 	constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
 	constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
 
-	for (auto entity : entityManager.GetEntitiesWithComponents<Tag, Transform, Velocity>())
+	for (auto entityId : entityManager.GetEntitiesWithComponents<Tag, Transform, Velocity>())
 	{
-		auto tag = entityManager.GetComponent<Tag>(entity);
-		if (!tag)
-			return;
+		auto entityType = entityManager.GetComponent<Tag>(entityId)->GetEntityType();
 
-		switch (tag->GetEntityType())
+		switch (entityType)
 		{
 		case EntityType::PLAYER:
-			HandlePlayerMovement(entityManager, entity, deltaTime);
+			HandlePlayerMovement(entityManager, entityId, deltaTime);
 			break;
 		case EntityType::ENEMY:
-			HandleEnemyMovement(entityManager, entity, deltaTime);
+			HandleEnemyMovement(entityManager, entityId, deltaTime);
 			break;
 		case EntityType::BULLET:
-			HandleBulletMovement(entityManager, entity, deltaTime);
+			HandleBulletMovement(entityManager, entityId, deltaTime);
 			break;
 		}
 	}
 }
 
-void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandlePlayerMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
 	constexpr float topOffset = 60.0f;
 	constexpr float multiplier = 0.25f;
@@ -62,7 +60,7 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, EntityI
 	transform->SetPosition(newPos);
 }
 
-void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
 	constexpr float topOffset = 20.0f;
 	constexpr float bottomOffset = -15.0f;
@@ -84,31 +82,29 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, EntityId
 
 	if (!(direction->GetBounced()))
 	{
-		if (transform->GetPosition().x <= ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2 ||
-			transform->GetPosition().x >= ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2)
+		auto xPos = transform->GetPosition().x;
+		auto yPos = transform->GetPosition().y;
+
+		if (xPos <= ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2 ||
+			xPos >= ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2)
 		{
 			currentVelocity.x *= -1;
 			velocity->SetVelocity(currentVelocity);
 			direction->SetBounced(true);
 		}
-		if (transform->GetPosition().y <= ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset ||
-			transform->GetPosition().y >= ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2 - bottomOffset)
+		if (yPos <= ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset ||
+			yPos >= ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2 - bottomOffset)
 		{
 			currentVelocity.y *= -1;
 			velocity->SetVelocity(currentVelocity);
 			direction->SetBounced(true);
 		}
 	}
-	else if (transform->GetPosition().x > ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2 &&
-			 transform->GetPosition().x < ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2 &&
-			 transform->GetPosition().y > ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 &&
-			 transform->GetPosition().y < ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2)
-	{
+	else
 		direction->SetBounced(false);
-	}
 }
 
-void MovementHandler::HandleBulletMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandleBulletMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
 	auto transform = entityManager.GetComponent<Transform>(entityId);
 	auto velocity = entityManager.GetComponent<Velocity>(entityId);

@@ -12,5 +12,5 @@ public:
 
 private:
     bool IsColliding(shared_ptr<Transform> transform1, shared_ptr<Collider> collider1, shared_ptr<Transform> transform2, shared_ptr<Collider> collider2);
-    void HandleCollisionEvent(EntityManager& entityManager, SystemManager& systemManager, EntityId entity1Id, EntityId entity2Id);
+    void HandleCollisionEvent(EntityManager& entityManager, SystemManager& systemManager, EntityId firstEntityId, EntityId entity2Id);
 };
