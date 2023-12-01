@@ -16,8 +16,8 @@ void CollisionHandler::Update(EntityManager& entityManager, SystemManager& syste
 
 	for (auto& i : allEntities)
 	{
-		auto iCollider = entityManager.GetComponent<Collider>(i);
-		auto iTransform = entityManager.GetComponent<Transform>(i);
+		shared_ptr<Collider> iCollider = entityManager.GetComponent<Collider>(i);
+		shared_ptr<Transform> iTransform = entityManager.GetComponent<Transform>(i);
 
 		if (!iCollider || !iTransform)
 			continue;
@@ -27,8 +27,8 @@ void CollisionHandler::Update(EntityManager& entityManager, SystemManager& syste
 			if (i == j)
 				continue;
 
-			auto jCollider = entityManager.GetComponent<Collider>(j);
-			auto jTransform = entityManager.GetComponent<Transform>(j);
+			shared_ptr<Collider> jCollider = entityManager.GetComponent<Collider>(j);
+			shared_ptr<Transform> jTransform = entityManager.GetComponent<Transform>(j);
 
 			if (!jCollider || !jTransform)
 				continue;
@@ -62,8 +62,8 @@ bool CollisionHandler::IsColliding(shared_ptr<Transform> transform1, shared_ptr<
 
 void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, SystemManager& systemManager, EntityId firstEntityId, EntityId secondEntityId)
 {
-	auto firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
-	auto secondEntityType = entityManager.GetComponent<Tag>(secondEntityId)->GetEntityType();
+	EntityType firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
+	EntityType secondEntityType = entityManager.GetComponent<Tag>(secondEntityId)->GetEntityType();
 
 	// Case 1 - bullet-enemy
 	if ((firstEntityType == EntityType::Bullet && secondEntityType == EntityType::Enemy) ||
@@ -71,7 +71,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, System
 	{
 		EntityId bulletEntity = (firstEntityType == EntityType::Bullet) ? firstEntityId : secondEntityId;
 		EntityId enemyEntityId = (firstEntityType == EntityType::Enemy) ? firstEntityId : secondEntityId;
-		auto enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
+		shared_ptr<Tag> enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
 
 		if (enemyTag->GetEntityState() != EntityState::Alive)
 			return;
@@ -87,7 +87,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, System
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
 		EntityId enemyEntityId = (firstEntityType == EntityType::Enemy) ? firstEntityId : secondEntityId;
-		auto playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+		shared_ptr<Tag> playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 
 		if (playerTag->GetEntityState() != EntityState::Alive)
 			return;
@@ -103,7 +103,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, System
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
 		EntityId reloadingCircleEntityId = (firstEntityType == EntityType::ReloadingCircle) ? firstEntityId : secondEntityId;
-		auto playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+		shared_ptr<Tag> playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 
 		Event playerHitReloadingCircleEvent(EventType::PlayerHitReloadingCircle, { playerEntityId, reloadingCircleEntityId });
 		systemManager.SendEvent(playerHitReloadingCircleEvent);

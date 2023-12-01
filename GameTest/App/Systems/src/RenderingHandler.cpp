@@ -9,36 +9,36 @@
 #include "Utilities/include/Helper.h"
 #include "../include/RenderingHandler.h"
 
-void RenderingHandler::Render(EntityManager& entityManager)
+void RenderingHandler::Render(EntityManager &entityManager)
 {
     SetBackground(0.2f, 0.2f, 0.2f, 1.0f);
     DrawBorder(1.0f, 1.0f, 1.0f);
     DrawBackgroundInBorder(0.0f, 0.0f, 0.0f);
 
-    for (auto entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
+    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
     {
         RenderEntities(entityManager, entityId);
     }
 }
 
-void RenderingHandler::RenderEntities(EntityManager& entityManager, EntityId entityId)
+void RenderingHandler::RenderEntities(EntityManager &entityManager, EntityId entityId)
 {
-    auto tag = entityManager.GetComponent<Tag>(entityId);
-    auto transform = entityManager.GetComponent<Transform>(entityId);
+    shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(entityId);
+    shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
 
     RenderSprites(entityManager, entityId, tag, transform);
     RenderScore(entityManager, entityId, tag, transform);
     RenderTimer(entityManager, entityId, tag, transform);
 }
 
-void RenderingHandler::RenderSprites(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
+void RenderingHandler::RenderSprites(EntityManager &entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
 {
-    auto renderable = entityManager.GetComponent<Renderable>(entityId);
+    shared_ptr<Renderable> renderable = entityManager.GetComponent<Renderable>(entityId);
 
     if (!renderable)
         return;
 
-    auto sprite = renderable->GetSprite();
+    shared_ptr<CSimpleSprite> sprite = renderable->GetSprite();
 
     sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
     sprite->SetScale(transform->GetScale().x);
@@ -49,9 +49,9 @@ void RenderingHandler::RenderSprites(EntityManager& entityManager, EntityId enti
     sprite->Draw();
 }
 
-void RenderingHandler::RenderScore(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
+void RenderingHandler::RenderScore(EntityManager &entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
 {
-    auto score = entityManager.GetComponent<Score>(entityId);
+    shared_ptr<Score> score = entityManager.GetComponent<Score>(entityId);
     if (score && tag->GetEntityType() == EntityType::Score)
     {
         string scoreText = "Score: " + to_string(score->GetScore());
@@ -59,9 +59,9 @@ void RenderingHandler::RenderScore(EntityManager& entityManager, EntityId entity
     }
 }
 
-void RenderingHandler::RenderTimer(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
+void RenderingHandler::RenderTimer(EntityManager &entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
 {
-    auto timer = entityManager.GetComponent<Timer>(entityId);
+    shared_ptr<Timer> timer = entityManager.GetComponent<Timer>(entityId);
     if (timer && tag->GetEntityType() == EntityType::Timer)
     {
         string timerText = to_string(static_cast<int>(timer->GetCountdownTime()));
@@ -71,41 +71,41 @@ void RenderingHandler::RenderTimer(EntityManager& entityManager, EntityId entity
 
 void RenderingHandler::SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
 {
-	glClearColor(red, green, blue, alpha);
-	glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(red, green, blue, alpha);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void RenderingHandler::DrawBorder(GLfloat red, GLfloat green, GLfloat blue)
 {
-	constexpr float borderThickness = ScreenHandler::BORDER_THICKNESS;
-	constexpr float borderLeftX = ScreenHandler::BORDER_LEFT_X;
-	constexpr float borderRightX = ScreenHandler::BORDER_RIGHT_X;
-	constexpr float borderTopY = ScreenHandler::BORDER_TOP_Y;
-	constexpr float borderBottomY = ScreenHandler::BORDER_BOTTOM_Y;
+    constexpr float borderThickness = ScreenHandler::BORDER_THICKNESS;
+    constexpr float borderLeftX = ScreenHandler::BORDER_LEFT_X;
+    constexpr float borderRightX = ScreenHandler::BORDER_RIGHT_X;
+    constexpr float borderTopY = ScreenHandler::BORDER_TOP_Y;
+    constexpr float borderBottomY = ScreenHandler::BORDER_BOTTOM_Y;
 
-	glColor3f(red, green, blue);
-	glLineWidth(borderThickness);
-	glBegin(GL_LINE_LOOP);
-	glVertex2f(borderLeftX, borderTopY);
-	glVertex2f(borderRightX, borderTopY);
-	glVertex2f(borderRightX, borderBottomY);
-	glVertex2f(borderLeftX, borderBottomY);
-	glEnd();
+    glColor3f(red, green, blue);
+    glLineWidth(borderThickness);
+    glBegin(GL_LINE_LOOP);
+    glVertex2f(borderLeftX, borderTopY);
+    glVertex2f(borderRightX, borderTopY);
+    glVertex2f(borderRightX, borderBottomY);
+    glVertex2f(borderLeftX, borderBottomY);
+    glEnd();
 }
 
 void RenderingHandler::DrawBackgroundInBorder(GLfloat red, GLfloat green, GLfloat blue)
 {
-	float borderThickness = ScreenHandler::BORDER_THICKNESS;
-	float borderLeftX = ScreenHandler::BORDER_LEFT_X;
-	float borderRightX = ScreenHandler::BORDER_RIGHT_X;
-	float borderTopY = ScreenHandler::BORDER_TOP_Y;
-	float borderBottomY = ScreenHandler::BORDER_BOTTOM_Y;
+    float borderThickness = ScreenHandler::BORDER_THICKNESS;
+    float borderLeftX = ScreenHandler::BORDER_LEFT_X;
+    float borderRightX = ScreenHandler::BORDER_RIGHT_X;
+    float borderTopY = ScreenHandler::BORDER_TOP_Y;
+    float borderBottomY = ScreenHandler::BORDER_BOTTOM_Y;
 
-	glColor3f(red, green, blue);
-	glBegin(GL_QUADS);
-	glVertex2f(borderLeftX, borderTopY);
-	glVertex2f(borderRightX, borderTopY);
-	glVertex2f(borderRightX, borderBottomY);
-	glVertex2f(borderLeftX, borderBottomY);
-	glEnd();
+    glColor3f(red, green, blue);
+    glBegin(GL_QUADS);
+    glVertex2f(borderLeftX, borderTopY);
+    glVertex2f(borderRightX, borderTopY);
+    glVertex2f(borderRightX, borderBottomY);
+    glVertex2f(borderLeftX, borderBottomY);
+    glEnd();
 }

@@ -9,7 +9,7 @@
 #include "Utilities/include/SimpleSprite.h"
 #include "Utilities/include/Enums.h"
 #include "../include/AnimationHandler.h"
-#include <glm/glm.hpp>
+using glm::vec2;
 
 void AnimationHandler::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSimpleSprite> enemySprite, shared_ptr<CSimpleSprite> reloadingCircleSprite, shared_ptr<CSimpleSprite> healthBarSprite)
 {
@@ -72,7 +72,7 @@ void AnimationHandler::Update(EntityManager &entityManager, float deltaTime)
 {
 	for (auto entityId : entityManager.GetEntitiesWithComponents<Tag, Animation>())
 	{
-		auto tag = entityManager.GetComponent<Tag>(entityId);
+		shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(entityId);
 
 		switch (tag->GetEntityType())
 		{
@@ -94,10 +94,10 @@ void AnimationHandler::Update(EntityManager &entityManager, float deltaTime)
 
 void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	auto animation = entityManager.GetComponent<Animation>(entityId);
-	auto velocity = entityManager.GetComponent<Velocity>(entityId)->GetVelocity();
-	auto sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	auto tag = entityManager.GetComponent<Tag>(entityId);
+	shared_ptr<Animation> animation = entityManager.GetComponent<Animation>(entityId);
+	vec2 velocity = entityManager.GetComponent<Velocity>(entityId)->GetVelocity();
+	shared_ptr<CSimpleSprite> sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(entityId);
 
 	if (!animation)
 		return;
@@ -134,8 +134,8 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
 
 void AnimationHandler::UpdateEnemyAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	auto enemySprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	auto enemyAnimation = entityManager.GetComponent<Animation>(entityId);
+	shared_ptr<CSimpleSprite> enemySprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	shared_ptr<Animation> enemyAnimation = entityManager.GetComponent<Animation>(entityId);
 	enemySprite->Update(deltaTime);
 
 	if (enemyAnimation->GetCooldownTimer() > 0.0f)
@@ -150,8 +150,8 @@ void AnimationHandler::UpdateEnemyAnimation(EntityManager &entityManager, Entity
 
 void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	auto reloadingCircleSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	auto reloadingCircleAnimation = entityManager.GetComponent<Animation>(entityId);
+	shared_ptr<CSimpleSprite> reloadingCircleSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	shared_ptr<Animation> reloadingCircleAnimation = entityManager.GetComponent<Animation>(entityId);
 	reloadingCircleAnimation->SetCurrentAnimation(RELOADING_CIRCLE_ANIM_SPIN);
 	reloadingCircleSprite->SetAnimation(RELOADING_CIRCLE_ANIM_SPIN);
 	reloadingCircleSprite->Update(deltaTime);
@@ -159,7 +159,7 @@ void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager &entityManag
 
 void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	auto healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	shared_ptr<CSimpleSprite> healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	healthBarSprite->Update(deltaTime);
 }
 
@@ -167,7 +167,7 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
 {
 	EntityId bulletEntityId, enemyEntityId;
 
-	auto firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
+	EntityType firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
 
 	if (firstEntityType == EntityType::Bullet)
 	{
@@ -180,9 +180,9 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
 		enemyEntityId = firstEntityId;
 	}
 
-	auto enemyAnimation = entityManager.GetComponent<Animation>(enemyEntityId);
-	auto enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntityId);
-	auto enemySprite = entityManager.GetComponent<Renderable>(enemyEntityId)->GetSprite();
+	shared_ptr<Animation> enemyAnimation = entityManager.GetComponent<Animation>(enemyEntityId);
+	shared_ptr<Velocity> enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntityId);
+	shared_ptr<CSimpleSprite> enemySprite = entityManager.GetComponent<Renderable>(enemyEntityId)->GetSprite();
 
 	if (!enemyAnimation || !enemyVelocity || !enemySprite)
 		return;
@@ -201,9 +201,9 @@ void AnimationHandler::ProcessEnemyHitPlayer(EntityManager &entityManager, float
 {
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	EntityId healthBarEntityId = entityManager.GetHealthBarEntityId();
-	auto health = entityManager.GetComponent<Health>(playerEntityId);
-	auto animation = entityManager.GetComponent<Animation>(healthBarEntityId);
-	auto healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
+	shared_ptr<Health> health = entityManager.GetComponent<Health>(playerEntityId);
+	shared_ptr<Animation> animation = entityManager.GetComponent<Animation>(healthBarEntityId);
+	shared_ptr<CSimpleSprite> healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
 
 	if (!health || !healthBarSprite)
 		return;

@@ -63,8 +63,8 @@ void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, Scor
 
     for (const auto& system : m_systems) {
         if (system->GetSystemType() == SystemType::AnimationHandler) {
-            auto animationHandler = dynamic_cast<AnimationHandler*>(system.get());
-            
+            AnimationHandler* animationHandler = dynamic_cast<AnimationHandler *>(system.get());
+
             if (!(animationHandler && event.entities.size() == 2))
                 return;
             
@@ -112,7 +112,7 @@ void SystemManager::HandlePlayerHitPlayerReloadingCircle(EntityManager& entityMa
     for (const auto& system : m_systems) {
         if (system->GetSystemType() == SystemType::ShootingHandler)
         {
-            auto shootingHandler = dynamic_cast<ShootingHandler*>(system.get());
+            ShootingHandler* shootingHandler = dynamic_cast<ShootingHandler*>(system.get());
 
             if (!(shootingHandler && event.entities.size() == 2))
                 return;

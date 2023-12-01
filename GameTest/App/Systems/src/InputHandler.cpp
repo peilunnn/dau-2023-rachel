@@ -16,7 +16,7 @@ void InputHandler::Update(EntityManager& entityManager, float deltaTime, EntityI
 }
 
 void InputHandler::HandlePositionInput(EntityManager& entityManager, float deltaTime, EntityId playerEntityId) {
-    auto velocity = entityManager.GetComponent<Velocity>(playerEntityId);
+    shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(playerEntityId);
 
     if (!velocity)
         return;
@@ -32,7 +32,7 @@ void InputHandler::HandlePositionInput(EntityManager& entityManager, float delta
 void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite)
 {
     float mouseX, mouseY;
-    auto playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
+    shared_ptr<Transform> playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
 
     if (!(playerTransform && App::IsKeyPressed(VK_LBUTTON)))
         return;

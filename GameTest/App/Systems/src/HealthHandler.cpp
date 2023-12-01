@@ -8,13 +8,13 @@
 void HealthHandler::ProcessEnemyHitPlayer(EntityManager &entityManager)
 {
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
-	auto tag = entityManager.GetComponent<Tag>(playerEntityId);
-	auto health = entityManager.GetComponent<Health>(playerEntityId);
+	shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(playerEntityId);
+	shared_ptr<Health> health = entityManager.GetComponent<Health>(playerEntityId);
 
 	if (!health)
 		return;
 
-	auto currentHealth = health->GetCurrentHealth();
+	int currentHealth = health->GetCurrentHealth();
 	health->SetCurrentHealth(currentHealth - 20);
 
 	if (currentHealth > 0)

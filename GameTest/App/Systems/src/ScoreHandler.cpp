@@ -2,9 +2,10 @@
 #include "../include/ScoreHandler.h"
 #include "Components/include/Score.h"
 
-void ScoreHandler::ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime) {
+void ScoreHandler::ProcessBulletHitEnemy(EntityManager &entityManager, float deltaTime)
+{
 	EntityId scoreEntityId = entityManager.GetScoreEntityId();
-	auto score = entityManager.GetComponent<Score>(scoreEntityId);
-	auto currentScore = score->GetScore();
+	shared_ptr<Score> score = entityManager.GetComponent<Score>(scoreEntityId);
+	int currentScore = score->GetScore();
 	score->SetScore(currentScore + 1);
 }

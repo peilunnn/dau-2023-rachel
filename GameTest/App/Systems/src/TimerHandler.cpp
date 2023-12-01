@@ -4,9 +4,9 @@
 
 void TimerHandler::Update(EntityManager& entityManager, float deltaTime)
 {
-	for (auto entityId : entityManager.GetEntitiesWithComponents<Timer>()) {
-		auto timer = entityManager.GetComponent<Timer>(entityId);
-		auto countdownTime = timer->GetCountdownTime();
+	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>()) {
+		shared_ptr<Timer> timer = entityManager.GetComponent<Timer>(entityId);
+		float countdownTime = timer->GetCountdownTime();
 		
 		timer->SetCountdownTime(countdownTime - deltaTime);
 		

@@ -43,13 +43,13 @@ void EntityManager::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSim
 		float xPos = ammoStartingX - i * ammoSpriteSpacing;
 
 		// Have to create a new sprite for every entity
-		CSimpleSprite* rawAmmoEmptySprite = App::CreateSprite(Helper::PATH_TO_AMMO_EMPTY_SPRITE, 1, 1);
+		CSimpleSprite *rawAmmoEmptySprite = App::CreateSprite(Helper::PATH_TO_AMMO_EMPTY_SPRITE, 1, 1);
 		shared_ptr<CSimpleSprite> ammoEmptySprite = shared_ptr<CSimpleSprite>(rawAmmoEmptySprite);
-		CSimpleSprite* rawAmmoFilledSprite = App::CreateSprite(Helper::PATH_TO_AMMO_FILLED_SPRITE, 1, 1);
+		CSimpleSprite *rawAmmoFilledSprite = App::CreateSprite(Helper::PATH_TO_AMMO_FILLED_SPRITE, 1, 1);
 		shared_ptr<CSimpleSprite> ammoFilledSprite = shared_ptr<CSimpleSprite>(rawAmmoFilledSprite);
 
-		//shared_ptr<CSimpleSprite> ammoEmptySprite = SpriteManager::CreateSprite(Helper::PATH_TO_AMMO_EMPTY_SPRITE, 1, 1);
-		//shared_ptr<CSimpleSprite> ammoFilledSprite = SpriteManager::CreateSprite(Helper::PATH_TO_AMMO_FILLED_SPRITE, 1, 1);
+		// shared_ptr<CSimpleSprite> ammoEmptySprite = SpriteManager::CreateSprite(Helper::PATH_TO_AMMO_EMPTY_SPRITE, 1, 1);
+		// shared_ptr<CSimpleSprite> ammoFilledSprite = SpriteManager::CreateSprite(Helper::PATH_TO_AMMO_FILLED_SPRITE, 1, 1);
 
 		m_ammoEmptyEntityId = CreateAmmoEntity(ammoEmptySprite, EntityType::AmmoEmpty, xPos, ammoYPos);
 		m_ammoEmptyEntities.push_back(m_ammoEmptyEntityId);
@@ -64,7 +64,8 @@ void EntityManager::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSim
 vector<EntityId> EntityManager::GetAllEntities()
 {
 	vector<EntityId> allEntities;
-	for (const auto& pair : m_entityComponents) {
+	for (const auto &pair : m_entityComponents)
+	{
 		allEntities.push_back(pair.first);
 	}
 	return allEntities;
@@ -86,17 +87,17 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 	constexpr float scale = 0.75f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(playerSprite, 1.0f);
 
-	auto tag = make_shared<Tag>(EntityType::Player);
-	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(scale));
-	auto renderable = make_shared<Renderable>(playerSprite);
-	auto collider = make_shared<Collider>();
+	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Player);
+	shared_ptr<Transform> transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(scale));
+	shared_ptr<Renderable> renderable = make_shared<Renderable>(playerSprite);
+	shared_ptr<Collider> collider = make_shared<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::Player);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy) | static_cast<int>(CollisionType::ReloadingCircle));
 	collider->SetRadius(dimensions.width / 2);
-	auto velocity = make_shared<Velocity>(glm::vec2(0.0f));
-	auto health = make_shared<Health>();
-	auto animation = make_shared<Animation>();
+	shared_ptr<Velocity> velocity = make_shared<Velocity>(glm::vec2(0.0f));
+	shared_ptr<Health> health = make_shared<Health>();
+	shared_ptr<Animation> animation = make_shared<Animation>();
 
 	EntityManager::AddComponent(playerEntityId, tag);
 	EntityManager::AddComponent(playerEntityId, transform);
@@ -109,7 +110,7 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 	return playerEntityId;
 }
 
-EntityId EntityManager::CreateEnemyEntity(const glm::vec3& playerPos, shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight)
+EntityId EntityManager::CreateEnemyEntity(const glm::vec3 &playerPos, shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight)
 {
 	EntityId enemyEntityId = CreateEntityId();
 	constexpr float minVx = -100.0f, maxVx = 300.0f;
@@ -119,17 +120,17 @@ EntityId EntityManager::CreateEnemyEntity(const glm::vec3& playerPos, shared_ptr
 	constexpr float scale = 0.4f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(enemySprite, 1.0f);
 
-	auto tag = make_shared<Tag>(EntityType::Enemy);
-	auto transform = make_shared<Transform>(pos, glm::vec3(0.0f), glm::vec3(scale));
-	auto renderable = make_shared<Renderable>(enemySprite);
-	auto collider = make_shared<Collider>();
+	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Enemy);
+	shared_ptr<Transform> transform = make_shared<Transform>(pos, glm::vec3(0.0f), glm::vec3(scale));
+	shared_ptr<Renderable> renderable = make_shared<Renderable>(enemySprite);
+	shared_ptr<Collider> collider = make_shared<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::Enemy);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Player) | static_cast<int>(CollisionType::Bullet));
 	collider->SetRadius(dimensions.width / 2);
-	auto velocity = make_shared<Velocity>(randomVelocity);
-	auto direction = make_shared<Direction>();
-	auto animation = make_shared<Animation>();
+	shared_ptr<Velocity> velocity = make_shared<Velocity>(randomVelocity);
+	shared_ptr<Direction> direction = make_shared<Direction>();
+	shared_ptr<Animation> animation = make_shared<Animation>();
 
 	EntityManager::AddComponent(enemyEntityId, tag);
 	EntityManager::AddComponent(enemyEntityId, transform);
@@ -142,21 +143,21 @@ EntityId EntityManager::CreateEnemyEntity(const glm::vec3& playerPos, shared_ptr
 	return enemyEntityId;
 }
 
-EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3& position, const glm::vec2& targetVelocity)
+EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &position, const glm::vec2 &targetVelocity)
 {
 	EntityId bulletEntityId = CreateEntityId();
 	constexpr float scale = 1.0f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(bulletSprite, 1.0f);
 
-	auto tag = make_shared<Tag>(EntityType::Bullet);
-	auto transform = make_shared<Transform>(position, glm::vec3(0.0f), glm::vec3(scale));
-	auto renderable = make_shared<Renderable>(bulletSprite);
-	auto collider = make_shared<Collider>();
+	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Bullet);
+	shared_ptr<Transform> transform = make_shared<Transform>(position, glm::vec3(0.0f), glm::vec3(scale));
+	shared_ptr<Renderable> renderable = make_shared<Renderable>(bulletSprite);
+	shared_ptr<Collider> collider = make_shared<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::Bullet);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy));
 	collider->SetRadius(dimensions.width / 2);
-	auto velocity = make_shared<Velocity>(targetVelocity);
+	shared_ptr<Velocity> velocity = make_shared<Velocity>(targetVelocity);
 
 	AddComponent(bulletEntityId, tag);
 	AddComponent(bulletEntityId, transform);
@@ -178,15 +179,15 @@ EntityId EntityManager::CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> re
 	constexpr float scale = 0.4f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(reloadingCircleSprite, 1.0f);
 
-	auto tag = make_shared<Tag>(EntityType::ReloadingCircle);
-	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(scale));
-	auto renderable = make_shared<Renderable>(reloadingCircleSprite);
-	auto collider = make_shared<Collider>();
+	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::ReloadingCircle);
+	shared_ptr<Transform> transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(scale));
+	shared_ptr<Renderable> renderable = make_shared<Renderable>(reloadingCircleSprite);
+	shared_ptr<Collider> collider = make_shared<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::ReloadingCircle);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Player));
 	collider->SetRadius(dimensions.width / 2.0f);
-	auto animation = make_shared<Animation>();
+	shared_ptr<Animation> animation = make_shared<Animation>();
 
 	AddComponent(reloadingCircleEntityId, tag);
 	AddComponent(reloadingCircleEntityId, transform);
@@ -203,9 +204,9 @@ EntityId EntityManager::CreateAmmoEntity(shared_ptr<CSimpleSprite> sprite, Entit
 	constexpr float zPos = 0.0f;
 	constexpr float scale = 0.5f;
 
-	auto tag = make_shared<Tag>(entityType);
-	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(scale));
-	auto renderable = make_shared<Renderable>(sprite);
+	shared_ptr<Tag> tag = make_shared<Tag>(entityType);
+	shared_ptr<Transform> transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(scale));
+	shared_ptr<Renderable> renderable = make_shared<Renderable>(sprite);
 
 	AddComponent(ammoEntityId, tag);
 	AddComponent(ammoEntityId, transform);
@@ -219,10 +220,10 @@ EntityId EntityManager::CreateHealthBarEntity(shared_ptr<CSimpleSprite> sprite, 
 	EntityId healthBarEntityId = CreateEntityId();
 	constexpr float zPos = 0.0f;
 
-	auto tag = make_shared<Tag>(EntityType::HealthBar);
-	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
-	auto renderable = make_shared<Renderable>(sprite);
-	auto animation = make_shared<Animation>();
+	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::HealthBar);
+	shared_ptr<Transform> transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
+	shared_ptr<Renderable> renderable = make_shared<Renderable>(sprite);
+	shared_ptr<Animation> animation = make_shared<Animation>();
 
 	AddComponent(healthBarEntityId, tag);
 	AddComponent(healthBarEntityId, transform);
@@ -240,9 +241,9 @@ EntityId EntityManager::CreateScoreEntity()
 	constexpr float yPos = ScreenHandler::SCREEN_HEIGHT - yOffset;
 	constexpr float zPos = 0.0f;
 
-	auto tag = make_shared<Tag>(EntityType::Score);
-	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
-	auto score = make_shared<Score>();
+	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Score);
+	shared_ptr<Transform> transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
+	shared_ptr<Score> score = make_shared<Score>();
 
 	AddComponent(scoreEntityId, tag);
 	AddComponent(scoreEntityId, transform);
@@ -260,9 +261,9 @@ EntityId EntityManager::CreateTimerEntity()
 	float yPos = ScreenHandler::SCREEN_HEIGHT - yOffset;
 	constexpr float zPos = 0.0f;
 
-	auto tag = make_shared<Tag>(EntityType::Timer);
-	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
-	auto timer = make_shared<Timer>();
+	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Timer);
+	shared_ptr<Transform> transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(1.0f));
+	shared_ptr<Timer> timer = make_shared<Timer>();
 
 	AddComponent(timerEntityId, tag);
 	AddComponent(timerEntityId, transform);
@@ -273,8 +274,9 @@ EntityId EntityManager::CreateTimerEntity()
 
 void EntityManager::HideAmmoFilledEntity(int index)
 {
-	if (index >= 0 && index < m_ammoFilledEntities.size()) {
-		auto ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntities[index])->GetSprite();
+	if (index >= 0 && index < m_ammoFilledEntities.size())
+	{
+		shared_ptr<CSimpleSprite> ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntities[index])->GetSprite();
 
 		if (!ammoFilledSprite)
 			return;
@@ -287,7 +289,7 @@ void EntityManager::ShowAllAmmoFilledEntity()
 {
 	for (int i = 0; i < m_ammoFilledEntities.size(); i++)
 	{
-		auto ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntities[i])->GetSprite();
+		shared_ptr<CSimpleSprite> ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntities[i])->GetSprite();
 		ammoFilledSprite->SetVisible(true);
 	}
 }
@@ -299,23 +301,27 @@ void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 	constexpr float zPos = 0.0f;
 
 	glm::vec3 newPos = glm::vec3(xPos, yPos, zPos);
-	auto transform = GetComponent<Transform>(entityId);
+	shared_ptr<Transform> transform = GetComponent<Transform>(entityId);
 	transform->SetPosition(newPos);
 }
 
 void EntityManager::MarkEntityForDeletion(EntityId entityId)
 {
 	// Check if already marked for deletion
-	if (find(m_entitiesToDelete.begin(), m_entitiesToDelete.end(), entityId) == m_entitiesToDelete.end()) {
+	if (find(m_entitiesToDelete.begin(), m_entitiesToDelete.end(), entityId) == m_entitiesToDelete.end())
+	{
 		m_entitiesToDelete.push_back(entityId);
 	}
 }
 
-void EntityManager::ProcessDeletions() {
-	for (EntityId entityId : m_entitiesToDelete) {
-		auto tag = GetComponent<Tag>(entityId);
-		if (tag->GetEntityType() == EntityType::Enemy) {
-			auto enemyAnimation = GetComponent<Animation>(entityId);
+void EntityManager::ProcessDeletions()
+{
+	for (EntityId entityId : m_entitiesToDelete)
+	{
+		shared_ptr<Tag> tag = GetComponent<Tag>(entityId);
+		if (tag->GetEntityType() == EntityType::Enemy)
+		{
+			shared_ptr<Animation> enemyAnimation = GetComponent<Animation>(entityId);
 			if (enemyAnimation && enemyAnimation->GetCooldownTimer() > 0.0f)
 				continue;
 			m_entityComponents.erase(entityId);
@@ -326,11 +332,11 @@ void EntityManager::ProcessDeletions() {
 	m_entitiesToDelete.clear();
 }
 
-void EntityManager::ProcessBulletHitEnemy(Event event, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight)
+void EntityManager::ProcessBulletHitEnemy(Event event, float deltaTime, const glm::vec3 &playerPos, float screenWidth, float screenHeight)
 {
-	CSimpleSprite* rawFirstEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
+	CSimpleSprite *rawFirstEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
 	shared_ptr<CSimpleSprite> firstEnemySprite = shared_ptr<CSimpleSprite>(rawFirstEnemySprite);
-	CSimpleSprite* rawSecondEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
+	CSimpleSprite *rawSecondEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
 	shared_ptr<CSimpleSprite> secondEnemySprite = shared_ptr<CSimpleSprite>(rawSecondEnemySprite);
 
 	EntityId firstEnemyEntityId = CreateEnemyEntity(playerPos, firstEnemySprite, screenWidth, screenHeight);
@@ -339,20 +345,21 @@ void EntityManager::ProcessBulletHitEnemy(Event event, float deltaTime, const gl
 	AnimationHandler::InitEnemyAnimation(secondEnemySprite);
 }
 
-void EntityManager::ProcessEnemyHitPlayer(EntityManager& entityManager, Event event, float deltaTime)
+void EntityManager::ProcessEnemyHitPlayer(EntityManager &entityManager, Event event, float deltaTime)
 {
 	EntityId playerEntityId, enemyEntityId;
 	EntityId firstEntityId = event.entities[0];
 	EntityId secondEntityId = event.entities[1];
 
-	auto firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
+	EntityType firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
 
 	if (firstEntityType == EntityType::Player)
 	{
 		playerEntityId = firstEntityId;
 		enemyEntityId = secondEntityId;
 	}
-	else {
+	else
+	{
 		playerEntityId = secondEntityId;
 		enemyEntityId = firstEntityId;
 	}

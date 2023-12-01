@@ -9,14 +9,14 @@
 #include "Systems/include/ScreenHandler.h"
 #include "Utilities/include/Helper.h"
 
-void MovementHandler::Update(EntityManager& entityManager, float deltaTime)
+void MovementHandler::Update(EntityManager &entityManager, float deltaTime)
 {
 	constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
 	constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
 
-	for (auto entityId : entityManager.GetEntitiesWithComponents<Tag, Transform, Velocity>())
+	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform, Velocity>())
 	{
-		auto entityType = entityManager.GetComponent<Tag>(entityId)->GetEntityType();
+		EntityType entityType = entityManager.GetComponent<Tag>(entityId)->GetEntityType();
 
 		switch (entityType)
 		{
@@ -33,12 +33,12 @@ void MovementHandler::Update(EntityManager& entityManager, float deltaTime)
 	}
 }
 
-void MovementHandler::HandlePlayerMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	constexpr float topOffset = 60.0f;
 	constexpr float multiplier = 0.25f;
-	auto transform = entityManager.GetComponent<Transform>(entityId);
-	auto velocity = entityManager.GetComponent<Velocity>(entityId);
+	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
+	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
 
 	if (!(transform && velocity))
 		return;
@@ -48,27 +48,27 @@ void MovementHandler::HandlePlayerMovement(EntityManager& entityManager, EntityI
 	float newX = transform->GetPosition().x + movementX;
 	float newY = transform->GetPosition().y + movementY;
 
-	auto sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
+	shared_ptr<CSimpleSprite> sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	SpriteDimensions dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
 
 	float newXPos = max(ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2,
-		min(newX, ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2));
+						min(newX, ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2));
 
 	float newYPos = max(ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset,
-		min(newY, ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2));
+						min(newY, ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2));
 
 	glm::vec3 newPos = glm::vec3(newXPos, newYPos, transform->GetPosition().z);
 	transform->SetPosition(newPos);
 }
 
-void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	constexpr float topOffset = 20.0f;
 	constexpr float bottomOffset = -15.0f;
 	constexpr float multiplier = 0.25f;
-	auto transform = entityManager.GetComponent<Transform>(entityId);
-	auto velocity = entityManager.GetComponent<Velocity>(entityId);
-	auto direction = entityManager.GetComponent<Direction>(entityId);
+	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
+	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
+	shared_ptr<Direction> direction = entityManager.GetComponent<Direction>(entityId);
 
 	if (!(transform && velocity && direction))
 		return;
@@ -77,14 +77,14 @@ void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, EntityId
 	glm::vec3 newPos = transform->GetPosition() + glm::vec3(movement, 0.0f);
 	transform->SetPosition(newPos);
 
-	auto sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
+	shared_ptr<CSimpleSprite> sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	SpriteDimensions dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
 	glm::vec2 currentVelocity = velocity->GetVelocity();
 
 	if (!(direction->GetBounced()))
 	{
-		auto xPos = transform->GetPosition().x;
-		auto yPos = transform->GetPosition().y;
+		float xPos = transform->GetPosition().x;
+		float yPos = transform->GetPosition().y;
 
 		if (xPos <= ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2 ||
 			xPos >= ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2)
@@ -105,10 +105,10 @@ void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, EntityId
 		direction->SetBounced(false);
 }
 
-void MovementHandler::HandleBulletMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandleBulletMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	auto transform = entityManager.GetComponent<Transform>(entityId);
-	auto velocity = entityManager.GetComponent<Velocity>(entityId);
+	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
+	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
 
 	if (!(transform && velocity))
 		return;

@@ -12,7 +12,7 @@ float ShootingHandler::s_timeSinceLastShot = 0.0f;
 
 void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY)
 {
-	auto playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
+	shared_ptr<Transform> playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
 
 	if (!(s_bulletsShotSoFar < MAX_BULLETS && s_timeSinceLastShot >= s_cooldownTimer && playerTransform))
 		return;
@@ -35,7 +35,7 @@ void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityI
 
 void ShootingHandler::ProcessPlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
 {
-	auto reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
+	EntityId reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
 	s_bulletsShotSoFar = 0;
 	entityManager.ShowAllAmmoFilledEntity();
 	entityManager.MoveEntityToRandomPos(reloadingCircleEntityId);

@@ -1,8 +1,14 @@
 ﻿  EntityManager.cpp
+  SystemManager.cpp
+  AnimationHandler.cpp
+  CollisionHandler.cpp
   HealthHandler.cpp
+  InputHandler.cpp
   MovementHandler.cpp
   RenderingHandler.cpp
-  Helper.cpp
+  ScoreHandler.cpp
+  ShootingHandler.cpp
+  TimerHandler.cpp
   GameTest.cpp
   Generating Code...
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe
