@@ -1,8 +1,7 @@
 #pragma once
 #include "Systems/include/System.h"
 
-class ScreenHandler : public System
-{
+class ScreenHandler : public System {
 public:
     static constexpr float SCREEN_WIDTH = 1024.0f;
     static constexpr float SCREEN_HEIGHT = 768.0f;
@@ -18,7 +17,6 @@ public:
     static const float SCREEN_TOP;
     static const float SCREEN_BOTTOM;
 
-    // For converting normalized device coordinates to screen coordinates
     static float NDCtoScreenX(float ndcX, float screenWidth)
     {
         return (ndcX + 1.0f) * 0.5f * screenWidth;
@@ -28,8 +26,7 @@ public:
     {
         return (1.0f - ndcY) * 0.5f * screenHeight;
     }
-    SystemType GetSystemType() const override
-    {
+    SystemType GetSystemType() const override {
         return SystemType::ScreenHandler;
     }
 };

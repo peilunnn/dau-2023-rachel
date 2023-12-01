@@ -106,26 +106,26 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager& entityManager, Entit
 		if (velocity->GetVelocity().x > 0)
 		{
 			animation->SetCurrentAnimation(PLAYER_ANIM_RIGHT);
-			lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_RIGHT;
+			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_RIGHT;
 		}
 		else if (velocity->GetVelocity().x < 0)
 		{
 			animation->SetCurrentAnimation(PLAYER_ANIM_LEFT);
-			lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_LEFT;
+			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_LEFT;
 		}
 		else if (velocity->GetVelocity().y > 0)
 		{
 			animation->SetCurrentAnimation(PLAYER_ANIM_FORWARDS);
-			lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
+			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 		}
 		else if (velocity->GetVelocity().y < 0)
 		{
 			animation->SetCurrentAnimation(PLAYER_ANIM_BACKWARDS);
-			lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_BACKWARDS;
+			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_BACKWARDS;
 		}
 	}
 	else
-		animation->SetCurrentAnimation(lastPlayerNonIdleAnimState);
+		animation->SetCurrentAnimation(m_lastPlayerNonIdleAnimState);
 
 	sprite->SetAnimation(animation->GetCurrentAnimation());
 	sprite->Update(deltaTime);
@@ -198,9 +198,9 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager& entityManager, Entit
 
 void AnimationHandler::ProcessEnemyHitPlayer(EntityManager& entityManager, float deltaTime)
 {
-	EntityId playerEntity = entityManager.GetPlayerEntityId();
+	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	EntityId healthBarEntity = entityManager.GetHealthBarEntityId();
-	auto health = entityManager.GetComponent<Health>(playerEntity);
+	auto health = entityManager.GetComponent<Health>(playerEntityId);
 	auto animation = entityManager.GetComponent<Animation>(healthBarEntity);
 	auto healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntity)->GetSprite();
 

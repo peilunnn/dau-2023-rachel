@@ -70,6 +70,7 @@ enum HealthBarAnimationStates
 
 enum class EventType
 {
+	None,
 	PlayerShoot,
 	BulletHitEnemy,
 	EnemyHitPlayer,

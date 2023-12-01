@@ -24,19 +24,19 @@ void SystemManager::Init()
 }
 
 void SystemManager::AddSystem(unique_ptr<System> system) {
-    systems.push_back(move(system));
+    m_systems.push_back(move(system));
 }
 
 void SystemManager::SendEvent(Event event) {
-    eventQueue.push(event);
+    m_eventQueue.push(event);
 }
 
 void SystemManager::ProcessEvents(EntityManager& entityManager, ScoreHandler& scoreHandler, float deltaTime, const glm::vec3& playerPos) {
     constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
     constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
     
-    while (!eventQueue.empty()) {
-        Event event = eventQueue.front();
+    while (!m_eventQueue.empty()) {
+        Event event = m_eventQueue.front();
 
         switch (event.eventType)
         {
@@ -52,7 +52,7 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, ScoreHandler& sc
             // Handle PlayerHealthReachZero event
             // Handle CountdownReachZero event
         }
-        eventQueue.pop();
+        m_eventQueue.pop();
     }
 }
 
@@ -61,7 +61,7 @@ void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, Scor
     constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
     constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
 
-    for (const auto& system : systems) {
+    for (const auto& system : m_systems) {
         if (system->GetSystemType() == SystemType::AnimationHandler) {
             auto animationHandler = dynamic_cast<AnimationHandler*>(system.get());
             
@@ -72,14 +72,14 @@ void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, Scor
         }
     }
 
-    entityManager.ProcessBulletHitEnemy(entityManager, event, deltaTime, playerPos, screenWidth, screenHeight);
+    entityManager.ProcessBulletHitEnemy(event, deltaTime, playerPos, screenWidth, screenHeight);
     scoreHandler.ProcessBulletHitEnemy(entityManager, deltaTime);
 }
 
 void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, const Event& event, float deltaTime)
 {
     // We do two separate loops because order is important - we want to update health before updating animation
-    for (const auto& system : systems) {
+    for (const auto& system : m_systems) {
         if (system->GetSystemType() == SystemType::HealthHandler) {
             auto healthHandler = dynamic_cast<HealthHandler*>(system.get());
 
@@ -91,7 +91,7 @@ void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, cons
         }
     }
 
-    for (const auto& system : systems) {
+    for (const auto& system : m_systems) {
         if (system->GetSystemType() == SystemType::AnimationHandler)
         {
             auto animationHandler = dynamic_cast<AnimationHandler*>(system.get());
@@ -109,7 +109,7 @@ void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, cons
 
 void SystemManager::HandlePlayerHitPlayerReloadingCircle(EntityManager& entityManager, const Event& event, float deltaTime)
 {
-    for (const auto& system : systems) {
+    for (const auto& system : m_systems) {
         if (system->GetSystemType() == SystemType::ShootingHandler)
         {
             auto shootingHandler = dynamic_cast<ShootingHandler*>(system.get());

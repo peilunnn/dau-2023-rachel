@@ -98,15 +98,15 @@ void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, System
 	else if ((tag1->GetEntityType() == EntityType::PLAYER && tag2->GetEntityType() == EntityType::ENEMY) ||
 		(tag1->GetEntityType() == EntityType::ENEMY && tag2->GetEntityType() == EntityType::PLAYER))
 	{
-		EntityId playerEntity = (tag1->GetEntityType() == EntityType::PLAYER) ? entity1Id : entity2Id;
+		EntityId playerEntityId = (tag1->GetEntityType() == EntityType::PLAYER) ? entity1Id : entity2Id;
 		EntityId enemyEntity = (tag1->GetEntityType() == EntityType::ENEMY) ? entity1Id : entity2Id;
-		auto playerTag = entityManager.GetComponent<Tag>(playerEntity);
+		auto playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 
 		if (playerTag->GetEntityState() != EntityState::ALIVE)
 			return;
 
 		playerTag->SetEntityState(EntityState::HIT_BY_ENEMY);
-		Event enemyHitPlayerEvent(EventType::EnemyHitPlayer, { playerEntity, enemyEntity });
+		Event enemyHitPlayerEvent(EventType::EnemyHitPlayer, { playerEntityId, enemyEntity });
 		systemManager.SendEvent(enemyHitPlayerEvent);
 	}
 
@@ -114,11 +114,11 @@ void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, System
 	else if ((tag1->GetEntityType() == EntityType::PLAYER && tag2->GetEntityType() == EntityType::RELOADING_CIRCLE) ||
 		(tag1->GetEntityType() == EntityType::RELOADING_CIRCLE && tag2->GetEntityType() == EntityType::PLAYER))
 	{
-		EntityId playerEntity = (tag1->GetEntityType() == EntityType::PLAYER) ? entity1Id : entity2Id;
+		EntityId playerEntityId = (tag1->GetEntityType() == EntityType::PLAYER) ? entity1Id : entity2Id;
 		EntityId reloadingCircleEntity = (tag1->GetEntityType() == EntityType::RELOADING_CIRCLE) ? entity1Id : entity2Id;
-		auto playerTag = entityManager.GetComponent<Tag>(playerEntity);
+		auto playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 
-		Event playerHitReloadingCircleEvent(EventType::PlayerHitReloadingCircle, { playerEntity, reloadingCircleEntity });
+		Event playerHitReloadingCircleEvent(EventType::PlayerHitReloadingCircle, { playerEntityId, reloadingCircleEntity });
 		systemManager.SendEvent(playerHitReloadingCircleEvent);
 	}
 }

@@ -7,16 +7,16 @@
 #include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/app.h"
 
-void InputHandler::Update(EntityManager& entityManager, float deltaTime, EntityId playerEntity, shared_ptr<CSimpleSprite> bulletSprite) {
-    InputHandler::HandlePositionInput(entityManager, deltaTime, playerEntity);
+void InputHandler::Update(EntityManager& entityManager, float deltaTime, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite) {
+    InputHandler::HandlePositionInput(entityManager, deltaTime, playerEntityId);
  
     float newTimeSinceLastShot = ShootingHandler::GetTimeSinceLastShot() + deltaTime;
     ShootingHandler::SetTimeSinceLastShot(newTimeSinceLastShot);
-    InputHandler::HandleShootingInput(entityManager, playerEntity, bulletSprite);
+    InputHandler::HandleShootingInput(entityManager, playerEntityId, bulletSprite);
 }
 
-void InputHandler::HandlePositionInput(EntityManager& entityManager, float deltaTime, EntityId playerEntity) {
-    auto velocity = entityManager.GetComponent<Velocity>(playerEntity);
+void InputHandler::HandlePositionInput(EntityManager& entityManager, float deltaTime, EntityId playerEntityId) {
+    auto velocity = entityManager.GetComponent<Velocity>(playerEntityId);
 
     if (!velocity)
         return;
@@ -29,17 +29,17 @@ void InputHandler::HandlePositionInput(EntityManager& entityManager, float delta
     velocity->SetVelocity(currentVelocity);
 }
 
-void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntity, shared_ptr<CSimpleSprite> bulletSprite)
+void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite)
 {
     float mouseX, mouseY;
-    auto playerTransform = entityManager.GetComponent<Transform>(playerEntity);
+    auto playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
 
     if (!(playerTransform && App::IsKeyPressed(VK_LBUTTON)))
         return;
 
     glm::vec3 bulletPos = playerTransform->GetPosition();
     App::GetMousePos(mouseX, mouseY);
-    ShootingHandler::Shoot(entityManager, playerEntity, bulletSprite, mouseX, mouseY);
+    ShootingHandler::Shoot(entityManager, playerEntityId, bulletSprite, mouseX, mouseY);
 }
 
 

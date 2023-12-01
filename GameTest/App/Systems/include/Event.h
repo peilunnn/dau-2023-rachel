@@ -9,6 +9,6 @@ public:
 	EventType eventType;
 	vector<EntityId> entities;
 
-	Event(EventType type, initializer_list<EntityId> ents, bool newEnemies = false)
+	Event(EventType type, initializer_list<EntityId> ents)
 		: eventType(type), entities(ents) {}
 };

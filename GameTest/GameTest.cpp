@@ -34,7 +34,7 @@ shared_ptr<CSimpleSprite> reloadingCircleSprite;
 shared_ptr<CSimpleSprite> ammoEmptySprite;
 shared_ptr<CSimpleSprite> ammoFilledSprite;
 shared_ptr<CSimpleSprite> healthBarSprite;
-EntityId playerEntity;
+EntityId playerEntityId;
 EntityId enemyEntity;
 EntityId reloadingCircleEntity;
 EntityId ammoEmptyEntity;
@@ -75,7 +75,7 @@ void Init()
 
 	// Set up entities
 	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, healthBarSprite);
-	playerEntity = entityManager.GetPlayerEntityId();
+	playerEntityId = entityManager.GetPlayerEntityId();
 	enemyEntity = entityManager.GetEnemyEntityId();
 	reloadingCircleEntity = entityManager.GetReloadingCircleEntityId();
 	healthBarEntity = entityManager.GetHealthBarEntityId();
@@ -96,11 +96,11 @@ void Init()
 void Update(float deltaTime)
 {
 	float deltaTimeInSeconds = deltaTime / 1000.0f;
-	inputHandler.Update(entityManager, deltaTimeInSeconds, playerEntity, bulletSprite);
+	inputHandler.Update(entityManager, deltaTimeInSeconds, playerEntityId, bulletSprite);
 	movementHandler.Update(entityManager, deltaTimeInSeconds);
 	collisionHandler.Update(entityManager, systemManager, deltaTimeInSeconds);
 	animationHandler.Update(entityManager, deltaTimeInSeconds);
-	playerPos = entityManager.GetComponent<Transform>(playerEntity)->GetPosition();
+	playerPos = entityManager.GetComponent<Transform>(playerEntityId)->GetPosition();
 	systemManager.ProcessEvents(entityManager, scoreHandler, deltaTimeInSeconds, playerPos);
 	entityManager.ProcessDeletions();
 	timerHandler.Update(entityManager, deltaTimeInSeconds);
@@ -112,9 +112,6 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {
-	renderingHandler.SetBackground(0.2f, 0.2f, 0.2f, 1.0f);
-	renderingHandler.DrawBorder(1.0f, 1.0f, 1.0f);
-	renderingHandler.DrawBackgroundInBorder(0.0f, 0.0f, 0.0f);
 	renderingHandler.Render(entityManager);
 }
 
