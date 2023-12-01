@@ -5,8 +5,8 @@
 #include "Components/include/Score.h"
 #include "Components/include/Timer.h"
 #include "Systems/include/ScreenHandler.h"
-#include "Utilities/include/Helper.h"
 #include "Utilities/include/App.h"
+#include "Utilities/include/Helper.h"
 #include "../include/RenderingHandler.h"
 
 void RenderingHandler::Render(EntityManager& entityManager)

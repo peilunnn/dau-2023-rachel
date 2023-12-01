@@ -6,6 +6,7 @@
 #include "Components/include/Renderable.h"
 #include "Components/include/Velocity.h"
 #include "Systems/include/ScreenHandler.h"
+#include "Systems/include/ScreenHandler.h"
 #include "Utilities/include/Helper.h"
 
 void MovementHandler::Update(EntityManager& entityManager, float deltaTime)

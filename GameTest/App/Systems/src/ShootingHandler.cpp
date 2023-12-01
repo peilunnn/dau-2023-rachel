@@ -4,8 +4,6 @@
 #include "Utilities/include/app.h"
 #include "../App/Utilities/include/Enums.h"
 #include "../include/ShootingHandler.h"
-#include <glm/glm.hpp>
-using glm::dot;
 using glm::vec2;
 using glm::vec3;
 

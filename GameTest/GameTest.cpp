@@ -9,10 +9,10 @@
 #include <iostream>
 //------------------------------------------------------------------------
 #include "App/Utilities/include/app.h"
+#include "App/Utilities/include/Helper.h"
 #include "App/Managers/include/EntityManager.h"
 #include "App/Managers/include/SystemManager.h"
 #include "App/Managers/include/SpriteManager.h"
-#include "App/Utilities/include/Helper.h"
 #include "App/Systems/include/AnimationHandler.h"
 #include "App/Systems/include/InputHandler.h"
 #include "App/Systems/include/MovementHandler.h"

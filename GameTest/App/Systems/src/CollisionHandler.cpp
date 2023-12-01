@@ -1,13 +1,12 @@
 #include "stdafx.h"
+#include "Components/include/Tag.h"
 #include "Components/include/Collider.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/Event.h"
 #include "Systems/include/System.h"
-#include "Utilities/include/Helper.h"
 #include "../include/CollisionHandler.h"
 #include <set>
-#include <glm/glm.hpp>
 using glm::dot;
 using glm::vec2;
 
