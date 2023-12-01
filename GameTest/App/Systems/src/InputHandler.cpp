@@ -23,9 +23,10 @@ void InputHandler::HandlePositionInput(EntityManager& entityManager, float delta
 
     float thumbStickX = App::GetController().GetLeftThumbStickX();
     float thumbStickY = App::GetController().GetLeftThumbStickY();
-
-    velocity->velocity.x = (fabs(thumbStickX) > THUMB_STICK_THRESHOLD) ? thumbStickX * VELOCITY_MULTIPLIER * deltaTime : 0.0f;
-    velocity->velocity.y = (fabs(thumbStickY) > THUMB_STICK_THRESHOLD) ? -thumbStickY * VELOCITY_MULTIPLIER * deltaTime : 0.0f;
+    glm::vec2 currentVelocity = velocity->GetVelocity();
+    currentVelocity.x = (fabs(thumbStickX) > THUMB_STICK_THRESHOLD) ? thumbStickX * VELOCITY_MULTIPLIER * deltaTime : 0.0f;
+    currentVelocity.y = (fabs(thumbStickY) > THUMB_STICK_THRESHOLD) ? -thumbStickY * VELOCITY_MULTIPLIER * deltaTime : 0.0f;
+    velocity->SetVelocity(currentVelocity);
 }
 
 void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntity, shared_ptr<CSimpleSprite> bulletSprite)
@@ -36,7 +37,7 @@ void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId pl
     if (!(playerTransform && App::IsKeyPressed(VK_LBUTTON)))
         return;
 
-    glm::vec3 bulletPos = playerTransform->position;
+    glm::vec3 bulletPos = playerTransform->GetPosition();
     App::GetMousePos(mouseX, mouseY);
     ShootingHandler::Shoot(entityManager, playerEntity, bulletSprite, mouseX, mouseY);
 }

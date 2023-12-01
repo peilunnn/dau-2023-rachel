@@ -73,7 +73,7 @@ void AnimationHandler::Update(EntityManager& entityManager, float deltaTime)
 	{
 		auto tag = entityManager.GetComponent<Tag>(entity);
 
-		switch (tag->entityType)
+		switch (tag->GetEntityType())
 		{
 		case EntityType::PLAYER:
 			UpdatePlayerAnimation(entityManager, entity, deltaTime);
@@ -95,51 +95,51 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager& entityManager, Entit
 {
 	auto animation = entityManager.GetComponent<Animation>(entityId);
 	auto velocity = entityManager.GetComponent<Velocity>(entityId);
-	auto sprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
+	auto sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	auto tag = entityManager.GetComponent<Tag>(entityId);
 
 	if (!(velocity && animation))
 		return;
 
-	if (glm::length(velocity->velocity) > 0)
+	if (glm::length(velocity->GetVelocity()) > 0)
 	{
-		if (velocity->velocity.x > 0)
+		if (velocity->GetVelocity().x > 0)
 		{
-			animation->currentAnimation = PLAYER_ANIM_RIGHT;
+			animation->SetCurrentAnimation(PLAYER_ANIM_RIGHT);
 			lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_RIGHT;
 		}
-		else if (velocity->velocity.x < 0)
+		else if (velocity->GetVelocity().x < 0)
 		{
-			animation->currentAnimation = PLAYER_ANIM_LEFT;
+			animation->SetCurrentAnimation(PLAYER_ANIM_LEFT);
 			lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_LEFT;
 		}
-		else if (velocity->velocity.y > 0)
+		else if (velocity->GetVelocity().y > 0)
 		{
-			animation->currentAnimation = PLAYER_ANIM_FORWARDS;
+			animation->SetCurrentAnimation(PLAYER_ANIM_FORWARDS);
 			lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 		}
-		else if (velocity->velocity.y < 0)
+		else if (velocity->GetVelocity().y < 0)
 		{
-			animation->currentAnimation = PLAYER_ANIM_BACKWARDS;
+			animation->SetCurrentAnimation(PLAYER_ANIM_BACKWARDS);
 			lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_BACKWARDS;
 		}
 	}
 	else
-		animation->currentAnimation = lastPlayerNonIdleAnimState;
+		animation->SetCurrentAnimation(lastPlayerNonIdleAnimState);
 
-	sprite->SetAnimation(animation->currentAnimation);
+	sprite->SetAnimation(animation->GetCurrentAnimation());
 	sprite->Update(deltaTime);
 }
 
 void AnimationHandler::UpdateEnemyAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
-	auto enemySprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
+	auto enemySprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	auto enemyAnimation = entityManager.GetComponent<Animation>(entityId);
 	enemySprite->Update(deltaTime);
 
-	if (enemyAnimation->cooldownTimer > 0.0f) {
-		enemyAnimation->cooldownTimer -= deltaTime;
-		if (enemyAnimation->cooldownTimer <= 0.0f) {
+	if (enemyAnimation->GetCooldownTimer() > 0.0f) {
+		enemyAnimation->SetCooldownTimer(enemyAnimation->GetCooldownTimer() - deltaTime);
+		if (enemyAnimation->GetCooldownTimer() <= 0.0f) {
 			entityManager.MarkEntityForDeletion(entityId);
 		}
 	}
@@ -147,16 +147,16 @@ void AnimationHandler::UpdateEnemyAnimation(EntityManager& entityManager, Entity
 
 void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
-	auto reloadingCircleSprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
+	auto reloadingCircleSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	auto reloadingCircleAnimation = entityManager.GetComponent<Animation>(entityId);
-	reloadingCircleAnimation->currentAnimation = RELOADING_CIRCLE_ANIM_SPIN;
+	reloadingCircleAnimation->SetCurrentAnimation(RELOADING_CIRCLE_ANIM_SPIN);
 	reloadingCircleSprite->SetAnimation(RELOADING_CIRCLE_ANIM_SPIN);
 	reloadingCircleSprite->Update(deltaTime);
 }
 
 void AnimationHandler::UpdateHealthBarAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
-	auto healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
+	auto healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	healthBarSprite->Update(deltaTime);
 }
 
@@ -170,7 +170,7 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager& entityManager, Entit
 	if (!tag1 || !tag2)
 		return;
 
-	if (tag1->entityType == EntityType::BULLET) {
+	if (tag1->GetEntityType() == EntityType::BULLET) {
 		bulletEntity = entity1Id;
 		enemyEntity = entity2Id;
 	}
@@ -181,17 +181,17 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager& entityManager, Entit
 
 	auto enemyAnimation = entityManager.GetComponent<Animation>(enemyEntity);
 	auto enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntity);
-	auto enemySprite = entityManager.GetComponent<Renderable>(enemyEntity)->sprite;
+	auto enemySprite = entityManager.GetComponent<Renderable>(enemyEntity)->GetSprite();
 
 	if (!enemyAnimation || !enemyVelocity || !enemySprite)
 		return;
 
-	enemyAnimation->currentAnimation = ENEMY_ANIM_MELT;
+	enemyAnimation->SetCurrentAnimation(ENEMY_ANIM_MELT);
 	enemySprite->SetAnimation(ENEMY_ANIM_MELT);
-	enemyVelocity->velocity = glm::vec2(0.0f, 0.0f);
+	enemyVelocity->SetVelocity(glm::vec2(0.0f, 0.0f));
 
 	if (enemySprite->IsAnimationComplete())
-		enemyAnimation->cooldownTimer = 0.3f;
+		enemyAnimation->SetCooldownTimer(0.3f);
 
 	entityManager.MarkEntityForDeletion(bulletEntity);
 }
@@ -202,13 +202,13 @@ void AnimationHandler::ProcessEnemyHitPlayer(EntityManager& entityManager, float
 	EntityId healthBarEntity = entityManager.GetHealthBarEntityId();
 	auto health = entityManager.GetComponent<Health>(playerEntity);
 	auto animation = entityManager.GetComponent<Animation>(healthBarEntity);
-	auto healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntity)->sprite;
+	auto healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntity)->GetSprite();
 
 	if (!health || !healthBarSprite)
 		return;
 
-	int frameIndex = static_cast<int>((100 - health->currentHealth) / 20);
+	int frameIndex = static_cast<int>((health->GetMaxHealth() - health->GetCurrentHealth()) / 20);
 	frameIndex = min(frameIndex, 5);
-	animation->currentAnimation = frameIndex;
+	animation->SetCurrentAnimation(frameIndex);
 	healthBarSprite->SetAnimation(frameIndex);
 }

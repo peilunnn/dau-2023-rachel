@@ -4,8 +4,15 @@
 
 class Tag : public Component {
 public:
-	EntityType entityType = EntityType::NONE;
-	EntityState entityState = EntityState::ALIVE;
+    Tag(EntityType newType) : m_entityType(newType) {}
 
-	Tag(EntityType type) : entityType(type) {}
+    EntityType GetEntityType() const { return m_entityType; }
+    EntityState GetEntityState() const { return m_entityState; }
+
+    void SetEntityType(EntityType newType) { m_entityType = newType; }
+    void SetEntityState(EntityState newState) { m_entityState = newState; }
+
+private:
+    EntityType m_entityType = EntityType::NONE;
+    EntityState m_entityState = EntityState::ALIVE;
 };

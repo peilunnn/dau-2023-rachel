@@ -33,7 +33,7 @@ void EntityManager::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSim
 	constexpr float healthBarYPos = screenHeight - 700;
 
 	playerEntity = CreatePlayerEntity(playerSprite);
-	glm::vec3 playerPos = GetComponent<Transform>(playerEntity)->position;
+	glm::vec3 playerPos = GetComponent<Transform>(playerEntity)->GetPosition();
 	enemyEntity = CreateEnemyEntity(playerPos, enemySprite, screenWidth, screenHeight);
 	reloadingCircleEntity = CreateReloadingCircleEntity(reloadingCircleSprite);
 	healthBarEntity = CreateHealthBarEntity(healthBarSprite, healthBarXPos, healthBarYPos);
@@ -90,10 +90,10 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(scale));
 	auto renderable = make_shared<Renderable>(playerSprite);
 	auto collider = make_shared<Collider>();
-	collider->collisionShape = CollisionShape::CAPSULE;
-	collider->collisionType = CollisionType::PLAYER;
-	collider->collisionMask = static_cast<int>(CollisionType::ENEMY) | static_cast<int>(CollisionType::RELOADING_CIRCLE);
-	collider->radius = dimensions.height / 2;
+	collider->SetCollisionShape(CollisionShape::CAPSULE);
+	collider->SetCollisionType(CollisionType::PLAYER);
+	collider->SetCollisionMask(static_cast<int>(CollisionType::ENEMY) | static_cast<int>(CollisionType::RELOADING_CIRCLE));
+	collider->SetRadius(dimensions.height / 2);
 	auto velocity = make_shared<Velocity>(glm::vec2(0.0f));
 	auto health = make_shared<Health>();
 	auto animation = make_shared<Animation>();
@@ -123,10 +123,10 @@ EntityId EntityManager::CreateEnemyEntity(const glm::vec3& playerPos, shared_ptr
 	auto transform = make_shared<Transform>(pos, glm::vec3(0.0f), glm::vec3(scale));
 	auto renderable = make_shared<Renderable>(enemySprite);
 	auto collider = make_shared<Collider>();
-	collider->collisionShape = CollisionShape::SPHERE;
-	collider->collisionType = CollisionType::ENEMY;
-	collider->collisionMask = static_cast<int>(CollisionType::PLAYER) | static_cast<int>(CollisionType::BULLET);
-	collider->radius = dimensions.width / 2;
+	collider->SetCollisionShape(CollisionShape::SPHERE);
+	collider->SetCollisionType(CollisionType::ENEMY);
+	collider->SetCollisionMask(static_cast<int>(CollisionType::PLAYER) | static_cast<int>(CollisionType::BULLET));
+	collider->SetRadius(dimensions.width / 2);
 	auto velocity = make_shared<Velocity>(randomVelocity);
 	auto direction = make_shared<Direction>();
 	auto animation = make_shared<Animation>();
@@ -152,10 +152,10 @@ EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprit
 	auto transform = make_shared<Transform>(position, glm::vec3(0.0f), glm::vec3(scale));
 	auto renderable = make_shared<Renderable>(bulletSprite);
 	auto collider = make_shared<Collider>();
-	collider->collisionShape = CollisionShape::SPHERE;
-	collider->collisionType = CollisionType::BULLET;
-	collider->collisionMask = static_cast<int>(CollisionType::ENEMY);
-	collider->radius = dimensions.width / 2;
+	collider->SetCollisionShape(CollisionShape::SPHERE);
+	collider->SetCollisionType(CollisionType::BULLET);
+	collider->SetCollisionMask(static_cast<int>(CollisionType::ENEMY));
+	collider->SetRadius(dimensions.width / 2);
 	auto velocity = make_shared<Velocity>(targetVelocity);
 
 	AddComponent(bulletEntity, tag);
@@ -182,10 +182,10 @@ EntityId EntityManager::CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> re
 	auto transform = make_shared<Transform>(glm::vec3(xPos, yPos, zPos), glm::vec3(0.0f), glm::vec3(scale));
 	auto renderable = make_shared<Renderable>(reloadingCircleSprite);
 	auto collider = make_shared<Collider>();
-	collider->collisionShape = CollisionShape::SPHERE;
-	collider->collisionType = CollisionType::RELOADING_CIRCLE;
-	collider->collisionMask = static_cast<int>(CollisionType::PLAYER);
-	collider->radius = dimensions.width / 2.0f;
+	collider->SetCollisionShape(CollisionShape::SPHERE);
+	collider->SetCollisionType(CollisionType::RELOADING_CIRCLE);
+	collider->SetCollisionMask(static_cast<int>(CollisionType::PLAYER));
+	collider->SetRadius(dimensions.width / 2.0f);
 	auto animation = make_shared<Animation>();
 
 	AddComponent(reloadingCircleEntity, tag);
@@ -274,7 +274,7 @@ EntityId EntityManager::CreateTimerEntity()
 void EntityManager::HideAmmoFilledEntity(int index)
 {
 	if (index >= 0 && index < ammoFilledEntities.size()) {
-		auto ammoFilledSprite = GetComponent<Renderable>(ammoFilledEntities[index])->sprite;
+		auto ammoFilledSprite = GetComponent<Renderable>(ammoFilledEntities[index])->GetSprite();
 
 		if (!ammoFilledSprite)
 			return;
@@ -287,7 +287,7 @@ void EntityManager::ShowAllAmmoFilledEntity()
 {
 	for (int i = 0; i < ammoFilledEntities.size(); i++)
 	{
-		auto ammoFilledSprite = GetComponent<Renderable>(ammoFilledEntities[i])->sprite;
+		auto ammoFilledSprite = GetComponent<Renderable>(ammoFilledEntities[i])->GetSprite();
 		ammoFilledSprite->SetVisible(true);
 	}
 }
@@ -300,7 +300,7 @@ void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 
 	glm::vec3 newPos = glm::vec3(xPos, yPos, zPos);
 	auto transform = GetComponent<Transform>(entityId);
-	transform->position = newPos;
+	transform->SetPosition(newPos);
 }
 
 void EntityManager::MarkEntityForDeletion(EntityId entityId)
@@ -314,9 +314,9 @@ void EntityManager::MarkEntityForDeletion(EntityId entityId)
 void EntityManager::ProcessDeletions() {
 	for (EntityId entityId : entitiesToDelete) {
 		auto tag = GetComponent<Tag>(entityId);
-		if (tag->entityType == EntityType::ENEMY) {
+		if (tag->GetEntityType() == EntityType::ENEMY) {
 			auto enemyAnimation = GetComponent<Animation>(entityId);
-			if (enemyAnimation && enemyAnimation->cooldownTimer > 0.0f)
+			if (enemyAnimation && enemyAnimation->GetCooldownTimer() > 0.0f)
 				continue;
 			entityComponents.erase(entityId);
 		}
@@ -354,7 +354,7 @@ void EntityManager::ProcessEnemyHitPlayer(EntityManager& entityManager, Event ev
 	if (!tag1 || !tag2)
 		return;
 
-	if (tag1->entityType == EntityType::PLAYER) {
+	if (tag1->GetEntityType() == EntityType::PLAYER) {
 		playerEntity = entity1Id;
 		enemyEntity = entity2Id;
 	}

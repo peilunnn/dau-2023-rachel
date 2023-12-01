@@ -13,12 +13,12 @@ void HealthHandler::ProcessEnemyHitPlayer(EntityManager& entityManager)
 	if (!health)
 		return;
 
-	health->currentHealth -= 20;
+	health->SetCurrentHealth(health->GetCurrentHealth() - 20);
 
-	if (health->currentHealth > 0)
-		tag->entityState = EntityState::ALIVE;
+	if (health->GetCurrentHealth() > 0)
+		tag->SetEntityState(EntityState::ALIVE);
 
-	if (health->currentHealth <= 0) {
+	if (health->GetCurrentHealth() <= 0) {
 		// TODO: end the game
 	}
 }

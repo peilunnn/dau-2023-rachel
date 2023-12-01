@@ -100,7 +100,7 @@ void Update(float deltaTime)
 	movementHandler.Update(entityManager, deltaTimeInSeconds);
 	collisionHandler.Update(entityManager, systemManager, deltaTimeInSeconds);
 	animationHandler.Update(entityManager, deltaTimeInSeconds);
-	playerPos = entityManager.GetComponent<Transform>(playerEntity)->position;
+	playerPos = entityManager.GetComponent<Transform>(playerEntity)->GetPosition();
 	systemManager.ProcessEvents(entityManager, scoreHandler, deltaTimeInSeconds, playerPos);
 	entityManager.ProcessDeletions();
 	timerHandler.Update(entityManager, deltaTimeInSeconds);

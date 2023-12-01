@@ -20,37 +20,36 @@ void RenderingHandler::Render(EntityManager& entityManager)
 		auto renderable = entityManager.GetComponent<Renderable>(entity);
 		if (renderable)
 		{
-			renderable->sprite->SetPosition(transform->position.x, transform->position.y);
-			renderable->sprite->SetScale(transform->scale.x);
-			renderable->sprite->SetAngle(transform->rotation.z);
+			renderable->GetSprite()->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
+			renderable->GetSprite()->SetScale(transform->GetScale().x);
 
-			if (tag->entityType == EntityType::AMMO_FILLED)
+			if (tag->GetEntityType() == EntityType::AMMO_FILLED)
 			{
-				bool isVisible = renderable->sprite->GetIsVisible();
+				bool isVisible = renderable->GetSprite()->GetIsVisible();
 				if (!isVisible)
 					continue;
 			}
 
-			renderable->sprite->Draw();
+			renderable->GetSprite()->Draw();
 		}
 
 		// Render score
 		auto score = entityManager.GetComponent<Score>(entity);
-		if (score && tag->entityType == EntityType::SCORE)
+		if (score && tag->GetEntityType() == EntityType::SCORE)
 		{
-			string scoreText = "Score: " + to_string(score->score);
-			float x = transform->position.x;
-			float y = transform->position.y;
+			string scoreText = "Score: " + to_string(score->GetScore());
+			float x = transform->GetPosition().x;
+			float y = transform->GetPosition().y;
 			App::Print(x, y, scoreText.c_str(), 1.0f, 1.0f, 1.0f);
 		}
 
 		// Render timer
 		auto timer = entityManager.GetComponent<Timer>(entity);
-		if (timer && tag->entityType == EntityType::TIMER)
+		if (timer && tag->GetEntityType() == EntityType::TIMER)
 		{
-			string timerText = to_string(static_cast<int>(timer->countdownTime));
-			float x = transform->position.x;
-			float y = transform->position.y;
+			string timerText = to_string(static_cast<int>(timer->GetCountdownTime()));
+			float x = transform->GetPosition().x;
+			float y = transform->GetPosition().y;
 			App::Print(x, y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
 		}
 	}

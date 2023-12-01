@@ -2,7 +2,11 @@
 #include "Component.h"
 
 struct Score : public Component {
-	int score = 0;
+    Score() = default;
 
-	Score() = default;
+    int GetScore() const { return m_score; }
+    void SetScore(int newScore) { m_score = newScore; }
+
+private:
+    int m_score = 0;
 };

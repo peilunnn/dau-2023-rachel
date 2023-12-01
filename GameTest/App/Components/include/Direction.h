@@ -3,7 +3,11 @@
 
 class Direction : public Component {
 public:
-	bool bounced = false;
+    Direction() = default;
 
-	Direction() = default;
+    bool GetBounced() const { return m_bounced; }
+    void SetBounced(bool newBounced) { m_bounced = newBounced; }
+
+private:
+    bool m_bounced = false;
 };

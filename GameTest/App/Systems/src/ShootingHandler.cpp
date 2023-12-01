@@ -16,7 +16,7 @@ void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntity,
 	if (!(bulletsShotSoFar < MAX_BULLETS && timeSinceLastShot >= cooldownTimer && playerTransform))
 		return;
 
-	glm::vec3 bulletPos = playerTransform->position;
+	glm::vec3 bulletPos = playerTransform->GetPosition();
 	glm::vec2 direction = glm::normalize(glm::vec2(mouseX, mouseY) - glm::vec2(bulletPos.x, bulletPos.y));
 	if (glm::length(direction) == 0)
 		direction = glm::vec2(1.0f, 0.0f);

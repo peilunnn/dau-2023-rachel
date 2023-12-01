@@ -8,7 +8,7 @@
 #include "Systems/include/ScreenHandler.h"
 #include "Utilities/include/Helper.h"
 
-void MovementHandler::Update(EntityManager& entityManager, float deltaTime)
+void MovementHandler::Update(EntityManager &entityManager, float deltaTime)
 {
 	constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
 	constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
@@ -19,7 +19,7 @@ void MovementHandler::Update(EntityManager& entityManager, float deltaTime)
 		if (!tag)
 			return;
 
-		switch (tag->entityType)
+		switch (tag->GetEntityType())
 		{
 		case EntityType::PLAYER:
 			HandlePlayerMovement(entityManager, entity, deltaTime);
@@ -34,7 +34,7 @@ void MovementHandler::Update(EntityManager& entityManager, float deltaTime)
 	}
 }
 
-void MovementHandler::HandlePlayerMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	constexpr float topOffset = 60.0f;
 	constexpr float multiplier = 0.25f;
@@ -44,22 +44,25 @@ void MovementHandler::HandlePlayerMovement(EntityManager& entityManager, EntityI
 	if (!(transform && velocity))
 		return;
 
-	float movementX = velocity->velocity.x * deltaTime;
-	float movementY = velocity->velocity.y * deltaTime;
-	float newX = transform->position.x + movementX;
-	float newY = transform->position.y + movementY;
+	float movementX = velocity->GetVelocity().x * deltaTime;
+	float movementY = velocity->GetVelocity().y * deltaTime;
+	float newX = transform->GetPosition().x + movementX;
+	float newY = transform->GetPosition().y + movementY;
 
-	auto sprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
+	auto sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
 
-	transform->position.x = max(ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2,
+	float newXPos = max(ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2,
 		min(newX, ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2));
 
-	transform->position.y = max(ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset,
+	float newYPos = max(ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset,
 		min(newY, ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2));
+
+	glm::vec3 newPos = glm::vec3(newXPos, newYPos, transform->GetPosition().z);
+	transform->SetPosition(newPos);
 }
 
-void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	constexpr float topOffset = 20.0f;
 	constexpr float bottomOffset = -15.0f;
@@ -71,38 +74,41 @@ void MovementHandler::HandleEnemyMovement(EntityManager& entityManager, EntityId
 	if (!(transform && velocity && direction))
 		return;
 
-	glm::vec2 movement = velocity->velocity * deltaTime;
-	transform->position.x += movement.x;
-	transform->position.y += movement.y;
+	glm::vec2 movement = velocity->GetVelocity() * deltaTime;
+	glm::vec3 newPos = transform->GetPosition() + glm::vec3(movement, 0.0f);
+	transform->SetPosition(newPos);
 
-	auto sprite = entityManager.GetComponent<Renderable>(entityId)->sprite;
+	auto sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	auto dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
+	glm::vec2 currentVelocity = velocity->GetVelocity();
 
-	if (!(direction->bounced))
+	if (!(direction->GetBounced()))
 	{
-		if (transform->position.x <= ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2 ||
-			transform->position.x >= ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2)
+		if (transform->GetPosition().x <= ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2 ||
+			transform->GetPosition().x >= ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2)
 		{
-			velocity->velocity.x *= -1;
-			direction->bounced = true;
+			currentVelocity.x *= -1;
+			velocity->SetVelocity(currentVelocity);
+			direction->SetBounced(true);
 		}
-		if (transform->position.y <= ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset ||
-			transform->position.y >= ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2 - bottomOffset)
+		if (transform->GetPosition().y <= ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset ||
+			transform->GetPosition().y >= ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2 - bottomOffset)
 		{
-			velocity->velocity.y *= -1;
-			direction->bounced = true;
+			currentVelocity.y *= -1;
+			velocity->SetVelocity(currentVelocity);
+			direction->SetBounced(true);
 		}
 	}
-	else if (transform->position.x > ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2 &&
-		transform->position.x < ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2 &&
-		transform->position.y > ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 &&
-		transform->position.y < ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2)
+	else if (transform->GetPosition().x > ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2 &&
+			 transform->GetPosition().x < ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2 &&
+			 transform->GetPosition().y > ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 &&
+			 transform->GetPosition().y < ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2)
 	{
-		direction->bounced = false;
+		direction->SetBounced(false);
 	}
 }
 
-void MovementHandler::HandleBulletMovement(EntityManager& entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandleBulletMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	auto transform = entityManager.GetComponent<Transform>(entityId);
 	auto velocity = entityManager.GetComponent<Velocity>(entityId);
@@ -110,11 +116,11 @@ void MovementHandler::HandleBulletMovement(EntityManager& entityManager, EntityI
 	if (!(transform && velocity))
 		return;
 
-	glm::vec2 movement = velocity->velocity * deltaTime;
-	transform->position.x += movement.x;
-	transform->position.y += movement.y;
+	glm::vec2 movement = velocity->GetVelocity() * deltaTime;
+	glm::vec3 newPos = transform->GetPosition() + glm::vec3(movement, 0.0f);
+	transform->SetPosition(newPos);
 
-	if (transform->position.x < ScreenHandler::SCREEN_LEFT || transform->position.x > ScreenHandler::SCREEN_RIGHT ||
-		transform->position.y < ScreenHandler::SCREEN_TOP || transform->position.y > ScreenHandler::SCREEN_BOTTOM)
+	if (transform->GetPosition().x < ScreenHandler::SCREEN_LEFT || transform->GetPosition().x > ScreenHandler::SCREEN_RIGHT ||
+		transform->GetPosition().y < ScreenHandler::SCREEN_TOP || transform->GetPosition().y > ScreenHandler::SCREEN_BOTTOM)
 		entityManager.MarkEntityForDeletion(entityId);
 }

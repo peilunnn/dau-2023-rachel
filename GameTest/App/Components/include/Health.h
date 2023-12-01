@@ -3,8 +3,14 @@
 
 class Health : public Component {
 public:
-	int currentHealth = 100;
-	int maxHealth = 100;
+    Health() = default;
 
-	Health() = default;
+    int GetCurrentHealth() const { return m_currentHealth; }
+    int GetMaxHealth() const { return m_maxHealth; }
+
+    void SetCurrentHealth(int newHealth) { m_currentHealth = newHealth; }
+
+private:
+    int m_currentHealth = 100;
+    const int m_maxHealth = 100;
 };
