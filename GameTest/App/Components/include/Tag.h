@@ -13,6 +13,6 @@ public:
     void SetEntityState(EntityState newState) { m_entityState = newState; }
 
 private:
-    EntityType m_entityType = EntityType::NONE;
-    EntityState m_entityState = EntityState::ALIVE;
+    EntityType m_entityType = EntityType::None;
+    EntityState m_entityState = EntityState::Alive;
 };

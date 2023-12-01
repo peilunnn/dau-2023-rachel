@@ -43,7 +43,7 @@ void RenderingHandler::RenderSprites(EntityManager& entityManager, EntityId enti
     sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
     sprite->SetScale(transform->GetScale().x);
 
-    if (tag->GetEntityType() == EntityType::AMMO_FILLED && !(sprite->GetIsVisible()))
+    if (tag->GetEntityType() == EntityType::AmmoFilled && !(sprite->GetIsVisible()))
         return;
 
     sprite->Draw();
@@ -52,7 +52,7 @@ void RenderingHandler::RenderSprites(EntityManager& entityManager, EntityId enti
 void RenderingHandler::RenderScore(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
 {
     auto score = entityManager.GetComponent<Score>(entityId);
-    if (score && tag->GetEntityType() == EntityType::SCORE)
+    if (score && tag->GetEntityType() == EntityType::Score)
     {
         string scoreText = "Score: " + to_string(score->GetScore());
         App::Print(transform->GetPosition().x, transform->GetPosition().y, scoreText.c_str(), 1.0f, 1.0f, 1.0f);
@@ -62,7 +62,7 @@ void RenderingHandler::RenderScore(EntityManager& entityManager, EntityId entity
 void RenderingHandler::RenderTimer(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
 {
     auto timer = entityManager.GetComponent<Timer>(entityId);
-    if (timer && tag->GetEntityType() == EntityType::TIMER)
+    if (timer && tag->GetEntityType() == EntityType::Timer)
     {
         string timerText = to_string(static_cast<int>(timer->GetCountdownTime()));
         App::Print(transform->GetPosition().x, transform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);

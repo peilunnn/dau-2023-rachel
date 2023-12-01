@@ -19,13 +19,13 @@ void MovementHandler::Update(EntityManager& entityManager, float deltaTime)
 
 		switch (entityType)
 		{
-		case EntityType::PLAYER:
+		case EntityType::Player:
 			HandlePlayerMovement(entityManager, entityId, deltaTime);
 			break;
-		case EntityType::ENEMY:
+		case EntityType::Enemy:
 			HandleEnemyMovement(entityManager, entityId, deltaTime);
 			break;
-		case EntityType::BULLET:
+		case EntityType::Bullet:
 			HandleBulletMovement(entityManager, entityId, deltaTime);
 			break;
 		}

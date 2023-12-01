@@ -19,6 +19,6 @@ public:
 private:
     int m_collisionMask = 0;
     float m_radius = 0.0f;
-    CollisionShape m_collisionShape = CollisionShape::SPHERE;
-    CollisionType m_collisionType = CollisionType::NONE;
+    CollisionShape m_collisionShape = CollisionShape::Sphere;
+    CollisionType m_collisionType = CollisionType::None;
 };

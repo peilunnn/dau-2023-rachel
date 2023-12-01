@@ -32,11 +32,11 @@ public:
 	// Getting string representation of an EntityType (for reading Tag)
 	static string GetEntityTypeString(EntityType entityType) {
 		switch (entityType) {
-		case EntityType::PLAYER:
+		case EntityType::Player:
 			return "Player";
-		case EntityType::ENEMY:
+		case EntityType::Enemy:
 			return "Enemy";
-		case EntityType::BULLET:
+		case EntityType::Bullet:
 			return "Bullet";
 		default:
 			return "Unknown";

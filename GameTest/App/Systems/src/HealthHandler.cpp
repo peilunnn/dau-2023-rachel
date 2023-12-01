@@ -5,7 +5,7 @@
 #include "Utilities/include/Helper.h"
 #include <algorithm>
 
-void HealthHandler::ProcessEnemyHitPlayer(EntityManager& entityManager)
+void HealthHandler::ProcessEnemyHitPlayer(EntityManager &entityManager)
 {
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	auto tag = entityManager.GetComponent<Tag>(playerEntityId);
@@ -18,8 +18,9 @@ void HealthHandler::ProcessEnemyHitPlayer(EntityManager& entityManager)
 	health->SetCurrentHealth(currentHealth - 20);
 
 	if (currentHealth > 0)
-		tag->SetEntityState(EntityState::ALIVE);
-	else {
+		tag->SetEntityState(EntityState::Alive);
+	else
+	{
 		// TODO: end the game
 		Helper::Log("game over");
 	}
