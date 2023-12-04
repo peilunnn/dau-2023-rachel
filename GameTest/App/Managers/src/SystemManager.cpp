@@ -68,12 +68,12 @@ void SystemManager::HandleBulletHitEnemyEvent(EntityManager& entityManager, Scor
             if (!(animationHandler && event.entities.size() == 2))
                 return;
             
-            animationHandler->ProcessBulletHitEnemy(entityManager, event.entities[0], event.entities[1], deltaTime);
+            animationHandler->HandleBulletHitEnemy(entityManager, event.entities[0], event.entities[1], deltaTime);
         }
     }
 
-    entityManager.ProcessBulletHitEnemy(event, deltaTime, playerPos, screenWidth, screenHeight);
-    scoreHandler.ProcessBulletHitEnemy(entityManager, deltaTime);
+    entityManager.HandleBulletHitEnemy(event, deltaTime, playerPos, screenWidth, screenHeight);
+    scoreHandler.HandleBulletHitEnemy(entityManager, deltaTime);
 }
 
 void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, const Event& event, float deltaTime)
@@ -86,7 +86,7 @@ void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, cons
             if (!(healthHandler && event.entities.size() == 2))
                 return;
 
-            healthHandler->ProcessEnemyHitPlayer(entityManager);
+            healthHandler->HandleEnemyHitPlayer(entityManager);
             break;
         }
     }
@@ -99,12 +99,12 @@ void SystemManager::HandleEnemyHitPlayerEvent(EntityManager& entityManager, cons
             if (!(animationHandler && event.entities.size() == 2))
                 return;
 
-            animationHandler->ProcessEnemyHitPlayer(entityManager, deltaTime);
+            animationHandler->HandleEnemyHitPlayer(entityManager, deltaTime);
             break;
         }
     }
 
-    entityManager.ProcessEnemyHitPlayer(entityManager, event, deltaTime);
+    entityManager.HandleEnemyHitPlayer(entityManager, event, deltaTime);
 }
 
 void SystemManager::HandlePlayerHitPlayerReloadingCircle(EntityManager& entityManager, const Event& event, float deltaTime)

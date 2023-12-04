@@ -17,7 +17,7 @@ public:
     static EntityId CreateEntityId();
     EntityId CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprite);
     EntityId CreateEnemyEntity(const glm::vec3& playerPos, shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
-    EntityId CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3& position, const glm::vec2& targetVelocity);
+    EntityId CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3& pos, const glm::vec2& targetVelocity);
     EntityId CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> reloadingCircleSprite);
     EntityId CreateAmmoEntity(shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos);
     EntityId CreateHealthBarEntity(shared_ptr<CSimpleSprite> sprite, float xPos, float yPos);
@@ -28,8 +28,8 @@ public:
     void MoveEntityToRandomPos(EntityId entityId);
     void MarkEntityForDeletion(EntityId entityId);
     void ProcessDeletions();
-    void ProcessBulletHitEnemy(Event event, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight);
-    void ProcessEnemyHitPlayer(EntityManager& entityManager, Event event, float deltaTime);
+    void HandleBulletHitEnemy(Event event, float deltaTime, const glm::vec3& playerPos, float screenWidth, float screenHeight);
+    void HandleEnemyHitPlayer(EntityManager& entityManager, Event event, float deltaTime);
 
     EntityId GetPlayerEntityId() const { return m_playerEntityId; }
     EntityId GetEnemyEntityId() const { return m_enemyEntityId; }

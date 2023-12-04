@@ -52,21 +52,21 @@ void RenderingHandler::RenderSprites(EntityManager &entityManager, EntityId enti
 void RenderingHandler::RenderScore(EntityManager &entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
 {
     shared_ptr<Score> score = entityManager.GetComponent<Score>(entityId);
-    if (score && tag->GetEntityType() == EntityType::Score)
-    {
+    if (!score)
+        return;
+
         string scoreText = "Score: " + to_string(score->GetScore());
         App::Print(transform->GetPosition().x, transform->GetPosition().y, scoreText.c_str(), 1.0f, 1.0f, 1.0f);
-    }
 }
 
 void RenderingHandler::RenderTimer(EntityManager &entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
 {
     shared_ptr<Timer> timer = entityManager.GetComponent<Timer>(entityId);
-    if (timer && tag->GetEntityType() == EntityType::Timer)
-    {
+    if (!timer)
+        return;
+
         string timerText = to_string(static_cast<int>(timer->GetCountdownTime()));
         App::Print(transform->GetPosition().x, transform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
-    }
 }
 
 void RenderingHandler::SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)

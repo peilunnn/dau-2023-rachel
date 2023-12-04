@@ -4,7 +4,7 @@
 
 class ScoreHandler : public System {
 public:
-    void ProcessBulletHitEnemy(EntityManager& entityManager, float deltaTime);
+    void HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime);
     SystemType GetSystemType() const override {
         return SystemType::ScoreHandler;
     }

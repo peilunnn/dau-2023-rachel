@@ -142,9 +142,7 @@ void AnimationHandler::UpdateEnemyAnimation(EntityManager &entityManager, Entity
 	{
 		enemyAnimation->SetCooldownTimer(enemyAnimation->GetCooldownTimer() - deltaTime);
 		if (enemyAnimation->GetCooldownTimer() <= 0.0f)
-		{
 			entityManager.MarkEntityForDeletion(entityId);
-		}
 	}
 }
 
@@ -163,7 +161,7 @@ void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, En
 	healthBarSprite->Update(deltaTime);
 }
 
-void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, EntityId firstEntityId, EntityId entity2Id, float deltaTime)
+void AnimationHandler::HandleBulletHitEnemy(EntityManager &entityManager, EntityId firstEntityId, EntityId secondEntityId, float deltaTime)
 {
 	EntityId bulletEntityId, enemyEntityId;
 
@@ -172,11 +170,11 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
 	if (firstEntityType == EntityType::Bullet)
 	{
 		bulletEntityId = firstEntityId;
-		enemyEntityId = entity2Id;
+		enemyEntityId = secondEntityId;
 	}
 	else
 	{
-		bulletEntityId = entity2Id;
+		bulletEntityId = secondEntityId;
 		enemyEntityId = firstEntityId;
 	}
 
@@ -197,7 +195,7 @@ void AnimationHandler::ProcessBulletHitEnemy(EntityManager &entityManager, Entit
 	entityManager.MarkEntityForDeletion(bulletEntityId);
 }
 
-void AnimationHandler::ProcessEnemyHitPlayer(EntityManager &entityManager, float deltaTime)
+void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime)
 {
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	EntityId healthBarEntityId = entityManager.GetHealthBarEntityId();

@@ -4,8 +4,11 @@
 
 class HealthHandler : public System {
 public:
-    void ProcessEnemyHitPlayer(EntityManager& entityManager);
+    void HandleEnemyHitPlayer(EntityManager& entityManager);
     SystemType GetSystemType() const override {
         return SystemType::HealthHandler;
     }
+
+private:
+    const int healthReduction = 20;
 };

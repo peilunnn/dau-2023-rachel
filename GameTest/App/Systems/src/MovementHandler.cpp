@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "../include/MovementHandler.h"
-#include "Components/include/Direction.h"
+#include "Components/include/BounceDirection.h"
 #include "Components/include/Tag.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Renderable.h"
@@ -68,7 +68,7 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, EntityId
 	constexpr float multiplier = 0.25f;
 	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
 	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
-	shared_ptr<Direction> direction = entityManager.GetComponent<Direction>(entityId);
+	shared_ptr<BounceDirection> direction = entityManager.GetComponent<BounceDirection>(entityId);
 
 	if (!(transform && velocity && direction))
 		return;

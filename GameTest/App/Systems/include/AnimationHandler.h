@@ -8,12 +8,13 @@ class AnimationHandler : public System {
 public:
     void Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSimpleSprite> enemySprite, shared_ptr<CSimpleSprite> reloadingCircleSprite, shared_ptr<CSimpleSprite> healthBarSprite);
     void Update(EntityManager& entityManager, float deltaTime);
-    SystemType GetSystemType() const override {
+    SystemType GetSystemType() const override
+    {
         return SystemType::AnimationHandler;
     }
     static void InitEnemyAnimation(shared_ptr<CSimpleSprite> enemySprite);
-    void ProcessBulletHitEnemy(EntityManager& entityManager, EntityId firstEntityId, EntityId entity2Id, float deltaTime);
-    void ProcessEnemyHitPlayer(EntityManager& entityManager, float deltaTime);
+    void HandleBulletHitEnemy(EntityManager &entityManager, EntityId firstEntityId, EntityId entity2Id, float deltaTime);
+    void HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime);
 
 private:
     int m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;

@@ -5,7 +5,7 @@
 #include "../include/HealthHandler.h"
 #include <algorithm>
 
-void HealthHandler::ProcessEnemyHitPlayer(EntityManager &entityManager)
+void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 {
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(playerEntityId);
@@ -15,7 +15,7 @@ void HealthHandler::ProcessEnemyHitPlayer(EntityManager &entityManager)
 		return;
 
 	int currentHealth = health->GetCurrentHealth();
-	health->SetCurrentHealth(currentHealth - 20);
+	health->SetCurrentHealth(currentHealth - healthReduction);
 
 	if (currentHealth > 0)
 		tag->SetEntityState(EntityState::Alive);
