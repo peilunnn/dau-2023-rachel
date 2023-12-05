@@ -33,7 +33,14 @@ void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityI
 	entityManager.HideAmmoFilledEntity(s_bulletsShotSoFar - 1);
 }
 
-void ShootingHandler::ProcessPlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
+void ShootingHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
+{
+	if (event.eventType == "PlayerHitReloadingCircle") {
+		HandlePlayerHitReloadingCircle(entityManager, deltaTime);
+	}
+}
+
+void ShootingHandler::HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
 {
 	EntityId reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
 	s_bulletsShotSoFar = 0;

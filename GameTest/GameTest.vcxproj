@@ -208,12 +208,14 @@
     <ClInclude Include="App\Systems\include\TimerHandler.h" />
     <ClInclude Include="App\Utilities\include\Enums.h" />
     <ClInclude Include="App\Components\include\EntityId.h" />
+    <ClInclude Include="App\Systems\include\EntityHandler.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
     <ClInclude Include="App\Managers\include\SystemManager.h" />
     <ClInclude Include="App\Systems\include\System.h" />
     <ClInclude Include="App\Systems\include\Event.h" />
+    <ClInclude Include="App\Systems\include\SystemFactory.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="App\Components\include\Transform.h" />
     <ClInclude Include="App\Components\include\Velocity.h" />
@@ -235,6 +237,7 @@
     <ClCompile Include="App\Systems\src\TimerHandler.cpp" />
     <ClCompile Include="App\Utilities\src\Enums.cpp" />
     <ClCompile Include="App\Components\src\EntityId.cpp" />
+    <ClCompile Include="App\Systems\src\EntityHandler.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Systems\src\CollisionHandler.cpp" />
@@ -264,6 +267,7 @@
     <ClCompile Include="App\Systems\src\System.cpp" />
     <ClCompile Include="App\Systems\src\Event.cpp" />
     <ClCompile Include="App\Components\src\Timer.cpp" />
+    <ClCompile Include="App\Systems\src\SystemFactory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

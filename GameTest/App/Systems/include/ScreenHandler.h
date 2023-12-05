@@ -26,7 +26,4 @@ public:
     {
         return (1.0f - ndcY) * 0.5f * screenHeight;
     }
-    SystemType GetSystemType() const override {
-        return SystemType::ScreenHandler;
-    }
 };

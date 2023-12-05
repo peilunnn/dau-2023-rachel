@@ -4,8 +4,15 @@
 
 class ScoreHandler : public System {
 public:
-    void HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime);
-    SystemType GetSystemType() const override {
-        return SystemType::ScoreHandler;
+    ScoreHandler() {
+        subscribedEvents.insert("BulletHitEnemy");
     }
+
+    void HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime) override;
+    void HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime);
+    set<string> GetSubscribedEvents() const override {
+        return subscribedEvents;
+    }
+private:
+    set<string> subscribedEvents;
 };

@@ -12,9 +12,9 @@ using glm::vec2;
 
 void CollisionHandler::Update(EntityManager& entityManager, SystemManager& systemManager, float deltaTime)
 {
-	auto allEntities = entityManager.GetAllEntities();
+	vector<EntityId> allEntities = entityManager.GetAllEntities();
 
-	for (auto& i : allEntities)
+	for (EntityId& i : allEntities)
 	{
 		shared_ptr<Collider> iCollider = entityManager.GetComponent<Collider>(i);
 		shared_ptr<Transform> iTransform = entityManager.GetComponent<Transform>(i);
@@ -22,7 +22,7 @@ void CollisionHandler::Update(EntityManager& entityManager, SystemManager& syste
 		if (!iCollider || !iTransform)
 			continue;
 
-		for (auto& j : allEntities)
+		for (EntityId& j : allEntities)
 		{
 			if (i == j)
 				continue;
@@ -77,7 +77,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, System
 			return;
 
 		enemyTag->SetEntityState(EntityState::HitByBullet);
-		Event bulletHitEnemyEvent(EventType::BulletHitEnemy, { bulletEntity, enemyEntityId });
+		Event bulletHitEnemyEvent("BulletHitEnemy", { bulletEntity, enemyEntityId });
 		systemManager.SendEvent(bulletHitEnemyEvent);
 	}
 
@@ -93,7 +93,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, System
 			return;
 
 		playerTag->SetEntityState(EntityState::HitByEnemy);
-		Event enemyHitPlayerEvent(EventType::EnemyHitPlayer, { playerEntityId, enemyEntityId });
+		Event enemyHitPlayerEvent("EnemyHitPlayer", { playerEntityId, enemyEntityId });
 		systemManager.SendEvent(enemyHitPlayerEvent);
 	}
 
@@ -104,8 +104,8 @@ void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, System
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
 		EntityId reloadingCircleEntityId = (firstEntityType == EntityType::ReloadingCircle) ? firstEntityId : secondEntityId;
 		shared_ptr<Tag> playerTag = entityManager.GetComponent<Tag>(playerEntityId);
-
-		Event playerHitReloadingCircleEvent(EventType::PlayerHitReloadingCircle, { playerEntityId, reloadingCircleEntityId });
+		
+		Event playerHitReloadingCircleEvent("PlayerHitReloadingCircle", { playerEntityId, reloadingCircleEntityId });
 		systemManager.SendEvent(playerHitReloadingCircleEvent);
 	}
 }

@@ -8,9 +8,6 @@
 class RenderingHandler : public System {
 public:
     void Render(EntityManager& entityManager);
-    SystemType GetSystemType() const override {
-        return SystemType::RenderingHandler;
-    }
 
 private:
     void RenderEntities(EntityManager& entityManager, EntityId entityId);

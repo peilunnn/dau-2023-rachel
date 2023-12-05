@@ -5,9 +5,6 @@
 class MovementHandler : public System {
 public:
     void Update(EntityManager& entityManager, float deltaTime);
-    SystemType GetSystemType() const override {
-        return SystemType::MovementHandler;
-    }
 
 private:
     void HandlePlayerMovement(EntityManager& entityManager, EntityId entityId, float deltaTime);

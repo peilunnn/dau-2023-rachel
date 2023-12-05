@@ -5,7 +5,4 @@
 class TimerHandler : public System {
 public:
     void Update(EntityManager& entityManager, float deltaTime);
-    SystemType GetSystemType() const override {
-        return SystemType::TimerHandler;
-    }
 };

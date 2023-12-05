@@ -12,6 +12,7 @@ C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Compo
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\TimerHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\TimerHandler.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Utilities\src\Enums.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Enums.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\EntityId.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\EntityId.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\EntityHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\EntityHandler.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\GameTest.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\GameTest.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Health.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Health.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\CollisionHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\CollisionHandler.obj
@@ -36,3 +37,4 @@ C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Managers\src\SystemM
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\System.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\System.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\Event.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Event.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Timer.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Timer.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\SystemFactory.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\SystemFactory.obj

@@ -5,6 +5,13 @@
 #include "../include/HealthHandler.h"
 #include <algorithm>
 
+void HealthHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
+{
+	if (event.eventType == "EnemyHitPlayer") {
+		HandleEnemyHitPlayer(entityManager);
+	}
+}
+
 void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 {
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();

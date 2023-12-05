@@ -8,6 +8,7 @@
 #include "Systems/include/System.h"
 #include "Utilities/include/SimpleSprite.h"
 #include "Utilities/include/Enums.h"
+#include "Utilities/include/Helper.h"
 #include "../include/AnimationHandler.h"
 using glm::vec2;
 
@@ -43,6 +44,16 @@ void AnimationHandler::InitEnemyAnimation(shared_ptr<CSimpleSprite> enemySprite)
 	float speed = 1.0f / 15.0f;
 	enemySprite->CreateAnimation(ENEMY_ANIM_IDLE, speed, {0});
 	enemySprite->CreateAnimation(ENEMY_ANIM_MELT, speed, {1, 2, 3, 4, 5, 6, 7});
+}
+
+void AnimationHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
+{
+	if (event.eventType == "BulletHitEnemy") {
+		HandleBulletHitEnemy(entityManager, event.entities[0], event.entities[1], deltaTime);
+	}
+	else if (event.eventType == "EnemyHitPlayer") {
+		HandleEnemyHitPlayer(entityManager, deltaTime);
+	}
 }
 
 void AnimationHandler::InitReloadingCircleAnimation(shared_ptr<CSimpleSprite> reloadingCircleSprite)

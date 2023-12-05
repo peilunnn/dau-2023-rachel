@@ -61,28 +61,3 @@ enum HealthBarAnimationStates
 	HEALTH_20,
 	HEALTH_0,
 };
-
-enum class EventType
-{
-	None,
-	PlayerShoot,
-	BulletHitEnemy,
-	EnemyHitPlayer,
-	PlayerHitReloadingCircle,
-	PlayerHealthReachZero,
-	CountdownReachZero
-};
-
-enum class SystemType
-{
-	AnimationHandler,
-	CollisionHandler,
-	HealthHandler,
-	InputHandler,
-	MovementHandler,
-	ShootingHandler,
-	RenderingHandler,
-	ScreenHandler,
-	ScoreHandler,
-	TimerHandler
-};

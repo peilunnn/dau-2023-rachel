@@ -6,9 +6,6 @@ using namespace std;
 class InputHandler : public System {
 public:
     void Update(EntityManager& entityManager, float deltaTime, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite);
-    SystemType GetSystemType() const override {
-        return SystemType::InputHandler;
-    }
 
 private:
     static constexpr float THUMB_STICK_THRESHOLD = 0.5f;
