@@ -15,11 +15,11 @@ public:
     const float THUMB_STICK_THRESHOLD = 0.5f;
     const float VELOCITY_MULTIPLIER = 10000.0f;
 
-    void Update(float deltaTime, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite);
+    void Update(shared_ptr<CSimpleSprite> bulletSprite, float deltaTime);
 
 private:
     InputHandler() = default;
 
-    void HandlePositionInput(float deltaTime, EntityId playerEntityId);
-    void HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite);
+    void HandlePositionInput(EntityId playerEntityId, float deltaTime);
+    void HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float deltaTime);
 };

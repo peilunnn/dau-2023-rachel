@@ -18,8 +18,6 @@ public:
     void Shoot(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
     void HandleEvent(const Event& event, float deltaTime) override;
 
-    float GetTimeSinceLastShot() const { return m_timeSinceLastShot; }
-    void SetTimeSinceLastShot(float newTime) { m_timeSinceLastShot = newTime; }
     set<string> GetSubscribedEvents() const override {
         return m_subscribedEvents;
     }
@@ -30,10 +28,7 @@ private:
     }
 
     set<string> m_subscribedEvents;
-    
     int m_bulletsShotSoFar = 0;
-    const float m_cooldownTimer = 0.5f;
-    float m_timeSinceLastShot = 0.0f;
     const float m_bulletSpeed = 1500.0f;
 
     void HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime);

@@ -10,6 +10,8 @@
 #include "Systems/include/ScoreHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Systems/include/EntityHandler.h"
+#include "Systems/include/TimerHandler.h"
+#include "Systems/include/CooldownHandler.h"
 
 void SystemManager::Init()
 {
@@ -23,6 +25,8 @@ void SystemManager::Init()
     m_systems.push_back(&ScoreHandler::GetInstance());
     m_systems.push_back(&EntityHandler::GetInstance());
     m_systems.push_back(&AnimationHandler::GetInstance());
+    m_systems.push_back(&TimerHandler::GetInstance());
+    m_systems.push_back(&CooldownHandler::GetInstance());
 }
 
 void SystemManager::SendEvent(Event event) {

@@ -33,6 +33,7 @@ private:
 
     set<string> m_subscribedEvents;
     int m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
+
     void InitPlayerAnimation(shared_ptr<CSimpleSprite> playerSprite);
     void InitReloadingCircleAnimation(shared_ptr<CSimpleSprite> reloadingCircleSprite);
     void InitHealthBarAnimation(shared_ptr<CSimpleSprite> healthBarSprite);

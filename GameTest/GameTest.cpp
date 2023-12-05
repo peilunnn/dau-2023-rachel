@@ -20,11 +20,11 @@
 #include "App/Systems/include/CollisionHandler.h"
 #include "App/Systems/include/AnimationHandler.h"
 #include "App/Systems/include/TimerHandler.h"
+#include "App/Systems/include/CooldownHandler.h"
 using namespace std;
 
 //------------------------------------------------------------------------
 
-vec3 playerPos;
 shared_ptr<CSimpleSprite> playerSprite;
 shared_ptr<CSimpleSprite> enemySprite;
 shared_ptr<CSimpleSprite> bulletSprite;
@@ -32,14 +32,6 @@ shared_ptr<CSimpleSprite> reloadingCircleSprite;
 shared_ptr<CSimpleSprite> ammoEmptySprite;
 shared_ptr<CSimpleSprite> ammoFilledSprite;
 shared_ptr<CSimpleSprite> healthBarSprite;
-EntityId playerEntityId;
-EntityId enemyEntityId;
-EntityId reloadingCircleEntityId;
-EntityId ammoEmptyEntityId;
-EntityId ammoFilledEntityId;
-EntityId healthBarEntityId;
-EntityId scoreEntityId;
-EntityId timerEntityId;
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -61,12 +53,6 @@ void Init()
 	// Set up entities
 	EntityManager& entityManager = EntityManager::GetInstance();
 	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, healthBarSprite);
-	playerEntityId = entityManager.GetPlayerEntityId();
-	enemyEntityId = entityManager.GetEnemyEntityId();
-	reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
-	healthBarEntityId = entityManager.GetHealthBarEntityId();
-	scoreEntityId = entityManager.GetScoreEntityId();
-	timerEntityId = entityManager.GetTimerEntityId();
 
 	// Set up managers and systems
 	SystemManager::GetInstance().Init();
@@ -83,7 +69,7 @@ void Init()
 void Update(float deltaTime)
 {
 	float deltaTimeInSeconds = deltaTime / 1000.0f;
-	InputHandler::GetInstance().Update(deltaTimeInSeconds, playerEntityId, bulletSprite);
+	InputHandler::GetInstance().Update(bulletSprite, deltaTimeInSeconds);
 	MovementHandler::GetInstance().Update(deltaTimeInSeconds);
 	CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
 	AnimationHandler::GetInstance().Update(deltaTimeInSeconds);

@@ -3,6 +3,7 @@
 #include "Components/include/Tag.h"
 #include "Components/include/Health.h"
 #include "Components/include/Renderable.h"
+#include "Components/include/Cooldown.h"
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
 #include "Systems/include/MovementHandler.h"
@@ -152,14 +153,16 @@ void AnimationHandler::UpdateEnemyAnimation(EntityManager &entityManager, Entity
 {
 	shared_ptr<CSimpleSprite> enemySprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	shared_ptr<Animation> enemyAnimation = entityManager.GetComponent<Animation>(entityId);
-	enemySprite->Update(deltaTime);
+	shared_ptr<Cooldown> cooldown = entityManager.GetComponent<Cooldown>(entityId);
 
-	if (enemyAnimation->GetCooldownTimer() > 0.0f)
-	{
-		enemyAnimation->SetCooldownTimer(enemyAnimation->GetCooldownTimer() - deltaTime);
-		if (enemyAnimation->GetCooldownTimer() <= 0.0f)
-			entityManager.MarkEntityForDeletion(entityId);
-	}
+	if (!cooldown->IsActive())
+		return;
+	
+	cooldown->Update(deltaTime);
+	if (cooldown->IsCooldownComplete())
+		entityManager.MarkEntityForDeletion(entityId);
+	else
+		enemySprite->Update(deltaTime);
 }
 
 void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
@@ -196,13 +199,15 @@ void AnimationHandler::HandleBulletHitEnemy(EntityManager &entityManager, Entity
 
 	shared_ptr<Animation> enemyAnimation = entityManager.GetComponent<Animation>(enemyEntityId);
 	shared_ptr<CSimpleSprite> enemySprite = entityManager.GetComponent<Renderable>(enemyEntityId)->GetSprite();
+	shared_ptr<Cooldown> enemyCooldown = entityManager.GetComponent<Cooldown>(enemyEntityId);
 
+	if (enemyCooldown->IsActive())
+		return;
+	
+	enemyCooldown->StartCooldown();
 	enemyAnimation->SetCurrentAnimation(ENEMY_ANIM_MELT);
 	enemySprite->SetAnimation(ENEMY_ANIM_MELT);
-
-	if (enemySprite->IsAnimationComplete())
-		enemyAnimation->SetCooldownTimer(0.3f);
-
+	
 	entityManager.MarkEntityForDeletion(bulletEntityId);
 }
 
