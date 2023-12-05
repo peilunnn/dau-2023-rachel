@@ -30,11 +30,9 @@ C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Score
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\stb_image\stb_image.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\stb_image.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\stdafx.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\stdafx.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Transform.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Transform.obj
-C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Velocity.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Velocity.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\HealthHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\HealthHandler.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Tag.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Tag.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Managers\src\SystemManager.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\SystemManager.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\System.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\System.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\Event.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Event.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Timer.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Timer.obj
-C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\SystemFactory.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\SystemFactory.obj

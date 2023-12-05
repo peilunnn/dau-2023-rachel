@@ -17,7 +17,7 @@ public:
     void Update(EntityManager& entityManager, float deltaTime);
     static void InitEnemyAnimation(shared_ptr<CSimpleSprite> enemySprite);
     void HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime) override;
-    void HandleBulletHitEnemy(EntityManager &entityManager, EntityId firstEntityId, EntityId entity2Id, float deltaTime);
+    void HandleBulletHitEnemy(EntityManager &entityManager, EntityId firstEntityId, EntityId secondEntityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime);
     set<string> GetSubscribedEvents() const override {
         return subscribedEvents;

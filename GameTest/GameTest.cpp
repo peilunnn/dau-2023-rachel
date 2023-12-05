@@ -24,7 +24,7 @@ using namespace std;
 
 //------------------------------------------------------------------------
 
-glm::vec3 playerPos;
+vec3 playerPos;
 EntityManager entityManager;
 SystemManager systemManager;
 shared_ptr<CSimpleSprite> playerSprite;

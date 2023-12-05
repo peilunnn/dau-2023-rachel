@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "Components/include/Animation.h"
 #include "Components/include/Tag.h"
-#include "Components/include/Velocity.h"
 #include "Components/include/Health.h"
 #include "Components/include/Renderable.h"
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
+#include "Systems/include/MovementHandler.h"
 #include "Utilities/include/SimpleSprite.h"
 #include "Utilities/include/Enums.h"
 #include "Utilities/include/Helper.h"
@@ -106,7 +106,7 @@ void AnimationHandler::Update(EntityManager &entityManager, float deltaTime)
 void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	shared_ptr<Animation> animation = entityManager.GetComponent<Animation>(entityId);
-	vec2 velocity = entityManager.GetComponent<Velocity>(entityId)->GetVelocity();
+	vec2 velocity = MovementHandler::GetVelocity(entityId);
 	shared_ptr<CSimpleSprite> sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(entityId);
 
@@ -190,15 +190,10 @@ void AnimationHandler::HandleBulletHitEnemy(EntityManager &entityManager, Entity
 	}
 
 	shared_ptr<Animation> enemyAnimation = entityManager.GetComponent<Animation>(enemyEntityId);
-	shared_ptr<Velocity> enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntityId);
 	shared_ptr<CSimpleSprite> enemySprite = entityManager.GetComponent<Renderable>(enemyEntityId)->GetSprite();
-
-	if (!enemyAnimation || !enemyVelocity || !enemySprite)
-		return;
 
 	enemyAnimation->SetCurrentAnimation(ENEMY_ANIM_MELT);
 	enemySprite->SetAnimation(ENEMY_ANIM_MELT);
-	enemyVelocity->SetVelocity(glm::vec2(0.0f, 0.0f));
 
 	if (enemySprite->IsAnimationComplete())
 		enemyAnimation->SetCooldownTimer(0.3f);

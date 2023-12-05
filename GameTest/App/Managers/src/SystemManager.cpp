@@ -1,17 +1,28 @@
 #include "stdafx.h"
 #include "../include/SystemManager.h"
-#include "Systems/include/SystemFactory.h"
+#include "Systems/include/AnimationHandler.h"
+#include "Systems/include/InputHandler.h"
+#include "Systems/include/MovementHandler.h"
+#include "Systems/include/RenderingHandler.h"
+#include "Systems/include/CollisionHandler.h"
+#include "Systems/include/HealthHandler.h"
+#include "Systems/include/ScreenHandler.h"
+#include "Systems/include/ScoreHandler.h"
+#include "Systems/include/ShootingHandler.h"
+#include "Systems/include/EntityHandler.h"
 
 void SystemManager::Init()
 {
-    vector<unique_ptr<System>> systems = SystemFactory::CreateAllSystems();
-    for (unique_ptr<System>& system : systems) {
-        AddSystem(std::move(system));
-    }
-}
-
-void SystemManager::AddSystem(unique_ptr<System> system) {
-    m_systems.push_back(move(system));
+    m_systems.push_back(make_unique<HealthHandler>());
+    m_systems.push_back(make_unique<MovementHandler>());
+    m_systems.push_back(make_unique<CollisionHandler>());
+    m_systems.push_back(make_unique<InputHandler>());
+    m_systems.push_back(make_unique<ShootingHandler>());
+    m_systems.push_back(make_unique<RenderingHandler>());
+    m_systems.push_back(make_unique<ScreenHandler>());
+    m_systems.push_back(make_unique<ScoreHandler>());
+    m_systems.push_back(make_unique<EntityHandler>());
+    m_systems.push_back(make_unique<AnimationHandler>());
 }
 
 void SystemManager::SendEvent(Event event) {

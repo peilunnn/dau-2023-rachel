@@ -9,13 +9,13 @@
 #include "Components/include/Tag.h"
 #include "Components/include/Timer.h"
 #include "Components/include/Transform.h"
-#include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/SpriteManager.h"
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/Event.h"
 #include "Systems/include/ScreenHandler.h"
 #include "Systems/include/ShootingHandler.h"
+#include "Systems/include/MovementHandler.h"
 #include "Utilities/include/App.h"
 #include "Utilities/include/Helper.h"
 using glm::vec2;
@@ -104,7 +104,6 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 	collider->SetCollisionType(CollisionType::Player);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy) | static_cast<int>(CollisionType::ReloadingCircle));
 	collider->SetRadius(dimensions.width * radiusMultiplier);
-	shared_ptr<Velocity> velocity = make_shared<Velocity>(vel);
 	shared_ptr<Health> health = make_shared<Health>();
 	shared_ptr<Animation> animation = make_shared<Animation>();
 
@@ -112,7 +111,6 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 	EntityManager::AddComponent(playerEntityId, transform);
 	EntityManager::AddComponent(playerEntityId, renderable);
 	EntityManager::AddComponent(playerEntityId, collider);
-	EntityManager::AddComponent(playerEntityId, velocity);
 	EntityManager::AddComponent(playerEntityId, health);
 	EntityManager::AddComponent(playerEntityId, animation);
 
@@ -127,7 +125,6 @@ EntityId EntityManager::CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSim
 	constexpr float minVy = -100.0;
 	constexpr float maxVy = 300.0f;
 	vec3 pos = Helper::GetOppositeQuadrantPosition(playerPos, ScreenHandler::SCREEN_WIDTH, ScreenHandler::SCREEN_HEIGHT);
-	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
 	constexpr float dimensionsMultiplier = 1.0f;
@@ -142,15 +139,16 @@ EntityId EntityManager::CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSim
 	collider->SetCollisionType(CollisionType::Enemy);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Player) | static_cast<int>(CollisionType::Bullet));
 	collider->SetRadius(dimensions.width * radiusMultiplier);
-	shared_ptr<Velocity> velocity = make_shared<Velocity>(randomVelocity);
-	shared_ptr<BounceDirection> direction = make_shared<BounceDirection>();
+	shared_ptr<BounceDirection> bounceDirection = make_shared<BounceDirection>();
 	shared_ptr<Animation> animation = make_shared<Animation>();
+	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
+	MovementHandler::SetVelocity(enemyEntityId, randomVelocity);
+
 	EntityManager::AddComponent(enemyEntityId, tag);
 	EntityManager::AddComponent(enemyEntityId, transform);
 	EntityManager::AddComponent(enemyEntityId, renderable);
 	EntityManager::AddComponent(enemyEntityId, collider);
-	EntityManager::AddComponent(enemyEntityId, velocity);
-	EntityManager::AddComponent(enemyEntityId, direction);
+	EntityManager::AddComponent(enemyEntityId, bounceDirection);
 	EntityManager::AddComponent(enemyEntityId, animation);
 
 	return enemyEntityId;
@@ -173,13 +171,12 @@ EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprit
 	collider->SetCollisionType(CollisionType::Bullet);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy));
 	collider->SetRadius(dimensions.width * radiusMultiplier);
-	shared_ptr<Velocity> velocity = make_shared<Velocity>(targetVelocity);
+	MovementHandler::SetVelocity(bulletEntityId, targetVelocity);
 
 	AddComponent(bulletEntityId, tag);
 	AddComponent(bulletEntityId, transform);
 	AddComponent(bulletEntityId, renderable);
 	AddComponent(bulletEntityId, collider);
-	AddComponent(bulletEntityId, velocity);
 
 	return bulletEntityId;
 }

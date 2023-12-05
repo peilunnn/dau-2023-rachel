@@ -4,17 +4,19 @@
 #include "Components/include/Tag.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Renderable.h"
-#include "Components/include/Velocity.h"
 #include "Systems/include/ScreenHandler.h"
 #include "Systems/include/ScreenHandler.h"
 #include "Utilities/include/Helper.h"
+using glm::vec3;
+
+unordered_map<EntityId, vec2> MovementHandler::entityVelocities;
 
 void MovementHandler::Update(EntityManager &entityManager, float deltaTime)
 {
 	constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
 	constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
 
-	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform, Velocity>())
+	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
 	{
 		EntityType entityType = entityManager.GetComponent<Tag>(entityId)->GetEntityType();
 
@@ -33,18 +35,59 @@ void MovementHandler::Update(EntityManager &entityManager, float deltaTime)
 	}
 }
 
+vec2 MovementHandler::GetVelocity(EntityId entityId)
+{
+	auto it = entityVelocities.find(entityId);
+	if (it != entityVelocities.end())
+		return it->second;
+
+	return vec2(0.0f);
+}
+
+void MovementHandler::SetVelocity(EntityId entityId, const vec2& velocity)
+{
+	entityVelocities[entityId] = velocity;
+}
+
+void MovementHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
+{
+	Helper::Log("in MovementHandler::HandleEvent");
+
+	if (event.eventType == "BulletHitEnemy") {
+		HandleBulletHitEnemy(entityManager, event.entities[0], event.entities[1], deltaTime);
+	}
+}
+
+void MovementHandler::HandleBulletHitEnemy(EntityManager& entityManager, EntityId firstEntityId, EntityId secondEntityId, float deltaTime)
+{
+	EntityId bulletEntityId, enemyEntityId;
+
+	EntityType firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
+
+	if (firstEntityType == EntityType::Bullet)
+	{
+		bulletEntityId = firstEntityId;
+		enemyEntityId = secondEntityId;
+	}
+	else
+	{
+		bulletEntityId = secondEntityId;
+		enemyEntityId = firstEntityId;
+	}
+
+	constexpr vec2 zeroVector = vec2(0.0f, 0.0f);
+	SetVelocity(enemyEntityId, zeroVector);
+}
+
 void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	constexpr float topOffset = 60.0f;
 	constexpr float multiplier = 0.25f;
 	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
-	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
+	vec2 velocity = GetVelocity(entityId);
 
-	if (!(transform && velocity))
-		return;
-
-	float movementX = velocity->GetVelocity().x * deltaTime;
-	float movementY = velocity->GetVelocity().y * deltaTime;
+	float movementX = velocity.x * deltaTime;
+	float movementY = velocity.y * deltaTime;
 	float newX = transform->GetPosition().x + movementX;
 	float newY = transform->GetPosition().y + movementY;
 
@@ -57,7 +100,7 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, EntityI
 	float newYPos = max(ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset,
 						min(newY, ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2));
 
-	glm::vec3 newPos = glm::vec3(newXPos, newYPos, transform->GetPosition().z);
+	vec3 newPos = vec3(newXPos, newYPos, transform->GetPosition().z);
 	transform->SetPosition(newPos);
 }
 
@@ -67,21 +110,17 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, EntityId
 	constexpr float bottomOffset = -15.0f;
 	constexpr float multiplier = 0.25f;
 	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
-	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
-	shared_ptr<BounceDirection> direction = entityManager.GetComponent<BounceDirection>(entityId);
+	shared_ptr<BounceDirection> bounceDirection = entityManager.GetComponent<BounceDirection>(entityId);
+	vec2 velocity = GetVelocity(entityId);
 
-	if (!(transform && velocity && direction))
-		return;
-
-	glm::vec2 movement = velocity->GetVelocity() * deltaTime;
-	glm::vec3 newPos = transform->GetPosition() + glm::vec3(movement, 0.0f);
+	vec2 movement = velocity * deltaTime;
+	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
 	transform->SetPosition(newPos);
 
 	shared_ptr<CSimpleSprite> sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
-	glm::vec2 currentVelocity = velocity->GetVelocity();
 
-	if (!(direction->GetBounced()))
+	if (!(bounceDirection->GetBounced()))
 	{
 		float xPos = transform->GetPosition().x;
 		float yPos = transform->GetPosition().y;
@@ -89,32 +128,29 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, EntityId
 		if (xPos <= ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2 ||
 			xPos >= ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2)
 		{
-			currentVelocity.x *= -1;
-			velocity->SetVelocity(currentVelocity);
-			direction->SetBounced(true);
+			velocity.x *= -1;
+			SetVelocity(entityId, velocity);
+			bounceDirection->SetBounced(true);
 		}
 		if (yPos <= ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset ||
 			yPos >= ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2 - bottomOffset)
 		{
-			currentVelocity.y *= -1;
-			velocity->SetVelocity(currentVelocity);
-			direction->SetBounced(true);
+			velocity.y *= -1;
+			SetVelocity(entityId, velocity);
+			bounceDirection->SetBounced(true);
 		}
 	}
 	else
-		direction->SetBounced(false);
+		bounceDirection->SetBounced(false);
 }
 
 void MovementHandler::HandleBulletMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
-	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
+	vec2 velocity = GetVelocity(entityId);
 
-	if (!(transform && velocity))
-		return;
-
-	glm::vec2 movement = velocity->GetVelocity() * deltaTime;
-	glm::vec3 newPos = transform->GetPosition() + glm::vec3(movement, 0.0f);
+	vec2 movement = velocity * deltaTime;
+	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
 	transform->SetPosition(newPos);
 
 	if (transform->GetPosition().x < ScreenHandler::SCREEN_LEFT || transform->GetPosition().x > ScreenHandler::SCREEN_RIGHT ||

@@ -17,7 +17,6 @@
     </ClCompile>
     <ClCompile Include="App\Components\src\Transform.cpp" />
     <ClCompile Include="App\Components\src\Collider.cpp" />
-    <ClCompile Include="App\Components\src\Velocity.cpp" />
     <ClCompile Include="App\Components\src\BounceDirection.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Components\src\Button.cpp" />
@@ -69,7 +68,6 @@
     </ClInclude>
     <ClInclude Include="App\Components\include\Transform.h" />
     <ClInclude Include="App\Components\include\Collider.h" />
-    <ClInclude Include="App\Components\include\Velocity.h" />
     <ClInclude Include="App\Components\include\BounceDirection.h" />
     <ClInclude Include="App\Components\include\Health.h" />
     <ClInclude Include="App\Components\include\Button.h" />

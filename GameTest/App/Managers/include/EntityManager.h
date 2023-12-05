@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <vector>
 using namespace std;
+using glm::vec2;
+using glm::vec3;
 
 class EntityManager
 {
@@ -16,8 +18,8 @@ public:
     vector<EntityId> GetAllEntities();
     static EntityId CreateEntityId();
     EntityId CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprite);
-    EntityId CreateEnemyEntity(const glm::vec3 &playerPos, shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
-    EntityId CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprite, const glm::vec3 &pos, const glm::vec2 &targetVelocity);
+    EntityId CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
+    EntityId CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprite, const vec3 &pos, const vec2 &targetVelocity);
     EntityId CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> reloadingCircleSprite);
     EntityId CreateAmmoEntity(shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos);
     EntityId CreateHealthBarEntity(shared_ptr<CSimpleSprite> sprite, float xPos, float yPos);

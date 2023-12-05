@@ -2,13 +2,14 @@
 #include "../App/Components/include/Tag.h"
 #include "../App/Utilities/include/Enums.h"
 #include "SimpleSprite.h"
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
 #include <iostream>
 #include <random>
 #include <sstream>
 #include <string>
 #include <Windows.h>
+#include <glm/glm.hpp>
+using glm::vec2;
+using glm::vec3;
 using namespace std;
 
 struct SpriteDimensions {
@@ -62,18 +63,18 @@ namespace Helper {
 		return static_cast<float>(distr(eng));
 	}
 
-	inline glm::vec2 GenerateVec2(float minX, float maxX, float minY, float maxY) {
-		return glm::vec2(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY));
+	inline vec2 GenerateVec2(float minX, float maxX, float minY, float maxY) {
+		return vec2(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY));
 	}
 
-	inline glm::vec3 GenerateVec3(float minX, float maxX, float minY, float maxY, float minZ, float maxZ) {
-		return glm::vec3(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY), GenerateFloat(minZ, maxZ));
+	inline vec3 GenerateVec3(float minX, float maxX, float minY, float maxY, float minZ, float maxZ) {
+		return vec3(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY), GenerateFloat(minZ, maxZ));
 	}
 
 	// For spawning enemy in the opposite quadrant of player
-	inline glm::vec3 GetOppositeQuadrantPosition(const glm::vec3& playerPos, float screenWidth, float screenHeight)
+	inline vec3 GetOppositeQuadrantPosition(const vec3& playerPos, float screenWidth, float screenHeight)
 	{
-		glm::vec3 enemyPos;
+		vec3 enemyPos;
 		if (playerPos.x < screenWidth / 2)
 			enemyPos.x = screenWidth * 0.75f; // Spawn in the right half
 		else
