@@ -24,11 +24,12 @@ void EntityHandler::HandleEvent(const Event& event, float deltaTime)
 void EntityHandler::HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime)
 {
 	AnimationHandler& animationHandler = AnimationHandler::GetInstance();
+	ScreenHandler& screenHandler = ScreenHandler::GetInstance();
 
 	constexpr int columns = 4;
 	constexpr int rows = 2;
-	constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
-	constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
+	const float screenWidth = screenHandler.SCREEN_WIDTH;
+	const float screenHeight = screenHandler.SCREEN_HEIGHT;
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->GetPosition();
 

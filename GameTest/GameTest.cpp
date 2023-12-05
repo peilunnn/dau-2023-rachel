@@ -98,7 +98,7 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {
-	RenderingHandler::GetInstance().Render(EntityManager::GetInstance());
+	RenderingHandler::GetInstance().Render();
 }
 
 //------------------------------------------------------------------------

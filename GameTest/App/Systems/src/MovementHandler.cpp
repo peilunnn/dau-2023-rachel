@@ -4,16 +4,15 @@
 #include "Components/include/Tag.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Renderable.h"
-#include "Systems/include/ScreenHandler.h"
-#include "Systems/include/ScreenHandler.h"
 #include "Utilities/include/Helper.h"
 using glm::vec3;
 
 void MovementHandler::Update(float deltaTime)
 {
-	constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
-	constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
 	EntityManager& entityManager = EntityManager::GetInstance();
+	ScreenHandler& screenHandler = ScreenHandler::GetInstance();
+	const float screenWidth = screenHandler.SCREEN_WIDTH;
+	const float screenHeight = screenHandler.SCREEN_HEIGHT;
 
 	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
 	{
@@ -22,13 +21,13 @@ void MovementHandler::Update(float deltaTime)
 		switch (entityType)
 		{
 		case EntityType::Player:
-			HandlePlayerMovement(entityManager, entityId, deltaTime);
+			HandlePlayerMovement(entityManager, screenHandler, entityId, deltaTime);
 			break;
 		case EntityType::Enemy:
-			HandleEnemyMovement(entityManager, entityId, deltaTime);
+			HandleEnemyMovement(entityManager, screenHandler, entityId, deltaTime);
 			break;
 		case EntityType::Bullet:
-			HandleBulletMovement(entityManager, entityId, deltaTime);
+			HandleBulletMovement(entityManager, screenHandler, entityId, deltaTime);
 			break;
 		}
 	}
@@ -78,7 +77,7 @@ void MovementHandler::HandleBulletHitEnemy(EntityManager& entityManager, EntityI
 	SetVelocity(enemyEntityId, zeroVector);
 }
 
-void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime)
 {
 	constexpr float topOffset = 60.0f;
 	constexpr float multiplier = 0.25f;
@@ -93,17 +92,17 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, EntityI
 	shared_ptr<CSimpleSprite> sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
 
-	float newXPos = max(ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2,
-						min(newX, ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2));
+	float newXPos = max(screenHandler.SCREEN_LEFT + dimensions.adjustedWidth / 2,
+						min(newX, screenHandler.SCREEN_RIGHT - dimensions.adjustedWidth / 2));
 
-	float newYPos = max(ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset,
-						min(newY, ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2));
+	float newYPos = max(screenHandler.SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset,
+						min(newY, screenHandler.SCREEN_BOTTOM - dimensions.adjustedHeight / 2));
 
 	vec3 newPos = vec3(newXPos, newYPos, transform->GetPosition().z);
 	transform->SetPosition(newPos);
 }
 
-void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime)
 {
 	constexpr float topOffset = 20.0f;
 	constexpr float bottomOffset = -15.0f;
@@ -124,15 +123,15 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, EntityId
 		float xPos = transform->GetPosition().x;
 		float yPos = transform->GetPosition().y;
 
-		if (xPos <= ScreenHandler::SCREEN_LEFT + dimensions.adjustedWidth / 2 ||
-			xPos >= ScreenHandler::SCREEN_RIGHT - dimensions.adjustedWidth / 2)
+		if (xPos <= screenHandler.SCREEN_LEFT + dimensions.adjustedWidth / 2 ||
+			xPos >= screenHandler.SCREEN_RIGHT - dimensions.adjustedWidth / 2)
 		{
 			velocity.x *= -1;
 			SetVelocity(entityId, velocity);
 			bounceDirection->SetBounced(true);
 		}
-		if (yPos <= ScreenHandler::SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset ||
-			yPos >= ScreenHandler::SCREEN_BOTTOM - dimensions.adjustedHeight / 2 - bottomOffset)
+		if (yPos <= screenHandler.SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset ||
+			yPos >= screenHandler.SCREEN_BOTTOM - dimensions.adjustedHeight / 2 - bottomOffset)
 		{
 			velocity.y *= -1;
 			SetVelocity(entityId, velocity);
@@ -143,7 +142,7 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, EntityId
 		bounceDirection->SetBounced(false);
 }
 
-void MovementHandler::HandleBulletMovement(EntityManager &entityManager, EntityId entityId, float deltaTime)
+void MovementHandler::HandleBulletMovement(EntityManager &entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime)
 {
 	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
 	vec2 velocity = GetVelocity(entityId);
@@ -152,7 +151,7 @@ void MovementHandler::HandleBulletMovement(EntityManager &entityManager, EntityI
 	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
 	transform->SetPosition(newPos);
 
-	if (transform->GetPosition().x < ScreenHandler::SCREEN_LEFT || transform->GetPosition().x > ScreenHandler::SCREEN_RIGHT ||
-		transform->GetPosition().y < ScreenHandler::SCREEN_TOP || transform->GetPosition().y > ScreenHandler::SCREEN_BOTTOM)
+	if (transform->GetPosition().x < screenHandler.SCREEN_LEFT || transform->GetPosition().x > screenHandler.SCREEN_RIGHT ||
+		transform->GetPosition().y < screenHandler.SCREEN_TOP || transform->GetPosition().y > screenHandler.SCREEN_BOTTOM)
 		entityManager.MarkEntityForDeletion(entityId);
 }

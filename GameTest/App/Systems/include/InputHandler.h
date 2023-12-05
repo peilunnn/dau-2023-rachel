@@ -12,13 +12,13 @@ public:
     InputHandler(InputHandler const&) = delete;
     void operator=(InputHandler const&) = delete;
 
+    const float THUMB_STICK_THRESHOLD = 0.5f;
+    const float VELOCITY_MULTIPLIER = 10000.0f;
+
     void Update(float deltaTime, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite);
 
 private:
     InputHandler() = default;
-
-    static constexpr float THUMB_STICK_THRESHOLD = 0.5f;
-    static constexpr float VELOCITY_MULTIPLIER = 10000.0f;
 
     void HandlePositionInput(float deltaTime, EntityId playerEntityId);
     void HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite);

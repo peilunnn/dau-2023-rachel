@@ -21,24 +21,22 @@
 using glm::vec2;
 using glm::vec3;
 
-EntityId EntityManager::s_nextEntityId = 0;
-
 void EntityManager::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSimpleSprite> enemySprite, shared_ptr<CSimpleSprite> reloadingCircleSprite, shared_ptr<CSimpleSprite> ammoEmptySprite, shared_ptr<CSimpleSprite> ammoFilledSprite, shared_ptr<CSimpleSprite> healthBarSprite)
 {
-	ScreenHandler& screenHandler = ScreenHandler::GetInstance();
+	ScreenHandler& screenHandler = screenHandler.GetInstance();
 	ShootingHandler& shootingHandler = ShootingHandler::GetInstance();
 
-	constexpr float screenWidth = screenHandler.SCREEN_WIDTH;
-	constexpr float screenHeight = screenHandler.SCREEN_HEIGHT;
-	constexpr float ammoSpriteSpacing = screenHandler.AMMO_SPRITE_SPACING;
-	constexpr float ammoXOffset = 20.0f;
-	constexpr float ammoYOffset = 720.0f;
-	constexpr float healthBarXOffset = 880.0f;
-	constexpr float healthBarYOffset = 720.0f;
-	constexpr float ammoStartingX = screenWidth - ammoXOffset;
-	constexpr float ammoYPos = screenHeight - ammoYOffset;
-	constexpr float healthBarXPos = screenWidth - healthBarXOffset;
-	constexpr float healthBarYPos = screenHeight - healthBarYOffset;
+	const float screenWidth = screenHandler.SCREEN_WIDTH;
+	const float screenHeight = screenHandler.SCREEN_HEIGHT;
+	const int ammoSpriteSpacing = screenHandler.AMMO_SPRITE_SPACING;
+	const float ammoXOffset = 20.0f;
+	const float ammoYOffset = 720.0f;
+	const float healthBarXOffset = 880.0f;
+	const float healthBarYOffset = 720.0f;
+	const float ammoStartingX = screenWidth - ammoXOffset;
+	const float ammoYPos = screenHeight - ammoYOffset;
+	const float healthBarXPos = screenWidth - healthBarXOffset;
+	const float healthBarYPos = screenHeight - healthBarYOffset;
 	const int maxBullets = shootingHandler.MAX_BULLETS;
 
 	m_playerEntityId = CreatePlayerEntity(playerSprite);
@@ -81,16 +79,17 @@ vector<EntityId> EntityManager::GetAllEntities()
 
 EntityId EntityManager::CreateEntityId()
 {
-	return s_nextEntityId++;
+	return m_nextEntityId++;
 }
 
 EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprite)
 {
 	EntityId playerEntityId = CreateEntityId();
-	const float maxX = ScreenHandler::SCREEN_RIGHT - ScreenHandler::SCREEN_LEFT;
-	const float maxY = ScreenHandler::SCREEN_BOTTOM - ScreenHandler::SCREEN_TOP;
-	float xPos = Helper::GenerateFloat(ScreenHandler::SCREEN_LEFT, ScreenHandler::SCREEN_RIGHT);
-	float yPos = Helper::GenerateFloat(ScreenHandler::SCREEN_TOP, ScreenHandler::SCREEN_BOTTOM);
+	ScreenHandler& screenHandler = screenHandler.GetInstance();
+	const float maxX = screenHandler.SCREEN_RIGHT - screenHandler.SCREEN_LEFT;
+	const float maxY = screenHandler.SCREEN_BOTTOM - screenHandler.SCREEN_TOP;
+	float xPos = Helper::GenerateFloat(screenHandler.SCREEN_LEFT, screenHandler.SCREEN_RIGHT);
+	float yPos = Helper::GenerateFloat(screenHandler.SCREEN_TOP, screenHandler.SCREEN_BOTTOM);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.75f);
@@ -123,11 +122,12 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 EntityId EntityManager::CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight)
 {
 	EntityId enemyEntityId = CreateEntityId();
+	ScreenHandler& screenHandler = screenHandler.GetInstance();
 	constexpr float minVx = -100.0f;
 	constexpr float maxVx = 300.0f;
 	constexpr float minVy = -100.0;
 	constexpr float maxVy = 300.0f;
-	vec3 pos = Helper::GetOppositeQuadrantPosition(playerPos, ScreenHandler::SCREEN_WIDTH, ScreenHandler::SCREEN_HEIGHT);
+	vec3 pos = Helper::GetOppositeQuadrantPosition(playerPos, screenHandler.SCREEN_WIDTH, screenHandler.SCREEN_HEIGHT);
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
 	constexpr float dimensionsMultiplier = 1.0f;
@@ -187,10 +187,11 @@ EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprit
 EntityId EntityManager::CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> reloadingCircleSprite)
 {
 	EntityId reloadingCircleEntityId = CreateEntityId();
-	const float maxX = ScreenHandler::SCREEN_RIGHT - ScreenHandler::SCREEN_LEFT;
-	const float maxY = ScreenHandler::SCREEN_BOTTOM - ScreenHandler::SCREEN_TOP;
-	float xPos = Helper::GenerateFloat(ScreenHandler::SCREEN_LEFT, ScreenHandler::SCREEN_RIGHT);
-	float yPos = Helper::GenerateFloat(ScreenHandler::SCREEN_TOP, ScreenHandler::SCREEN_BOTTOM);
+	ScreenHandler& screenHandler = screenHandler.GetInstance();
+	const float maxX = screenHandler.SCREEN_RIGHT - screenHandler.SCREEN_LEFT;
+	const float maxY = screenHandler.SCREEN_BOTTOM - screenHandler.SCREEN_TOP;
+	float xPos = Helper::GenerateFloat(screenHandler.SCREEN_LEFT, screenHandler.SCREEN_RIGHT);
+	float yPos = Helper::GenerateFloat(screenHandler.SCREEN_TOP, screenHandler.SCREEN_BOTTOM);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
@@ -258,10 +259,11 @@ EntityId EntityManager::CreateHealthBarEntity(shared_ptr<CSimpleSprite> sprite, 
 EntityId EntityManager::CreateScoreEntity()
 {
 	EntityId scoreEntityId = CreateEntityId();
+	ScreenHandler& screenHandler = screenHandler.GetInstance();
 	constexpr float xOffset = 100.0f;
 	constexpr float yOffset = 50.0f;
-	constexpr float xPos = ScreenHandler::SCREEN_WIDTH - xOffset;
-	constexpr float yPos = ScreenHandler::SCREEN_HEIGHT - yOffset;
+	const float xPos = screenHandler.SCREEN_WIDTH - xOffset;
+	const float yPos = screenHandler.SCREEN_HEIGHT - yOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
@@ -280,10 +282,11 @@ EntityId EntityManager::CreateScoreEntity()
 EntityId EntityManager::CreateTimerEntity()
 {
 	EntityId timerEntityId = CreateEntityId();
+	ScreenHandler& screenHandler = screenHandler.GetInstance();
 	constexpr float xOffset = 1000.0f;
 	constexpr float yOffset = 50.0f;
-	float xPos = ScreenHandler::SCREEN_WIDTH - xOffset;
-	float yPos = ScreenHandler::SCREEN_HEIGHT - yOffset;
+	float xPos = screenHandler.SCREEN_WIDTH - xOffset;
+	float yPos = screenHandler.SCREEN_HEIGHT - yOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
@@ -323,8 +326,9 @@ void EntityManager::ShowAllAmmoFilledEntity()
 
 void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 {
-	float xPos = Helper::GenerateFloat(ScreenHandler::SCREEN_LEFT, ScreenHandler::SCREEN_RIGHT);
-	float yPos = Helper::GenerateFloat(ScreenHandler::SCREEN_TOP, ScreenHandler::SCREEN_BOTTOM);
+	ScreenHandler& screenHandler = screenHandler.GetInstance();
+	float xPos = Helper::GenerateFloat(screenHandler.SCREEN_LEFT, screenHandler.SCREEN_RIGHT);
+	float yPos = Helper::GenerateFloat(screenHandler.SCREEN_TOP, screenHandler.SCREEN_BOTTOM);
 	constexpr float zPos = 0.0f;
 
 	vec3 newPos = vec3(xPos, yPos, zPos);

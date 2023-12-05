@@ -32,9 +32,9 @@ private:
     set<string> m_subscribedEvents;
     
     int m_bulletsShotSoFar = 0;
-    static constexpr float m_cooldownTimer = 0.5f;
+    const float m_cooldownTimer = 0.5f;
     float m_timeSinceLastShot = 0.0f;
-    static constexpr float m_bulletSpeed = 1500.0f;
+    const float m_bulletSpeed = 1500.0f;
 
     void HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime);
 };

@@ -17,7 +17,7 @@ public:
         return m_subscribedEvents;
     }
 
-    static int GetHealthReduction() {
+    int GetHealthReduction() const {
         return m_healthReduction;
     }
 
@@ -27,7 +27,7 @@ private:
     }
 
     set<string> m_subscribedEvents;
-    static constexpr int m_healthReduction = 20;
+    const int m_healthReduction = 20;
 
     void HandleEnemyHitPlayer(EntityManager& entityManager);
 };

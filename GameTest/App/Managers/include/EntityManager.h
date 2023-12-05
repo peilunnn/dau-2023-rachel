@@ -23,7 +23,7 @@ public:
 
     void Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSimpleSprite> enemySprite, shared_ptr<CSimpleSprite> reloadingCircleSprite, shared_ptr<CSimpleSprite> ammoEmptySprite, shared_ptr<CSimpleSprite> ammoFilledSprite, shared_ptr<CSimpleSprite> healthBarSprite);
     vector<EntityId> GetAllEntities();
-    static EntityId CreateEntityId();
+    EntityId CreateEntityId();
     EntityId CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprite);
     EntityId CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
     EntityId CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprite, const vec3 &pos, const vec2 &targetVelocity);
@@ -96,7 +96,7 @@ private:
     EntityId m_scoreEntityId;
     EntityId m_timerEntityId;
 
-    static EntityId s_nextEntityId;
+    EntityId m_nextEntityId;
     unordered_map<EntityId, vector<shared_ptr<Component>>> m_entityComponents;
     vector<EntityId> m_entitiesToDelete;
     vector<EntityId> m_ammoEmptyEntities;

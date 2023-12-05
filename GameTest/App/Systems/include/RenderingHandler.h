@@ -14,7 +14,7 @@ public:
     RenderingHandler(RenderingHandler const&) = delete;
     void operator=(RenderingHandler const&) = delete;
 
-    void Render(EntityManager& entityManager);
+    void Render();
 
 private:
     RenderingHandler() = default;
@@ -25,6 +25,6 @@ private:
     void RenderTimer(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform);
 
     void SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-    void DrawBorder(GLfloat red, GLfloat green, GLfloat blue);
-    void DrawBackgroundInBorder(GLfloat red, GLfloat green, GLfloat blue);
+    void DrawBorder(ScreenHandler& screenHandler, GLfloat red, GLfloat green, GLfloat blue);
+    void DrawBackgroundInBorder(ScreenHandler& screenHandler, GLfloat red, GLfloat green, GLfloat blue);
 };
