@@ -48,10 +48,10 @@ void AnimationHandler::InitEnemyAnimation(shared_ptr<CSimpleSprite> enemySprite)
 
 void AnimationHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
 {
-	if (event.eventType == "BulletHitEnemy") {
-		HandleBulletHitEnemy(entityManager, event.entities[0], event.entities[1], deltaTime);
+	if (event.GetEventType() == "BulletHitEnemy") {
+		HandleBulletHitEnemy(entityManager, event.GetEntities()[0], event.GetEntities()[1], deltaTime);
 	}
-	else if (event.eventType == "EnemyHitPlayer") {
+	else if (event.GetEventType() == "EnemyHitPlayer") {
 		HandleEnemyHitPlayer(entityManager, deltaTime);
 	}
 }

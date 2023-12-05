@@ -7,9 +7,24 @@ using namespace std;
 
 class Event {
 public:
-	string eventType;
-	vector<EntityId> entities;
-
 	Event(const string& type, initializer_list<EntityId> ents)
-		: eventType(type), entities(ents) {}
+		: m_eventType(type), m_entities(ents) {}
+	
+	string GetEventType() const {
+		return m_eventType;
+	}
+
+	vector<EntityId> GetEntities() const {
+		return m_entities;
+	}
+	void SetEventType(const string& newType) {
+		m_eventType = newType;
+	}
+	void SetEntities(const vector<EntityId>& newEntities) {
+		m_entities = newEntities;
+	}
+
+private:
+	string m_eventType;
+	vector<EntityId> m_entities;
 };

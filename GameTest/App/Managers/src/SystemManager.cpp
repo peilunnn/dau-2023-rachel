@@ -34,7 +34,7 @@ void SystemManager::ProcessEvents(EntityManager& entityManager, ScoreHandler& sc
         Event event = m_eventQueue.front();
 
         for (const auto& system : m_systems) {
-            if (system->GetSubscribedEvents().count(event.eventType) > 0)
+            if (system->GetSubscribedEvents().count(event.GetEventType()) > 0)
                 system->HandleEvent(event, entityManager, deltaTime);
         }
         m_eventQueue.pop();

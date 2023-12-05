@@ -7,7 +7,7 @@
 
 void HealthHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
 {
-	if (event.eventType == "EnemyHitPlayer") {
+	if (event.GetEventType() == "EnemyHitPlayer") {
 		HandleEnemyHitPlayer(entityManager);
 	}
 }

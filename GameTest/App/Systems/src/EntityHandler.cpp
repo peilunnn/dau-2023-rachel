@@ -11,10 +11,10 @@ using glm::vec3;
 
 void EntityHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
 {
-	if (event.eventType == "BulletHitEnemy") {
+	if (event.GetEventType() == "BulletHitEnemy") {
 		HandleBulletHitEnemy(entityManager, deltaTime);
 	}
-	else if (event.eventType == "EnemyHitPlayer") {
+	else if (event.GetEventType() == "EnemyHitPlayer") {
 		HandleEnemyHitPlayer(event, entityManager, deltaTime);
 	}
 }
@@ -42,8 +42,8 @@ void EntityHandler::HandleBulletHitEnemy(EntityManager& entityManager, float del
 void EntityHandler::HandleEnemyHitPlayer(Event event, EntityManager& entityManager, float deltaTime)
 {
 	EntityId playerEntityId, enemyEntityId;
-	EntityId firstEntityId = event.entities[0];
-	EntityId secondEntityId = event.entities[1];
+	EntityId firstEntityId = event.GetEntities()[0];
+	EntityId secondEntityId = event.GetEntities()[1];
 
 	EntityType firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
 

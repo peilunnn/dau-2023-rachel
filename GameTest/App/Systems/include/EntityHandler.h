@@ -6,17 +6,17 @@ class EntityHandler : public System
 {
 public:
     EntityHandler() {
-        subscribedEvents.insert("BulletHitEnemy");
-        subscribedEvents.insert("EnemyHitPlayer");
+        m_subscribedEvents.insert("BulletHitEnemy");
+        m_subscribedEvents.insert("EnemyHitPlayer");
     }
 
     void HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime) override;
-    void HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime);
-    void HandleEnemyHitPlayer(Event event, EntityManager& entityManager, float deltaTime);
     set<string> GetSubscribedEvents() const override {
-        return subscribedEvents;
+        return m_subscribedEvents;
     }
 
 private:
-    set<string> subscribedEvents;
+    set<string> m_subscribedEvents;
+    void HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime);
+    void HandleEnemyHitPlayer(Event event, EntityManager& entityManager, float deltaTime);
 };

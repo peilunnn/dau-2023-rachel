@@ -34,7 +34,7 @@ void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityI
 
 void ShootingHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
 {
-	if (event.eventType == "PlayerHitReloadingCircle") {
+	if (event.GetEventType()  == "PlayerHitReloadingCircle") {
 		HandlePlayerHitReloadingCircle(entityManager, deltaTime);
 	}
 }

@@ -5,16 +5,17 @@
 class HealthHandler : public System {
 public:
     HealthHandler() {
-        subscribedEvents.insert("EnemyHitPlayer");
+        m_subscribedEvents.insert("EnemyHitPlayer");
     }
 
     void HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime) override;
-    void HandleEnemyHitPlayer(EntityManager& entityManager);
     set<string> GetSubscribedEvents() const override {
-        return subscribedEvents;
+        return m_subscribedEvents;
     }
 
 private:
-    set<string> subscribedEvents;
+    set<string> m_subscribedEvents;
     const int healthReduction = 20;
+
+    void HandleEnemyHitPlayer(EntityManager& entityManager);
 };
