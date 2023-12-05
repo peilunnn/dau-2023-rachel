@@ -10,6 +10,7 @@
 #include "Components/include/Tag.h"
 #include "Components/include/Timer.h"
 #include "Components/include/Transform.h"
+#include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/SpriteManager.h"
 #include "Systems/include/AnimationHandler.h"
@@ -98,7 +99,7 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 	constexpr float dimensionsMultiplier = 1.0f;
 	constexpr float radiusMultiplier = 0.5f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(playerSprite, dimensionsMultiplier);
-	constexpr float playerShootingCooldown = 0.5f;
+	constexpr float playerShootingCooldown = 1.0f;
 
 	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Player);
 	shared_ptr<Transform> transform = make_shared<Transform>(vec3(xPos, yPos, zPos), rot, scale);
@@ -108,6 +109,7 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 	collider->SetCollisionType(CollisionType::Player);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy) | static_cast<int>(CollisionType::ReloadingCircle));
 	collider->SetRadius(dimensions.width * radiusMultiplier);
+	shared_ptr<Velocity> velocity = make_shared<Velocity>();
 	shared_ptr<Health> health = make_shared<Health>();
 	shared_ptr<Animation> animation = make_shared<Animation>();
 	shared_ptr<Cooldown> cooldown = make_shared<Cooldown>(playerShootingCooldown);
@@ -116,6 +118,7 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 	EntityManager::AddComponent(playerEntityId, transform);
 	EntityManager::AddComponent(playerEntityId, renderable);
 	EntityManager::AddComponent(playerEntityId, collider);
+	EntityManager::AddComponent(playerEntityId, velocity);
 	EntityManager::AddComponent(playerEntityId, health);
 	EntityManager::AddComponent(playerEntityId, animation);
 	EntityManager::AddComponent(playerEntityId, cooldown);
@@ -137,7 +140,7 @@ EntityId EntityManager::CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSim
 	constexpr float dimensionsMultiplier = 1.0f;
 	constexpr float radiusMultiplier = 0.5f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(enemySprite, dimensionsMultiplier);
-	constexpr float enemyAnimationCooldown = 0.3f;
+	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 
 	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Enemy);
 	shared_ptr<Transform> transform = make_shared<Transform>(pos, rot, scale);
@@ -147,19 +150,17 @@ EntityId EntityManager::CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSim
 	collider->SetCollisionType(CollisionType::Enemy);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Player) | static_cast<int>(CollisionType::Bullet));
 	collider->SetRadius(dimensions.width * radiusMultiplier);
+	shared_ptr<Velocity> velocity = make_shared<Velocity>(randomVelocity);
 	shared_ptr<BounceDirection> bounceDirection = make_shared<BounceDirection>();
 	shared_ptr<Animation> animation = make_shared<Animation>();
-	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
-	MovementHandler::GetInstance().SetVelocity(enemyEntityId, randomVelocity);
-	shared_ptr<Cooldown> cooldown = make_shared<Cooldown>(enemyAnimationCooldown);
 
 	EntityManager::AddComponent(enemyEntityId, tag);
 	EntityManager::AddComponent(enemyEntityId, transform);
 	EntityManager::AddComponent(enemyEntityId, renderable);
 	EntityManager::AddComponent(enemyEntityId, collider);
+	EntityManager::AddComponent(enemyEntityId, velocity);
 	EntityManager::AddComponent(enemyEntityId, bounceDirection);
 	EntityManager::AddComponent(enemyEntityId, animation);
-	EntityManager::AddComponent(enemyEntityId, cooldown);
 
 	return enemyEntityId;
 }
@@ -181,12 +182,13 @@ EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprit
 	collider->SetCollisionType(CollisionType::Bullet);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy));
 	collider->SetRadius(dimensions.width * radiusMultiplier);
-	MovementHandler::GetInstance().SetVelocity(bulletEntityId, targetVelocity);
+	shared_ptr<Velocity> velocity = make_shared<Velocity>(targetVelocity);
 
 	AddComponent(bulletEntityId, tag);
 	AddComponent(bulletEntityId, transform);
 	AddComponent(bulletEntityId, renderable);
 	AddComponent(bulletEntityId, collider);
+	AddComponent(bulletEntityId, velocity);
 
 	return bulletEntityId;
 }
@@ -356,18 +358,7 @@ void EntityManager::ProcessDeletions()
 {
 	for (EntityId entityId : m_entitiesToDelete)
 	{
-		shared_ptr<Tag> tag = GetComponent<Tag>(entityId);
-		if (tag->GetEntityType() == EntityType::Enemy)
-		{
-			shared_ptr<Cooldown> enemyCooldown = GetComponent<Cooldown>(entityId);
-			if (!enemyCooldown->IsCooldownComplete())
-				continue;
-			m_entityComponents.erase(entityId);
-		}
-		else
-		{
-			m_entityComponents.erase(entityId);
-		}
+		m_entityComponents.erase(entityId);
 	}
 	m_entitiesToDelete.clear();
 }

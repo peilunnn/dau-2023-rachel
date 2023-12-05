@@ -18,7 +18,6 @@ public:
 
     void Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSimpleSprite> enemySprite, shared_ptr<CSimpleSprite> reloadingCircleSprite, shared_ptr<CSimpleSprite> healthBarSprite);
     void Update(float deltaTime);
-    void InitEnemyAnimation(shared_ptr<CSimpleSprite> enemySprite);
     void HandleEvent(const Event &event, float deltaTime) override;
     set<string> GetSubscribedEvents() const override
     {
@@ -27,7 +26,6 @@ public:
 
 private:
     AnimationHandler() {
-        m_subscribedEvents.insert("BulletHitEnemy");
         m_subscribedEvents.insert("EnemyHitPlayer");
     }
 
@@ -38,9 +36,8 @@ private:
     void InitReloadingCircleAnimation(shared_ptr<CSimpleSprite> reloadingCircleSprite);
     void InitHealthBarAnimation(shared_ptr<CSimpleSprite> healthBarSprite);
     void UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
-    void UpdateEnemyAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void UpdateReloadingCircleAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
-    void HandleBulletHitEnemy(EntityManager &entityManager, EntityId firstEntityId, EntityId secondEntityId, float deltaTime);
+    void HandleBulletHitEnemy(EntityManager &entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime);
 };

@@ -4,6 +4,7 @@
 #include "Components/include/Tag.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Renderable.h"
+#include "Components/include/Velocity.h"
 #include "Utilities/include/Helper.h"
 using glm::vec3;
 
@@ -33,48 +34,20 @@ void MovementHandler::Update(float deltaTime)
 	}
 }
 
-vec2 MovementHandler::GetVelocity(EntityId entityId)
-{
-	auto it = m_entityVelocities.find(entityId);
-	if (it != m_entityVelocities.end())
-		return it->second;
-
-	return vec2(0.0f);
-}
-
-void MovementHandler::SetVelocity(EntityId entityId, const vec2& velocity)
-{
-	m_entityVelocities[entityId] = velocity;
-}
-
 void MovementHandler::HandleEvent(const Event& event, float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
 
 	if (event.GetEventType() == "BulletHitEnemy") {
-		HandleBulletHitEnemy(entityManager, event.GetEntities()[0], event.GetEntities()[1], deltaTime);
+		HandleBulletHitEnemy(entityManager, event.GetEntities()[1], deltaTime);
 	}
 }
 
-void MovementHandler::HandleBulletHitEnemy(EntityManager& entityManager, EntityId firstEntityId, EntityId secondEntityId, float deltaTime)
+void MovementHandler::HandleBulletHitEnemy(EntityManager& entityManager, EntityId enemyEntityId, float deltaTime)
 {
-	EntityId bulletEntityId, enemyEntityId;
-
-	EntityType firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
-
-	if (firstEntityType == EntityType::Bullet)
-	{
-		bulletEntityId = firstEntityId;
-		enemyEntityId = secondEntityId;
-	}
-	else
-	{
-		bulletEntityId = secondEntityId;
-		enemyEntityId = firstEntityId;
-	}
-
 	constexpr vec2 zeroVector = vec2(0.0f, 0.0f);
-	SetVelocity(enemyEntityId, zeroVector);
+	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(enemyEntityId);
+	velocity->SetVelocity(zeroVector);
 }
 
 void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime)
@@ -82,10 +55,11 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, ScreenH
 	constexpr float topOffset = 60.0f;
 	constexpr float multiplier = 0.25f;
 	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
-	vec2 velocity = GetVelocity(entityId);
+	shared_ptr<Velocity>velocity = entityManager.GetComponent<Velocity>(entityId);
 
-	float movementX = velocity.x * deltaTime;
-	float movementY = velocity.y * deltaTime;
+	vec2 currentVelocity = velocity->GetVelocity();
+	float movementX = currentVelocity.x * deltaTime;
+	float movementY = currentVelocity.y * deltaTime;
 	float newX = transform->GetPosition().x + movementX;
 	float newY = transform->GetPosition().y + movementY;
 
@@ -109,9 +83,10 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, ScreenHa
 	constexpr float multiplier = 0.25f;
 	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
 	shared_ptr<BounceDirection> bounceDirection = entityManager.GetComponent<BounceDirection>(entityId);
-	vec2 velocity = GetVelocity(entityId);
+	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
 
-	vec2 movement = velocity * deltaTime;
+	vec2 currentVelocity = velocity->GetVelocity();
+	vec2 movement = currentVelocity * deltaTime;
 	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
 	transform->SetPosition(newPos);
 
@@ -126,15 +101,15 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, ScreenHa
 		if (xPos <= screenHandler.SCREEN_LEFT + dimensions.adjustedWidth / 2 ||
 			xPos >= screenHandler.SCREEN_RIGHT - dimensions.adjustedWidth / 2)
 		{
-			velocity.x *= -1;
-			SetVelocity(entityId, velocity);
+			currentVelocity.x *= -1;
+			velocity->SetVelocity(currentVelocity);
 			bounceDirection->SetBounced(true);
 		}
 		if (yPos <= screenHandler.SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset ||
 			yPos >= screenHandler.SCREEN_BOTTOM - dimensions.adjustedHeight / 2 - bottomOffset)
 		{
-			velocity.y *= -1;
-			SetVelocity(entityId, velocity);
+			currentVelocity.y *= -1;
+			velocity->SetVelocity(currentVelocity);
 			bounceDirection->SetBounced(true);
 		}
 	}
@@ -145,9 +120,10 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, ScreenHa
 void MovementHandler::HandleBulletMovement(EntityManager &entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime)
 {
 	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
-	vec2 velocity = GetVelocity(entityId);
+	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
 
-	vec2 movement = velocity * deltaTime;
+	vec2 currentVelocity = velocity->GetVelocity();
+	vec2 movement = currentVelocity * deltaTime;
 	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
 	transform->SetPosition(newPos);
 

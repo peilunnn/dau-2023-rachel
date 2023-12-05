@@ -8,5 +8,5 @@ struct Timer : public Component {
     void SetCountdownTime(float newTime) { m_countdownTime = newTime; }
 
 private:
-    float m_countdownTime = 60;
+    float m_countdownTime = 60.0f;
 };

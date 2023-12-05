@@ -20,6 +20,6 @@ public:
 private:
     InputHandler() = default;
 
-    void HandlePositionInput(EntityId playerEntityId, float deltaTime);
+    void HandlePositionInput(EntityManager& entityManager, EntityId playerEntityId, float deltaTime);
     void HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float deltaTime);
 };

@@ -15,8 +15,6 @@ public:
     void operator=(MovementHandler const&) = delete;
 
     void Update(float deltaTime);
-    vec2 GetVelocity(EntityId entityId);
-    void SetVelocity(EntityId entityId, const vec2& velocity);
     void HandleEvent(const Event& event, float deltaTime) override;
     set<string> GetSubscribedEvents() const override {
         return m_subscribedEvents;
@@ -28,10 +26,9 @@ private:
     }
 
     set<string> m_subscribedEvents;
-    unordered_map<EntityId, glm::vec2> m_entityVelocities;
 
     void HandlePlayerMovement(EntityManager& entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime);
     void HandleEnemyMovement(EntityManager& entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime);
     void HandleBulletMovement(EntityManager& entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime);
-    void HandleBulletHitEnemy(EntityManager& entityManager, EntityId firstEntityId, EntityId secondEntityId, float deltaTime);
+    void HandleBulletHitEnemy(EntityManager& entityManager, EntityId enemyEntityId, float deltaTime);
 };

@@ -1,7 +1,5 @@
-﻿  SystemManager.cpp
-  InputHandler.cpp
-  ShootingHandler.cpp
-  GameTest.cpp
+﻿  RenderingHandler.cpp
+  TimerHandler.cpp
   Generating Code...
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe
   'pwsh.exe' is not recognized as an internal or external command,

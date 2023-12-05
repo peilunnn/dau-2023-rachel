@@ -21,6 +21,7 @@
 #include "App/Systems/include/AnimationHandler.h"
 #include "App/Systems/include/TimerHandler.h"
 #include "App/Systems/include/CooldownHandler.h"
+#include "App/Systems/include/EntityHandler.h"
 using namespace std;
 
 //------------------------------------------------------------------------
@@ -73,9 +74,10 @@ void Update(float deltaTime)
 	MovementHandler::GetInstance().Update(deltaTimeInSeconds);
 	CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
 	AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
+	TimerHandler::GetInstance().Update(deltaTimeInSeconds);
+	CooldownHandler::GetInstance().Update(deltaTimeInSeconds);
 	SystemManager::GetInstance().ProcessEvents(deltaTimeInSeconds);
 	EntityManager::GetInstance().ProcessDeletions();
-	TimerHandler::GetInstance().Update(deltaTimeInSeconds);
 }
 
 //------------------------------------------------------------------------

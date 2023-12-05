@@ -12,21 +12,22 @@
 #include "Systems/include/EntityHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Systems/include/CooldownHandler.h"
+#include "Utilities/include/Helper.h"
 
 void SystemManager::Init()
 {
-    m_systems.push_back(&HealthHandler::GetInstance());
-    m_systems.push_back(&MovementHandler::GetInstance());
     m_systems.push_back(&CollisionHandler::GetInstance());
     m_systems.push_back(&InputHandler::GetInstance());
     m_systems.push_back(&ShootingHandler::GetInstance());
-    m_systems.push_back(&RenderingHandler::GetInstance());
+    m_systems.push_back(&CooldownHandler::GetInstance());
+    m_systems.push_back(&EntityHandler::GetInstance());
     m_systems.push_back(&ScreenHandler::GetInstance());
     m_systems.push_back(&ScoreHandler::GetInstance());
-    m_systems.push_back(&EntityHandler::GetInstance());
-    m_systems.push_back(&AnimationHandler::GetInstance());
     m_systems.push_back(&TimerHandler::GetInstance());
-    m_systems.push_back(&CooldownHandler::GetInstance());
+    m_systems.push_back(&HealthHandler::GetInstance());
+    m_systems.push_back(&MovementHandler::GetInstance());
+    m_systems.push_back(&AnimationHandler::GetInstance());
+    m_systems.push_back(&RenderingHandler::GetInstance());
 }
 
 void SystemManager::SendEvent(Event event) {
@@ -34,9 +35,6 @@ void SystemManager::SendEvent(Event event) {
 }
 
 void SystemManager::ProcessEvents(float deltaTime) {
-    EntityManager& entityManager = EntityManager::GetInstance();
-    ScoreHandler& scoreHandler = ScoreHandler::GetInstance();
-
     while (!m_eventQueue.empty()) {
         Event event = m_eventQueue.front();
 

@@ -8,23 +8,23 @@ using namespace std;
 class Event {
 public:
 	Event(const string& type, initializer_list<EntityId> ents)
-		: m_eventType(type), m_entities(ents) {}
+		: m_eventType(type), m_entityIds(ents) {}
 	
 	string GetEventType() const {
 		return m_eventType;
 	}
 
 	vector<EntityId> GetEntities() const {
-		return m_entities;
+		return m_entityIds;
 	}
 	void SetEventType(const string& newType) {
 		m_eventType = newType;
 	}
 	void SetEntities(const vector<EntityId>& newEntities) {
-		m_entities = newEntities;
+		m_entityIds = newEntities;
 	}
 
 private:
 	string m_eventType;
-	vector<EntityId> m_entities;
+	vector<EntityId> m_entityIds;
 };

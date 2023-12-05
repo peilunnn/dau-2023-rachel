@@ -42,11 +42,6 @@ enum PlayerAnimationStates {
     PLAYER_ANIM_IDLE_BACKWARDS
 };
 
-enum EnemyAnimationStates {
-	ENEMY_ANIM_IDLE,
-    ENEMY_ANIM_MELT
-};
-
 enum ReloadingCircleAnimationStates
 {
 	RELOADING_CIRCLE_ANIM_SPIN

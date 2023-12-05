@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "Components/include/Animation.h"
-#include "Components/include/Tag.h"
+#include "Components/include/Cooldown.h"
 #include "Components/include/Health.h"
 #include "Components/include/Renderable.h"
-#include "Components/include/Cooldown.h"
+#include "Components/include/Tag.h"
+#include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
 #include "Systems/include/MovementHandler.h"
@@ -17,7 +18,6 @@ using glm::vec2;
 void AnimationHandler::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSimpleSprite> enemySprite, shared_ptr<CSimpleSprite> reloadingCircleSprite, shared_ptr<CSimpleSprite> healthBarSprite)
 {
 	InitPlayerAnimation(playerSprite);
-	InitEnemyAnimation(enemySprite);
 	InitReloadingCircleAnimation(reloadingCircleSprite);
 	InitHealthBarAnimation(healthBarSprite);
 }
@@ -38,24 +38,11 @@ void AnimationHandler::InitPlayerAnimation(shared_ptr<CSimpleSprite> playerSprit
 	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, speed, {24});
 }
 
-void AnimationHandler::InitEnemyAnimation(shared_ptr<CSimpleSprite> enemySprite)
-{
-	if (!enemySprite)
-		return;
-
-	float speed = 1.0f / 15.0f;
-	enemySprite->CreateAnimation(ENEMY_ANIM_IDLE, speed, {0});
-	enemySprite->CreateAnimation(ENEMY_ANIM_MELT, speed, {1, 2, 3, 4, 5, 6, 7});
-}
-
 void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
 
-	if (event.GetEventType() == "BulletHitEnemy") {
-		HandleBulletHitEnemy(entityManager, event.GetEntities()[0], event.GetEntities()[1], deltaTime);
-	}
-	else if (event.GetEventType() == "EnemyHitPlayer") {
+	if (event.GetEventType() == "EnemyHitPlayer") {
 		HandleEnemyHitPlayer(entityManager, deltaTime);
 	}
 }
@@ -96,9 +83,6 @@ void AnimationHandler::Update(float deltaTime)
 		case EntityType::Player:
 			UpdatePlayerAnimation(entityManager, entityId, deltaTime);
 			break;
-		case EntityType::Enemy:
-			UpdateEnemyAnimation(entityManager, entityId, deltaTime);
-			break;
 		case EntityType::ReloadingCircle:
 			UpdateReloadingCircleAnimation(entityManager, entityId, deltaTime);
 			break;
@@ -112,31 +96,32 @@ void AnimationHandler::Update(float deltaTime)
 void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	shared_ptr<Animation> animation = entityManager.GetComponent<Animation>(entityId);
-	vec2 velocity = MovementHandler::GetInstance().GetVelocity(entityId);
+	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
 	shared_ptr<CSimpleSprite> sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(entityId);
 
 	if (!animation)
 		return;
 
-	if (dot(velocity, velocity) > 0)
+	vec2 currentVelocity = velocity->GetVelocity();
+	if (dot(currentVelocity, currentVelocity) > 0)
 	{
-		if (velocity.x > 0)
+		if (currentVelocity.x > 0)
 		{
 			animation->SetCurrentAnimation(PLAYER_ANIM_RIGHT);
 			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_RIGHT;
 		}
-		else if (velocity.x < 0)
+		else if (currentVelocity.x < 0)
 		{
 			animation->SetCurrentAnimation(PLAYER_ANIM_LEFT);
 			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_LEFT;
 		}
-		else if (velocity.y > 0)
+		else if (currentVelocity.y > 0)
 		{
 			animation->SetCurrentAnimation(PLAYER_ANIM_FORWARDS);
 			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 		}
-		else if (velocity.y < 0)
+		else if (currentVelocity.y < 0)
 		{
 			animation->SetCurrentAnimation(PLAYER_ANIM_BACKWARDS);
 			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_BACKWARDS;
@@ -147,22 +132,6 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
 
 	sprite->SetAnimation(animation->GetCurrentAnimation());
 	sprite->Update(deltaTime);
-}
-
-void AnimationHandler::UpdateEnemyAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
-{
-	shared_ptr<CSimpleSprite> enemySprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	shared_ptr<Animation> enemyAnimation = entityManager.GetComponent<Animation>(entityId);
-	shared_ptr<Cooldown> cooldown = entityManager.GetComponent<Cooldown>(entityId);
-
-	if (!cooldown->IsActive())
-		return;
-	
-	cooldown->Update(deltaTime);
-	if (cooldown->IsCooldownComplete())
-		entityManager.MarkEntityForDeletion(entityId);
-	else
-		enemySprite->Update(deltaTime);
 }
 
 void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
@@ -178,37 +147,6 @@ void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, En
 {
 	shared_ptr<CSimpleSprite> healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	healthBarSprite->Update(deltaTime);
-}
-
-void AnimationHandler::HandleBulletHitEnemy(EntityManager &entityManager, EntityId firstEntityId, EntityId secondEntityId, float deltaTime)
-{
-	EntityId bulletEntityId, enemyEntityId;
-
-	EntityType firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
-
-	if (firstEntityType == EntityType::Bullet)
-	{
-		bulletEntityId = firstEntityId;
-		enemyEntityId = secondEntityId;
-	}
-	else
-	{
-		bulletEntityId = secondEntityId;
-		enemyEntityId = firstEntityId;
-	}
-
-	shared_ptr<Animation> enemyAnimation = entityManager.GetComponent<Animation>(enemyEntityId);
-	shared_ptr<CSimpleSprite> enemySprite = entityManager.GetComponent<Renderable>(enemyEntityId)->GetSprite();
-	shared_ptr<Cooldown> enemyCooldown = entityManager.GetComponent<Cooldown>(enemyEntityId);
-
-	if (enemyCooldown->IsActive())
-		return;
-	
-	enemyCooldown->StartCooldown();
-	enemyAnimation->SetCurrentAnimation(ENEMY_ANIM_MELT);
-	enemySprite->SetAnimation(ENEMY_ANIM_MELT);
-	
-	entityManager.MarkEntityForDeletion(bulletEntityId);
 }
 
 void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime)

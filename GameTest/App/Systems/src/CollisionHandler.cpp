@@ -95,7 +95,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, System
 			return;
 
 		playerTag->SetEntityState(EntityState::HitByEnemy);
-		Event enemyHitPlayerEvent("EnemyHitPlayer", { playerEntityId, enemyEntityId });
+		Event enemyHitPlayerEvent("EnemyHitPlayer", { enemyEntityId, playerEntityId });
 		systemManager.SendEvent(enemyHitPlayerEvent);
 	}
 

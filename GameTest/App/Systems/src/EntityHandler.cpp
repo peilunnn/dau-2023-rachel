@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "../include/EntityHandler.h"
 #include "Components/include/Transform.h"
+#include "Components/include/Cooldown.h"
 #include "Utilities/include/App.h"
 #include "Utilities/include/Helper.h"
 #include "Systems/include/AnimationHandler.h"
@@ -14,18 +15,26 @@ void EntityHandler::HandleEvent(const Event& event, float deltaTime)
 	EntityManager& entityManager = EntityManager::GetInstance();
 
 	if (event.GetEventType() == "BulletHitEnemy") {
-		HandleBulletHitEnemy(entityManager, deltaTime);
+		EntityId bulletEntityId = event.GetEntities()[0];
+		EntityId enemyEntityId = event.GetEntities()[1];
+		HandleBulletHitEnemy(entityManager, bulletEntityId, enemyEntityId, deltaTime);
 	}
 	else if (event.GetEventType() == "EnemyHitPlayer") {
-		HandleEnemyHitPlayer(event, entityManager, deltaTime);
+		EntityId enemyEntityId = event.GetEntities()[0];
+		HandleEnemyHitPlayer(entityManager, enemyEntityId, deltaTime);
 	}
 }
 
-void EntityHandler::HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime)
+void EntityHandler::HandleBulletHitEnemy(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime)
 {
-	AnimationHandler& animationHandler = AnimationHandler::GetInstance();
-	ScreenHandler& screenHandler = ScreenHandler::GetInstance();
+	entityManager.MarkEntityForDeletion(bulletEntityId);
+	entityManager.MarkEntityForDeletion(enemyEntityId);
+	SpawnTwoEnemies(entityManager, bulletEntityId, enemyEntityId, deltaTime);
+}
 
+void EntityHandler::SpawnTwoEnemies(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime)
+{
+	ScreenHandler& screenHandler = ScreenHandler::GetInstance();
 	constexpr int columns = 4;
 	constexpr int rows = 2;
 	const float screenWidth = screenHandler.SCREEN_WIDTH;
@@ -39,29 +48,11 @@ void EntityHandler::HandleBulletHitEnemy(EntityManager& entityManager, float del
 	shared_ptr<CSimpleSprite> secondEnemySprite = shared_ptr<CSimpleSprite>(rawSecondEnemySprite);
 
 	EntityId firstEnemyEntityId = entityManager.CreateEnemyEntity(playerPos, firstEnemySprite, screenWidth, screenHeight);
-	animationHandler.InitEnemyAnimation(firstEnemySprite);
 	EntityId secondEnemyEntityId = entityManager.CreateEnemyEntity(playerPos, secondEnemySprite, screenWidth, screenHeight);
-	animationHandler.InitEnemyAnimation(secondEnemySprite);
 }
 
-void EntityHandler::HandleEnemyHitPlayer(Event event, EntityManager& entityManager, float deltaTime)
+
+void EntityHandler::HandleEnemyHitPlayer(EntityManager& entityManager, EntityId enemyEntityId, float deltaTime)
 {
-	EntityId playerEntityId, enemyEntityId;
-	EntityId firstEntityId = event.GetEntities()[0];
-	EntityId secondEntityId = event.GetEntities()[1];
-
-	EntityType firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
-
-	if (firstEntityType == EntityType::Player)
-	{
-		playerEntityId = firstEntityId;
-		enemyEntityId = secondEntityId;
-	}
-	else
-	{
-		playerEntityId = secondEntityId;
-		enemyEntityId = firstEntityId;
-	}
-
 	entityManager.MarkEntityForDeletion(enemyEntityId);
 }
