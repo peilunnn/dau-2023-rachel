@@ -1,25 +1,33 @@
 #pragma once
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
+#include <unordered_map>
 using glm::vec2;
 
 class MovementHandler : public System {
 public:
-    MovementHandler() {
-        m_subscribedEvents.insert("BulletHitEnemy");
+    static MovementHandler& GetInstance() {
+        static MovementHandler instance;
+        return instance;
     }
+    MovementHandler(MovementHandler const&) = delete;
+    void operator=(MovementHandler const&) = delete;
 
-    void Update(EntityManager& entityManager, float deltaTime);
-    static vec2 GetVelocity(EntityId entityId);
-    static void SetVelocity(EntityId entityId, const vec2& velocity);
-    void HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime) override;
+    void Update(float deltaTime);
+    vec2 GetVelocity(EntityId entityId);
+    void SetVelocity(EntityId entityId, const vec2& velocity);
+    void HandleEvent(const Event& event, float deltaTime) override;
     set<string> GetSubscribedEvents() const override {
         return m_subscribedEvents;
     }
 
 private:
+    MovementHandler() {
+        m_subscribedEvents.insert("BulletHitEnemy");
+    }
+
     set<string> m_subscribedEvents;
-    static unordered_map<EntityId, glm::vec2> entityVelocities;
+    unordered_map<EntityId, glm::vec2> m_entityVelocities;
 
     void HandlePlayerMovement(EntityManager& entityManager, EntityId entityId, float deltaTime);
     void HandleEnemyMovement(EntityManager& entityManager, EntityId entityId, float deltaTime);

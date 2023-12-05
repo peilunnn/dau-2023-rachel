@@ -7,9 +7,18 @@
 
 class RenderingHandler : public System {
 public:
+    static RenderingHandler& GetInstance() {
+        static RenderingHandler instance;
+        return instance;
+    }
+    RenderingHandler(RenderingHandler const&) = delete;
+    void operator=(RenderingHandler const&) = delete;
+
     void Render(EntityManager& entityManager);
 
 private:
+    RenderingHandler() = default;
+
     void RenderEntities(EntityManager& entityManager, EntityId entityId);
     void RenderSprites(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform);
     void RenderScore(EntityManager& entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform);

@@ -6,14 +6,11 @@
 using glm::vec2;
 using glm::vec3;
 
-int ShootingHandler::s_bulletsShotSoFar = 0;
-float ShootingHandler::s_timeSinceLastShot = 0.0f;
-
 void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY)
 {
 	shared_ptr<Transform> playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
 
-	if (!(s_bulletsShotSoFar < MAX_BULLETS && s_timeSinceLastShot >= s_cooldownTimer && playerTransform))
+	if (!(m_bulletsShotSoFar < MAX_BULLETS && m_timeSinceLastShot >= m_cooldownTimer && playerTransform))
 		return;
 
 	vec3 bulletPos = playerTransform->GetPosition();
@@ -24,16 +21,18 @@ void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityI
 	else
 		direction = normalize(direction);
 
-	vec2 bulletVelocity = direction * s_bulletSpeed;
+	vec2 bulletVelocity = direction * m_bulletSpeed;
 	entityManager.CreateBulletEntity(bulletSprite, bulletPos, bulletVelocity);
 
-	s_bulletsShotSoFar++;
-	s_timeSinceLastShot = 0.0f;
-	entityManager.HideAmmoFilledEntity(s_bulletsShotSoFar - 1);
+	m_bulletsShotSoFar++;
+	m_timeSinceLastShot = 0.0f;
+	entityManager.HideAmmoFilledEntity(m_bulletsShotSoFar - 1);
 }
 
-void ShootingHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
+void ShootingHandler::HandleEvent(const Event& event, float deltaTime)
 {
+	EntityManager& entityManager = EntityManager::GetInstance();
+
 	if (event.GetEventType()  == "PlayerHitReloadingCircle") {
 		HandlePlayerHitReloadingCircle(entityManager, deltaTime);
 	}
@@ -42,7 +41,7 @@ void ShootingHandler::HandleEvent(const Event& event, EntityManager& entityManag
 void ShootingHandler::HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
 {
 	EntityId reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
-	s_bulletsShotSoFar = 0;
+	m_bulletsShotSoFar = 0;
 	entityManager.ShowAllAmmoFilledEntity();
 	entityManager.MoveEntityToRandomPos(reloadingCircleEntityId);
 }

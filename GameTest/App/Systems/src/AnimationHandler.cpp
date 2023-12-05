@@ -6,6 +6,7 @@
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
 #include "Systems/include/MovementHandler.h"
+#include "Systems/include/HealthHandler.h"
 #include "Utilities/include/SimpleSprite.h"
 #include "Utilities/include/Enums.h"
 #include "Utilities/include/Helper.h"
@@ -46,8 +47,10 @@ void AnimationHandler::InitEnemyAnimation(shared_ptr<CSimpleSprite> enemySprite)
 	enemySprite->CreateAnimation(ENEMY_ANIM_MELT, speed, {1, 2, 3, 4, 5, 6, 7});
 }
 
-void AnimationHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
+void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
 {
+	EntityManager& entityManager = EntityManager::GetInstance();
+
 	if (event.GetEventType() == "BulletHitEnemy") {
 		HandleBulletHitEnemy(entityManager, event.GetEntities()[0], event.GetEntities()[1], deltaTime);
 	}
@@ -79,8 +82,10 @@ void AnimationHandler::InitHealthBarAnimation(shared_ptr<CSimpleSprite> healthBa
 	healthBarSprite->CreateAnimation(HEALTH_0, speed, {5});
 }
 
-void AnimationHandler::Update(EntityManager &entityManager, float deltaTime)
+void AnimationHandler::Update(float deltaTime)
 {
+	EntityManager& entityManager = EntityManager::GetInstance();
+
 	for (auto entityId : entityManager.GetEntitiesWithComponents<Tag, Animation>())
 	{
 		shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(entityId);
@@ -106,7 +111,7 @@ void AnimationHandler::Update(EntityManager &entityManager, float deltaTime)
 void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	shared_ptr<Animation> animation = entityManager.GetComponent<Animation>(entityId);
-	vec2 velocity = MovementHandler::GetVelocity(entityId);
+	vec2 velocity = MovementHandler::GetInstance().GetVelocity(entityId);
 	shared_ptr<CSimpleSprite> sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(entityId);
 
@@ -208,12 +213,13 @@ void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float 
 	shared_ptr<Health> health = entityManager.GetComponent<Health>(playerEntityId);
 	shared_ptr<Animation> animation = entityManager.GetComponent<Animation>(healthBarEntityId);
 	shared_ptr<CSimpleSprite> healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
+	constexpr int maxFrames = 5;
 
 	if (!health || !healthBarSprite)
 		return;
 
-	int frameIndex = static_cast<int>((health->GetMaxHealth() - health->GetCurrentHealth()) / 20);
-	frameIndex = min(frameIndex, 5);
+	int frameIndex = static_cast<int>((health->GetMaxHealth() - health->GetCurrentHealth()) / HealthHandler::GetInstance().GetHealthReduction());
+	frameIndex = min(frameIndex, maxFrames);
 	animation->SetCurrentAnimation(frameIndex);
 	healthBarSprite->SetAnimation(frameIndex);
 }

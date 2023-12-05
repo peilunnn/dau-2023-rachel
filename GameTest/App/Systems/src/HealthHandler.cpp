@@ -5,8 +5,10 @@
 #include "../include/HealthHandler.h"
 #include <algorithm>
 
-void HealthHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
+void HealthHandler::HandleEvent(const Event& event, float deltaTime)
 {
+	EntityManager& entityManager = EntityManager::GetInstance();
+
 	if (event.GetEventType() == "EnemyHitPlayer") {
 		HandleEnemyHitPlayer(entityManager);
 	}
@@ -22,7 +24,7 @@ void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 		return;
 
 	int currentHealth = health->GetCurrentHealth();
-	health->SetCurrentHealth(currentHealth - healthReduction);
+	health->SetCurrentHealth(currentHealth - m_healthReduction);
 
 	if (currentHealth > 0)
 		tag->SetEntityState(EntityState::Alive);

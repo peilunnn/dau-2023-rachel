@@ -7,21 +7,24 @@
 #include "Systems/include/MovementHandler.h"
 #include "Utilities/include/app.h"
 
-void InputHandler::Update(EntityManager& entityManager, float deltaTime, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite) {
-    InputHandler::HandlePositionInput(entityManager, deltaTime, playerEntityId);
- 
-    float newTimeSinceLastShot = ShootingHandler::GetTimeSinceLastShot() + deltaTime;
-    ShootingHandler::SetTimeSinceLastShot(newTimeSinceLastShot);
-    InputHandler::HandleShootingInput(entityManager, playerEntityId, bulletSprite);
+void InputHandler::Update(float deltaTime, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite) {
+    EntityManager& entityManager = EntityManager::GetInstance();
+    ShootingHandler& shootingHandler = ShootingHandler::GetInstance();
+    InputHandler& inputHandler = InputHandler::GetInstance();
+    float newTimeSinceLastShot = shootingHandler.GetTimeSinceLastShot() + deltaTime;
+
+    inputHandler.HandlePositionInput(deltaTime, playerEntityId);
+    shootingHandler.SetTimeSinceLastShot(newTimeSinceLastShot);
+    inputHandler.HandleShootingInput(entityManager, playerEntityId, bulletSprite);
 }
 
-void InputHandler::HandlePositionInput(EntityManager& entityManager, float deltaTime, EntityId playerEntityId) {
+void InputHandler::HandlePositionInput(float deltaTime, EntityId playerEntityId) {
     float thumbStickX = App::GetController().GetLeftThumbStickX();
     float thumbStickY = App::GetController().GetLeftThumbStickY();
-    vec2 velocity = MovementHandler::GetVelocity(playerEntityId);
+    vec2 velocity = MovementHandler::GetInstance().GetVelocity(playerEntityId);
     velocity.x = (fabs(thumbStickX) > THUMB_STICK_THRESHOLD) ? thumbStickX * VELOCITY_MULTIPLIER * deltaTime : 0.0f;
     velocity.y = (fabs(thumbStickY) > THUMB_STICK_THRESHOLD) ? -thumbStickY * VELOCITY_MULTIPLIER * deltaTime : 0.0f;
-    MovementHandler::SetVelocity(playerEntityId, velocity);
+    MovementHandler::GetInstance().SetVelocity(playerEntityId, velocity);
 }
 
 void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite)
@@ -34,7 +37,7 @@ void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId pl
 
     vec3 bulletPos = playerTransform->GetPosition();
     App::GetMousePos(mouseX, mouseY);
-    ShootingHandler::Shoot(entityManager, playerEntityId, bulletSprite, mouseX, mouseY);
+    ShootingHandler::GetInstance().Shoot(entityManager, playerEntityId, bulletSprite, mouseX, mouseY);
 }
 
 

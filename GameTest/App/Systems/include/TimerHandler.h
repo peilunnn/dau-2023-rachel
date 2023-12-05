@@ -4,5 +4,15 @@
 
 class TimerHandler : public System {
 public:
-    void Update(EntityManager& entityManager, float deltaTime);
+    static TimerHandler& GetInstance() {
+        static TimerHandler instance;
+        return instance;
+    }
+    TimerHandler(TimerHandler const&) = delete;
+    void operator=(TimerHandler const&) = delete;
+
+    void Update(float deltaTime);
+
+private:
+    TimerHandler() = default;
 };

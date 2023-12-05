@@ -3,6 +3,13 @@
 
 class ScreenHandler : public System {
 public:
+    static ScreenHandler& GetInstance() {
+        static ScreenHandler instance;
+        return instance;
+    }
+    ScreenHandler(ScreenHandler const&) = delete;
+    void operator=(ScreenHandler const&) = delete;
+    
     static constexpr float SCREEN_WIDTH = 1024.0f;
     static constexpr float SCREEN_HEIGHT = 768.0f;
     static constexpr float BORDER_LEFT_X = -0.9f;
@@ -26,4 +33,8 @@ public:
     {
         return (1.0f - ndcY) * 0.5f * screenHeight;
     }
+
+private:
+    ScreenHandler() = default;
+
 };

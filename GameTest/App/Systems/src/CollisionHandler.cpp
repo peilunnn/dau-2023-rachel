@@ -10,8 +10,10 @@
 using glm::dot;
 using glm::vec2;
 
-void CollisionHandler::Update(EntityManager& entityManager, SystemManager& systemManager, float deltaTime)
+void CollisionHandler::Update(float deltaTime)
 {
+	EntityManager& entityManager = EntityManager::GetInstance();
+	SystemManager& systemManager = SystemManager::GetInstance();
 	vector<EntityId> allEntities = entityManager.GetAllEntities();
 
 	for (EntityId& i : allEntities)

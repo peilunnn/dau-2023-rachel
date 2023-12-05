@@ -1,21 +1,33 @@
 #pragma once
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
+#include <set>
 
 class HealthHandler : public System {
 public:
-    HealthHandler() {
-        m_subscribedEvents.insert("EnemyHitPlayer");
+    static HealthHandler& GetInstance() {
+        static HealthHandler instance;
+        return instance;
     }
+    HealthHandler(HealthHandler const&) = delete;
+    void operator=(HealthHandler const&) = delete;
 
-    void HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime) override;
+    void HandleEvent(const Event& event, float deltaTime) override;
     set<string> GetSubscribedEvents() const override {
         return m_subscribedEvents;
     }
 
+    static int GetHealthReduction() {
+        return m_healthReduction;
+    }
+
 private:
+    HealthHandler() {
+        m_subscribedEvents.insert("EnemyHitPlayer");
+    }
+
     set<string> m_subscribedEvents;
-    const int healthReduction = 20;
+    static constexpr int m_healthReduction = 20;
 
     void HandleEnemyHitPlayer(EntityManager& entityManager);
 };

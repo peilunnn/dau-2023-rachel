@@ -13,29 +13,32 @@
 
 void SystemManager::Init()
 {
-    m_systems.push_back(make_unique<HealthHandler>());
-    m_systems.push_back(make_unique<MovementHandler>());
-    m_systems.push_back(make_unique<CollisionHandler>());
-    m_systems.push_back(make_unique<InputHandler>());
-    m_systems.push_back(make_unique<ShootingHandler>());
-    m_systems.push_back(make_unique<RenderingHandler>());
-    m_systems.push_back(make_unique<ScreenHandler>());
-    m_systems.push_back(make_unique<ScoreHandler>());
-    m_systems.push_back(make_unique<EntityHandler>());
-    m_systems.push_back(make_unique<AnimationHandler>());
+    m_systems.push_back(&HealthHandler::GetInstance());
+    m_systems.push_back(&MovementHandler::GetInstance());
+    m_systems.push_back(&CollisionHandler::GetInstance());
+    m_systems.push_back(&InputHandler::GetInstance());
+    m_systems.push_back(&ShootingHandler::GetInstance());
+    m_systems.push_back(&RenderingHandler::GetInstance());
+    m_systems.push_back(&ScreenHandler::GetInstance());
+    m_systems.push_back(&ScoreHandler::GetInstance());
+    m_systems.push_back(&EntityHandler::GetInstance());
+    m_systems.push_back(&AnimationHandler::GetInstance());
 }
 
 void SystemManager::SendEvent(Event event) {
     m_eventQueue.push(event);
 }
 
-void SystemManager::ProcessEvents(EntityManager& entityManager, ScoreHandler& scoreHandler, float deltaTime) {
+void SystemManager::ProcessEvents(float deltaTime) {
+    EntityManager& entityManager = EntityManager::GetInstance();
+    ScoreHandler& scoreHandler = ScoreHandler::GetInstance();
+
     while (!m_eventQueue.empty()) {
         Event event = m_eventQueue.front();
 
-        for (const auto& system : m_systems) {
+        for (System* system : m_systems) {
             if (system->GetSubscribedEvents().count(event.GetEventType()) > 0)
-                system->HandleEvent(event, entityManager, deltaTime);
+                system->HandleEvent(event, deltaTime);
         }
         m_eventQueue.pop();
     }

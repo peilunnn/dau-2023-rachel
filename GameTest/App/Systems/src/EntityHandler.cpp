@@ -9,8 +9,10 @@
 
 using glm::vec3;
 
-void EntityHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
+void EntityHandler::HandleEvent(const Event& event, float deltaTime)
 {
+	EntityManager& entityManager = EntityManager::GetInstance();
+
 	if (event.GetEventType() == "BulletHitEnemy") {
 		HandleBulletHitEnemy(entityManager, deltaTime);
 	}
@@ -21,6 +23,8 @@ void EntityHandler::HandleEvent(const Event& event, EntityManager& entityManager
 
 void EntityHandler::HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime)
 {
+	AnimationHandler& animationHandler = AnimationHandler::GetInstance();
+
 	constexpr int columns = 4;
 	constexpr int rows = 2;
 	constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
@@ -34,9 +38,9 @@ void EntityHandler::HandleBulletHitEnemy(EntityManager& entityManager, float del
 	shared_ptr<CSimpleSprite> secondEnemySprite = shared_ptr<CSimpleSprite>(rawSecondEnemySprite);
 
 	EntityId firstEnemyEntityId = entityManager.CreateEnemyEntity(playerPos, firstEnemySprite, screenWidth, screenHeight);
-	AnimationHandler::InitEnemyAnimation(firstEnemySprite);
+	animationHandler.InitEnemyAnimation(firstEnemySprite);
 	EntityId secondEnemyEntityId = entityManager.CreateEnemyEntity(playerPos, secondEnemySprite, screenWidth, screenHeight);
-	AnimationHandler::InitEnemyAnimation(secondEnemySprite);
+	animationHandler.InitEnemyAnimation(secondEnemySprite);
 }
 
 void EntityHandler::HandleEnemyHitPlayer(Event event, EntityManager& entityManager, float deltaTime)

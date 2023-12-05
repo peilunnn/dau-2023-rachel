@@ -25,8 +25,6 @@ using namespace std;
 //------------------------------------------------------------------------
 
 vec3 playerPos;
-EntityManager entityManager;
-SystemManager systemManager;
 shared_ptr<CSimpleSprite> playerSprite;
 shared_ptr<CSimpleSprite> enemySprite;
 shared_ptr<CSimpleSprite> bulletSprite;
@@ -42,13 +40,6 @@ EntityId ammoFilledEntityId;
 EntityId healthBarEntityId;
 EntityId scoreEntityId;
 EntityId timerEntityId;
-RenderingHandler renderingHandler;
-InputHandler inputHandler;
-MovementHandler movementHandler;
-CollisionHandler collisionHandler;
-AnimationHandler animationHandler;
-ScoreHandler scoreHandler;
-TimerHandler timerHandler;
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -67,13 +58,8 @@ void Init()
 	CSimpleSprite* rawHealthBarSprite = App::CreateSprite(Helper::PATH_TO_HEALTH_BAR_SPRITE_SHEET, 2, 3);
 	healthBarSprite = shared_ptr<CSimpleSprite>(rawHealthBarSprite);
 
-	// playerSprite = SpriteManager::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 8, 4);
-	// enemySprite = SpriteManager::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
-	// bulletSprite = SpriteManager::CreateSprite(Helper::PATH_TO_BULLET_SPRITE, 1, 1);
-	// reloadingCircleSprite = SpriteManager::CreateSprite(Helper::PATH_TO_RELOADING_CIRCLE_SPRITE_SHEET, 5, 2);
-	// healthBarSprite = SpriteManager::CreateSprite(Helper::PATH_TO_HEALTH_BAR_SPRITE_SHEET, 2, 3);
-
 	// Set up entities
+	EntityManager& entityManager = EntityManager::GetInstance();
 	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, healthBarSprite);
 	playerEntityId = entityManager.GetPlayerEntityId();
 	enemyEntityId = entityManager.GetEnemyEntityId();
@@ -82,11 +68,12 @@ void Init()
 	scoreEntityId = entityManager.GetScoreEntityId();
 	timerEntityId = entityManager.GetTimerEntityId();
 
+	// Set up managers and systems
+	SystemManager::GetInstance().Init();
+
 	// Set up animations
-	animationHandler.Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite);
+	AnimationHandler::GetInstance().Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite);
 	
-	// Set up systems
-	systemManager.Init();
 }
 
 //------------------------------------------------------------------------
@@ -96,13 +83,13 @@ void Init()
 void Update(float deltaTime)
 {
 	float deltaTimeInSeconds = deltaTime / 1000.0f;
-	inputHandler.Update(entityManager, deltaTimeInSeconds, playerEntityId, bulletSprite);
-	movementHandler.Update(entityManager, deltaTimeInSeconds);
-	collisionHandler.Update(entityManager, systemManager, deltaTimeInSeconds);
-	animationHandler.Update(entityManager, deltaTimeInSeconds);
-	systemManager.ProcessEvents(entityManager, scoreHandler, deltaTimeInSeconds);
-	entityManager.ProcessDeletions();
-	timerHandler.Update(entityManager, deltaTimeInSeconds);
+	InputHandler::GetInstance().Update(deltaTimeInSeconds, playerEntityId, bulletSprite);
+	MovementHandler::GetInstance().Update(deltaTimeInSeconds);
+	CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
+	AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
+	SystemManager::GetInstance().ProcessEvents(deltaTimeInSeconds);
+	EntityManager::GetInstance().ProcessDeletions();
+	TimerHandler::GetInstance().Update(deltaTimeInSeconds);
 }
 
 //------------------------------------------------------------------------
@@ -111,7 +98,7 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {
-	renderingHandler.Render(entityManager);
+	RenderingHandler::GetInstance().Render(EntityManager::GetInstance());
 }
 
 //------------------------------------------------------------------------

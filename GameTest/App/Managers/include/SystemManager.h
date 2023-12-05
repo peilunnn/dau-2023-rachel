@@ -12,12 +12,20 @@ using namespace std;
 
 class SystemManager {
 public:
+    static SystemManager& GetInstance() {
+        static SystemManager instance;
+        return instance;
+    }
+    SystemManager(SystemManager const&) = delete;
+    void operator=(SystemManager const&) = delete;
+
     void Init();
-    void AddSystem(unique_ptr<System> system);
     void SendEvent(Event event);
-    void ProcessEvents(EntityManager& entityManager, ScoreHandler& scoreHandler, float deltaTime);
+    void ProcessEvents(float deltaTime);
 
 private:
-    vector<unique_ptr<System>> m_systems;
+    SystemManager() = default;
+
+    vector<System*> m_systems;
     queue<Event> m_eventQueue;
 };

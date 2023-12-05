@@ -25,10 +25,12 @@ EntityId EntityManager::s_nextEntityId = 0;
 
 void EntityManager::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSimpleSprite> enemySprite, shared_ptr<CSimpleSprite> reloadingCircleSprite, shared_ptr<CSimpleSprite> ammoEmptySprite, shared_ptr<CSimpleSprite> ammoFilledSprite, shared_ptr<CSimpleSprite> healthBarSprite)
 {
-	constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
-	constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
-	constexpr float ammoSpriteSpacing = ScreenHandler::AMMO_SPRITE_SPACING;
-	constexpr int maxBullets = ShootingHandler::MAX_BULLETS;
+	ScreenHandler& screenHandler = ScreenHandler::GetInstance();
+	ShootingHandler& shootingHandler = ShootingHandler::GetInstance();
+
+	constexpr float screenWidth = screenHandler.SCREEN_WIDTH;
+	constexpr float screenHeight = screenHandler.SCREEN_HEIGHT;
+	constexpr float ammoSpriteSpacing = screenHandler.AMMO_SPRITE_SPACING;
 	constexpr float ammoXOffset = 20.0f;
 	constexpr float ammoYOffset = 720.0f;
 	constexpr float healthBarXOffset = 880.0f;
@@ -37,6 +39,7 @@ void EntityManager::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSim
 	constexpr float ammoYPos = screenHeight - ammoYOffset;
 	constexpr float healthBarXPos = screenWidth - healthBarXOffset;
 	constexpr float healthBarYPos = screenHeight - healthBarYOffset;
+	const int maxBullets = shootingHandler.MAX_BULLETS;
 
 	m_playerEntityId = CreatePlayerEntity(playerSprite);
 	vec3 playerPos = GetComponent<Transform>(m_playerEntityId)->GetPosition();
@@ -142,7 +145,7 @@ EntityId EntityManager::CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSim
 	shared_ptr<BounceDirection> bounceDirection = make_shared<BounceDirection>();
 	shared_ptr<Animation> animation = make_shared<Animation>();
 	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
-	MovementHandler::SetVelocity(enemyEntityId, randomVelocity);
+	MovementHandler::GetInstance().SetVelocity(enemyEntityId, randomVelocity);
 
 	EntityManager::AddComponent(enemyEntityId, tag);
 	EntityManager::AddComponent(enemyEntityId, transform);
@@ -171,7 +174,7 @@ EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprit
 	collider->SetCollisionType(CollisionType::Bullet);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy));
 	collider->SetRadius(dimensions.width * radiusMultiplier);
-	MovementHandler::SetVelocity(bulletEntityId, targetVelocity);
+	MovementHandler::GetInstance().SetVelocity(bulletEntityId, targetVelocity);
 
 	AddComponent(bulletEntityId, tag);
 	AddComponent(bulletEntityId, transform);

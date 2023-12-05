@@ -4,8 +4,10 @@
 
 
 
-void ScoreHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
+void ScoreHandler::HandleEvent(const Event& event, float deltaTime)
 {
+	EntityManager& entityManager = EntityManager::GetInstance();
+
 	if (event.GetEventType() == "BulletHitEnemy") {
 		HandleBulletHitEnemy(entityManager, deltaTime);
 	}

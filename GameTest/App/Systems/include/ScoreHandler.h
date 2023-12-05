@@ -1,18 +1,27 @@
 #pragma once
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
+#include <set>
 
 class ScoreHandler : public System {
 public:
+    static ScoreHandler& GetInstance() {
+        static ScoreHandler instance;
+        return instance;
+    }
+    ScoreHandler(ScoreHandler const&) = delete;
+    void operator=(ScoreHandler const&) = delete;
+
+    void HandleEvent(const Event& event, float deltaTime) override;
+    set<string> GetSubscribedEvents() const override {
+        return m_subscribedEvents;
+    }
+
+private:
     ScoreHandler() {
         m_subscribedEvents.insert("BulletHitEnemy");
     }
 
-    void HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime) override;
-    set<string> GetSubscribedEvents() const override {
-        return m_subscribedEvents;
-    }
-private:
     set<string> m_subscribedEvents;
 
     void HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime);

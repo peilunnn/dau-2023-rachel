@@ -9,12 +9,11 @@
 #include "Utilities/include/Helper.h"
 using glm::vec3;
 
-unordered_map<EntityId, vec2> MovementHandler::entityVelocities;
-
-void MovementHandler::Update(EntityManager &entityManager, float deltaTime)
+void MovementHandler::Update(float deltaTime)
 {
 	constexpr float screenWidth = ScreenHandler::SCREEN_WIDTH;
 	constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
+	EntityManager& entityManager = EntityManager::GetInstance();
 
 	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
 	{
@@ -37,8 +36,8 @@ void MovementHandler::Update(EntityManager &entityManager, float deltaTime)
 
 vec2 MovementHandler::GetVelocity(EntityId entityId)
 {
-	auto it = entityVelocities.find(entityId);
-	if (it != entityVelocities.end())
+	auto it = m_entityVelocities.find(entityId);
+	if (it != m_entityVelocities.end())
 		return it->second;
 
 	return vec2(0.0f);
@@ -46,12 +45,12 @@ vec2 MovementHandler::GetVelocity(EntityId entityId)
 
 void MovementHandler::SetVelocity(EntityId entityId, const vec2& velocity)
 {
-	entityVelocities[entityId] = velocity;
+	m_entityVelocities[entityId] = velocity;
 }
 
-void MovementHandler::HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime)
+void MovementHandler::HandleEvent(const Event& event, float deltaTime)
 {
-	Helper::Log("in MovementHandler::HandleEvent");
+	EntityManager& entityManager = EntityManager::GetInstance();
 
 	if (event.GetEventType() == "BulletHitEnemy") {
 		HandleBulletHitEnemy(entityManager, event.GetEntities()[0], event.GetEntities()[1], deltaTime);

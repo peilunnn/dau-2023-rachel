@@ -6,27 +6,35 @@
 
 class ShootingHandler : public System {
 public:
-    ShootingHandler() {
-        m_subscribedEvents.insert("PlayerHitReloadingCircle");
+    static ShootingHandler& GetInstance() {
+        static ShootingHandler instance;
+        return instance;
     }
+    ShootingHandler(ShootingHandler const&) = delete;
+    void operator=(ShootingHandler const&) = delete;
 
-    static constexpr int MAX_BULLETS = 10;
+    const int MAX_BULLETS = 10;
 
-    static void Shoot(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
-    void HandleEvent(const Event& event, EntityManager& entityManager, float deltaTime) override;
+    void Shoot(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
+    void HandleEvent(const Event& event, float deltaTime) override;
 
-    static float GetTimeSinceLastShot() { return s_timeSinceLastShot; }
-    static void SetTimeSinceLastShot(float newTime) { s_timeSinceLastShot = newTime; }
+    float GetTimeSinceLastShot() const { return m_timeSinceLastShot; }
+    void SetTimeSinceLastShot(float newTime) { m_timeSinceLastShot = newTime; }
     set<string> GetSubscribedEvents() const override {
         return m_subscribedEvents;
     }
 
 private:
+    ShootingHandler() {
+        m_subscribedEvents.insert("PlayerHitReloadingCircle");
+    }
+
     set<string> m_subscribedEvents;
-    static int s_bulletsShotSoFar;
-    static constexpr float s_cooldownTimer = 0.5f;
-    static float s_timeSinceLastShot;
-    static constexpr float s_bulletSpeed = 1500.0f;
+    
+    int m_bulletsShotSoFar = 0;
+    static constexpr float m_cooldownTimer = 0.5f;
+    float m_timeSinceLastShot = 0.0f;
+    static constexpr float m_bulletSpeed = 1500.0f;
 
     void HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime);
 };
