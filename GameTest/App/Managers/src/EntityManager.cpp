@@ -29,10 +29,10 @@ void EntityManager::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSim
 	constexpr float screenHeight = ScreenHandler::SCREEN_HEIGHT;
 	constexpr float ammoSpriteSpacing = ScreenHandler::AMMO_SPRITE_SPACING;
 	constexpr int maxBullets = ShootingHandler::MAX_BULLETS;
-	constexpr int ammoXOffset = 20;
-	constexpr int ammoYOffset = 40;
-	constexpr int healthBarXOffset = 880;
-	constexpr int healthBarYOffset = 700;
+	constexpr float ammoXOffset = 20.0f;
+	constexpr float ammoYOffset = 720.0f;
+	constexpr float healthBarXOffset = 880.0f;
+	constexpr float healthBarYOffset = 720.0f;
 	constexpr float ammoStartingX = screenWidth - ammoXOffset;
 	constexpr float ammoYPos = screenHeight - ammoYOffset;
 	constexpr float healthBarXPos = screenWidth - healthBarXOffset;
@@ -255,8 +255,9 @@ EntityId EntityManager::CreateHealthBarEntity(shared_ptr<CSimpleSprite> sprite, 
 EntityId EntityManager::CreateScoreEntity()
 {
 	EntityId scoreEntityId = CreateEntityId();
+	constexpr float xOffset = 100.0f;
 	constexpr float yOffset = 50.0f;
-	constexpr float xPos = ScreenHandler::SCREEN_WIDTH / 2;
+	constexpr float xPos = ScreenHandler::SCREEN_WIDTH - xOffset;
 	constexpr float yPos = ScreenHandler::SCREEN_HEIGHT - yOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
