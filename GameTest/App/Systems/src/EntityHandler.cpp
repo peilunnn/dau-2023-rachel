@@ -2,10 +2,10 @@
 #include "../include/EntityHandler.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Cooldown.h"
+#include "Components/include/Screen.h"
 #include "Utilities/include/App.h"
 #include "Utilities/include/Helper.h"
 #include "Systems/include/AnimationHandler.h"
-#include "Systems/include/ScreenHandler.h"
 #include "Managers/include/EntityManager.h"
 
 using glm::vec3;
@@ -34,11 +34,11 @@ void EntityHandler::HandleBulletHitEnemy(EntityManager& entityManager, EntityId 
 
 void EntityHandler::SpawnTwoEnemies(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime)
 {
-	ScreenHandler& screenHandler = ScreenHandler::GetInstance();
 	constexpr int columns = 4;
 	constexpr int rows = 2;
-	const float screenWidth = screenHandler.SCREEN_WIDTH;
-	const float screenHeight = screenHandler.SCREEN_HEIGHT;
+	Screen& screen = Screen::GetInstance();
+	const float screenWidth = screen.SCREEN_WIDTH;
+	const float screenHeight = screen.SCREEN_HEIGHT;
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->GetPosition();
 

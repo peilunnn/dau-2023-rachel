@@ -6,7 +6,6 @@
 #include "Systems/include/RenderingHandler.h"
 #include "Systems/include/CollisionHandler.h"
 #include "Systems/include/HealthHandler.h"
-#include "Systems/include/ScreenHandler.h"
 #include "Systems/include/ScoreHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Systems/include/EntityHandler.h"
@@ -21,7 +20,6 @@ void SystemManager::Init()
     m_systems.push_back(&ShootingHandler::GetInstance());
     m_systems.push_back(&CooldownHandler::GetInstance());
     m_systems.push_back(&EntityHandler::GetInstance());
-    m_systems.push_back(&ScreenHandler::GetInstance());
     m_systems.push_back(&ScoreHandler::GetInstance());
     m_systems.push_back(&TimerHandler::GetInstance());
     m_systems.push_back(&HealthHandler::GetInstance());

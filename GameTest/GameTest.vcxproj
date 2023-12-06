@@ -200,7 +200,6 @@
     <ClInclude Include="App\Systems\include\AnimationHandler.h" />
     <ClInclude Include="App\Systems\include\MovementHandler.h" />
     <ClInclude Include="App\Utilities\include\Helper.h" />
-    <ClInclude Include="App\Systems\include\ScreenHandler.h" />
     <ClInclude Include="App\Managers\SpriteManager.h" />
     <ClInclude Include="App\Systems\include\ScoreHandler.h" />
     <ClInclude Include="App\Components\include\Score.h" />
@@ -210,6 +209,7 @@
     <ClInclude Include="App\Systems\include\EntityHandler.h" />
     <ClInclude Include="App\Components\include\Cooldown.h" />
     <ClInclude Include="App\Systems\include\CooldownHandler.h" />
+    <ClInclude Include="App\Components\include\Screen.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -250,9 +250,9 @@
     <ClCompile Include="App\Systems\src\AnimationHandler.cpp" />
     <ClCompile Include="App\Systems\src\MovementHandler.cpp" />
     <ClCompile Include="App\Utilities\src\Helper.cpp" />
-    <ClCompile Include="App\Systems\src\ScreenHandler.cpp" />
     <ClCompile Include="App\Systems\src\ScoreHandler.cpp" />
     <ClCompile Include="App\Components\src\Score.cpp" />
+    <ClCompile Include="App\Components\src\Screen.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

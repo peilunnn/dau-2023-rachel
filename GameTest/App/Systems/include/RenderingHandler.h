@@ -1,6 +1,7 @@
 #pragma once
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
+#include "Components/include/Screen.h"
 #include "Components/include/Tag.h"
 #include "Components/include/Transform.h"
 #include <memory>
@@ -25,6 +26,6 @@ private:
     void RenderTimer(EntityManager& entityManager, EntityId entityId, Tag* tag, Transform* transform);
 
     void SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-    void DrawBorder(ScreenHandler& screenHandler, GLfloat red, GLfloat green, GLfloat blue);
-    void DrawBackgroundInBorder(ScreenHandler& screenHandler, GLfloat red, GLfloat green, GLfloat blue);
+    void DrawBorder(Screen& screen, GLfloat red, GLfloat green, GLfloat blue);
+    void DrawBackgroundInBorder(Screen& screen, GLfloat red, GLfloat green, GLfloat blue);
 };

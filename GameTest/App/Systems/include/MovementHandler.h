@@ -1,6 +1,6 @@
 #pragma once
 #include "Managers/include/EntityManager.h"
-#include "Systems/include/ScreenHandler.h"
+#include "Components/include/Screen.h"
 #include "Systems/include/System.h"
 #include <unordered_map>
 using glm::vec2;
@@ -27,8 +27,8 @@ private:
 
     set<string> m_subscribedEvents;
 
-    void HandlePlayerMovement(EntityManager& entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime);
-    void HandleEnemyMovement(EntityManager& entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime);
-    void HandleBulletMovement(EntityManager& entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime);
+    void HandlePlayerMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
+    void HandleEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
+    void HandleBulletMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
     void HandleBulletHitEnemy(EntityManager& entityManager, EntityId enemyEntityId, float deltaTime);
 };

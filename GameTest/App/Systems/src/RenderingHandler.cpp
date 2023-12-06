@@ -4,19 +4,18 @@
 #include "Components/include/Transform.h"
 #include "Components/include/Score.h"
 #include "Components/include/Timer.h"
-#include "Systems/include/ScreenHandler.h"
 #include "Utilities/include/App.h"
 #include "Utilities/include/Helper.h"
 #include "../include/RenderingHandler.h"
 
 void RenderingHandler::Render()
 {
-    ScreenHandler& screenHandler = ScreenHandler::GetInstance();
     EntityManager& entityManager = EntityManager::GetInstance();
+    Screen& screen = Screen::GetInstance();
 
     SetBackground(0.2f, 0.2f, 0.2f, 1.0f);
-    DrawBorder(screenHandler, 1.0f, 1.0f, 1.0f);
-    DrawBackgroundInBorder(screenHandler, 0.0f, 0.0f, 0.0f);
+    DrawBorder(screen, 1.0f, 1.0f, 1.0f);
+    DrawBackgroundInBorder(screen, 0.0f, 0.0f, 0.0f);
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
     {
@@ -78,13 +77,13 @@ void RenderingHandler::SetBackground(GLfloat red, GLfloat green, GLfloat blue, G
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void RenderingHandler::DrawBorder(ScreenHandler& screenHandler, GLfloat red, GLfloat green, GLfloat blue)
+void RenderingHandler::DrawBorder(Screen& screen, GLfloat red, GLfloat green, GLfloat blue)
 {
-    const float borderThickness = screenHandler.BORDER_THICKNESS;
-    const float borderLeftX = screenHandler.BORDER_LEFT_X;
-    const float borderRightX = screenHandler.BORDER_RIGHT_X;
-    const float borderTopY = screenHandler.BORDER_TOP_Y;
-    const float borderBottomY = screenHandler.BORDER_BOTTOM_Y;
+    const float borderThickness = screen.BORDER_THICKNESS;
+    const float borderLeftX = screen.BORDER_LEFT_X;
+    const float borderRightX = screen.BORDER_RIGHT_X;
+    const float borderTopY = screen.BORDER_TOP_Y;
+    const float borderBottomY = screen.BORDER_BOTTOM_Y;
 
     glColor3f(red, green, blue);
     glLineWidth(borderThickness);
@@ -96,13 +95,13 @@ void RenderingHandler::DrawBorder(ScreenHandler& screenHandler, GLfloat red, GLf
     glEnd();
 }
 
-void RenderingHandler::DrawBackgroundInBorder(ScreenHandler& screenHandler, GLfloat red, GLfloat green, GLfloat blue)
+void RenderingHandler::DrawBackgroundInBorder(Screen& screen, GLfloat red, GLfloat green, GLfloat blue)
 {
-    float borderThickness = screenHandler.BORDER_THICKNESS;
-    float borderLeftX = screenHandler.BORDER_LEFT_X;
-    float borderRightX = screenHandler.BORDER_RIGHT_X;
-    float borderTopY = screenHandler.BORDER_TOP_Y;
-    float borderBottomY = screenHandler.BORDER_BOTTOM_Y;
+    float borderThickness = screen.BORDER_THICKNESS;
+    float borderLeftX = screen.BORDER_LEFT_X;
+    float borderRightX = screen.BORDER_RIGHT_X;
+    float borderTopY = screen.BORDER_TOP_Y;
+    float borderBottomY = screen.BORDER_BOTTOM_Y;
 
     glColor3f(red, green, blue);
     glBegin(GL_QUADS);

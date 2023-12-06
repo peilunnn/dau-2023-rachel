@@ -38,7 +38,6 @@
     <ClCompile Include="App\Managers\src\SystemManager.cpp" />
     <ClCompile Include="App\Systems\src\System.cpp" />
     <ClCompile Include="App\Systems\src\Event.cpp" />
-    <ClCompile Include="App\Systems\src\ScreenHandler.cpp" />
     <ClCompile Include="App\Systems\src\ScoreHandler.cpp" />
     <ClCompile Include="App\Components\src\Score.cpp" />
     <ClCompile Include="App\Systems\src\TimerHandler.cpp" />
@@ -49,6 +48,7 @@
     <ClCompile Include="App\Components\src\Cooldown.cpp" />
     <ClCompile Include="App\Systems\src\CooldownHandler.cpp" />
     <ClCompile Include="App\Components\src\Velocity.cpp" />
+    <ClCompile Include="App\Components\src\Screen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -91,7 +91,6 @@
     <ClInclude Include="App\Managers\include\SystemManager.h" />
     <ClInclude Include="App\Systems\include\System.h" />
     <ClInclude Include="App\Systems\include\Event.h" />
-    <ClInclude Include="App\Systems\include\ScreenHandler.h" />
     <ClInclude Include="App\Managers\SpriteManager.h" />
     <ClInclude Include="App\Systems\include\ScoreHandler.h" />
     <ClInclude Include="App\Components\include\Score.h" />
@@ -103,6 +102,7 @@
     <ClInclude Include="App\Components\include\Cooldown.h" />
     <ClInclude Include="App\Systems\include\CooldownHandler.h" />
     <ClInclude Include="App\Components\include\Velocity.h" />
+    <ClInclude Include="App\Components\include\Screen.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">
