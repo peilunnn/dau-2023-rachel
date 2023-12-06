@@ -24,6 +24,20 @@ public:
     const float SCREEN_TOP = NDCtoScreenY(BORDER_TOP_Y, SCREEN_HEIGHT);
     const float SCREEN_BOTTOM = NDCtoScreenY(BORDER_BOTTOM_Y, SCREEN_HEIGHT);
 
+    const float TITLE_X_OFFSET = 550.0f;
+    const float TITLE_Y_OFFSET = 200.0f;
+    const float DESCRIPTION_X_OFFSET = 600.0f;
+    const float DESCRIPTION_Y_OFFSET = 250.0f;
+
+    const float R_MAIN_MENU_BG = 0.0f;
+    const float G_MAIN_MENU_BG = 0.0f;
+    const float B_MAIN_MENU_BG = 0.0f;
+    const float ALPHA_MAIN_MENU_BG = 1.0f;
+
+    const float R_TEXT = 1.0f;
+    const float G_TEXT = 1.0f;
+    const float B_TEXT = 1.0f;
+
     float Screen::NDCtoScreenX(float ndcX, float screenWidth) {
         return (ndcX + 1.0f) * 0.5f * screenWidth;
     }

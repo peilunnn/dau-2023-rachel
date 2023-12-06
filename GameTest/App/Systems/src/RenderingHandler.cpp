@@ -1,27 +1,59 @@
 #include "stdafx.h"
 #include "Components/include/Animation.h"
 #include "Components/include/Renderable.h"
-#include "Components/include/Transform.h"
 #include "Components/include/Score.h"
+#include "Components/include/Transform.h"
 #include "Components/include/Timer.h"
 #include "Utilities/include/App.h"
 #include "Utilities/include/Helper.h"
 #include "../include/RenderingHandler.h"
 
-void RenderingHandler::Render()
+void RenderingHandler::Render(GameState gameState)
 {
     EntityManager& entityManager = EntityManager::GetInstance();
     Screen& screen = Screen::GetInstance();
 
-    SetBackground(0.2f, 0.2f, 0.2f, 1.0f);
-    DrawBorder(screen, 1.0f, 1.0f, 1.0f);
-    DrawBackgroundInBorder(screen, 0.0f, 0.0f, 0.0f);
-
-    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
-    {
-        RenderEntities(entityManager, entityId);
+    switch (gameState) {
+    case MAIN_MENU:
+        RenderMainMenu(screen);
+        break;
+    case GAMEPLAY:
+        RenderGameScene(entityManager, screen);
+        break;
     }
 }
+
+void RenderingHandler::RenderMainMenu(Screen& screen)
+{
+    constexpr char* titleText = "pew pew";
+    constexpr char* descriptionText = "Get the highest score in 60 seconds!";
+
+    SetBackground(screen.R_MAIN_MENU_BG, screen.G_MAIN_MENU_BG, screen.B_MAIN_MENU_BG, screen.ALPHA_MAIN_MENU_BG);
+    App::Print(screen.SCREEN_WIDTH - screen.TITLE_X_OFFSET, screen.SCREEN_HEIGHT - screen.TITLE_Y_OFFSET, titleText, screen.R_TEXT, screen.G_TEXT, screen.B_TEXT);
+    App::Print(screen.SCREEN_WIDTH - screen.DESCRIPTION_X_OFFSET, screen.SCREEN_HEIGHT - screen.DESCRIPTION_Y_OFFSET, descriptionText, screen.R_TEXT, screen.G_TEXT, screen.B_TEXT);
+}
+
+void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& screen)
+{
+    constexpr float rBackground = 0.2f;
+    constexpr float gBackground = 0.2f;
+    constexpr float bBackground = 0.2f;
+    constexpr float alphaBackground = 1.0f;
+    constexpr float rBorder= 1.0f;
+    constexpr float gBorder = 1.0f;
+    constexpr float bBorder = 1.0f;
+    constexpr float rBackgroundInBorder = 0.0f;
+    constexpr float gBackgroundInBorder = 0.0f;
+    constexpr float bBackgroundInBorder = 0.0f;
+
+    SetBackground(rBackground, gBackground, bBackground, alphaBackground);
+    DrawBorder(screen, rBorder, gBorder, bBorder);
+    DrawBackgroundInBorder(screen, rBackgroundInBorder, gBackgroundInBorder, bBackgroundInBorder);
+
+    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
+        RenderEntities(entityManager, entityId);
+}
+
 
 void RenderingHandler::RenderEntities(EntityManager &entityManager, EntityId entityId)
 {
@@ -54,11 +86,15 @@ void RenderingHandler::RenderSprites(EntityManager &entityManager, EntityId enti
 void RenderingHandler::RenderScore(EntityManager &entityManager, EntityId entityId, Tag* tag, Transform* transform)
 {
     Score* score = entityManager.GetComponent<Score>(entityId);
+    constexpr float r = 1.0f;
+    constexpr float g = 1.0f;
+    constexpr float b = 1.0f;
+
     if (!score)
         return;
 
-        string scoreText = "Score: " + to_string(score->GetScore());
-        App::Print(transform->GetPosition().x, transform->GetPosition().y, scoreText.c_str(), 1.0f, 1.0f, 1.0f);
+    string scoreText = "Score: " + to_string(score->GetScore());
+    App::Print(transform->GetPosition().x, transform->GetPosition().y, scoreText.c_str(), r, g, b);
 }
 
 void RenderingHandler::RenderTimer(EntityManager &entityManager, EntityId entityId, Tag* tag, Transform* transform)

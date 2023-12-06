@@ -15,7 +15,9 @@ public:
     RenderingHandler(RenderingHandler const&) = delete;
     void operator=(RenderingHandler const&) = delete;
 
-    void Render();
+    void Render(GameState gameState);
+    void RenderMainMenu(Screen& screen);
+    void RenderGameScene(EntityManager& entityManager, Screen& screen);
 
 private:
     RenderingHandler() = default;

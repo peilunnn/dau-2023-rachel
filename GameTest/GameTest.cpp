@@ -24,7 +24,7 @@
 using namespace std;
 
 //------------------------------------------------------------------------
-
+GameState gameState;
 CSimpleSprite* playerSprite;
 CSimpleSprite* enemySprite;
 CSimpleSprite* bulletSprite;
@@ -38,6 +38,8 @@ vector<CSimpleSprite*> ammoFilledSprites;
 //------------------------------------------------------------------------
 void Init()
 {
+	gameState = GAMEPLAY;
+
 	// Set up sprites
 	playerSprite = App::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 8, 4);
 	enemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
@@ -73,15 +75,23 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-	float deltaTimeInSeconds = deltaTime / 1000.0f;
-	InputHandler::GetInstance().Update(deltaTimeInSeconds);
-	MovementHandler::GetInstance().Update(deltaTimeInSeconds);
-	CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
-	AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
-	TimerHandler::GetInstance().Update(deltaTimeInSeconds);
-	CooldownHandler::GetInstance().Update(deltaTimeInSeconds);
-	SystemManager::GetInstance().ProcessEvents(deltaTimeInSeconds);
-	EntityManager::GetInstance().ProcessDeletions();
+	switch (gameState) {
+	case MAIN_MENU:
+		// Update and render main menu
+		// Check for "Start" button click to change state to GAMEPLAY
+		break;
+	case GAMEPLAY:
+		float deltaTimeInSeconds = deltaTime / 1000.0f;
+		InputHandler::GetInstance().Update(deltaTimeInSeconds);
+		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
+		CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
+		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
+		TimerHandler::GetInstance().Update(deltaTimeInSeconds);
+		CooldownHandler::GetInstance().Update(deltaTimeInSeconds);
+		SystemManager::GetInstance().ProcessEvents(deltaTimeInSeconds);
+		EntityManager::GetInstance().ProcessDeletions();
+		break;
+	}
 }
 
 //------------------------------------------------------------------------
@@ -90,7 +100,7 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {
-	RenderingHandler::GetInstance().Render();
+	RenderingHandler::GetInstance().Render(gameState);
 }
 
 //------------------------------------------------------------------------

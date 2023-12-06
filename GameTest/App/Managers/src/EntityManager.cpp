@@ -350,6 +350,6 @@ void EntityManager::ProcessDeletions()
 	for (EntityId entityId : m_entitiesToDelete)
 	{
 		m_entityComponents.erase(entityId);
-	}
+}
 	m_entitiesToDelete.clear();
 }
