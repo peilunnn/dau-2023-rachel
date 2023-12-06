@@ -9,8 +9,8 @@ using glm::vec3;
 
 void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY)
 {
-	shared_ptr<Cooldown> cooldown = entityManager.GetComponent<Cooldown>(playerEntityId);
-	shared_ptr<Transform> playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
+	Cooldown* cooldown = entityManager.GetComponent<Cooldown>(playerEntityId);
+	Transform* playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
 
 	if (cooldown->IsCooldownComplete() && m_bulletsShotSoFar < MAX_BULLETS && playerTransform)
 	{

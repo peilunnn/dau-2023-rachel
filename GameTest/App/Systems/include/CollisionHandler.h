@@ -18,6 +18,6 @@ public:
 private:
     CollisionHandler() = default;
 
-    bool IsColliding(shared_ptr<Transform> transform1, shared_ptr<Collider> collider1, shared_ptr<Transform> transform2, shared_ptr<Collider> collider2);
+    bool IsColliding(Transform* transform1, Collider* collider1, Transform* transform2, Collider* collider2);
     void HandleCollisionEvent(EntityManager& entityManager, SystemManager& systemManager, EntityId firstEntityId, EntityId secondEntityId);
 };

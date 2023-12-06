@@ -7,7 +7,7 @@ void TimerHandler::Update(float deltaTime)
 	EntityManager& entityManager = EntityManager::GetInstance();
 
 	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>()) {
-		shared_ptr<Timer> timer = entityManager.GetComponent<Timer>(entityId);
+		Timer* timer = entityManager.GetComponent<Timer>(entityId);
 		float countdownTime = timer->GetCountdownTime();
 		
 		timer->SetCountdownTime(countdownTime - deltaTime);

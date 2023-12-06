@@ -23,7 +23,7 @@ void InputHandler::HandlePositionInput(EntityManager& entityManager, EntityId pl
     float thumbStickX = App::GetController().GetLeftThumbStickX();
     float thumbStickY = App::GetController().GetLeftThumbStickY();
 
-    shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(playerEntityId);
+    Velocity* velocity = entityManager.GetComponent<Velocity>(playerEntityId);
     vec2 currentVelocity = velocity->GetVelocity();
     currentVelocity.x = (fabs(thumbStickX) > THUMB_STICK_THRESHOLD) ? thumbStickX * VELOCITY_MULTIPLIER * deltaTime : 0.0f;
     currentVelocity.y = (fabs(thumbStickY) > THUMB_STICK_THRESHOLD) ? -thumbStickY * VELOCITY_MULTIPLIER * deltaTime : 0.0f;
@@ -33,8 +33,8 @@ void InputHandler::HandlePositionInput(EntityManager& entityManager, EntityId pl
 void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float deltaTime)
 {
     float mouseX, mouseY;
-    shared_ptr<Transform> playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
-    shared_ptr<Cooldown> cooldown = entityManager.GetComponent<Cooldown>(playerEntityId);
+    Transform* playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
+    Cooldown* cooldown = entityManager.GetComponent<Cooldown>(playerEntityId);
 
     if (!(playerTransform && App::IsKeyPressed(VK_LBUTTON)))
         return;

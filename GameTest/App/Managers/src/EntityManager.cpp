@@ -101,27 +101,27 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(playerSprite, dimensionsMultiplier);
 	constexpr float playerShootingCooldown = 1.0f;
 
-	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Player);
-	shared_ptr<Transform> transform = make_shared<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	shared_ptr<Renderable> renderable = make_shared<Renderable>(playerSprite);
-	shared_ptr<Collider> collider = make_shared<Collider>();
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Player);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(playerSprite);
+	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::Player);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy) | static_cast<int>(CollisionType::ReloadingCircle));
 	collider->SetRadius(dimensions.width * radiusMultiplier);
-	shared_ptr<Velocity> velocity = make_shared<Velocity>();
-	shared_ptr<Health> health = make_shared<Health>();
-	shared_ptr<Animation> animation = make_shared<Animation>();
-	shared_ptr<Cooldown> cooldown = make_shared<Cooldown>(playerShootingCooldown);
+	unique_ptr<Velocity> velocity = make_unique<Velocity>();
+	unique_ptr<Health> health = make_unique<Health>();
+	unique_ptr<Animation> animation = make_unique<Animation>();
+	unique_ptr<Cooldown> cooldown = make_unique<Cooldown>(playerShootingCooldown);
 
-	EntityManager::AddComponent(playerEntityId, tag);
-	EntityManager::AddComponent(playerEntityId, transform);
-	EntityManager::AddComponent(playerEntityId, renderable);
-	EntityManager::AddComponent(playerEntityId, collider);
-	EntityManager::AddComponent(playerEntityId, velocity);
-	EntityManager::AddComponent(playerEntityId, health);
-	EntityManager::AddComponent(playerEntityId, animation);
-	EntityManager::AddComponent(playerEntityId, cooldown);
+	AddComponent(playerEntityId, move(tag));
+	AddComponent(playerEntityId, move(transform));
+	AddComponent(playerEntityId, move(renderable));
+	AddComponent(playerEntityId, move(collider));
+	AddComponent(playerEntityId, move(velocity));
+	AddComponent(playerEntityId, move(health));
+	AddComponent(playerEntityId, move(animation));
+	AddComponent(playerEntityId, move(cooldown));
 
 	return playerEntityId;
 }
@@ -142,25 +142,25 @@ EntityId EntityManager::CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSim
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(enemySprite, dimensionsMultiplier);
 	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 
-	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Enemy);
-	shared_ptr<Transform> transform = make_shared<Transform>(pos, rot, scale);
-	shared_ptr<Renderable> renderable = make_shared<Renderable>(enemySprite);
-	shared_ptr<Collider> collider = make_shared<Collider>();
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy);
+	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(enemySprite);
+	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::Enemy);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Player) | static_cast<int>(CollisionType::Bullet));
 	collider->SetRadius(dimensions.width * radiusMultiplier);
-	shared_ptr<Velocity> velocity = make_shared<Velocity>(randomVelocity);
-	shared_ptr<BounceDirection> bounceDirection = make_shared<BounceDirection>();
-	shared_ptr<Animation> animation = make_shared<Animation>();
+	unique_ptr<Velocity> velocity = make_unique<Velocity>(randomVelocity);
+	unique_ptr<BounceDirection> bounceDirection = make_unique<BounceDirection>();
+	unique_ptr<Animation> animation = make_unique<Animation>();
 
-	EntityManager::AddComponent(enemyEntityId, tag);
-	EntityManager::AddComponent(enemyEntityId, transform);
-	EntityManager::AddComponent(enemyEntityId, renderable);
-	EntityManager::AddComponent(enemyEntityId, collider);
-	EntityManager::AddComponent(enemyEntityId, velocity);
-	EntityManager::AddComponent(enemyEntityId, bounceDirection);
-	EntityManager::AddComponent(enemyEntityId, animation);
+	AddComponent(enemyEntityId, move(tag));
+	AddComponent(enemyEntityId, move(transform));
+	AddComponent(enemyEntityId, move(renderable));
+	AddComponent(enemyEntityId, move(collider));
+	AddComponent(enemyEntityId, move(velocity));
+	AddComponent(enemyEntityId, move(bounceDirection));
+	AddComponent(enemyEntityId, move(animation));
 
 	return enemyEntityId;
 }
@@ -174,21 +174,21 @@ EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprit
 	constexpr float radiusMultiplier = 0.5f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(bulletSprite, dimensionsMultiplier);
 
-	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Bullet);
-	shared_ptr<Transform> transform = make_shared<Transform>(pos, rot, scale);
-	shared_ptr<Renderable> renderable = make_shared<Renderable>(bulletSprite);
-	shared_ptr<Collider> collider = make_shared<Collider>();
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Bullet);
+	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(bulletSprite);
+	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::Bullet);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy));
 	collider->SetRadius(dimensions.width * radiusMultiplier);
-	shared_ptr<Velocity> velocity = make_shared<Velocity>(targetVelocity);
+	unique_ptr<Velocity> velocity = make_unique<Velocity>(targetVelocity);
 
-	AddComponent(bulletEntityId, tag);
-	AddComponent(bulletEntityId, transform);
-	AddComponent(bulletEntityId, renderable);
-	AddComponent(bulletEntityId, collider);
-	AddComponent(bulletEntityId, velocity);
+	AddComponent(bulletEntityId, move(tag));
+	AddComponent(bulletEntityId, move(transform));
+	AddComponent(bulletEntityId, move(renderable));
+	AddComponent(bulletEntityId, move(collider));
+	AddComponent(bulletEntityId, move(velocity));
 
 	return bulletEntityId;
 }
@@ -208,21 +208,21 @@ EntityId EntityManager::CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> re
 	constexpr float radiusMultiplier = 0.5f;
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(reloadingCircleSprite, dimensionsMultiplier);
 
-	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::ReloadingCircle);
-	shared_ptr<Transform> transform = make_shared<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	shared_ptr<Renderable> renderable = make_shared<Renderable>(reloadingCircleSprite);
-	shared_ptr<Collider> collider = make_shared<Collider>();
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::ReloadingCircle);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(reloadingCircleSprite);
+	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::ReloadingCircle);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Player));
 	collider->SetRadius(dimensions.width * radiusMultiplier);
-	shared_ptr<Animation> animation = make_shared<Animation>();
+	unique_ptr<Animation> animation = make_unique<Animation>();
 
-	AddComponent(reloadingCircleEntityId, tag);
-	AddComponent(reloadingCircleEntityId, transform);
-	AddComponent(reloadingCircleEntityId, renderable);
-	AddComponent(reloadingCircleEntityId, collider);
-	AddComponent(reloadingCircleEntityId, animation);
+	AddComponent(reloadingCircleEntityId, move(tag));
+	AddComponent(reloadingCircleEntityId, move(transform));
+	AddComponent(reloadingCircleEntityId, move(renderable));
+	AddComponent(reloadingCircleEntityId, move(collider));
+	AddComponent(reloadingCircleEntityId, move(animation));
 
 	return reloadingCircleEntityId;
 }
@@ -234,13 +234,13 @@ EntityId EntityManager::CreateAmmoEntity(shared_ptr<CSimpleSprite> sprite, Entit
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.5f);
 
-	shared_ptr<Tag> tag = make_shared<Tag>(entityType);
-	shared_ptr<Transform> transform = make_shared<Transform>(vec3(xPos, yPos, zPos), vec3(0.0f), vec3(scale));
-	shared_ptr<Renderable> renderable = make_shared<Renderable>(sprite);
+	unique_ptr<Tag> tag = make_unique<Tag>(entityType);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(sprite);
 
-	AddComponent(ammoEntityId, tag);
-	AddComponent(ammoEntityId, transform);
-	AddComponent(ammoEntityId, renderable);
+	AddComponent(ammoEntityId, move(tag));
+	AddComponent(ammoEntityId, move(transform));
+	AddComponent(ammoEntityId, move(renderable));
 
 	return ammoEntityId;
 }
@@ -252,15 +252,15 @@ EntityId EntityManager::CreateHealthBarEntity(shared_ptr<CSimpleSprite> sprite, 
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
 
-	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::HealthBar);
-	shared_ptr<Transform> transform = make_shared<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	shared_ptr<Renderable> renderable = make_shared<Renderable>(sprite);
-	shared_ptr<Animation> animation = make_shared<Animation>();
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::HealthBar);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(sprite);
+	unique_ptr<Animation> animation = make_unique<Animation>();
 
-	AddComponent(healthBarEntityId, tag);
-	AddComponent(healthBarEntityId, transform);
-	AddComponent(healthBarEntityId, renderable);
-	AddComponent(healthBarEntityId, animation);
+	AddComponent(healthBarEntityId, move(tag));
+	AddComponent(healthBarEntityId, move(transform));
+	AddComponent(healthBarEntityId, move(renderable));
+	AddComponent(healthBarEntityId, move(animation));
 
 	return healthBarEntityId;
 }
@@ -277,13 +277,13 @@ EntityId EntityManager::CreateScoreEntity()
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
 
-	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Score);
-	shared_ptr<Transform> transform = make_shared<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	shared_ptr<Score> score = make_shared<Score>();
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Score);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Score> score = make_unique<Score>();
 
-	AddComponent(scoreEntityId, tag);
-	AddComponent(scoreEntityId, transform);
-	AddComponent(scoreEntityId, score);
+	AddComponent(scoreEntityId, move(tag));
+	AddComponent(scoreEntityId, move(transform));
+	AddComponent(scoreEntityId, move(score));
 
 	return scoreEntityId;
 }
@@ -300,13 +300,13 @@ EntityId EntityManager::CreateTimerEntity()
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
 
-	shared_ptr<Tag> tag = make_shared<Tag>(EntityType::Timer);
-	shared_ptr<Transform> transform = make_shared<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	shared_ptr<Timer> timer = make_shared<Timer>();
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Timer);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Timer> timer = make_unique<Timer>();
 
-	AddComponent(timerEntityId, tag);
-	AddComponent(timerEntityId, transform);
-	AddComponent(timerEntityId, timer);
+	AddComponent(timerEntityId, move(tag));
+	AddComponent(timerEntityId, move(transform));
+	AddComponent(timerEntityId, move(timer));
 
 	return timerEntityId;
 }
@@ -341,7 +341,7 @@ void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 	constexpr float zPos = 0.0f;
 
 	vec3 newPos = vec3(xPos, yPos, zPos);
-	shared_ptr<Transform> transform = GetComponent<Transform>(entityId);
+	Transform* transform = GetComponent<Transform>(entityId);
 	transform->SetPosition(newPos);
 }
 

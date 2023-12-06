@@ -46,7 +46,7 @@ void MovementHandler::HandleEvent(const Event& event, float deltaTime)
 void MovementHandler::HandleBulletHitEnemy(EntityManager& entityManager, EntityId enemyEntityId, float deltaTime)
 {
 	constexpr vec2 zeroVector = vec2(0.0f, 0.0f);
-	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(enemyEntityId);
+	Velocity* velocity = entityManager.GetComponent<Velocity>(enemyEntityId);
 	velocity->SetVelocity(zeroVector);
 }
 
@@ -54,8 +54,8 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, ScreenH
 {
 	constexpr float topOffset = 60.0f;
 	constexpr float multiplier = 0.25f;
-	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
-	shared_ptr<Velocity>velocity = entityManager.GetComponent<Velocity>(entityId);
+	Transform* transform = entityManager.GetComponent<Transform>(entityId);
+	Velocity* velocity = entityManager.GetComponent<Velocity>(entityId);
 
 	vec2 currentVelocity = velocity->GetVelocity();
 	float movementX = currentVelocity.x * deltaTime;
@@ -81,9 +81,9 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, ScreenHa
 	constexpr float topOffset = 20.0f;
 	constexpr float bottomOffset = -15.0f;
 	constexpr float multiplier = 0.25f;
-	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
-	shared_ptr<BounceDirection> bounceDirection = entityManager.GetComponent<BounceDirection>(entityId);
-	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
+	Transform* transform = entityManager.GetComponent<Transform>(entityId);
+	BounceDirection* bounceDirection = entityManager.GetComponent<BounceDirection>(entityId);
+	Velocity* velocity = entityManager.GetComponent<Velocity>(entityId);
 
 	vec2 currentVelocity = velocity->GetVelocity();
 	vec2 movement = currentVelocity * deltaTime;
@@ -119,8 +119,8 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, ScreenHa
 
 void MovementHandler::HandleBulletMovement(EntityManager &entityManager, ScreenHandler& screenHandler, EntityId entityId, float deltaTime)
 {
-	shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
-	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
+	Transform* transform = entityManager.GetComponent<Transform>(entityId);
+	Velocity* velocity = entityManager.GetComponent<Velocity>(entityId);
 
 	vec2 currentVelocity = velocity->GetVelocity();
 	vec2 movement = currentVelocity * deltaTime;

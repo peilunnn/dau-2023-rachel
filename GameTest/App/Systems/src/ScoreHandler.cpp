@@ -16,7 +16,7 @@ void ScoreHandler::HandleEvent(const Event& event, float deltaTime)
 void ScoreHandler::HandleBulletHitEnemy(EntityManager &entityManager, float deltaTime)
 {
 	EntityId scoreEntityId = entityManager.GetScoreEntityId();
-	shared_ptr<Score> score = entityManager.GetComponent<Score>(scoreEntityId);
+	Score* score = entityManager.GetComponent<Score>(scoreEntityId);
 	int currentScore = score->GetScore();
 	score->SetScore(currentScore + 1);
 }

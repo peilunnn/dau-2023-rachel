@@ -9,7 +9,7 @@ void CooldownHandler::Update(float deltaTime) {
     EntityManager& entityManager = EntityManager::GetInstance();
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Cooldown>()) {
-        shared_ptr<Cooldown> cooldown = entityManager.GetComponent<Cooldown>(entityId);
+        Cooldown* cooldown = entityManager.GetComponent<Cooldown>(entityId);
         
         if (!cooldown->IsActive())
             return;

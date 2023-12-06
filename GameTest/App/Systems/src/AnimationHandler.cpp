@@ -76,7 +76,7 @@ void AnimationHandler::Update(float deltaTime)
 
 	for (auto entityId : entityManager.GetEntitiesWithComponents<Tag, Animation>())
 	{
-		shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(entityId);
+		Tag* tag = entityManager.GetComponent<Tag>(entityId);
 
 		switch (tag->GetEntityType())
 		{
@@ -95,10 +95,10 @@ void AnimationHandler::Update(float deltaTime)
 
 void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	shared_ptr<Animation> animation = entityManager.GetComponent<Animation>(entityId);
-	shared_ptr<Velocity> velocity = entityManager.GetComponent<Velocity>(entityId);
+	Animation* animation = entityManager.GetComponent<Animation>(entityId);
+	Velocity* velocity = entityManager.GetComponent<Velocity>(entityId);
 	shared_ptr<CSimpleSprite> sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(entityId);
+	Tag* tag = entityManager.GetComponent<Tag>(entityId);
 
 	if (!animation)
 		return;
@@ -137,7 +137,7 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
 void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	shared_ptr<CSimpleSprite> reloadingCircleSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	shared_ptr<Animation> reloadingCircleAnimation = entityManager.GetComponent<Animation>(entityId);
+	Animation* reloadingCircleAnimation = entityManager.GetComponent<Animation>(entityId);
 	reloadingCircleAnimation->SetCurrentAnimation(RELOADING_CIRCLE_ANIM_SPIN);
 	reloadingCircleSprite->SetAnimation(RELOADING_CIRCLE_ANIM_SPIN);
 	reloadingCircleSprite->Update(deltaTime);
@@ -153,8 +153,8 @@ void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float 
 {
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	EntityId healthBarEntityId = entityManager.GetHealthBarEntityId();
-	shared_ptr<Health> health = entityManager.GetComponent<Health>(playerEntityId);
-	shared_ptr<Animation> animation = entityManager.GetComponent<Animation>(healthBarEntityId);
+	Health* health = entityManager.GetComponent<Health>(playerEntityId);
+	Animation* animation = entityManager.GetComponent<Animation>(healthBarEntityId);
 	shared_ptr<CSimpleSprite> healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
 	constexpr int maxFrames = 5;
 

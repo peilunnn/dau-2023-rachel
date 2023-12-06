@@ -46,22 +46,18 @@ public:
     EntityId GetTimerEntityId() const { return m_timerEntityId; }
 
     template <typename T>
-    void AddComponent(EntityId entityId, shared_ptr<T> component)
+    void AddComponent(EntityId entityId, unique_ptr<T> component)
     {
-        m_entityComponents[entityId].push_back(component);
+        m_entityComponents[entityId].push_back(move(component));
     }
 
     template <typename T>
-    shared_ptr<T> GetComponent(EntityId entityId)
+    T* GetComponent(EntityId entityId)
     {
         auto it = m_entityComponents.find(entityId);
-        if (it != m_entityComponents.end())
-        {
-            for (auto &comp : it->second)
-            {
-                shared_ptr<T> casted = dynamic_pointer_cast<T>(comp);
-                if (casted)
-                {
+        if (it != m_entityComponents.end()) {
+            for (auto& comp : it->second) {
+                if (auto casted = dynamic_cast<T*>(comp.get())) {
                     return casted;
                 }
             }
@@ -77,9 +73,7 @@ public:
         {
             bool hasAllComponents = ((GetComponent<Components>(pair.first) != nullptr) && ...);
             if (hasAllComponents)
-            {
                 entitiesWithComponents.push_back(pair.first);
-            }
         }
         return entitiesWithComponents;
     }
@@ -87,17 +81,17 @@ public:
 private:
     EntityManager() = default;
 
-    EntityId m_playerEntityId;
-    EntityId m_enemyEntityId;
-    EntityId m_reloadingCircleEntityId;
-    EntityId m_ammoEmptyEntityId;
-    EntityId m_ammoFilledEntityId;
-    EntityId m_healthBarEntityId;
-    EntityId m_scoreEntityId;
-    EntityId m_timerEntityId;
+    EntityId m_playerEntityId = -1;
+    EntityId m_enemyEntityId = -1;
+    EntityId m_reloadingCircleEntityId = -1;
+    EntityId m_ammoEmptyEntityId = -1;
+    EntityId m_ammoFilledEntityId = -1;
+    EntityId m_healthBarEntityId = -1;
+    EntityId m_scoreEntityId = -1;
+    EntityId m_timerEntityId = -1;
 
     EntityId m_nextEntityId;
-    unordered_map<EntityId, vector<shared_ptr<Component>>> m_entityComponents;
+    unordered_map<EntityId, vector<unique_ptr<Component>>> m_entityComponents;
     vector<EntityId> m_entitiesToDelete;
     vector<EntityId> m_ammoEmptyEntities;
     vector<EntityId> m_ammoFilledEntities;

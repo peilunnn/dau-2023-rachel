@@ -26,17 +26,17 @@ void RenderingHandler::Render()
 
 void RenderingHandler::RenderEntities(EntityManager &entityManager, EntityId entityId)
 {
-    shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(entityId);
-    shared_ptr<Transform> transform = entityManager.GetComponent<Transform>(entityId);
+    Tag* tag = entityManager.GetComponent<Tag>(entityId);
+    Transform* transform = entityManager.GetComponent<Transform>(entityId);
 
     RenderSprites(entityManager, entityId, tag, transform);
     RenderScore(entityManager, entityId, tag, transform);
     RenderTimer(entityManager, entityId, tag, transform);
 }
 
-void RenderingHandler::RenderSprites(EntityManager &entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
+void RenderingHandler::RenderSprites(EntityManager &entityManager, EntityId entityId, Tag* tag, Transform* transform)
 {
-    shared_ptr<Renderable> renderable = entityManager.GetComponent<Renderable>(entityId);
+    Renderable* renderable = entityManager.GetComponent<Renderable>(entityId);
 
     if (!renderable)
         return;
@@ -52,9 +52,9 @@ void RenderingHandler::RenderSprites(EntityManager &entityManager, EntityId enti
     sprite->Draw();
 }
 
-void RenderingHandler::RenderScore(EntityManager &entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
+void RenderingHandler::RenderScore(EntityManager &entityManager, EntityId entityId, Tag* tag, Transform* transform)
 {
-    shared_ptr<Score> score = entityManager.GetComponent<Score>(entityId);
+    Score* score = entityManager.GetComponent<Score>(entityId);
     if (!score)
         return;
 
@@ -62,9 +62,9 @@ void RenderingHandler::RenderScore(EntityManager &entityManager, EntityId entity
         App::Print(transform->GetPosition().x, transform->GetPosition().y, scoreText.c_str(), 1.0f, 1.0f, 1.0f);
 }
 
-void RenderingHandler::RenderTimer(EntityManager &entityManager, EntityId entityId, shared_ptr<Tag> tag, shared_ptr<Transform> transform)
+void RenderingHandler::RenderTimer(EntityManager &entityManager, EntityId entityId, Tag* tag, Transform* transform)
 {
-    shared_ptr<Timer> timer = entityManager.GetComponent<Timer>(entityId);
+    Timer* timer = entityManager.GetComponent<Timer>(entityId);
     if (!timer)
         return;
 

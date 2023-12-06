@@ -17,8 +17,8 @@ void HealthHandler::HandleEvent(const Event& event, float deltaTime)
 void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 {
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
-	shared_ptr<Tag> tag = entityManager.GetComponent<Tag>(playerEntityId);
-	shared_ptr<Health> health = entityManager.GetComponent<Health>(playerEntityId);
+	Tag* tag = entityManager.GetComponent<Tag>(playerEntityId);
+	Health* health = entityManager.GetComponent<Health>(playerEntityId);
 
 	if (!health)
 		return;
