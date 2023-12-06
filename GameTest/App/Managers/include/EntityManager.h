@@ -21,7 +21,7 @@ public:
     EntityManager(EntityManager const&) = delete;
     void operator=(EntityManager const&) = delete;
 
-    void Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite, CSimpleSprite* reloadingCircleSprite, CSimpleSprite* healthBarSprite, vector<CSimpleSprite*> ammoEmptySprites, vector<CSimpleSprite*> ammoFilledSprites);
+    void Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite, CSimpleSprite* reloadingCircleSprite, CSimpleSprite* healthBarSprite, CSimpleSprite* titleSprite, vector<CSimpleSprite*> ammoEmptySprites, vector<CSimpleSprite*> ammoFilledSprites);
     vector<EntityId> GetAllEntities();
     EntityId CreateEntityId();
     EntityId CreatePlayerEntity(CSimpleSprite* playerSprite);
@@ -32,6 +32,7 @@ public:
     EntityId CreateHealthBarEntity(CSimpleSprite* sprite, float xPos, float yPos);
     EntityId CreateScoreEntity();
     EntityId CreateTimerEntity();
+    EntityId CreateTitleEntity(CSimpleSprite* sprite);
     void HideAmmoFilledEntity(int index);
     void ShowAllAmmoFilledEntity();
     void MoveEntityToRandomPos(EntityId entityId);
@@ -44,6 +45,7 @@ public:
     EntityId GetHealthBarEntityId() const { return m_healthBarEntityId; }
     EntityId GetScoreEntityId() const { return m_scoreEntityId; }
     EntityId GetTimerEntityId() const { return m_timerEntityId; }
+    EntityId GetTitleEntityId() const { return m_titleEntityId; }
 
     template <typename T>
     void AddComponent(EntityId entityId, unique_ptr<T> component)
@@ -89,6 +91,7 @@ private:
     EntityId m_healthBarEntityId = -1;
     EntityId m_scoreEntityId = -1;
     EntityId m_timerEntityId = -1;
+    EntityId m_titleEntityId = -1;
 
     EntityId m_nextEntityId = -1;
     unordered_map<EntityId, vector<unique_ptr<Component>>> m_entityComponents;

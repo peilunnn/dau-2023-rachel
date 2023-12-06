@@ -22,7 +22,7 @@
 using glm::vec2;
 using glm::vec3;
 
-void EntityManager::Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite, CSimpleSprite* reloadingCircleSprite, CSimpleSprite* healthBarSprite, vector<CSimpleSprite*> ammoEmptySprites, vector<CSimpleSprite*>ammoFilledSprites)
+void EntityManager::Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite, CSimpleSprite* reloadingCircleSprite, CSimpleSprite* healthBarSprite, CSimpleSprite* titleSprite, vector<CSimpleSprite*> ammoEmptySprites, vector<CSimpleSprite*>ammoFilledSprites)
 {
 	Screen& screen = screen.GetInstance();
 	ShootingHandler& shootingHandler = ShootingHandler::GetInstance();
@@ -58,6 +58,7 @@ void EntityManager::Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite
 
 	m_scoreEntityId = CreateScoreEntity();
 	m_timerEntityId = CreateTimerEntity();
+	m_titleEntityId = CreateTitleEntity(titleSprite);
 }
 
 vector<EntityId> EntityManager::GetAllEntities()
@@ -300,6 +301,27 @@ EntityId EntityManager::CreateTimerEntity()
 	AddComponent(timerEntityId, move(timer));
 
 	return timerEntityId;
+}
+
+EntityId EntityManager::CreateTitleEntity(CSimpleSprite* sprite)
+{
+	EntityId titleEntityId = CreateEntityId();
+	Screen& screen = screen.GetInstance();
+	float xPos = screen.SCREEN_WIDTH - screen.TITLE_X_OFFSET;
+	float yPos = screen.SCREEN_HEIGHT - screen.TITLE_Y_OFFSET;
+	constexpr float zPos = 0.0f;
+	constexpr vec3 rot = vec3(0.0f);
+	constexpr vec3 scale = vec3(0.5f);
+
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Title);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(sprite);
+
+	AddComponent(titleEntityId, move(tag));
+	AddComponent(titleEntityId, move(transform));
+	AddComponent(titleEntityId, move(renderable));
+
+	return titleEntityId;
 }
 
 void EntityManager::HideAmmoFilledEntity(int index)

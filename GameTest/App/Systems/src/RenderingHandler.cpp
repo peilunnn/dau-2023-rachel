@@ -25,34 +25,29 @@ void RenderingHandler::Render(GameState gameState, CSimpleSprite* titleSprite)
 
 void RenderingHandler::RenderMainMenu(EntityManager& entityManager, Screen& screen, CSimpleSprite* titleSprite)
 {
-    constexpr float titleSpriteScale = 0.5f;
-    constexpr char* descriptionText = "Get the highest score in 60 seconds!";
+    EntityId titleEntityId = entityManager.GetTitleEntityId();
+    titleSprite = entityManager.GetComponent<Renderable>(titleEntityId)->GetSprite();
+    Transform* transform = entityManager.GetComponent<Transform>(titleEntityId);
+    const float amplitude = 20.0f; // Max rotation angle.
+    const float frequency = 2.0f; // Adjust this value for faster or slower rotation.
+    //float titleRotationAngle = amplitude * sin(App::GetTime() * frequency);
 
     SetBackground(screen.R_MAIN_MENU_BG, screen.G_MAIN_MENU_BG, screen.B_MAIN_MENU_BG, screen.ALPHA_MAIN_MENU_BG);
 
-    titleSprite->SetPosition(screen.SCREEN_WIDTH - screen.TITLE_X_OFFSET, screen.SCREEN_HEIGHT - screen.TITLE_Y_OFFSET);
-    titleSprite->SetScale(titleSpriteScale);
+    titleSprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
+    //titleSprite->SetAngle(titleRotationAngle);
+    titleSprite->SetScale(transform->GetScale().x);
     titleSprite->Draw();
 
+    constexpr char* descriptionText = "Get the highest score in 60 seconds!";
     App::Print(screen.SCREEN_WIDTH - screen.DESCRIPTION_X_OFFSET, screen.SCREEN_HEIGHT - screen.DESCRIPTION_Y_OFFSET, descriptionText, screen.R_TEXT, screen.G_TEXT, screen.B_TEXT);
 }
 
 void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& screen)
 {
-    constexpr float rBackground = 0.2f;
-    constexpr float gBackground = 0.2f;
-    constexpr float bBackground = 0.2f;
-    constexpr float alphaBackground = 1.0f;
-    constexpr float rBorder= 1.0f;
-    constexpr float gBorder = 1.0f;
-    constexpr float bBorder = 1.0f;
-    constexpr float rBackgroundInBorder = 0.0f;
-    constexpr float gBackgroundInBorder = 0.0f;
-    constexpr float bBackgroundInBorder = 0.0f;
-
-    SetBackground(rBackground, gBackground, bBackground, alphaBackground);
-    DrawBorder(screen, rBorder, gBorder, bBorder);
-    DrawBackgroundInBorder(screen, rBackgroundInBorder, gBackgroundInBorder, bBackgroundInBorder);
+    SetBackground(screen.R_GAMEPLAY_BG, screen.G_GAMEPLAY_BG, screen.B_GAMEPLAY_BG, screen.ALPHA_GAMEPLAY_BG);
+    DrawBorder(screen, screen.R_BORDER, screen.G_BORDER, screen.B_BORDER);
+    DrawBackgroundInBorder(screen, screen.R_BG_IN_BORDER, screen.G_BG_IN_BORDER, screen.B_BG_IN_BORDER);
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
         RenderEntities(entityManager, entityId);

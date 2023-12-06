@@ -34,6 +34,19 @@ public:
     const float B_MAIN_MENU_BG = 0.0f;
     const float ALPHA_MAIN_MENU_BG = 1.0f;
 
+    const float R_GAMEPLAY_BG = 0.2f;
+    const float G_GAMEPLAY_BG = 0.2f;
+    const float B_GAMEPLAY_BG = 0.2f;
+    const float ALPHA_GAMEPLAY_BG = 1.0f;
+
+    const float R_BORDER = 1.0f;
+    const float G_BORDER = 1.0f;
+    const float B_BORDER = 1.0f;
+
+    const float R_BG_IN_BORDER = 0.0f;
+    const float G_BG_IN_BORDER = 0.0f;
+    const float B_BG_IN_BORDER = 0.0f;
+
     const float R_TEXT = 1.0f;
     const float G_TEXT = 1.0f;
     const float B_TEXT = 1.0f;

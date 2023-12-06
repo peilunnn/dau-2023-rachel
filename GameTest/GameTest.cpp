@@ -65,7 +65,7 @@ void Init()
 
 	// Set up entities
 	EntityManager& entityManager = EntityManager::GetInstance();
-	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite, ammoEmptySprites, ammoFilledSprites);
+	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite, titleSprite, ammoEmptySprites, ammoFilledSprites);
 
 	// Set up managers and systems
 	SystemManager::GetInstance().Init();
