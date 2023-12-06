@@ -41,7 +41,7 @@ void Init()
 	gameState = GAMEPLAY;
 
 	// Set up sprites
-	playerSprite = App::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 8, 4);
+	playerSprite = App::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 4, 4);
 	enemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
 	bulletSprite = App::CreateSprite(Helper::PATH_TO_BULLET_SPRITE, 1, 1);
 	reloadingCircleSprite = App::CreateSprite(Helper::PATH_TO_RELOADING_CIRCLE_SPRITE_SHEET, 5, 2);

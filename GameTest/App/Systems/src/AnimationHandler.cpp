@@ -28,14 +28,14 @@ void AnimationHandler::InitPlayerAnimation(CSimpleSprite* playerSprite)
 		return;
 
 	float speed = 1.0f / 15.0f;
-	playerSprite->CreateAnimation(PLAYER_ANIM_FORWARDS, speed, {24, 25, 26, 27, 28, 29, 30, 31});
-	playerSprite->CreateAnimation(PLAYER_ANIM_BACKWARDS, speed, {0, 1, 2, 3, 4, 5, 6, 7});
-	playerSprite->CreateAnimation(PLAYER_ANIM_LEFT, speed, {8, 9, 10, 11, 12, 13, 14, 15});
-	playerSprite->CreateAnimation(PLAYER_ANIM_RIGHT, speed, {16, 17, 18, 19, 20, 21, 22, 23});
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_BACKWARDS, speed, {0});
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_LEFT, speed, {8});
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_RIGHT, speed, {16});
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, speed, {24});
+	playerSprite->CreateAnimation(PLAYER_ANIM_FORWARDS, speed, { 12, 13, 14, 15 });
+	playerSprite->CreateAnimation(PLAYER_ANIM_BACKWARDS, speed, { 0, 1, 2, 3 });
+	playerSprite->CreateAnimation(PLAYER_ANIM_LEFT, speed, { 4, 5, 6, 7 });
+	playerSprite->CreateAnimation(PLAYER_ANIM_RIGHT, speed, { 8, 9, 10, 11 });
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_BACKWARDS, speed, { 0 });
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_LEFT, speed, { 7 });
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_RIGHT, speed, { 8 });
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, speed, { 12 });
 }
 
 void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
@@ -53,7 +53,7 @@ void AnimationHandler::InitReloadingCircleAnimation(CSimpleSprite* reloadingCirc
 		return;
 
 	float speed = 1.0f / 15.0f;
-	reloadingCircleSprite->CreateAnimation(RELOADING_CIRCLE_ANIM_SPIN, speed, {1, 2, 3, 4, 5, 6});
+	reloadingCircleSprite->CreateAnimation(RELOADING_CIRCLE_ANIM_SPIN, speed, { 1, 2, 3, 4, 5, 6 });
 }
 
 void AnimationHandler::InitHealthBarAnimation(CSimpleSprite* healthBarSprite)
@@ -62,12 +62,12 @@ void AnimationHandler::InitHealthBarAnimation(CSimpleSprite* healthBarSprite)
 		return;
 
 	float speed = 1.0f / 15.0f;
-	healthBarSprite->CreateAnimation(HEALTH_100, speed, {0});
-	healthBarSprite->CreateAnimation(HEALTH_80, speed, {2});
-	healthBarSprite->CreateAnimation(HEALTH_60, speed, {4});
-	healthBarSprite->CreateAnimation(HEALTH_40, speed, {1});
-	healthBarSprite->CreateAnimation(HEALTH_20, speed, {3});
-	healthBarSprite->CreateAnimation(HEALTH_0, speed, {5});
+	healthBarSprite->CreateAnimation(HEALTH_100, speed, { 0 });
+	healthBarSprite->CreateAnimation(HEALTH_80, speed, { 2 });
+	healthBarSprite->CreateAnimation(HEALTH_60, speed, { 4 });
+	healthBarSprite->CreateAnimation(HEALTH_40, speed, { 1 });
+	healthBarSprite->CreateAnimation(HEALTH_20, speed, { 3 });
+	healthBarSprite->CreateAnimation(HEALTH_0, speed, { 5 });
 }
 
 void AnimationHandler::Update(float deltaTime)

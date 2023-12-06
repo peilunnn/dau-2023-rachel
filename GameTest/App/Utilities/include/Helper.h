@@ -21,7 +21,7 @@ struct SpriteDimensions {
 
 namespace Helper {
 	// For getting sprites and sprite sheets
-	inline const char* PATH_TO_PLAYER_SPRITE_SHEET = ".\\Data\\SpriteSheets\\Player.bmp";
+	inline const char* PATH_TO_PLAYER_SPRITE_SHEET = ".\\Data\\SpriteSheets\\Player.png";
 	inline const char* PATH_TO_ENEMY_SPRITE_SHEET = ".\\Data\\SpriteSheets\\Enemy.png";
 	inline const char* PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
 	inline const char* PATH_TO_RELOADING_CIRCLE_SPRITE_SHEET = ".\\Data\\SpriteSheets\\ReloadingCircle.png";

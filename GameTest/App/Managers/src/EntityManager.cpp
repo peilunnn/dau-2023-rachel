@@ -85,7 +85,7 @@ EntityId EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 	float yPos = Helper::GenerateFloat(screen.SCREEN_TOP, screen.SCREEN_BOTTOM);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.75f);
+	constexpr vec3 scale = vec3(0.6f);
 	vec2 vel = vec2(0.0f);
 	constexpr float dimensionsMultiplier = 1.0f;
 	constexpr float radiusMultiplier = 0.5f;
