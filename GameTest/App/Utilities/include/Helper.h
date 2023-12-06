@@ -28,6 +28,7 @@ namespace Helper {
 	inline const char* PATH_TO_AMMO_EMPTY_SPRITE = ".\\Data\\Sprites\\AmmoEmpty.png";
 	inline const char* PATH_TO_AMMO_FILLED_SPRITE = ".\\Data\\Sprites\\AmmoFilled.png";
 	inline const char* PATH_TO_HEALTH_BAR_SPRITE_SHEET = ".\\Data\\SpriteSheets\\HealthBar.png";
+	inline const char* PATH_TO_TITLE_SPRITE = ".\\Data\\Sprites\\Title.png";
 
 	// Getting string representation of an EntityType (for reading Tag)
 	inline string GetEntityTypeString(EntityType entityType) {

@@ -8,14 +8,14 @@
 #include "Utilities/include/Helper.h"
 #include "../include/RenderingHandler.h"
 
-void RenderingHandler::Render(GameState gameState)
+void RenderingHandler::Render(GameState gameState, CSimpleSprite* titleSprite)
 {
     EntityManager& entityManager = EntityManager::GetInstance();
     Screen& screen = Screen::GetInstance();
 
     switch (gameState) {
     case MAIN_MENU:
-        RenderMainMenu(screen);
+        RenderMainMenu(entityManager, screen, titleSprite);
         break;
     case GAMEPLAY:
         RenderGameScene(entityManager, screen);
@@ -23,13 +23,17 @@ void RenderingHandler::Render(GameState gameState)
     }
 }
 
-void RenderingHandler::RenderMainMenu(Screen& screen)
+void RenderingHandler::RenderMainMenu(EntityManager& entityManager, Screen& screen, CSimpleSprite* titleSprite)
 {
-    constexpr char* titleText = "pew pew";
+    constexpr float titleSpriteScale = 0.5f;
     constexpr char* descriptionText = "Get the highest score in 60 seconds!";
 
     SetBackground(screen.R_MAIN_MENU_BG, screen.G_MAIN_MENU_BG, screen.B_MAIN_MENU_BG, screen.ALPHA_MAIN_MENU_BG);
-    App::Print(screen.SCREEN_WIDTH - screen.TITLE_X_OFFSET, screen.SCREEN_HEIGHT - screen.TITLE_Y_OFFSET, titleText, screen.R_TEXT, screen.G_TEXT, screen.B_TEXT);
+
+    titleSprite->SetPosition(screen.SCREEN_WIDTH - screen.TITLE_X_OFFSET, screen.SCREEN_HEIGHT - screen.TITLE_Y_OFFSET);
+    titleSprite->SetScale(titleSpriteScale);
+    titleSprite->Draw();
+
     App::Print(screen.SCREEN_WIDTH - screen.DESCRIPTION_X_OFFSET, screen.SCREEN_HEIGHT - screen.DESCRIPTION_Y_OFFSET, descriptionText, screen.R_TEXT, screen.G_TEXT, screen.B_TEXT);
 }
 

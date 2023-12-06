@@ -30,6 +30,7 @@ CSimpleSprite* enemySprite;
 CSimpleSprite* bulletSprite;
 CSimpleSprite* reloadingCircleSprite;
 CSimpleSprite* healthBarSprite;
+CSimpleSprite* titleSprite;
 vector<CSimpleSprite*> ammoEmptySprites;
 vector<CSimpleSprite*> ammoFilledSprites;
 
@@ -38,9 +39,13 @@ vector<CSimpleSprite*> ammoFilledSprites;
 //------------------------------------------------------------------------
 void Init()
 {
-	gameState = GAMEPLAY;
+	gameState = MAIN_MENU;
 
 	// Set up sprites
+	// Main Menu
+	titleSprite = App::CreateSprite(Helper::PATH_TO_TITLE_SPRITE, 1, 1);
+
+	// Gameplay
 	playerSprite = App::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 4, 4);
 	enemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
 	bulletSprite = App::CreateSprite(Helper::PATH_TO_BULLET_SPRITE, 1, 1);
@@ -100,7 +105,7 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {
-	RenderingHandler::GetInstance().Render(gameState);
+	RenderingHandler::GetInstance().Render(gameState, titleSprite);
 }
 
 //------------------------------------------------------------------------

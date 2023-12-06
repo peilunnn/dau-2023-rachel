@@ -25,7 +25,8 @@ enum class EntityType
     AmmoFilled,
     HealthBar,
     Score,
-    Timer
+    Timer,
+    Title
 };
 
 enum class EntityState

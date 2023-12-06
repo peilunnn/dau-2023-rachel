@@ -90,7 +90,7 @@ private:
     EntityId m_scoreEntityId = -1;
     EntityId m_timerEntityId = -1;
 
-    EntityId m_nextEntityId;
+    EntityId m_nextEntityId = -1;
     unordered_map<EntityId, vector<unique_ptr<Component>>> m_entityComponents;
     vector<EntityId> m_entitiesToDelete;
     vector<EntityId> m_ammoEmptyEntities;
