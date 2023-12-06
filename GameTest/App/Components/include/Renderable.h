@@ -5,11 +5,11 @@
 using namespace std;
 
 struct Renderable : public Component {
-    Renderable(shared_ptr<CSimpleSprite> newSprite) : m_sprite(newSprite) {}
+    Renderable(CSimpleSprite* newSprite) : m_sprite(newSprite) {}
 
-    shared_ptr<CSimpleSprite> GetSprite() const { return m_sprite; }
-    void SetSprite(shared_ptr<CSimpleSprite> newSprite) { m_sprite = newSprite; }
+    CSimpleSprite* GetSprite() const { return m_sprite; }
+    void SetSprite(CSimpleSprite* newSprite) { m_sprite = newSprite; }
 
 private:
-    shared_ptr<CSimpleSprite> m_sprite = nullptr;
+    CSimpleSprite* m_sprite = nullptr;
 };

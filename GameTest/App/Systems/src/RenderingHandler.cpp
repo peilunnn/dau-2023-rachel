@@ -41,7 +41,7 @@ void RenderingHandler::RenderSprites(EntityManager &entityManager, EntityId enti
     if (!renderable)
         return;
 
-    shared_ptr<CSimpleSprite> sprite = renderable->GetSprite();
+    CSimpleSprite* sprite = renderable->GetSprite();
 
     sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
     sprite->SetScale(transform->GetScale().x);

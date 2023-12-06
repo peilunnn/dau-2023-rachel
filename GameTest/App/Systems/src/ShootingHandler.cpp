@@ -2,15 +2,17 @@
 #include "Components/include/Transform.h"
 #include "Components/include/Cooldown.h"
 #include "Utilities/include/app.h"
+#include "Utilities/include/Helper.h"
 #include "../App/Utilities/include/Enums.h"
 #include "../include/ShootingHandler.h"
 using glm::vec2;
 using glm::vec3;
 
-void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY)
+void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityId, float mouseX, float mouseY)
 {
 	Cooldown* cooldown = entityManager.GetComponent<Cooldown>(playerEntityId);
 	Transform* playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
+	CSimpleSprite* bulletSprite = App::CreateSprite(Helper::PATH_TO_BULLET_SPRITE, 1, 1);
 
 	if (cooldown->IsCooldownComplete() && m_bulletsShotSoFar < MAX_BULLETS && playerTransform)
 	{

@@ -16,7 +16,7 @@ public:
     AnimationHandler(AnimationHandler const&) = delete;
     void operator=(AnimationHandler const&) = delete;
 
-    void Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSimpleSprite> enemySprite, shared_ptr<CSimpleSprite> reloadingCircleSprite, shared_ptr<CSimpleSprite> healthBarSprite);
+    void Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite, CSimpleSprite* reloadingCircleSprite, CSimpleSprite* healthBarSprite);
     void Update(float deltaTime);
     void HandleEvent(const Event &event, float deltaTime) override;
     set<string> GetSubscribedEvents() const override
@@ -32,12 +32,11 @@ private:
     set<string> m_subscribedEvents;
     int m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 
-    void InitPlayerAnimation(shared_ptr<CSimpleSprite> playerSprite);
-    void InitReloadingCircleAnimation(shared_ptr<CSimpleSprite> reloadingCircleSprite);
-    void InitHealthBarAnimation(shared_ptr<CSimpleSprite> healthBarSprite);
+    void InitPlayerAnimation(CSimpleSprite* playerSprite);
+    void InitReloadingCircleAnimation(CSimpleSprite* reloadingCircleSprite);
+    void InitHealthBarAnimation(CSimpleSprite* healthBarSprite);
     void UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void UpdateReloadingCircleAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
-    void HandleBulletHitEnemy(EntityManager &entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime);
 };

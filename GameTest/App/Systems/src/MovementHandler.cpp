@@ -63,7 +63,7 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, ScreenH
 	float newX = transform->GetPosition().x + movementX;
 	float newY = transform->GetPosition().y + movementY;
 
-	shared_ptr<CSimpleSprite> sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
 
 	float newXPos = max(screenHandler.SCREEN_LEFT + dimensions.adjustedWidth / 2,
@@ -90,7 +90,7 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, ScreenHa
 	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
 	transform->SetPosition(newPos);
 
-	shared_ptr<CSimpleSprite> sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	SpriteDimensions dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
 
 	if (!(bounceDirection->GetBounced()))

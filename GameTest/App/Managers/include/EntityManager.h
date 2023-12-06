@@ -21,15 +21,15 @@ public:
     EntityManager(EntityManager const&) = delete;
     void operator=(EntityManager const&) = delete;
 
-    void Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSimpleSprite> enemySprite, shared_ptr<CSimpleSprite> reloadingCircleSprite, shared_ptr<CSimpleSprite> ammoEmptySprite, shared_ptr<CSimpleSprite> ammoFilledSprite, shared_ptr<CSimpleSprite> healthBarSprite);
+    void Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite, CSimpleSprite* reloadingCircleSprite, CSimpleSprite* healthBarSprite, vector<CSimpleSprite*> ammoEmptySprites, vector<CSimpleSprite*> ammoFilledSprites);
     vector<EntityId> GetAllEntities();
     EntityId CreateEntityId();
-    EntityId CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprite);
-    EntityId CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight);
-    EntityId CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprite, const vec3 &pos, const vec2 &targetVelocity);
-    EntityId CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> reloadingCircleSprite);
-    EntityId CreateAmmoEntity(shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos);
-    EntityId CreateHealthBarEntity(shared_ptr<CSimpleSprite> sprite, float xPos, float yPos);
+    EntityId CreatePlayerEntity(CSimpleSprite* playerSprite);
+    EntityId CreateEnemyEntity(const vec3 &playerPos, CSimpleSprite* enemySprite, float screenWidth, float screenHeight);
+    EntityId CreateBulletEntity(CSimpleSprite* bulletSprite, const vec3 &pos, const vec2 &targetVelocity);
+    EntityId CreateReloadingCircleEntity(CSimpleSprite* reloadingCircleSprite);
+    EntityId CreateAmmoEntity(CSimpleSprite* sprite, EntityType entityType, float xPos, float yPos);
+    EntityId CreateHealthBarEntity(CSimpleSprite* sprite, float xPos, float yPos);
     EntityId CreateScoreEntity();
     EntityId CreateTimerEntity();
     void HideAmmoFilledEntity(int index);

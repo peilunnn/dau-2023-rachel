@@ -87,7 +87,7 @@ namespace Helper {
 	}
 
 	// For dealing with entities going out of bounds
-	inline SpriteDimensions GetSpriteDimensions(shared_ptr<CSimpleSprite> sprite, float multiplier)
+	inline SpriteDimensions GetSpriteDimensions(CSimpleSprite* sprite, float multiplier)
 	{
 		SpriteDimensions dimensions;
 		if (sprite) {

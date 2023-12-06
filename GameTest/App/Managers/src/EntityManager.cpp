@@ -12,18 +12,17 @@
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
-#include "Managers/include/SpriteManager.h"
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/Event.h"
 #include "Systems/include/ScreenHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Systems/include/MovementHandler.h"
-#include "Utilities/include/App.h"
+#include "Utilities/include/app.h"
 #include "Utilities/include/Helper.h"
 using glm::vec2;
 using glm::vec3;
 
-void EntityManager::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSimpleSprite> enemySprite, shared_ptr<CSimpleSprite> reloadingCircleSprite, shared_ptr<CSimpleSprite> ammoEmptySprite, shared_ptr<CSimpleSprite> ammoFilledSprite, shared_ptr<CSimpleSprite> healthBarSprite)
+void EntityManager::Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite, CSimpleSprite* reloadingCircleSprite, CSimpleSprite* healthBarSprite, vector<CSimpleSprite*> ammoEmptySprites, vector<CSimpleSprite*>ammoFilledSprites)
 {
 	ScreenHandler& screenHandler = screenHandler.GetInstance();
 	ShootingHandler& shootingHandler = ShootingHandler::GetInstance();
@@ -50,18 +49,10 @@ void EntityManager::Init(shared_ptr<CSimpleSprite> playerSprite, shared_ptr<CSim
 	for (int i = 0; i < maxBullets; ++i)
 	{
 		float xPos = ammoStartingX - i * ammoSpriteSpacing;
-		constexpr int columns = 1;
-		constexpr int rows = 1;
 
-		// Have to create a new sprite for every entity
-		CSimpleSprite *rawAmmoEmptySprite = App::CreateSprite(Helper::PATH_TO_AMMO_EMPTY_SPRITE, columns, rows);
-		shared_ptr<CSimpleSprite> ammoEmptySprite = shared_ptr<CSimpleSprite>(rawAmmoEmptySprite);
-		CSimpleSprite *rawAmmoFilledSprite = App::CreateSprite(Helper::PATH_TO_AMMO_FILLED_SPRITE, columns, rows);
-		shared_ptr<CSimpleSprite> ammoFilledSprite = shared_ptr<CSimpleSprite>(rawAmmoFilledSprite);
-
-		m_ammoEmptyEntityId = CreateAmmoEntity(ammoEmptySprite, EntityType::AmmoEmpty, xPos, ammoYPos);
+		m_ammoEmptyEntityId = CreateAmmoEntity(ammoEmptySprites[i], EntityType::AmmoEmpty, xPos, ammoYPos);
 		m_ammoEmptyEntities.push_back(m_ammoEmptyEntityId);
-		m_ammoFilledEntityId = CreateAmmoEntity(ammoFilledSprite, EntityType::AmmoFilled, xPos, ammoYPos);
+		m_ammoFilledEntityId = CreateAmmoEntity(ammoFilledSprites[i], EntityType::AmmoFilled, xPos, ammoYPos);
 		m_ammoFilledEntities.push_back(m_ammoFilledEntityId);
 	}
 
@@ -84,7 +75,7 @@ EntityId EntityManager::CreateEntityId()
 	return m_nextEntityId++;
 }
 
-EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprite)
+EntityId EntityManager::CreatePlayerEntity(CSimpleSprite* playerSprite)
 {
 	EntityId playerEntityId = CreateEntityId();
 	ScreenHandler& screenHandler = screenHandler.GetInstance();
@@ -126,7 +117,7 @@ EntityId EntityManager::CreatePlayerEntity(shared_ptr<CSimpleSprite> playerSprit
 	return playerEntityId;
 }
 
-EntityId EntityManager::CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSimpleSprite> enemySprite, float screenWidth, float screenHeight)
+EntityId EntityManager::CreateEnemyEntity(const vec3 &playerPos, CSimpleSprite* enemySprite, float screenWidth, float screenHeight)
 {
 	EntityId enemyEntityId = CreateEntityId();
 	ScreenHandler& screenHandler = screenHandler.GetInstance();
@@ -165,7 +156,7 @@ EntityId EntityManager::CreateEnemyEntity(const vec3 &playerPos, shared_ptr<CSim
 	return enemyEntityId;
 }
 
-EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprite, const vec3 &pos, const vec2 &targetVelocity)
+EntityId EntityManager::CreateBulletEntity(CSimpleSprite* bulletSprite, const vec3 &pos, const vec2 &targetVelocity)
 {
 	EntityId bulletEntityId = CreateEntityId();
 	constexpr vec3 rot = vec3(0.0f);
@@ -193,7 +184,7 @@ EntityId EntityManager::CreateBulletEntity(shared_ptr<CSimpleSprite> bulletSprit
 	return bulletEntityId;
 }
 
-EntityId EntityManager::CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> reloadingCircleSprite)
+EntityId EntityManager::CreateReloadingCircleEntity(CSimpleSprite* reloadingCircleSprite)
 {
 	EntityId reloadingCircleEntityId = CreateEntityId();
 	ScreenHandler& screenHandler = screenHandler.GetInstance();
@@ -227,7 +218,7 @@ EntityId EntityManager::CreateReloadingCircleEntity(shared_ptr<CSimpleSprite> re
 	return reloadingCircleEntityId;
 }
 
-EntityId EntityManager::CreateAmmoEntity(shared_ptr<CSimpleSprite> sprite, EntityType entityType, float xPos, float yPos)
+EntityId EntityManager::CreateAmmoEntity(CSimpleSprite* sprite, EntityType entityType, float xPos, float yPos)
 {
 	EntityId ammoEntityId = CreateEntityId();
 	constexpr float zPos = 0.0f;
@@ -245,7 +236,7 @@ EntityId EntityManager::CreateAmmoEntity(shared_ptr<CSimpleSprite> sprite, Entit
 	return ammoEntityId;
 }
 
-EntityId EntityManager::CreateHealthBarEntity(shared_ptr<CSimpleSprite> sprite, float xPos, float yPos)
+EntityId EntityManager::CreateHealthBarEntity(CSimpleSprite* sprite, float xPos, float yPos)
 {
 	EntityId healthBarEntityId = CreateEntityId();
 	constexpr float zPos = 0.0f;
@@ -315,7 +306,7 @@ void EntityManager::HideAmmoFilledEntity(int index)
 {
 	if (index >= 0 && index < m_ammoFilledEntities.size())
 	{
-		shared_ptr<CSimpleSprite> ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntities[index])->GetSprite();
+		CSimpleSprite* ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntities[index])->GetSprite();
 
 		if (!ammoFilledSprite)
 			return;
@@ -328,7 +319,7 @@ void EntityManager::ShowAllAmmoFilledEntity()
 {
 	for (int i = 0; i < m_ammoFilledEntities.size(); i++)
 	{
-		shared_ptr<CSimpleSprite> ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntities[i])->GetSprite();
+		CSimpleSprite* ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntities[i])->GetSprite();
 		ammoFilledSprite->SetVisible(true);
 	}
 }

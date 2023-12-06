@@ -15,7 +15,7 @@ public:
 
     const int MAX_BULLETS = 10;
 
-    void Shoot(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float mouseX, float mouseY);
+    void Shoot(EntityManager& entityManager, EntityId playerEntityId, float mouseX, float mouseY);
     void HandleEvent(const Event& event, float deltaTime) override;
 
     set<string> GetSubscribedEvents() const override {

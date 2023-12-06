@@ -8,15 +8,16 @@
 #include "Systems/include/ShootingHandler.h"
 #include "Systems/include/MovementHandler.h"
 #include "Utilities/include/app.h"
+#include "Utilities/include/Helper.h"
 
-void InputHandler::Update(shared_ptr<CSimpleSprite> bulletSprite, float deltaTime) {
+void InputHandler::Update(float deltaTime) {
     EntityManager& entityManager = EntityManager::GetInstance();
     EntityId playerEntityId = entityManager.GetPlayerEntityId();
     ShootingHandler& shootingHandler = ShootingHandler::GetInstance();
     InputHandler& inputHandler = InputHandler::GetInstance();
 
     inputHandler.HandlePositionInput(entityManager, playerEntityId, deltaTime);
-    inputHandler.HandleShootingInput(entityManager, playerEntityId, bulletSprite, deltaTime);
+    inputHandler.HandleShootingInput(entityManager, playerEntityId, deltaTime);
 }
 
 void InputHandler::HandlePositionInput(EntityManager& entityManager, EntityId playerEntityId, float deltaTime) {
@@ -30,7 +31,7 @@ void InputHandler::HandlePositionInput(EntityManager& entityManager, EntityId pl
     velocity->SetVelocity(currentVelocity);
 }
 
-void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, shared_ptr<CSimpleSprite> bulletSprite, float deltaTime)
+void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, float deltaTime)
 {
     float mouseX, mouseY;
     Transform* playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
@@ -41,7 +42,7 @@ void InputHandler::HandleShootingInput(EntityManager& entityManager, EntityId pl
 
     vec3 bulletPos = playerTransform->GetPosition();
     App::GetMousePos(mouseX, mouseY);
-    ShootingHandler::GetInstance().Shoot(entityManager, playerEntityId, bulletSprite, mouseX, mouseY);
+    ShootingHandler::GetInstance().Shoot(entityManager, playerEntityId, mouseX, mouseY);
     cooldown->Update(deltaTime);
 }
 

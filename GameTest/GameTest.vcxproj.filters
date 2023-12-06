@@ -39,7 +39,6 @@
     <ClCompile Include="App\Systems\src\System.cpp" />
     <ClCompile Include="App\Systems\src\Event.cpp" />
     <ClCompile Include="App\Systems\src\ScreenHandler.cpp" />
-    <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
     <ClCompile Include="App\Systems\src\ScoreHandler.cpp" />
     <ClCompile Include="App\Components\src\Score.cpp" />
     <ClCompile Include="App\Systems\src\TimerHandler.cpp" />
@@ -47,7 +46,9 @@
     <ClCompile Include="App\Utilities\src\Enums.cpp" />
     <ClCompile Include="App\Components\src\EntityId.cpp" />
     <ClCompile Include="App\Systems\src\EntityHandler.cpp" />
-    <ClCompile Include="App\Systems\src\SystemFactory.cpp" />
+    <ClCompile Include="App\Components\src\Cooldown.cpp" />
+    <ClCompile Include="App\Systems\src\CooldownHandler.cpp" />
+    <ClCompile Include="App\Components\src\Velocity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -92,7 +93,6 @@
     <ClInclude Include="App\Systems\include\Event.h" />
     <ClInclude Include="App\Systems\include\ScreenHandler.h" />
     <ClInclude Include="App\Managers\SpriteManager.h" />
-    <ClInclude Include="App\Managers\include\SpriteManager.h" />
     <ClInclude Include="App\Systems\include\ScoreHandler.h" />
     <ClInclude Include="App\Components\include\Score.h" />
     <ClInclude Include="App\Systems\include\TimerHandler.h" />
@@ -100,7 +100,9 @@
     <ClInclude Include="App\Utilities\include\Enums.h" />
     <ClInclude Include="App\Components\include\EntityId.h" />
     <ClInclude Include="App\Systems\include\EntityHandler.h" />
-    <ClInclude Include="App\Systems\include\SystemFactory.h" />
+    <ClInclude Include="App\Components\include\Cooldown.h" />
+    <ClInclude Include="App\Systems\include\CooldownHandler.h" />
+    <ClInclude Include="App\Components\include\Velocity.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

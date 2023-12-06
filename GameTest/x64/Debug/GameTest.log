@@ -1,20 +1,4 @@
-﻿  EntityManager.cpp
-  SystemManager.cpp
-  AnimationHandler.cpp
-  CollisionHandler.cpp
-  CooldownHandler.cpp
-  EntityHandler.cpp
-  HealthHandler.cpp
-  InputHandler.cpp
-  MovementHandler.cpp
-  RenderingHandler.cpp
-  ScoreHandler.cpp
-  ScreenHandler.cpp
-  ShootingHandler.cpp
-  System.cpp
-  TimerHandler.cpp
-  GameTest.cpp
-  Generating Code...
+﻿  GameTest.cpp
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

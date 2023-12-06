@@ -11,28 +11,27 @@
 #include "App/Utilities/include/app.h"
 #include "App/Utilities/include/Helper.h"
 #include "App/Managers/include/EntityManager.h"
+#include "App/Systems/include/EntityHandler.h"
 #include "App/Managers/include/SystemManager.h"
-#include "App/Managers/include/SpriteManager.h"
 #include "App/Systems/include/AnimationHandler.h"
+#include "App/Systems/include/CollisionHandler.h"
+#include "App/Systems/include/CooldownHandler.h"
 #include "App/Systems/include/InputHandler.h"
 #include "App/Systems/include/MovementHandler.h"
 #include "App/Systems/include/RenderingHandler.h"
-#include "App/Systems/include/CollisionHandler.h"
-#include "App/Systems/include/AnimationHandler.h"
+#include "App/Systems/include/ShootingHandler.h"
 #include "App/Systems/include/TimerHandler.h"
-#include "App/Systems/include/CooldownHandler.h"
-#include "App/Systems/include/EntityHandler.h"
 using namespace std;
 
 //------------------------------------------------------------------------
 
-shared_ptr<CSimpleSprite> playerSprite;
-shared_ptr<CSimpleSprite> enemySprite;
-shared_ptr<CSimpleSprite> bulletSprite;
-shared_ptr<CSimpleSprite> reloadingCircleSprite;
-shared_ptr<CSimpleSprite> ammoEmptySprite;
-shared_ptr<CSimpleSprite> ammoFilledSprite;
-shared_ptr<CSimpleSprite> healthBarSprite;
+CSimpleSprite* playerSprite;
+CSimpleSprite* enemySprite;
+CSimpleSprite* bulletSprite;
+CSimpleSprite* reloadingCircleSprite;
+CSimpleSprite* healthBarSprite;
+vector<CSimpleSprite*> ammoEmptySprites;
+vector<CSimpleSprite*> ammoFilledSprites;
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
@@ -40,27 +39,32 @@ shared_ptr<CSimpleSprite> healthBarSprite;
 void Init()
 {
 	// Set up sprites
-	CSimpleSprite* rawPlayerSprite = App::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 8, 4);
-	playerSprite = shared_ptr<CSimpleSprite>(rawPlayerSprite);
-	CSimpleSprite* rawEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
-	enemySprite = shared_ptr<CSimpleSprite>(rawEnemySprite);
-	CSimpleSprite* rawBulletSprite = App::CreateSprite(Helper::PATH_TO_BULLET_SPRITE, 1, 1);
-	bulletSprite = shared_ptr<CSimpleSprite>(rawBulletSprite);
-	CSimpleSprite* rawReloadingCircleSprite = App::CreateSprite(Helper::PATH_TO_RELOADING_CIRCLE_SPRITE_SHEET, 5, 2);
-	reloadingCircleSprite = shared_ptr<CSimpleSprite>(rawReloadingCircleSprite);
-	CSimpleSprite* rawHealthBarSprite = App::CreateSprite(Helper::PATH_TO_HEALTH_BAR_SPRITE_SHEET, 2, 3);
-	healthBarSprite = shared_ptr<CSimpleSprite>(rawHealthBarSprite);
+	playerSprite = App::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 8, 4);
+	enemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
+	bulletSprite = App::CreateSprite(Helper::PATH_TO_BULLET_SPRITE, 1, 1);
+	reloadingCircleSprite = App::CreateSprite(Helper::PATH_TO_RELOADING_CIRCLE_SPRITE_SHEET, 5, 2);
+	healthBarSprite = App::CreateSprite(Helper::PATH_TO_HEALTH_BAR_SPRITE_SHEET, 2, 3);
+	const int maxBullets = ShootingHandler::GetInstance().MAX_BULLETS;
+	constexpr int columns = 1;
+	constexpr int rows = 1;
+
+	for (int i = 0; i < maxBullets; ++i)
+	{
+		CSimpleSprite* ammoEmptySprite = App::CreateSprite(Helper::PATH_TO_AMMO_EMPTY_SPRITE, columns, rows);
+		ammoEmptySprites.push_back(ammoEmptySprite);
+		CSimpleSprite* ammoFilledSprite = App::CreateSprite(Helper::PATH_TO_AMMO_FILLED_SPRITE, columns, rows);
+		ammoFilledSprites.push_back(ammoFilledSprite);
+	}
 
 	// Set up entities
 	EntityManager& entityManager = EntityManager::GetInstance();
-	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, ammoEmptySprite, ammoFilledSprite, healthBarSprite);
+	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite, ammoEmptySprites, ammoFilledSprites);
 
 	// Set up managers and systems
 	SystemManager::GetInstance().Init();
 
 	// Set up animations
 	AnimationHandler::GetInstance().Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite);
-	
 }
 
 //------------------------------------------------------------------------
@@ -70,7 +74,7 @@ void Init()
 void Update(float deltaTime)
 {
 	float deltaTimeInSeconds = deltaTime / 1000.0f;
-	InputHandler::GetInstance().Update(bulletSprite, deltaTimeInSeconds);
+	InputHandler::GetInstance().Update(deltaTimeInSeconds);
 	MovementHandler::GetInstance().Update(deltaTimeInSeconds);
 	CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
 	AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
@@ -95,4 +99,17 @@ void Render()
 //------------------------------------------------------------------------
 void Shutdown()
 {
+	delete playerSprite;
+	delete enemySprite;
+	delete bulletSprite;
+	delete reloadingCircleSprite;
+	delete healthBarSprite;
+	for (CSimpleSprite* sprite : ammoEmptySprites) {
+		delete sprite;
+	}
+	ammoEmptySprites.clear();
+	for (CSimpleSprite* sprite : ammoFilledSprites) {
+		delete sprite;
+	}
+	ammoFilledSprites.clear();
 }
