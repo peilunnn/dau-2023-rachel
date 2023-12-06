@@ -1,16 +1,17 @@
 #include "stdafx.h"
 #include "../include/SystemManager.h"
 #include "Systems/include/AnimationHandler.h"
+#include "Systems/include/CooldownHandler.h"
+#include "Systems/include/CollisionHandler.h"
+#include "Systems/include/HealthHandler.h"
 #include "Systems/include/InputHandler.h"
 #include "Systems/include/MovementHandler.h"
 #include "Systems/include/RenderingHandler.h"
-#include "Systems/include/CollisionHandler.h"
-#include "Systems/include/HealthHandler.h"
 #include "Systems/include/ScoreHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Systems/include/EntityHandler.h"
 #include "Systems/include/TimerHandler.h"
-#include "Systems/include/CooldownHandler.h"
+#include "Systems/include/TitleHandler.h"
 #include "Utilities/include/Helper.h"
 
 void SystemManager::Init()
@@ -26,6 +27,7 @@ void SystemManager::Init()
     m_systems.push_back(&MovementHandler::GetInstance());
     m_systems.push_back(&AnimationHandler::GetInstance());
     m_systems.push_back(&RenderingHandler::GetInstance());
+    m_systems.push_back(&TitleHandler::GetInstance());
 }
 
 void SystemManager::SendEvent(Event event) {

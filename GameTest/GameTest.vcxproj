@@ -221,6 +221,7 @@
     <ClInclude Include="App\Systems\include\HealthHandler.h" />
     <ClInclude Include="App\Components\include\Timer.h" />
     <ClInclude Include="App\Components\include\Velocity.h" />
+    <ClInclude Include="App\Systems\include\TitleHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App\Components\src\Animation.cpp" />
@@ -268,6 +269,7 @@
     <ClCompile Include="App\Systems\src\Event.cpp" />
     <ClCompile Include="App\Components\src\Timer.cpp" />
     <ClCompile Include="App\Components\src\Velocity.cpp" />
+    <ClCompile Include="App\Systems\src\TitleHandler.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

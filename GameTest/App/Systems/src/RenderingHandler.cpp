@@ -28,14 +28,11 @@ void RenderingHandler::RenderMainMenu(EntityManager& entityManager, Screen& scre
     EntityId titleEntityId = entityManager.GetTitleEntityId();
     titleSprite = entityManager.GetComponent<Renderable>(titleEntityId)->GetSprite();
     Transform* transform = entityManager.GetComponent<Transform>(titleEntityId);
-    const float amplitude = 20.0f; // Max rotation angle.
-    const float frequency = 2.0f; // Adjust this value for faster or slower rotation.
-    //float titleRotationAngle = amplitude * sin(App::GetTime() * frequency);
 
     SetBackground(screen.R_MAIN_MENU_BG, screen.G_MAIN_MENU_BG, screen.B_MAIN_MENU_BG, screen.ALPHA_MAIN_MENU_BG);
 
     titleSprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
-    //titleSprite->SetAngle(titleRotationAngle);
+    titleSprite->SetAngle(transform->GetRotation().z);
     titleSprite->SetScale(transform->GetScale().x);
     titleSprite->Draw();
 

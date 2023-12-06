@@ -49,6 +49,7 @@
     <ClCompile Include="App\Systems\src\CooldownHandler.cpp" />
     <ClCompile Include="App\Components\src\Velocity.cpp" />
     <ClCompile Include="App\Components\src\Screen.cpp" />
+    <ClCompile Include="App\Systems\src\TitleHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -103,6 +104,7 @@
     <ClInclude Include="App\Systems\include\CooldownHandler.h" />
     <ClInclude Include="App\Components\include\Velocity.h" />
     <ClInclude Include="App\Components\include\Screen.h" />
+    <ClInclude Include="App\Systems\include\TitleHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

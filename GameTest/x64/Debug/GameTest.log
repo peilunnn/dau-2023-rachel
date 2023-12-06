@@ -1,4 +1,7 @@
-﻿  GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe
+﻿  RenderingHandler.cpp
+  TitleHandler.cpp
+  Generating Code...
+  GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
   C:\Users\peilu\Downloads\Repos\dau-2023-rachel\\GameTest\glut\bin\x64\freeglut.dll

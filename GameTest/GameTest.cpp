@@ -8,19 +8,20 @@
 #include <memory>
 #include <iostream>
 //------------------------------------------------------------------------
-#include "App/Utilities/include/app.h"
-#include "App/Utilities/include/Helper.h"
-#include "App/Managers/include/EntityManager.h"
-#include "App/Systems/include/EntityHandler.h"
-#include "App/Managers/include/SystemManager.h"
-#include "App/Systems/include/AnimationHandler.h"
-#include "App/Systems/include/CollisionHandler.h"
-#include "App/Systems/include/CooldownHandler.h"
-#include "App/Systems/include/InputHandler.h"
-#include "App/Systems/include/MovementHandler.h"
-#include "App/Systems/include/RenderingHandler.h"
-#include "App/Systems/include/ShootingHandler.h"
-#include "App/Systems/include/TimerHandler.h"
+#include "Utilities/include/app.h"
+#include "Utilities/include/Helper.h"
+#include "Managers/include/EntityManager.h"
+#include "Systems/include/EntityHandler.h"
+#include "Managers/include/SystemManager.h"
+#include "Systems/include/AnimationHandler.h"
+#include "Systems/include/CollisionHandler.h"
+#include "Systems/include/CooldownHandler.h"
+#include "Systems/include/InputHandler.h"
+#include "Systems/include/MovementHandler.h"
+#include "Systems/include/RenderingHandler.h"
+#include "Systems/include/ShootingHandler.h"
+#include "Systems/include/TimerHandler.h"
+#include "Systems/include/TitleHandler.h"
 using namespace std;
 
 //------------------------------------------------------------------------
@@ -80,13 +81,15 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
+	float deltaTimeInSeconds = deltaTime / 1000.0f;
+
 	switch (gameState) {
 	case MAIN_MENU:
 		// Update and render main menu
+		TitleHandler::GetInstance().Update(deltaTimeInSeconds);
 		// Check for "Start" button click to change state to GAMEPLAY
 		break;
 	case GAMEPLAY:
-		float deltaTimeInSeconds = deltaTime / 1000.0f;
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
 		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
 		CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
