@@ -15,8 +15,8 @@ public:
     RenderingHandler(RenderingHandler const&) = delete;
     void operator=(RenderingHandler const&) = delete;
 
-    void Render(GameState gameState, CSimpleSprite* titleSprite);
-    void RenderMainMenu(EntityManager& entityManager, Screen& screen, CSimpleSprite* titleSprite);
+    void Render(GameState gameState, CSimpleSprite* titleSprite, CSimpleSprite* playButtonSprite);
+    void RenderMainMenu(EntityManager& entityManager, Screen& screen, CSimpleSprite* titleSprite, CSimpleSprite* playButtonSprite);
     void RenderGameScene(EntityManager& entityManager, Screen& screen);
 
 private:

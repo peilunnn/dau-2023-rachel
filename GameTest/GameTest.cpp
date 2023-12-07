@@ -32,6 +32,7 @@ CSimpleSprite* bulletSprite;
 CSimpleSprite* reloadingCircleSprite;
 CSimpleSprite* healthBarSprite;
 CSimpleSprite* titleSprite;
+CSimpleSprite* playButtonSprite;
 vector<CSimpleSprite*> ammoEmptySprites;
 vector<CSimpleSprite*> ammoFilledSprites;
 
@@ -44,29 +45,30 @@ void Init()
 
 	// Set up sprites
 	// Main Menu
-	titleSprite = App::CreateSprite(Helper::PATH_TO_TITLE_SPRITE, 1, 1);
+	titleSprite = App::CreateSprite(Helper::PATH_TO_TITLE, 1, 1);
+	playButtonSprite = App::CreateSprite(Helper::PATH_TO_PLAY_BUTTON, 1, 1);
 
 	// Gameplay
-	playerSprite = App::CreateSprite(Helper::PATH_TO_PLAYER_SPRITE_SHEET, 4, 4);
-	enemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, 4, 2);
+	playerSprite = App::CreateSprite(Helper::PATH_TO_PLAYER, 4, 4);
+	enemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY, 4, 2);
 	bulletSprite = App::CreateSprite(Helper::PATH_TO_BULLET_SPRITE, 1, 1);
-	reloadingCircleSprite = App::CreateSprite(Helper::PATH_TO_RELOADING_CIRCLE_SPRITE_SHEET, 5, 2);
-	healthBarSprite = App::CreateSprite(Helper::PATH_TO_HEALTH_BAR_SPRITE_SHEET, 2, 3);
+	reloadingCircleSprite = App::CreateSprite(Helper::PATH_TO_RELOADING_CIRCLE, 5, 2);
+	healthBarSprite = App::CreateSprite(Helper::PATH_TO_HEALTH_BAR, 2, 3);
 	const int maxBullets = ShootingHandler::GetInstance().MAX_BULLETS;
 	constexpr int columns = 1;
 	constexpr int rows = 1;
 
 	for (int i = 0; i < maxBullets; ++i)
 	{
-		CSimpleSprite* ammoEmptySprite = App::CreateSprite(Helper::PATH_TO_AMMO_EMPTY_SPRITE, columns, rows);
+		CSimpleSprite* ammoEmptySprite = App::CreateSprite(Helper::PATH_TO_AMMO_EMPTY, columns, rows);
 		ammoEmptySprites.push_back(ammoEmptySprite);
-		CSimpleSprite* ammoFilledSprite = App::CreateSprite(Helper::PATH_TO_AMMO_FILLED_SPRITE, columns, rows);
+		CSimpleSprite* ammoFilledSprite = App::CreateSprite(Helper::PATH_TO_AMMO_FILLED, columns, rows);
 		ammoFilledSprites.push_back(ammoFilledSprite);
 	}
 
 	// Set up entities
 	EntityManager& entityManager = EntityManager::GetInstance();
-	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite, titleSprite, ammoEmptySprites, ammoFilledSprites);
+	entityManager.Init(playerSprite, enemySprite, reloadingCircleSprite, healthBarSprite, titleSprite, playButtonSprite, ammoEmptySprites, ammoFilledSprites);
 
 	// Set up managers and systems
 	SystemManager::GetInstance().Init();
@@ -108,7 +110,7 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {
-	RenderingHandler::GetInstance().Render(gameState, titleSprite);
+	RenderingHandler::GetInstance().Render(gameState, titleSprite, playButtonSprite);
 }
 
 //------------------------------------------------------------------------
@@ -122,6 +124,8 @@ void Shutdown()
 	delete bulletSprite;
 	delete reloadingCircleSprite;
 	delete healthBarSprite;
+	delete titleSprite;
+	delete playButtonSprite;
 	for (CSimpleSprite* sprite : ammoEmptySprites) {
 		delete sprite;
 	}

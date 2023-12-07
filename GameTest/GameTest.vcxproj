@@ -182,7 +182,9 @@
     <ClInclude Include="App\Components\include\Animation.h" />
     <ClInclude Include="App\Utilities\include\app.h" />
     <ClInclude Include="App\Utilities\include\AppSettings.h" />
+    <ClInclude Include="App\Utilities\include\DirectSound.h" />
     <ClInclude Include="App\Utilities\include\main.h" />
+    <ClInclude Include="App\Utilities\include\mydirectsound.h" />
     <ClInclude Include="App\Utilities\include\SimpleController.h" />
     <ClInclude Include="App\Utilities\include\SimpleSound.h" />
     <ClInclude Include="App\Utilities\include\SimpleSprite.h" />
@@ -270,6 +272,19 @@
     <ClCompile Include="App\Components\src\Timer.cpp" />
     <ClCompile Include="App\Components\src\Velocity.cpp" />
     <ClCompile Include="App\Systems\src\TitleHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Data\SpriteSheets\Buttons.png" />
+    <Image Include="Data\SpriteSheets\Enemy.png" />
+    <Image Include="Data\SpriteSheets\HealthBar.png" />
+    <Image Include="Data\SpriteSheets\PlayButton.png" />
+    <Image Include="Data\SpriteSheets\Player.bmp" />
+    <Image Include="Data\SpriteSheets\Player.png" />
+    <Image Include="Data\SpriteSheets\ReloadingCircle.png" />
+    <Image Include="Data\Sprites\AmmoEmpty.png" />
+    <Image Include="Data\Sprites\AmmoFilled.png" />
+    <Image Include="Data\Sprites\Bullet.bmp" />
+    <Image Include="Data\Sprites\Title.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

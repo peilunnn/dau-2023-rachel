@@ -25,9 +25,11 @@ public:
     const float SCREEN_BOTTOM = NDCtoScreenY(BORDER_BOTTOM_Y, SCREEN_HEIGHT);
 
     const float TITLE_X_OFFSET = 520.0f;
-    const float TITLE_Y_OFFSET = 200.0f;
+    const float TITLE_Y_OFFSET = 300.0f;
     const float DESCRIPTION_X_OFFSET = 600.0f;
-    const float DESCRIPTION_Y_OFFSET = 350.0f;
+    const float DESCRIPTION_Y_OFFSET = 450.0f;
+    const float PLAY_BUTTON_X_OFFSET = 520.0f;
+    const float PLAY_BUTTON_Y_OFFSET = 500.0f;
 
     const float R_MAIN_MENU_BG = 0.0f;
     const float G_MAIN_MENU_BG = 0.0f;

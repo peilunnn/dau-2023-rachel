@@ -105,6 +105,8 @@
     <ClInclude Include="App\Components\include\Velocity.h" />
     <ClInclude Include="App\Components\include\Screen.h" />
     <ClInclude Include="App\Systems\include\TitleHandler.h" />
+    <ClInclude Include="App\Utilities\include\DirectSound.h" />
+    <ClInclude Include="App\Utilities\include\mydirectsound.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">
@@ -118,5 +120,18 @@
     <Text Include="ReadMe.txt">
       <Filter>NextAPI</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Data\SpriteSheets\Player.bmp" />
+    <Image Include="Data\Sprites\AmmoEmpty.png" />
+    <Image Include="Data\Sprites\AmmoFilled.png" />
+    <Image Include="Data\Sprites\Bullet.bmp" />
+    <Image Include="Data\Sprites\Title.png" />
+    <Image Include="Data\SpriteSheets\Enemy.png" />
+    <Image Include="Data\SpriteSheets\HealthBar.png" />
+    <Image Include="Data\SpriteSheets\PlayButton.png" />
+    <Image Include="Data\SpriteSheets\Player.png" />
+    <Image Include="Data\SpriteSheets\ReloadingCircle.png" />
+    <Image Include="Data\SpriteSheets\Buttons.png" />
   </ItemGroup>
 </Project>

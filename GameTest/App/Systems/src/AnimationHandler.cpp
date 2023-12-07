@@ -27,7 +27,7 @@ void AnimationHandler::InitPlayerAnimation(CSimpleSprite* playerSprite)
 	if (!playerSprite)
 		return;
 
-	float speed = 1.0f / 15.0f;
+	constexpr float speed = 1.0f / 15.0f;
 	playerSprite->CreateAnimation(PLAYER_ANIM_FORWARDS, speed, { 12, 13, 14, 15 });
 	playerSprite->CreateAnimation(PLAYER_ANIM_BACKWARDS, speed, { 0, 1, 2, 3 });
 	playerSprite->CreateAnimation(PLAYER_ANIM_LEFT, speed, { 4, 5, 6, 7 });
@@ -52,7 +52,7 @@ void AnimationHandler::InitReloadingCircleAnimation(CSimpleSprite* reloadingCirc
 	if (!reloadingCircleSprite)
 		return;
 
-	float speed = 1.0f / 15.0f;
+	constexpr float speed = 1.0f / 15.0f;
 	reloadingCircleSprite->CreateAnimation(RELOADING_CIRCLE_ANIM_SPIN, speed, { 1, 2, 3, 4, 5, 6 });
 }
 
@@ -61,7 +61,7 @@ void AnimationHandler::InitHealthBarAnimation(CSimpleSprite* healthBarSprite)
 	if (!healthBarSprite)
 		return;
 
-	float speed = 1.0f / 15.0f;
+	constexpr float speed = 1.0f / 15.0f;
 	healthBarSprite->CreateAnimation(HEALTH_100, speed, { 0 });
 	healthBarSprite->CreateAnimation(HEALTH_80, speed, { 2 });
 	healthBarSprite->CreateAnimation(HEALTH_60, speed, { 4 });

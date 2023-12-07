@@ -22,7 +22,7 @@
 using glm::vec2;
 using glm::vec3;
 
-void EntityManager::Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite, CSimpleSprite* reloadingCircleSprite, CSimpleSprite* healthBarSprite, CSimpleSprite* titleSprite, vector<CSimpleSprite*> ammoEmptySprites, vector<CSimpleSprite*>ammoFilledSprites)
+void EntityManager::Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite, CSimpleSprite* reloadingCircleSprite, CSimpleSprite* healthBarSprite, CSimpleSprite* titleSprite, CSimpleSprite* playButtonSprite, vector<CSimpleSprite*> ammoEmptySprites, vector<CSimpleSprite*>ammoFilledSprites)
 {
 	Screen& screen = screen.GetInstance();
 	ShootingHandler& shootingHandler = ShootingHandler::GetInstance();
@@ -59,6 +59,7 @@ void EntityManager::Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite
 	m_scoreEntityId = CreateScoreEntity();
 	m_timerEntityId = CreateTimerEntity();
 	m_titleEntityId = CreateTitleEntity(titleSprite);
+	m_playButtonEntityId = CreatePlayButtonEntity(playButtonSprite);
 }
 
 vector<EntityId> EntityManager::GetAllEntities()
@@ -219,7 +220,7 @@ EntityId EntityManager::CreateReloadingCircleEntity(CSimpleSprite* reloadingCirc
 	return reloadingCircleEntityId;
 }
 
-EntityId EntityManager::CreateAmmoEntity(CSimpleSprite* sprite, EntityType entityType, float xPos, float yPos)
+EntityId EntityManager::CreateAmmoEntity(CSimpleSprite* ammoSprite, EntityType entityType, float xPos, float yPos)
 {
 	EntityId ammoEntityId = CreateEntityId();
 	constexpr float zPos = 0.0f;
@@ -228,7 +229,7 @@ EntityId EntityManager::CreateAmmoEntity(CSimpleSprite* sprite, EntityType entit
 
 	unique_ptr<Tag> tag = make_unique<Tag>(entityType);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Renderable> renderable = make_unique<Renderable>(sprite);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(ammoSprite);
 
 	AddComponent(ammoEntityId, move(tag));
 	AddComponent(ammoEntityId, move(transform));
@@ -237,7 +238,7 @@ EntityId EntityManager::CreateAmmoEntity(CSimpleSprite* sprite, EntityType entit
 	return ammoEntityId;
 }
 
-EntityId EntityManager::CreateHealthBarEntity(CSimpleSprite* sprite, float xPos, float yPos)
+EntityId EntityManager::CreateHealthBarEntity(CSimpleSprite* healthBarSprite, float xPos, float yPos)
 {
 	EntityId healthBarEntityId = CreateEntityId();
 	constexpr float zPos = 0.0f;
@@ -246,7 +247,7 @@ EntityId EntityManager::CreateHealthBarEntity(CSimpleSprite* sprite, float xPos,
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::HealthBar);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Renderable> renderable = make_unique<Renderable>(sprite);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(healthBarSprite);
 	unique_ptr<Animation> animation = make_unique<Animation>();
 
 	AddComponent(healthBarEntityId, move(tag));
@@ -303,7 +304,7 @@ EntityId EntityManager::CreateTimerEntity()
 	return timerEntityId;
 }
 
-EntityId EntityManager::CreateTitleEntity(CSimpleSprite* sprite)
+EntityId EntityManager::CreateTitleEntity(CSimpleSprite* titleSprite)
 {
 	EntityId titleEntityId = CreateEntityId();
 	Screen& screen = screen.GetInstance();
@@ -315,13 +316,34 @@ EntityId EntityManager::CreateTitleEntity(CSimpleSprite* sprite)
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Title);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Renderable> renderable = make_unique<Renderable>(sprite);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(titleSprite);
 
 	AddComponent(titleEntityId, move(tag));
 	AddComponent(titleEntityId, move(transform));
 	AddComponent(titleEntityId, move(renderable));
 
 	return titleEntityId;
+}
+
+EntityId EntityManager::CreatePlayButtonEntity(CSimpleSprite* playButtonSprite)
+{
+	EntityId PlayButtonEntityId = CreateEntityId();
+	Screen& screen = screen.GetInstance();
+	float xPos = screen.SCREEN_WIDTH - screen.PLAY_BUTTON_X_OFFSET;
+	float yPos = screen.SCREEN_HEIGHT - screen.PLAY_BUTTON_Y_OFFSET;
+	constexpr float zPos = 0.0f;
+	constexpr vec3 rot = vec3(0.0f);
+	constexpr vec3 scale = vec3(0.5f);
+
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::PlayButton);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(playButtonSprite);
+
+	AddComponent(PlayButtonEntityId, move(tag));
+	AddComponent(PlayButtonEntityId, move(transform));
+	AddComponent(PlayButtonEntityId, move(renderable));
+
+	return PlayButtonEntityId;
 }
 
 void EntityManager::HideAmmoFilledEntity(int index)

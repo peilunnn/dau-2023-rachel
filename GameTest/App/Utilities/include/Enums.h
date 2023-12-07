@@ -26,7 +26,8 @@ enum class EntityType
     HealthBar,
     Score,
     Timer,
-    Title
+    Title,
+    PlayButton
 };
 
 enum class EntityState

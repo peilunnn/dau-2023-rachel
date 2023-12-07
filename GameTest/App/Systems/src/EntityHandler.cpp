@@ -42,8 +42,8 @@ void EntityHandler::SpawnTwoEnemies(EntityManager& entityManager, EntityId bulle
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->GetPosition();
 
-	CSimpleSprite* firstEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, columns, rows);
-	CSimpleSprite* secondEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY_SPRITE_SHEET, columns, rows);
+	CSimpleSprite* firstEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY, columns, rows);
+	CSimpleSprite* secondEnemySprite = App::CreateSprite(Helper::PATH_TO_ENEMY, columns, rows);
 
 	EntityId firstEnemyEntityId = entityManager.CreateEnemyEntity(playerPos, firstEnemySprite, screenWidth, screenHeight);
 	EntityId secondEnemyEntityId = entityManager.CreateEnemyEntity(playerPos, secondEnemySprite, screenWidth, screenHeight);

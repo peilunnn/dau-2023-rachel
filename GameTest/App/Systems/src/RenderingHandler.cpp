@@ -8,14 +8,14 @@
 #include "Utilities/include/Helper.h"
 #include "../include/RenderingHandler.h"
 
-void RenderingHandler::Render(GameState gameState, CSimpleSprite* titleSprite)
+void RenderingHandler::Render(GameState gameState, CSimpleSprite* titleSprite, CSimpleSprite* playButtonSprite)
 {
     EntityManager& entityManager = EntityManager::GetInstance();
     Screen& screen = Screen::GetInstance();
 
     switch (gameState) {
     case MAIN_MENU:
-        RenderMainMenu(entityManager, screen, titleSprite);
+        RenderMainMenu(entityManager, screen, titleSprite, playButtonSprite);
         break;
     case GAMEPLAY:
         RenderGameScene(entityManager, screen);
@@ -23,21 +23,29 @@ void RenderingHandler::Render(GameState gameState, CSimpleSprite* titleSprite)
     }
 }
 
-void RenderingHandler::RenderMainMenu(EntityManager& entityManager, Screen& screen, CSimpleSprite* titleSprite)
+void RenderingHandler::RenderMainMenu(EntityManager& entityManager, Screen& screen, CSimpleSprite* titleSprite, CSimpleSprite* playButtonSprite)
 {
     EntityId titleEntityId = entityManager.GetTitleEntityId();
     titleSprite = entityManager.GetComponent<Renderable>(titleEntityId)->GetSprite();
-    Transform* transform = entityManager.GetComponent<Transform>(titleEntityId);
+    Transform* titleTransform = entityManager.GetComponent<Transform>(titleEntityId);
 
     SetBackground(screen.R_MAIN_MENU_BG, screen.G_MAIN_MENU_BG, screen.B_MAIN_MENU_BG, screen.ALPHA_MAIN_MENU_BG);
 
-    titleSprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
-    titleSprite->SetAngle(transform->GetRotation().z);
-    titleSprite->SetScale(transform->GetScale().x);
+    titleSprite->SetPosition(titleTransform->GetPosition().x, titleTransform->GetPosition().y);
+    titleSprite->SetAngle(titleTransform->GetRotation().z);
+    titleSprite->SetScale(titleTransform->GetScale().x);
     titleSprite->Draw();
 
     constexpr char* descriptionText = "Get the highest score in 60 seconds!";
     App::Print(screen.SCREEN_WIDTH - screen.DESCRIPTION_X_OFFSET, screen.SCREEN_HEIGHT - screen.DESCRIPTION_Y_OFFSET, descriptionText, screen.R_TEXT, screen.G_TEXT, screen.B_TEXT);
+
+    EntityId playButtonEntityId = entityManager.GetPlayButtonEntityId();
+    playButtonSprite = entityManager.GetComponent<Renderable>(playButtonEntityId)->GetSprite();
+    Transform* playButtonTransform = entityManager.GetComponent<Transform>(playButtonEntityId);
+
+    playButtonSprite->SetPosition(playButtonTransform->GetPosition().x, playButtonTransform->GetPosition().y);
+    playButtonSprite->SetScale(playButtonTransform->GetScale().x);
+    playButtonSprite->Draw();
 }
 
 void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& screen)
