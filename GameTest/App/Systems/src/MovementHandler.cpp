@@ -54,10 +54,13 @@ void MovementHandler::HandleBulletHitEnemy(EntityManager& entityManager, EntityI
 
 void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
 {
-	constexpr float topOffset = 60.0f;
-	constexpr float multiplier = 0.25f;
 	Transform* transform = entityManager.GetComponent<Transform>(entityId);
 	Velocity* velocity = entityManager.GetComponent<Velocity>(entityId);
+	CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	constexpr float topOffset = -30.0f;
+	constexpr float bottomOffset = 30.0f;
+	const float widthBuffer = sprite->GetWidth() / 4.0f;
+	const float heightBuffer = sprite->GetHeight() / 4.0f;
 
 	vec2 currentVelocity = velocity->GetVelocity();
 	float movementX = currentVelocity.x * deltaTime;
@@ -65,14 +68,11 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Screen&
 	float newX = transform->GetPosition().x + movementX;
 	float newY = transform->GetPosition().y + movementY;
 
-	CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	SpriteDimensions dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
+	float newXPos = max(screen.SCREEN_LEFT + widthBuffer,
+						min(newX, screen.SCREEN_RIGHT - widthBuffer));
 
-	float newXPos = max(screen.SCREEN_LEFT + dimensions.adjustedWidth / 2,
-						min(newX, screen.SCREEN_RIGHT - dimensions.adjustedWidth / 2));
-
-	float newYPos = max(screen.SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset,
-						min(newY, screen.SCREEN_BOTTOM - dimensions.adjustedHeight / 2));
+	float newYPos = max(screen.SCREEN_TOP + heightBuffer + bottomOffset,
+						min(newY, screen.SCREEN_BOTTOM + heightBuffer + topOffset));
 
 	vec3 newPos = vec3(newXPos, newYPos, transform->GetPosition().z);
 	transform->SetPosition(newPos);
@@ -80,35 +80,35 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Screen&
 
 void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
 {
-	constexpr float topOffset = 20.0f;
-	constexpr float bottomOffset = -15.0f;
-	constexpr float multiplier = 0.25f;
 	Transform* transform = entityManager.GetComponent<Transform>(entityId);
 	BounceDirection* bounceDirection = entityManager.GetComponent<BounceDirection>(entityId);
 	Velocity* velocity = entityManager.GetComponent<Velocity>(entityId);
+	CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	constexpr float topOffset = 20.0f;
+	constexpr float bottomOffset = -30.0f;
 
 	vec2 currentVelocity = velocity->GetVelocity();
 	vec2 movement = currentVelocity * deltaTime;
 	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
 	transform->SetPosition(newPos);
 
-	CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	SpriteDimensions dimensions = Helper::GetSpriteDimensions(sprite, multiplier);
 
 	if (!(bounceDirection->GetBounced()))
 	{
 		float xPos = transform->GetPosition().x;
 		float yPos = transform->GetPosition().y;
+		const float widthBuffer = sprite->GetWidth() / 6.0f;
+		const float heightBuffer = sprite->GetHeight() / 6.0f;
 
-		if (xPos <= screen.SCREEN_LEFT + dimensions.adjustedWidth / 2 ||
-			xPos >= screen.SCREEN_RIGHT - dimensions.adjustedWidth / 2)
+		if (xPos <= screen.SCREEN_LEFT + widthBuffer ||
+			xPos >= screen.SCREEN_RIGHT - widthBuffer)
 		{
 			currentVelocity.x *= -1;
 			velocity->SetVelocity(currentVelocity);
 			bounceDirection->SetBounced(true);
 		}
-		if (yPos <= screen.SCREEN_TOP + dimensions.adjustedHeight / 2 + topOffset ||
-			yPos >= screen.SCREEN_BOTTOM - dimensions.adjustedHeight / 2 - bottomOffset)
+		if (yPos <= screen.SCREEN_TOP + heightBuffer + topOffset ||
+			yPos >= screen.SCREEN_BOTTOM + heightBuffer + bottomOffset)
 		{
 			currentVelocity.y *= -1;
 			velocity->SetVelocity(currentVelocity);

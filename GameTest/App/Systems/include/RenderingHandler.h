@@ -14,13 +14,13 @@ public:
     RenderingHandler(RenderingHandler const&) = delete;
     void operator=(RenderingHandler const&) = delete;
 
-    void Render(GameState gameState);
-    void RenderMainMenuScene(EntityManager& entityManager, Screen& screen);
-    void RenderGameScene(EntityManager& entityManager, Screen& screen);
+    void Render();
 
 private:
     RenderingHandler() = default;
 
+    void RenderMainMenuScene(EntityManager& entityManager, Screen& screen);
+    void RenderGameScene(EntityManager& entityManager, Screen& screen);
     void RenderSprite(EntityManager& entityManager, EntityId entityId);
     void RenderScore(EntityManager& entityManager);
     void RenderTimer(EntityManager& entityManager);

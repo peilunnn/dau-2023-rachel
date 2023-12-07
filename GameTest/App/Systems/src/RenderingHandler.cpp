@@ -3,22 +3,24 @@
 #include "Components/include/Score.h"
 #include "Components/include/Timer.h"
 #include "Components/include/Transform.h"
+#include "Managers/include/GameManager.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Utilities/include/App.h"
 #include "Utilities/include/Helper.h"
 
-void RenderingHandler::Render(GameState gameState)
+void RenderingHandler::Render()
 {
+    GameState gameState = GameManager::GetInstance().GetGameState();
     EntityManager& entityManager = EntityManager::GetInstance();
     Screen& screen = Screen::GetInstance();
 
     if (gameState == GameState::MainMenu)
-        RenderMainMenu(entityManager, screen);
+        RenderMainMenuScene(entityManager, screen);
     else if (gameState == GameState::Gameplay)
         RenderGameScene(entityManager, screen);
 }
 
-void RenderingHandler::RenderMainMenu(EntityManager& entityManager, Screen& screen)
+void RenderingHandler::RenderMainMenuScene(EntityManager& entityManager, Screen& screen)
 {
     SetBackground(screen.R_MAIN_MENU_BG, screen.G_MAIN_MENU_BG, screen.B_MAIN_MENU_BG, screen.ALPHA_MAIN_MENU_BG);
 

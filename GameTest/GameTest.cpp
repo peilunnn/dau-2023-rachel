@@ -5,6 +5,7 @@
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 #include "Managers/include/EntityManager.h"
+#include "Managers/include/GameManager.h"
 #include "Managers/include/SystemManager.h"
 #include "Managers/include/SpriteManager.h"
 #include "Systems/include/AnimationHandler.h"
@@ -19,19 +20,11 @@ using namespace std;
 
 //------------------------------------------------------------------------
 
-GameState gameState;
-
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
 //------------------------------------------------------------------------
 void Init()
 {
-	// Set game state
-	gameState = GameState::Gameplay;
-
-	// Set up sprites
-	SpriteManager &spriteManager = SpriteManager::GetInstance();
-
 	// Set up entities
 	EntityManager &entityManager = EntityManager::GetInstance();
 	entityManager.Init();
@@ -49,14 +42,16 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
+	GameManager& gameManager = GameManager::GetInstance();
 	float deltaTimeInSeconds = deltaTime / 1000.0f;
 
-	if (gameState == GameState::MainMenu)
+	if (gameManager.GetGameState() == GameState::MainMenu)
 	{
 		TitleHandler::GetInstance().Update(deltaTimeInSeconds);
-		// Check for "Start" button click to change state to GAMEPLAY
+		InputHandler::GetInstance().SetIsPlayButtonClicked();
+		gameManager.Update(deltaTimeInSeconds);
 	}
-	else if (gameState == GameState::Gameplay)
+	else if (gameManager.GetGameState() == GameState::Gameplay)
 	{
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
 		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
@@ -75,7 +70,7 @@ void Update(float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {
-	RenderingHandler::GetInstance().Render(gameState);
+	RenderingHandler::GetInstance().Render();
 }
 
 //------------------------------------------------------------------------

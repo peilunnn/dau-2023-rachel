@@ -14,6 +14,7 @@ C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Entit
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\EntityHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\EntityHandler.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Cooldown.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Cooldown.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\CooldownHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\CooldownHandler.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Managers\src\GameManager.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\GameManager.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\GameTest.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\GameTest.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Health.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Health.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\CollisionHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\CollisionHandler.obj

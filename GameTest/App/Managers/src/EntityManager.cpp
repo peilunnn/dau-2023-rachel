@@ -85,9 +85,7 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager& spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.6f);
 	vec2 vel = vec2(0.0f);
-	constexpr float dimensionsMultiplier = 1.0f;
 	constexpr float radiusMultiplier = 0.5f;
-	SpriteDimensions dimensions = Helper::GetSpriteDimensions(playerSprite, dimensionsMultiplier);
 	constexpr float playerShootingCooldown = 1.0f;
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Player, Scene::Gameplay);
@@ -97,7 +95,7 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager& spriteManager)
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::Player);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy) | static_cast<int>(CollisionType::ReloadingCircle));
-	collider->SetRadius(dimensions.width * radiusMultiplier);
+	collider->SetRadius(playerSprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>();
 	unique_ptr<Health> health = make_unique<Health>();
 	unique_ptr<Animation> animation = make_unique<Animation>();
@@ -128,9 +126,7 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager& spriteManager, const ve
 	vec3 pos = Helper::GetOppositeQuadrantPosition(playerPos, screen.SCREEN_WIDTH, screen.SCREEN_HEIGHT);
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
-	constexpr float dimensionsMultiplier = 1.0f;
 	constexpr float radiusMultiplier = 0.5f;
-	SpriteDimensions dimensions = Helper::GetSpriteDimensions(enemySprite, dimensionsMultiplier);
 	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, Scene::Gameplay);
@@ -140,7 +136,7 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager& spriteManager, const ve
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::Enemy);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Player) | static_cast<int>(CollisionType::Bullet));
-	collider->SetRadius(dimensions.width * radiusMultiplier);
+	collider->SetRadius(enemySprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>(randomVelocity);
 	unique_ptr<BounceDirection> bounceDirection = make_unique<BounceDirection>();
 	unique_ptr<Animation> animation = make_unique<Animation>();
@@ -163,9 +159,7 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager& spriteManager, const v
 
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
-	constexpr float dimensionsMultiplier = 1.0f;
 	constexpr float radiusMultiplier = 0.5f;
-	SpriteDimensions dimensions = Helper::GetSpriteDimensions(bulletSprite, dimensionsMultiplier);
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Bullet, Scene::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
@@ -174,7 +168,7 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager& spriteManager, const v
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::Bullet);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy));
-	collider->SetRadius(dimensions.width * radiusMultiplier);
+	collider->SetRadius(bulletSprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>(targetVelocity);
 
 	AddComponent(bulletEntityId, move(tag));
@@ -199,9 +193,7 @@ EntityId EntityManager::CreateReloadingCircleEntity(SpriteManager& spriteManager
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
-	constexpr float dimensionsMultiplier = 1.0f;
 	constexpr float radiusMultiplier = 0.5f;
-	SpriteDimensions dimensions = Helper::GetSpriteDimensions(reloadingCircleSprite, dimensionsMultiplier);
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::ReloadingCircle, Scene::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
@@ -210,7 +202,7 @@ EntityId EntityManager::CreateReloadingCircleEntity(SpriteManager& spriteManager
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::ReloadingCircle);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Player));
-	collider->SetRadius(dimensions.width * radiusMultiplier);
+	collider->SetRadius(reloadingCircleSprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Animation> animation = make_unique<Animation>();
 
 	AddComponent(reloadingCircleEntityId, move(tag));

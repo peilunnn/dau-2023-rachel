@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "Components/include/Cooldown.h"
+#include "Components/include/Renderable.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
 #include "Systems/include/InputHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/app.h"
+#include "Utilities/include/Helper.h"
 
 void InputHandler::Update(float deltaTime)
 {
@@ -15,6 +17,29 @@ void InputHandler::Update(float deltaTime)
 
     inputHandler.HandlePositionInput(entityManager, playerEntityId, deltaTime);
     inputHandler.HandleShootingInput(entityManager, playerEntityId, deltaTime);
+}
+
+void InputHandler::SetIsPlayButtonClicked() {
+    EntityManager& entityManager = EntityManager::GetInstance();
+    EntityId playButtonEntityId = entityManager.GetPlayButtonEntityId();
+    Transform* transform = entityManager.GetComponent<Transform>(playButtonEntityId);
+    Renderable* renderable = entityManager.GetComponent<Renderable>(playButtonEntityId);
+    CSimpleSprite* sprite = renderable->GetSprite();
+    const float widthBuffer = sprite->GetWidth() / 2.0f;
+    const float heightBuffer = sprite->GetHeight() / 2.0f;
+
+    float mouseX, mouseY;
+    App::GetMousePos(mouseX, mouseY);
+
+    float left = transform->GetPosition().x - widthBuffer;
+    float right = transform->GetPosition().x + widthBuffer;
+    float top = transform->GetPosition().y - heightBuffer;
+    float bottom = transform->GetPosition().y + heightBuffer;
+
+    bool isWithinX = mouseX >= left && mouseX <= right;
+    bool isWithinY = mouseY >= top && mouseY <= bottom;
+
+    m_isPlayButtonClicked = isWithinX && isWithinY && App::IsKeyPressed(VK_LBUTTON);
 }
 
 void InputHandler::HandlePositionInput(EntityManager &entityManager, EntityId playerEntityId, float deltaTime)
