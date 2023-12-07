@@ -86,7 +86,7 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager& spriteManager)
 	constexpr vec3 scale = vec3(0.6f);
 	vec2 vel = vec2(0.0f);
 	constexpr float radiusMultiplier = 0.25f;
-	constexpr float playerShootingCooldown = 1.0f;
+	constexpr float playerShootingCooldown = 0.75f;
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Player, Scene::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);

@@ -12,6 +12,7 @@ public:
     void operator=(GameManager const&) = delete;
 
     void Update(float deltaTime);
+    void PrepareGameplay();
 
     GameState GetGameState() const {
         return gameState;
