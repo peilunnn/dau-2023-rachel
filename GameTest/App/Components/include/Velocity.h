@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "Components/include/Component.h"
 #include <glm/glm.hpp>
 using glm::vec2;
 

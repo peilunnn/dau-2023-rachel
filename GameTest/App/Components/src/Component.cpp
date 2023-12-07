@@ -1,2 +1,2 @@
 #include "stdafx.h"
-#include "../include/Component.h"
+#include "Components/include/Component.h"

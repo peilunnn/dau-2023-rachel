@@ -282,6 +282,8 @@
     <Image Include="Data\Sprites\AmmoEmpty.png" />
     <Image Include="Data\Sprites\AmmoFilled.png" />
     <Image Include="Data\Sprites\Bullet.bmp" />
+    <Image Include="Data\Sprites\MenuButton.png" />
+    <Image Include="Data\Sprites\PlayButton.png" />
     <Image Include="Data\Sprites\Title.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

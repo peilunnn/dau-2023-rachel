@@ -1,7 +1,7 @@
 #pragma once
-#include "Utilities/include/SimpleSprite.h"
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
+#include "Utilities/include/SimpleSprite.h"
 #include <set>
 #include <string>
 using namespace std;

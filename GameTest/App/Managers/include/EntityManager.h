@@ -1,10 +1,10 @@
 #pragma once
 #include "Components/include/Component.h"
+#include "Components/include/EntityId.h"
+#include "Utilities/include/Enums.h"
 #include "Utilities/include/SimpleSprite.h"
-#include "Systems/include/Event.h"
-#include <glm/glm.hpp>
+#include <glm/fwd.hpp>
 #include <memory>
-#include <typeindex>
 #include <unordered_map>
 #include <vector>
 using namespace std;

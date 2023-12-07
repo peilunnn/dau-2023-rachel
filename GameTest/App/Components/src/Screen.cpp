@@ -1,2 +1,2 @@
 #include "stdafx.h"
-#include "../include/Screen.h"
+#include "Components/include/Screen.h"

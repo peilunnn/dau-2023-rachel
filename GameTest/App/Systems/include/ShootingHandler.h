@@ -1,8 +1,6 @@
 #pragma once
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
-#include "Utilities/include/SimpleSprite.h"
-#include <memory>
 
 class ShootingHandler : public System {
 public:

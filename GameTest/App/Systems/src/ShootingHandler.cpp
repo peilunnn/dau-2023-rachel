@@ -1,10 +1,9 @@
 #include "stdafx.h"
-#include "Components/include/Transform.h"
 #include "Components/include/Cooldown.h"
+#include "Components/include/Transform.h"
+#include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/app.h"
 #include "Utilities/include/Helper.h"
-#include "../App/Utilities/include/Enums.h"
-#include "../include/ShootingHandler.h"
 using glm::vec2;
 using glm::vec3;
 

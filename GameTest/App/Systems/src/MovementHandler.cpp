@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "../include/MovementHandler.h"
 #include "Components/include/BounceDirection.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Screen.h"
 #include "Components/include/Tag.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
-#include "Utilities/include/Helper.h"
 #include "Managers/include/SystemManager.h"
+#include "Systems/include/MovementHandler.h"
+#include "Utilities/include/Helper.h"
 using glm::vec3;
 
 void MovementHandler::Update(float deltaTime)

@@ -131,5 +131,7 @@
     <Image Include="Data\SpriteSheets\Player.png" />
     <Image Include="Data\SpriteSheets\ReloadingCircle.png" />
     <Image Include="Data\SpriteSheets\Buttons.png" />
+    <Image Include="Data\Sprites\PlayButton.png" />
+    <Image Include="Data\Sprites\MenuButton.png" />
   </ItemGroup>
 </Project>

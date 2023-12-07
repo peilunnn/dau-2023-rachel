@@ -1,6 +1,7 @@
 #include "stdafx.h"
-#include "../include/TimerHandler.h"
-#include "../App/Components/include/Timer.h"
+#include "Components/include/Timer.h"
+#include "Managers/include/EntityManager.h"
+#include "Systems/include/TimerHandler.h"
 
 void TimerHandler::Update(float deltaTime)
 {

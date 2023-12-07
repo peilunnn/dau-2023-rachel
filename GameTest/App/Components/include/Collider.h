@@ -1,6 +1,6 @@
 #pragma once
-#include "../App/Utilities/include/Enums.h"
-#include "Component.h"
+#include "Components/include/Component.h"
+#include "Utilities/include/Enums.h"
 
 class Collider : public Component {
 public:

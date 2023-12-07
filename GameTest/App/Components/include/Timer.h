@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "Components/include/Component.h"
 
 class Timer : public Component {
 public:

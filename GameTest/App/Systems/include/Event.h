@@ -1,6 +1,5 @@
 #pragma once
-#include "../App/Components/include/EntityId.h"
-#include "../App/Utilities/include/Enums.h"
+#include "Components/include/EntityId.h"
 #include <string>
 #include <vector>
 using namespace std;

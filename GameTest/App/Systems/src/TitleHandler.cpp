@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Components/include/Transform.h"
-#include "../include/TitleHandler.h"
+#include "Managers/include/EntityManager.h"
+#include "Systems/include/TitleHandler.h"
 
 void TitleHandler::Update(float deltaTime)
 {

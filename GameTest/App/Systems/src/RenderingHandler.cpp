@@ -1,12 +1,10 @@
 #include "stdafx.h"
-#include "Components/include/Animation.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Score.h"
-#include "Components/include/Transform.h"
 #include "Components/include/Timer.h"
+#include "Components/include/Transform.h"
+#include "Systems/include/RenderingHandler.h"
 #include "Utilities/include/App.h"
-#include "Utilities/include/Helper.h"
-#include "../include/RenderingHandler.h"
 
 void RenderingHandler::Render(GameState gameState, CSimpleSprite* titleSprite, CSimpleSprite* playButtonSprite)
 {

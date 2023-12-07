@@ -1,2 +1,2 @@
 #include "stdafx.h"
-#include "../include/EntityId.h"
+#include "Components/include/EntityId.h"

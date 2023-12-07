@@ -1,6 +1,5 @@
 #pragma once
-#include "../App/Systems/include/Event.h"
-#include "../App/Managers/include/EntityManager.h"
+#include "Systems/include/Event.h"
 #include <set>
 
 class System

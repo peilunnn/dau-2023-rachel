@@ -1,8 +1,6 @@
 #include "stdafx.h"
-#include "../include/ScoreHandler.h"
 #include "Components/include/Score.h"
-
-
+#include "Systems/include/ScoreHandler.h"
 
 void ScoreHandler::HandleEvent(const Event& event, float deltaTime)
 {

@@ -1,2 +1,2 @@
 #include "stdafx.h"
-#include "../include/Score.h"
+#include "Components/include/Score.h"

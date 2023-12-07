@@ -1,10 +1,9 @@
 #pragma once
-#include "Managers/include/EntityManager.h"
-#include "Systems/include/System.h"
 #include "Components/include/Screen.h"
 #include "Components/include/Tag.h"
 #include "Components/include/Transform.h"
-#include <memory>
+#include "Managers/include/EntityManager.h"
+#include "Systems/include/System.h"
 
 class RenderingHandler : public System {
 public:

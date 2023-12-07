@@ -1,36 +1,35 @@
 #include "stdafx.h"
-#include "Components/include/Tag.h"
 #include "Components/include/Collider.h"
+#include "Components/include/Tag.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/SystemManager.h"
+#include "Systems/include/CollisionHandler.h"
 #include "Systems/include/Event.h"
-#include "Systems/include/System.h"
-#include "../include/CollisionHandler.h"
 #include <set>
 using glm::dot;
 using glm::vec2;
 
 void CollisionHandler::Update(float deltaTime)
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
-	SystemManager& systemManager = SystemManager::GetInstance();
+	EntityManager &entityManager = EntityManager::GetInstance();
+	SystemManager &systemManager = SystemManager::GetInstance();
 	vector<EntityId> allEntities = entityManager.GetAllEntities();
 
-	for (EntityId& i : allEntities)
+	for (EntityId &i : allEntities)
 	{
-		Collider* iCollider = entityManager.GetComponent<Collider>(i);
-		Transform* iTransform = entityManager.GetComponent<Transform>(i);
+		Collider *iCollider = entityManager.GetComponent<Collider>(i);
+		Transform *iTransform = entityManager.GetComponent<Transform>(i);
 
 		if (!iCollider || !iTransform)
 			continue;
 
-		for (EntityId& j : allEntities)
+		for (EntityId &j : allEntities)
 		{
 			if (i == j)
 				continue;
 
-			Collider* jCollider = entityManager.GetComponent<Collider>(j);
-			Transform* jTransform = entityManager.GetComponent<Transform>(j);
+			Collider *jCollider = entityManager.GetComponent<Collider>(j);
+			Transform *jTransform = entityManager.GetComponent<Transform>(j);
 
 			if (!jCollider || !jTransform)
 				continue;
@@ -46,7 +45,7 @@ void CollisionHandler::Update(float deltaTime)
 	}
 }
 
-bool CollisionHandler::IsColliding(Transform* transform1, Collider* collider1, Transform* transform2, Collider* collider2)
+bool CollisionHandler::IsColliding(Transform *transform1, Collider *collider1, Transform *transform2, Collider *collider2)
 {
 	if (!transform1 || !transform2 || !collider1 || !collider2)
 		return false;
@@ -62,7 +61,7 @@ bool CollisionHandler::IsColliding(Transform* transform1, Collider* collider1, T
 	return squaredDistance < squaredTotalRadius;
 }
 
-void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, SystemManager& systemManager, EntityId firstEntityId, EntityId secondEntityId)
+void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, SystemManager &systemManager, EntityId firstEntityId, EntityId secondEntityId)
 {
 	EntityType firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
 	EntityType secondEntityType = entityManager.GetComponent<Tag>(secondEntityId)->GetEntityType();
@@ -73,41 +72,41 @@ void CollisionHandler::HandleCollisionEvent(EntityManager& entityManager, System
 	{
 		EntityId bulletEntity = (firstEntityType == EntityType::Bullet) ? firstEntityId : secondEntityId;
 		EntityId enemyEntityId = (firstEntityType == EntityType::Enemy) ? firstEntityId : secondEntityId;
-		Tag* enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
+		Tag *enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
 
 		if (enemyTag->GetEntityState() != EntityState::Alive)
 			return;
 
 		enemyTag->SetEntityState(EntityState::HitByBullet);
-		Event bulletHitEnemyEvent("BulletHitEnemy", { bulletEntity, enemyEntityId });
+		Event bulletHitEnemyEvent("BulletHitEnemy", {bulletEntity, enemyEntityId});
 		systemManager.SendEvent(bulletHitEnemyEvent);
 	}
 
 	// Case 2 - one is player, the other is enemy
 	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::Enemy) ||
-		(firstEntityType == EntityType::Enemy && secondEntityType == EntityType::Player))
+			 (firstEntityType == EntityType::Enemy && secondEntityType == EntityType::Player))
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
 		EntityId enemyEntityId = (firstEntityType == EntityType::Enemy) ? firstEntityId : secondEntityId;
-		Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+		Tag *playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 
 		if (playerTag->GetEntityState() != EntityState::Alive)
 			return;
 
 		playerTag->SetEntityState(EntityState::HitByEnemy);
-		Event enemyHitPlayerEvent("EnemyHitPlayer", { enemyEntityId, playerEntityId });
+		Event enemyHitPlayerEvent("EnemyHitPlayer", {enemyEntityId, playerEntityId});
 		systemManager.SendEvent(enemyHitPlayerEvent);
 	}
 
 	// Case 3 - one is player, the other is reloadingCircle
 	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::ReloadingCircle) ||
-		(firstEntityType == EntityType::ReloadingCircle && secondEntityType == EntityType::Player))
+			 (firstEntityType == EntityType::ReloadingCircle && secondEntityType == EntityType::Player))
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
 		EntityId reloadingCircleEntityId = (firstEntityType == EntityType::ReloadingCircle) ? firstEntityId : secondEntityId;
-		Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
-		
-		Event playerHitReloadingCircleEvent("PlayerHitReloadingCircle", { playerEntityId, reloadingCircleEntityId });
+		Tag *playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+
+		Event playerHitReloadingCircleEvent("PlayerHitReloadingCircle", {playerEntityId, reloadingCircleEntityId});
 		systemManager.SendEvent(playerHitReloadingCircleEvent);
 	}
 }

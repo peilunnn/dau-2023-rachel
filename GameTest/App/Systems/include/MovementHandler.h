@@ -1,8 +1,7 @@
 #pragma once
-#include "Managers/include/EntityManager.h"
 #include "Components/include/Screen.h"
+#include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
-#include <unordered_map>
 using glm::vec2;
 
 class MovementHandler : public System {

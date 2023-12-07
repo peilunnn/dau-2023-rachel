@@ -1,2 +1,2 @@
 #include "stdafx.h"
-#include "../include/BounceDirection.h"
+#include "Components/include/BounceDirection.h"

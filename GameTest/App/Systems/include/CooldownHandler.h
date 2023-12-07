@@ -1,8 +1,5 @@
 #pragma once
-#include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
-#include <string>
-#include <set>
 
 class CooldownHandler : public System {
 public:

@@ -1,2 +1,2 @@
 #include "stdafx.h"
-#include "../include/Collider.h"
+#include "Components/include/Collider.h"

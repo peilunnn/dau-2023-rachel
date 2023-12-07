@@ -1,82 +1,79 @@
 #include "stdafx.h"
 #include "Components/include/Animation.h"
-#include "Components/include/Cooldown.h"
 #include "Components/include/Health.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Tag.h"
 #include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
-#include "Systems/include/System.h"
-#include "Systems/include/MovementHandler.h"
+#include "Systems/include/AnimationHandler.h"
 #include "Systems/include/HealthHandler.h"
-#include "Utilities/include/SimpleSprite.h"
 #include "Utilities/include/Enums.h"
-#include "Utilities/include/Helper.h"
-#include "../include/AnimationHandler.h"
+#include "Utilities/include/SimpleSprite.h"
 using glm::vec2;
 
-void AnimationHandler::Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite, CSimpleSprite* reloadingCircleSprite, CSimpleSprite* healthBarSprite)
+void AnimationHandler::Init(CSimpleSprite *playerSprite, CSimpleSprite *enemySprite, CSimpleSprite *reloadingCircleSprite, CSimpleSprite *healthBarSprite)
 {
 	InitPlayerAnimation(playerSprite);
 	InitReloadingCircleAnimation(reloadingCircleSprite);
 	InitHealthBarAnimation(healthBarSprite);
 }
 
-void AnimationHandler::InitPlayerAnimation(CSimpleSprite* playerSprite)
+void AnimationHandler::InitPlayerAnimation(CSimpleSprite *playerSprite)
 {
 	if (!playerSprite)
 		return;
 
 	constexpr float speed = 1.0f / 15.0f;
-	playerSprite->CreateAnimation(PLAYER_ANIM_FORWARDS, speed, { 12, 13, 14, 15 });
-	playerSprite->CreateAnimation(PLAYER_ANIM_BACKWARDS, speed, { 0, 1, 2, 3 });
-	playerSprite->CreateAnimation(PLAYER_ANIM_LEFT, speed, { 4, 5, 6, 7 });
-	playerSprite->CreateAnimation(PLAYER_ANIM_RIGHT, speed, { 8, 9, 10, 11 });
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_BACKWARDS, speed, { 0 });
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_LEFT, speed, { 7 });
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_RIGHT, speed, { 8 });
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, speed, { 12 });
+	playerSprite->CreateAnimation(PLAYER_ANIM_FORWARDS, speed, {12, 13, 14, 15});
+	playerSprite->CreateAnimation(PLAYER_ANIM_BACKWARDS, speed, {0, 1, 2, 3});
+	playerSprite->CreateAnimation(PLAYER_ANIM_LEFT, speed, {4, 5, 6, 7});
+	playerSprite->CreateAnimation(PLAYER_ANIM_RIGHT, speed, {8, 9, 10, 11});
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_BACKWARDS, speed, {0});
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_LEFT, speed, {7});
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_RIGHT, speed, {8});
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, speed, {12});
 }
 
-void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
+void AnimationHandler::HandleEvent(const Event &event, float deltaTime)
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityManager &entityManager = EntityManager::GetInstance();
 
-	if (event.GetEventType() == "EnemyHitPlayer") {
+	if (event.GetEventType() == "EnemyHitPlayer")
+	{
 		HandleEnemyHitPlayer(entityManager, deltaTime);
 	}
 }
 
-void AnimationHandler::InitReloadingCircleAnimation(CSimpleSprite* reloadingCircleSprite)
+void AnimationHandler::InitReloadingCircleAnimation(CSimpleSprite *reloadingCircleSprite)
 {
 	if (!reloadingCircleSprite)
 		return;
 
 	constexpr float speed = 1.0f / 15.0f;
-	reloadingCircleSprite->CreateAnimation(RELOADING_CIRCLE_ANIM_SPIN, speed, { 1, 2, 3, 4, 5, 6 });
+	reloadingCircleSprite->CreateAnimation(RELOADING_CIRCLE_ANIM_SPIN, speed, {1, 2, 3, 4, 5, 6});
 }
 
-void AnimationHandler::InitHealthBarAnimation(CSimpleSprite* healthBarSprite)
+void AnimationHandler::InitHealthBarAnimation(CSimpleSprite *healthBarSprite)
 {
 	if (!healthBarSprite)
 		return;
 
 	constexpr float speed = 1.0f / 15.0f;
-	healthBarSprite->CreateAnimation(HEALTH_100, speed, { 0 });
-	healthBarSprite->CreateAnimation(HEALTH_80, speed, { 2 });
-	healthBarSprite->CreateAnimation(HEALTH_60, speed, { 4 });
-	healthBarSprite->CreateAnimation(HEALTH_40, speed, { 1 });
-	healthBarSprite->CreateAnimation(HEALTH_20, speed, { 3 });
-	healthBarSprite->CreateAnimation(HEALTH_0, speed, { 5 });
+	healthBarSprite->CreateAnimation(HEALTH_100, speed, {0});
+	healthBarSprite->CreateAnimation(HEALTH_80, speed, {2});
+	healthBarSprite->CreateAnimation(HEALTH_60, speed, {4});
+	healthBarSprite->CreateAnimation(HEALTH_40, speed, {1});
+	healthBarSprite->CreateAnimation(HEALTH_20, speed, {3});
+	healthBarSprite->CreateAnimation(HEALTH_0, speed, {5});
 }
 
 void AnimationHandler::Update(float deltaTime)
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityManager &entityManager = EntityManager::GetInstance();
 
 	for (auto entityId : entityManager.GetEntitiesWithComponents<Tag, Animation>())
 	{
-		Tag* tag = entityManager.GetComponent<Tag>(entityId);
+		Tag *tag = entityManager.GetComponent<Tag>(entityId);
 
 		switch (tag->GetEntityType())
 		{
@@ -95,10 +92,10 @@ void AnimationHandler::Update(float deltaTime)
 
 void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	Animation* animation = entityManager.GetComponent<Animation>(entityId);
-	Velocity* velocity = entityManager.GetComponent<Velocity>(entityId);
-	CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	Tag* tag = entityManager.GetComponent<Tag>(entityId);
+	Animation *animation = entityManager.GetComponent<Animation>(entityId);
+	Velocity *velocity = entityManager.GetComponent<Velocity>(entityId);
+	CSimpleSprite *sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	Tag *tag = entityManager.GetComponent<Tag>(entityId);
 
 	if (!animation)
 		return;
@@ -136,8 +133,8 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
 
 void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	CSimpleSprite* reloadingCircleSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	Animation* reloadingCircleAnimation = entityManager.GetComponent<Animation>(entityId);
+	CSimpleSprite *reloadingCircleSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	Animation *reloadingCircleAnimation = entityManager.GetComponent<Animation>(entityId);
 	reloadingCircleAnimation->SetCurrentAnimation(RELOADING_CIRCLE_ANIM_SPIN);
 	reloadingCircleSprite->SetAnimation(RELOADING_CIRCLE_ANIM_SPIN);
 	reloadingCircleSprite->Update(deltaTime);
@@ -145,7 +142,7 @@ void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager &entityManag
 
 void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	CSimpleSprite* healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	healthBarSprite->Update(deltaTime);
 }
 
@@ -153,9 +150,9 @@ void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float 
 {
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	EntityId healthBarEntityId = entityManager.GetHealthBarEntityId();
-	Health* health = entityManager.GetComponent<Health>(playerEntityId);
-	Animation* animation = entityManager.GetComponent<Animation>(healthBarEntityId);
-	CSimpleSprite* healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
+	Health *health = entityManager.GetComponent<Health>(playerEntityId);
+	Animation *animation = entityManager.GetComponent<Animation>(healthBarEntityId);
+	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
 	constexpr int maxFrames = 5;
 
 	if (!health || !healthBarSprite)

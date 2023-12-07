@@ -1,6 +1,6 @@
 #pragma once
-#include "../App/Components/include/Tag.h"
-#include "../App/Utilities/include/Enums.h"
+#include "Components/include/Tag.h"
+#include "Utilities/include/Enums.h"
 #include "SimpleSprite.h"
 #include <iostream>
 #include <random>

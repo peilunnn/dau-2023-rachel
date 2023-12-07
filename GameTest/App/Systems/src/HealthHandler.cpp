@@ -1,15 +1,15 @@
 #include "stdafx.h"
 #include "Components/include/Health.h"
 #include "Components/include/Tag.h"
+#include "Systems/include/HealthHandler.h"
 #include "Utilities/include/Helper.h"
-#include "../include/HealthHandler.h"
-#include <algorithm>
 
-void HealthHandler::HandleEvent(const Event& event, float deltaTime)
+void HealthHandler::HandleEvent(const Event &event, float deltaTime)
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityManager &entityManager = EntityManager::GetInstance();
 
-	if (event.GetEventType() == "EnemyHitPlayer") {
+	if (event.GetEventType() == "EnemyHitPlayer")
+	{
 		HandleEnemyHitPlayer(entityManager);
 	}
 }
@@ -17,8 +17,8 @@ void HealthHandler::HandleEvent(const Event& event, float deltaTime)
 void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 {
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
-	Tag* tag = entityManager.GetComponent<Tag>(playerEntityId);
-	Health* health = entityManager.GetComponent<Health>(playerEntityId);
+	Tag *tag = entityManager.GetComponent<Tag>(playerEntityId);
+	Health *health = entityManager.GetComponent<Health>(playerEntityId);
 
 	if (!health)
 		return;
