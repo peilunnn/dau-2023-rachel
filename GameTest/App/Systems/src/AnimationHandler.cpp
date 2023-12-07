@@ -5,23 +5,27 @@
 #include "Components/include/Tag.h"
 #include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
+#include "Managers/include/SpriteManager.h"
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/HealthHandler.h"
 #include "Utilities/include/Enums.h"
 #include "Utilities/include/SimpleSprite.h"
 using glm::vec2;
 
-void AnimationHandler::Init(CSimpleSprite *playerSprite, CSimpleSprite *enemySprite, CSimpleSprite *reloadingCircleSprite, CSimpleSprite *healthBarSprite)
+void AnimationHandler::Init()
 {
-	InitPlayerAnimation(playerSprite);
-	InitReloadingCircleAnimation(reloadingCircleSprite);
-	InitHealthBarAnimation(healthBarSprite);
+	EntityManager& entityManager = EntityManager::GetInstance();
+	SpriteManager& spriteManager = SpriteManager::GetInstance();
+
+	InitPlayerAnimation(entityManager, spriteManager);
+	InitReloadingCircleAnimation(entityManager, spriteManager);
+	InitHealthBarAnimation(entityManager, spriteManager);
 }
 
-void AnimationHandler::InitPlayerAnimation(CSimpleSprite *playerSprite)
+void AnimationHandler::InitPlayerAnimation(EntityManager& entityManager, SpriteManager& spriteManager)
 {
-	if (!playerSprite)
-		return;
+	EntityId playerEntityId = entityManager.GetPlayerEntityId();
+	CSimpleSprite* playerSprite = spriteManager.GetSprite(playerEntityId);
 
 	constexpr float speed = 1.0f / 15.0f;
 	playerSprite->CreateAnimation(PLAYER_ANIM_FORWARDS, speed, {12, 13, 14, 15});
@@ -34,29 +38,19 @@ void AnimationHandler::InitPlayerAnimation(CSimpleSprite *playerSprite)
 	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, speed, {12});
 }
 
-void AnimationHandler::HandleEvent(const Event &event, float deltaTime)
+void AnimationHandler::InitReloadingCircleAnimation(EntityManager& entityManager, SpriteManager& spriteManager)
 {
-	EntityManager &entityManager = EntityManager::GetInstance();
-
-	if (event.GetEventType() == "EnemyHitPlayer")
-	{
-		HandleEnemyHitPlayer(entityManager, deltaTime);
-	}
-}
-
-void AnimationHandler::InitReloadingCircleAnimation(CSimpleSprite *reloadingCircleSprite)
-{
-	if (!reloadingCircleSprite)
-		return;
+	EntityId reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
+	CSimpleSprite* reloadingCircleSprite = spriteManager.GetSprite(reloadingCircleEntityId);
 
 	constexpr float speed = 1.0f / 15.0f;
 	reloadingCircleSprite->CreateAnimation(RELOADING_CIRCLE_ANIM_SPIN, speed, {1, 2, 3, 4, 5, 6});
 }
 
-void AnimationHandler::InitHealthBarAnimation(CSimpleSprite *healthBarSprite)
+void AnimationHandler::InitHealthBarAnimation(EntityManager& entityManager, SpriteManager& spriteManager)
 {
-	if (!healthBarSprite)
-		return;
+	EntityId healtBarEntityId = entityManager.GetHealthBarEntityId();
+	CSimpleSprite* healthBarSprite = spriteManager.GetSprite(healtBarEntityId);
 
 	constexpr float speed = 1.0f / 15.0f;
 	healthBarSprite->CreateAnimation(HEALTH_100, speed, {0});
@@ -144,6 +138,16 @@ void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, En
 {
 	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	healthBarSprite->Update(deltaTime);
+}
+
+void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+
+	if (event.GetEventType() == "EnemyHitPlayer")
+	{
+		HandleEnemyHitPlayer(entityManager, deltaTime);
+	}
 }
 
 void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime)

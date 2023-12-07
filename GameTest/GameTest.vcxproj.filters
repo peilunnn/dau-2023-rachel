@@ -49,6 +49,7 @@
     <ClCompile Include="App\Components\src\Velocity.cpp" />
     <ClCompile Include="App\Components\src\Screen.cpp" />
     <ClCompile Include="App\Systems\src\TitleHandler.cpp" />
+    <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -105,6 +106,7 @@
     <ClInclude Include="App\Systems\include\TitleHandler.h" />
     <ClInclude Include="App\Utilities\include\DirectSound.h" />
     <ClInclude Include="App\Utilities\include\mydirectsound.h" />
+    <ClInclude Include="App\Managers\include\SpriteManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

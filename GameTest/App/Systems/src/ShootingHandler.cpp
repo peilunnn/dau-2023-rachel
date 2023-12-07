@@ -2,16 +2,14 @@
 #include "Components/include/Cooldown.h"
 #include "Components/include/Transform.h"
 #include "Systems/include/ShootingHandler.h"
-#include "Utilities/include/app.h"
-#include "Utilities/include/Helper.h"
 using glm::vec2;
 using glm::vec3;
 
 void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityId, float mouseX, float mouseY)
 {
+	SpriteManager& spriteManager = SpriteManager::GetInstance();
 	Cooldown* cooldown = entityManager.GetComponent<Cooldown>(playerEntityId);
 	Transform* playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
-	CSimpleSprite* bulletSprite = App::CreateSprite(Helper::PATH_TO_BULLET_SPRITE, 1, 1);
 
 	if (cooldown->IsCooldownComplete() && m_bulletsShotSoFar < MAX_BULLETS && playerTransform)
 	{
@@ -24,7 +22,7 @@ void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityI
 			direction = normalize(direction);
 
 		vec2 bulletVelocity = direction * m_bulletSpeed;
-		entityManager.CreateBulletEntity(bulletSprite, bulletPos, bulletVelocity);
+		entityManager.CreateBulletEntity(spriteManager, bulletPos, bulletVelocity);
 
 		m_bulletsShotSoFar++;
 		entityManager.HideAmmoFilledEntity(m_bulletsShotSoFar - 1);

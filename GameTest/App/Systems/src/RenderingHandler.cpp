@@ -3,17 +3,18 @@
 #include "Components/include/Score.h"
 #include "Components/include/Timer.h"
 #include "Components/include/Transform.h"
+#include "Managers/include/SpriteManager.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Utilities/include/App.h"
 
-void RenderingHandler::Render(GameState gameState, CSimpleSprite* titleSprite, CSimpleSprite* playButtonSprite)
+void RenderingHandler::Render(GameState gameState)
 {
     EntityManager& entityManager = EntityManager::GetInstance();
     Screen& screen = Screen::GetInstance();
 
     switch (gameState) {
     case MAIN_MENU:
-        RenderMainMenu(entityManager, screen, titleSprite, playButtonSprite);
+        RenderMainMenu(entityManager, screen);
         break;
     case GAMEPLAY:
         RenderGameScene(entityManager, screen);
@@ -21,10 +22,10 @@ void RenderingHandler::Render(GameState gameState, CSimpleSprite* titleSprite, C
     }
 }
 
-void RenderingHandler::RenderMainMenu(EntityManager& entityManager, Screen& screen, CSimpleSprite* titleSprite, CSimpleSprite* playButtonSprite)
+void RenderingHandler::RenderMainMenu(EntityManager& entityManager, Screen& screen)
 {
     EntityId titleEntityId = entityManager.GetTitleEntityId();
-    titleSprite = entityManager.GetComponent<Renderable>(titleEntityId)->GetSprite();
+    CSimpleSprite* titleSprite = entityManager.GetComponent<Renderable>(titleEntityId)->GetSprite();
     Transform* titleTransform = entityManager.GetComponent<Transform>(titleEntityId);
 
     SetBackground(screen.R_MAIN_MENU_BG, screen.G_MAIN_MENU_BG, screen.B_MAIN_MENU_BG, screen.ALPHA_MAIN_MENU_BG);
@@ -38,7 +39,7 @@ void RenderingHandler::RenderMainMenu(EntityManager& entityManager, Screen& scre
     App::Print(screen.SCREEN_WIDTH - screen.DESCRIPTION_X_OFFSET, screen.SCREEN_HEIGHT - screen.DESCRIPTION_Y_OFFSET, descriptionText, screen.R_TEXT, screen.G_TEXT, screen.B_TEXT);
 
     EntityId playButtonEntityId = entityManager.GetPlayButtonEntityId();
-    playButtonSprite = entityManager.GetComponent<Renderable>(playButtonEntityId)->GetSprite();
+    CSimpleSprite* playButtonSprite = entityManager.GetComponent<Renderable>(playButtonEntityId)->GetSprite();
     Transform* playButtonTransform = entityManager.GetComponent<Transform>(playButtonEntityId);
 
     playButtonSprite->SetPosition(playButtonTransform->GetPosition().x, playButtonTransform->GetPosition().y);
@@ -55,7 +56,6 @@ void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& scr
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
         RenderEntities(entityManager, entityId);
 }
-
 
 void RenderingHandler::RenderEntities(EntityManager &entityManager, EntityId entityId)
 {
@@ -105,8 +105,8 @@ void RenderingHandler::RenderTimer(EntityManager &entityManager, EntityId entity
     if (!timer)
         return;
 
-        string timerText = to_string(static_cast<int>(timer->GetCountdownTime()));
-        App::Print(transform->GetPosition().x, transform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
+    string timerText = to_string(static_cast<int>(timer->GetCountdownTime()));
+    App::Print(transform->GetPosition().x, transform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
 }
 
 void RenderingHandler::SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)

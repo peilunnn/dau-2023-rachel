@@ -1,8 +1,8 @@
 #pragma once
 #include "Components/include/Component.h"
 #include "Components/include/EntityId.h"
+#include "Managers/include/SpriteManager.h"
 #include "Utilities/include/Enums.h"
-#include "Utilities/include/SimpleSprite.h"
 #include <glm/fwd.hpp>
 #include <memory>
 #include <unordered_map>
@@ -21,19 +21,19 @@ public:
     EntityManager(EntityManager const&) = delete;
     void operator=(EntityManager const&) = delete;
 
-    void Init(CSimpleSprite* playerSprite, CSimpleSprite* enemySprite, CSimpleSprite* reloadingCircleSprite, CSimpleSprite* healthBarSprite, CSimpleSprite* titleSprite, CSimpleSprite* playButtonSprite, vector<CSimpleSprite*> ammoEmptySprites, vector<CSimpleSprite*> ammoFilledSprites);
+    void Init();
     vector<EntityId> GetAllEntities();
     EntityId CreateEntityId();
-    EntityId CreatePlayerEntity(CSimpleSprite* playerSprite);
-    EntityId CreateEnemyEntity(const vec3 &playerPos, CSimpleSprite* enemySprite, float screenWidth, float screenHeight);
-    EntityId CreateBulletEntity(CSimpleSprite* bulletSprite, const vec3 &pos, const vec2 &targetVelocity);
-    EntityId CreateReloadingCircleEntity(CSimpleSprite* reloadingCircleSprite);
-    EntityId CreateAmmoEntity(CSimpleSprite* ammoSprite, EntityType entityType, float xPos, float yPos);
-    EntityId CreateHealthBarEntity(CSimpleSprite* healthBarSprite, float xPos, float yPos);
+    EntityId CreatePlayerEntity(SpriteManager& spriteManager);
+    EntityId CreateEnemyEntity(SpriteManager& spriteManager, const vec3 &playerPos, float screenWidth, float screenHeight);
+    EntityId CreateBulletEntity(SpriteManager& spriteManager, const vec3 &pos, const vec2 &targetVelocity);
+    EntityId CreateReloadingCircleEntity(SpriteManager& spriteManager);
+    EntityId CreateAmmoEntity(SpriteManager& spriteManager, EntityType entityType, float xPos, float yPos);
+    EntityId CreateHealthBarEntity(SpriteManager& spriteManager, float xPos, float yPos);
     EntityId CreateScoreEntity();
     EntityId CreateTimerEntity();
-    EntityId CreateTitleEntity(CSimpleSprite* titleSprite);
-    EntityId CreatePlayButtonEntity(CSimpleSprite* playButtonSprite);
+    EntityId CreateTitleEntity(SpriteManager& spriteManager);
+    EntityId CreatePlayButtonEntity(SpriteManager& spriteManager);
     void HideAmmoFilledEntity(int index);
     void ShowAllAmmoFilledEntity();
     void MoveEntityToRandomPos(EntityId entityId);

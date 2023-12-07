@@ -180,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\Components\include\Animation.h" />
+    <ClInclude Include="App\Managers\include\SpriteManager.h" />
     <ClInclude Include="App\Utilities\include\app.h" />
     <ClInclude Include="App\Utilities\include\AppSettings.h" />
     <ClInclude Include="App\Utilities\include\DirectSound.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="App\Systems\src\ScoreHandler.cpp" />
     <ClCompile Include="App\Components\src\Score.cpp" />
     <ClCompile Include="App\Components\src\Screen.cpp" />
+    <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
