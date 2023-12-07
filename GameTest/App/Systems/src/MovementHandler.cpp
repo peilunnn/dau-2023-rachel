@@ -7,7 +7,6 @@
 #include "Components/include/Velocity.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/MovementHandler.h"
-#include "Utilities/include/Helper.h"
 using glm::vec3;
 
 void MovementHandler::Update(float deltaTime)
@@ -91,7 +90,6 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Screen& 
 	vec2 movement = currentVelocity * deltaTime;
 	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
 	transform->SetPosition(newPos);
-
 
 	if (!(bounceDirection->GetBounced()))
 	{

@@ -85,7 +85,7 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager& spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.6f);
 	vec2 vel = vec2(0.0f);
-	constexpr float radiusMultiplier = 0.5f;
+	constexpr float radiusMultiplier = 0.25f;
 	constexpr float playerShootingCooldown = 1.0f;
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Player, Scene::Gameplay);
@@ -126,7 +126,7 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager& spriteManager, const ve
 	vec3 pos = Helper::GetOppositeQuadrantPosition(playerPos, screen.SCREEN_WIDTH, screen.SCREEN_HEIGHT);
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
-	constexpr float radiusMultiplier = 0.5f;
+	constexpr float radiusMultiplier = 0.25f;
 	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, Scene::Gameplay);
@@ -159,7 +159,7 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager& spriteManager, const v
 
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
-	constexpr float radiusMultiplier = 0.5f;
+	constexpr float radiusMultiplier = 0.25f;
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Bullet, Scene::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
@@ -193,7 +193,7 @@ EntityId EntityManager::CreateReloadingCircleEntity(SpriteManager& spriteManager
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
-	constexpr float radiusMultiplier = 0.5f;
+	constexpr float radiusMultiplier = 0.25f;
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::ReloadingCircle, Scene::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
