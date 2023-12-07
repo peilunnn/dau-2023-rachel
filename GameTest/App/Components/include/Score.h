@@ -1,7 +1,8 @@
 #pragma once
 #include "Component.h"
 
-struct Score : public Component {
+class Score : public Component {
+public:
     Score() = default;
 
     int GetScore() const { return m_title; }

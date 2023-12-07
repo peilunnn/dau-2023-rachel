@@ -1,7 +1,8 @@
 #pragma once
 #include "Component.h"
 
-struct Timer : public Component {
+class Timer : public Component {
+public:
     Timer() = default;
 
     float GetCountdownTime() const { return m_countdownTime; }

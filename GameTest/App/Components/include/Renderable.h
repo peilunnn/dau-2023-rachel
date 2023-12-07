@@ -4,7 +4,8 @@
 #include <memory>
 using namespace std;
 
-struct Renderable : public Component {
+class Renderable: public Component{
+public:
     Renderable(CSimpleSprite* newSprite) : m_sprite(newSprite) {}
 
     CSimpleSprite* GetSprite() const { return m_sprite; }
