@@ -3,23 +3,19 @@
 #include "Components/include/Score.h"
 #include "Components/include/Timer.h"
 #include "Components/include/Transform.h"
-#include "Managers/include/SpriteManager.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Utilities/include/App.h"
+#include "Utilities/include/Helper.h"
 
 void RenderingHandler::Render(GameState gameState)
 {
     EntityManager& entityManager = EntityManager::GetInstance();
     Screen& screen = Screen::GetInstance();
 
-    switch (gameState) {
-    case MAIN_MENU:
-        RenderMainMenu(entityManager, screen);
-        break;
-    case GAMEPLAY:
+    if (gameState == GameState::MainMenu)
+            RenderMainMenu(entityManager, screen);
+    else if (gameState == GameState::Gameplay)
         RenderGameScene(entityManager, screen);
-        break;
-    }
 }
 
 void RenderingHandler::RenderMainMenu(EntityManager& entityManager, Screen& screen)
@@ -53,27 +49,28 @@ void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& scr
     DrawBorder(screen, screen.R_BORDER, screen.G_BORDER, screen.B_BORDER);
     DrawBackgroundInBorder(screen, screen.R_BG_IN_BORDER, screen.G_BG_IN_BORDER, screen.B_BG_IN_BORDER);
 
-    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
-        RenderEntities(entityManager, entityId);
+    for (EntityId entityId : entityManager.GetAmmoEmptyEntities())
+        RenderSprite(entityManager, entityId);
+
+    for (EntityId entityId : entityManager.GetAmmoFilledEntities())
+        RenderSprite(entityManager, entityId);
+
+    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
+    {
+        Tag* tag = entityManager.GetComponent<Tag>(entityId);
+        if (tag->GetEntityType() != EntityType::AmmoEmpty && tag->GetEntityType() != EntityType::AmmoFilled)
+            RenderSprite(entityManager, entityId);
+    }
+
+    RenderScore(entityManager);
+    RenderTimer(entityManager);
 }
 
-void RenderingHandler::RenderEntities(EntityManager &entityManager, EntityId entityId)
+void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entityId)
 {
     Tag* tag = entityManager.GetComponent<Tag>(entityId);
     Transform* transform = entityManager.GetComponent<Transform>(entityId);
-
-    RenderSprites(entityManager, entityId, tag, transform);
-    RenderScore(entityManager, entityId, tag, transform);
-    RenderTimer(entityManager, entityId, tag, transform);
-}
-
-void RenderingHandler::RenderSprites(EntityManager &entityManager, EntityId entityId, Tag* tag, Transform* transform)
-{
     Renderable* renderable = entityManager.GetComponent<Renderable>(entityId);
-
-    if (!renderable)
-        return;
-
     CSimpleSprite* sprite = renderable->GetSprite();
 
     sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
@@ -85,9 +82,12 @@ void RenderingHandler::RenderSprites(EntityManager &entityManager, EntityId enti
     sprite->Draw();
 }
 
-void RenderingHandler::RenderScore(EntityManager &entityManager, EntityId entityId, Tag* tag, Transform* transform)
+void RenderingHandler::RenderScore(EntityManager &entityManager)
 {
-    Score* score = entityManager.GetComponent<Score>(entityId);
+    EntityId scoreEntityId = entityManager.GetScoreEntityId();
+    Score* score = entityManager.GetComponent<Score>(scoreEntityId);
+    Transform* scoreTransform = entityManager.GetComponent<Transform>(scoreEntityId);
+
     constexpr float r = 1.0f;
     constexpr float g = 1.0f;
     constexpr float b = 1.0f;
@@ -96,17 +96,17 @@ void RenderingHandler::RenderScore(EntityManager &entityManager, EntityId entity
         return;
 
     string scoreText = "Score: " + to_string(score->GetScore());
-    App::Print(transform->GetPosition().x, transform->GetPosition().y, scoreText.c_str(), r, g, b);
+    App::Print(scoreTransform->GetPosition().x, scoreTransform->GetPosition().y, scoreText.c_str(), r, g, b);
 }
 
-void RenderingHandler::RenderTimer(EntityManager &entityManager, EntityId entityId, Tag* tag, Transform* transform)
+void RenderingHandler::RenderTimer(EntityManager &entityManager)
 {
-    Timer* timer = entityManager.GetComponent<Timer>(entityId);
-    if (!timer)
-        return;
+    EntityId timerEntityId = entityManager.GetTimerEntityId();
+    Timer* timer = entityManager.GetComponent<Timer>(timerEntityId);
+    Transform* timerTransform = entityManager.GetComponent<Transform>(timerEntityId);
 
     string timerText = to_string(static_cast<int>(timer->GetCountdownTime()));
-    App::Print(transform->GetPosition().x, transform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
+    App::Print(timerTransform->GetPosition().x, timerTransform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
 }
 
 void RenderingHandler::SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)

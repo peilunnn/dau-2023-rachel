@@ -21,10 +21,9 @@ public:
 private:
     RenderingHandler() = default;
 
-    void RenderEntities(EntityManager& entityManager, EntityId entityId);
-    void RenderSprites(EntityManager& entityManager, EntityId entityId, Tag* tag, Transform* transform);
-    void RenderScore(EntityManager& entityManager, EntityId entityId, Tag* tag, Transform* transform);
-    void RenderTimer(EntityManager& entityManager, EntityId entityId, Tag* tag, Transform* transform);
+    void RenderSprite(EntityManager& entityManager, EntityId entityId);
+    void RenderScore(EntityManager& entityManager);
+    void RenderTimer(EntityManager& entityManager);
 
     void SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
     void DrawBorder(Screen& screen, GLfloat red, GLfloat green, GLfloat blue);

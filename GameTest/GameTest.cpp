@@ -27,13 +27,13 @@ GameState gameState;
 void Init()
 {
 	// Set game state
-	gameState = GAMEPLAY;
+	gameState = GameState::Gameplay;
 
 	// Set up sprites
-	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
 	// Set up entities
-	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityManager &entityManager = EntityManager::GetInstance();
 	entityManager.Init();
 
 	// Set up managers and systems
@@ -51,12 +51,13 @@ void Update(float deltaTime)
 {
 	float deltaTimeInSeconds = deltaTime / 1000.0f;
 
-	switch (gameState) {
-	case MAIN_MENU:
+	if (gameState == GameState::MainMenu)
+	{
 		TitleHandler::GetInstance().Update(deltaTimeInSeconds);
 		// Check for "Start" button click to change state to GAMEPLAY
-		break;
-	case GAMEPLAY:
+	}
+	else if (gameState == GameState::Gameplay)
+	{
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
 		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
 		CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
@@ -65,7 +66,6 @@ void Update(float deltaTime)
 		CooldownHandler::GetInstance().Update(deltaTimeInSeconds);
 		SystemManager::GetInstance().ProcessEvents(deltaTimeInSeconds);
 		EntityManager::GetInstance().ProcessDeletions();
-		break;
 	}
 }
 

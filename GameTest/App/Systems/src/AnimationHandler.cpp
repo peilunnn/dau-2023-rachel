@@ -27,7 +27,7 @@ void AnimationHandler::InitPlayerAnimation(EntityManager& entityManager, SpriteM
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	CSimpleSprite* playerSprite = spriteManager.GetSprite(playerEntityId);
 
-	constexpr float speed = 1.0f / 15.0f;
+	constexpr float speed = 1.0f / 5.0f;
 	playerSprite->CreateAnimation(PLAYER_ANIM_FORWARDS, speed, {12, 13, 14, 15});
 	playerSprite->CreateAnimation(PLAYER_ANIM_BACKWARDS, speed, {0, 1, 2, 3});
 	playerSprite->CreateAnimation(PLAYER_ANIM_LEFT, speed, {4, 5, 6, 7});

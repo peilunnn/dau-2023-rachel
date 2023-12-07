@@ -48,6 +48,12 @@ public:
     EntityId GetTimerEntityId() const { return m_timerEntityId; }
     EntityId GetTitleEntityId() const { return m_titleEntityId; }
     EntityId GetPlayButtonEntityId() const { return m_playButtonEntityId; }
+    vector<EntityId> GetAmmoEmptyEntities() const {
+        return m_ammoEmptyEntities;
+    }
+    vector<EntityId> GetAmmoFilledEntities() const {
+        return m_ammoFilledEntities;
+    }
 
     template <typename T>
     void AddComponent(EntityId entityId, unique_ptr<T> component)
@@ -98,7 +104,7 @@ private:
 
     EntityId m_nextEntityId = -1;
     unordered_map<EntityId, vector<unique_ptr<Component>>> m_entityComponents;
-    vector<EntityId> m_entitiesToDelete;
-    vector<EntityId> m_ammoEmptyEntities;
-    vector<EntityId> m_ammoFilledEntities;
+    vector<EntityId> m_entitiesToDelete = vector<EntityId>();
+    vector<EntityId> m_ammoEmptyEntities = vector<EntityId>();
+    vector<EntityId> m_ammoFilledEntities = vector<EntityId>();
 };
