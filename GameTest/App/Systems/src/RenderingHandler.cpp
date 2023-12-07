@@ -13,34 +13,35 @@ void RenderingHandler::Render(GameState gameState)
     Screen& screen = Screen::GetInstance();
 
     if (gameState == GameState::MainMenu)
-            RenderMainMenu(entityManager, screen);
+        RenderMainMenu(entityManager, screen);
     else if (gameState == GameState::Gameplay)
         RenderGameScene(entityManager, screen);
 }
 
 void RenderingHandler::RenderMainMenu(EntityManager& entityManager, Screen& screen)
 {
-    EntityId titleEntityId = entityManager.GetTitleEntityId();
-    CSimpleSprite* titleSprite = entityManager.GetComponent<Renderable>(titleEntityId)->GetSprite();
-    Transform* titleTransform = entityManager.GetComponent<Transform>(titleEntityId);
-
     SetBackground(screen.R_MAIN_MENU_BG, screen.G_MAIN_MENU_BG, screen.B_MAIN_MENU_BG, screen.ALPHA_MAIN_MENU_BG);
 
-    titleSprite->SetPosition(titleTransform->GetPosition().x, titleTransform->GetPosition().y);
-    titleSprite->SetAngle(titleTransform->GetRotation().z);
-    titleSprite->SetScale(titleTransform->GetScale().x);
-    titleSprite->Draw();
+    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
+    {
+        Tag* tag = entityManager.GetComponent<Tag>(entityId);
+        
+        if (tag->GetScene() != Scene::MainMenu)
+            continue;
+
+        CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+        Transform* transform = entityManager.GetComponent<Transform>(entityId);
+        sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
+        sprite->SetScale(transform->GetScale().x);
+        
+        if (entityId == entityManager.GetTitleEntityId())
+            sprite->SetAngle(transform->GetRotation().z);
+
+        sprite->Draw();
+    }
 
     constexpr char* descriptionText = "Get the highest score in 60 seconds!";
     App::Print(screen.SCREEN_WIDTH - screen.DESCRIPTION_X_OFFSET, screen.SCREEN_HEIGHT - screen.DESCRIPTION_Y_OFFSET, descriptionText, screen.R_TEXT, screen.G_TEXT, screen.B_TEXT);
-
-    EntityId playButtonEntityId = entityManager.GetPlayButtonEntityId();
-    CSimpleSprite* playButtonSprite = entityManager.GetComponent<Renderable>(playButtonEntityId)->GetSprite();
-    Transform* playButtonTransform = entityManager.GetComponent<Transform>(playButtonEntityId);
-
-    playButtonSprite->SetPosition(playButtonTransform->GetPosition().x, playButtonTransform->GetPosition().y);
-    playButtonSprite->SetScale(playButtonTransform->GetScale().x);
-    playButtonSprite->Draw();
 }
 
 void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& screen)
@@ -58,6 +59,10 @@ void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& scr
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
     {
         Tag* tag = entityManager.GetComponent<Tag>(entityId);
+
+        if (tag->GetScene() != Scene::Gameplay)
+            continue;
+
         if (tag->GetEntityType() != EntityType::AmmoEmpty && tag->GetEntityType() != EntityType::AmmoFilled)
             RenderSprite(entityManager, entityId);
     }
