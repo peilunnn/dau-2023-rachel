@@ -3,7 +3,7 @@
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/TitleHandler.h"
 
-void TitleHandler::Update(float deltaTime)
+void TitleHandler::OscillateTitle(float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
 	EntityId titleEntityId = entityManager.GetTitleEntityId();

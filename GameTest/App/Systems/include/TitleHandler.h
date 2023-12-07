@@ -10,7 +10,7 @@ public:
     TitleHandler(TitleHandler const&) = delete;
     void operator=(TitleHandler const&) = delete;
 
-    void Update(float deltaTime);
+    void OscillateTitle(float deltaTime);
 
 private:
     TitleHandler() = default;

@@ -25,8 +25,8 @@ void InputHandler::SetIsPlayButtonClicked() {
     Transform* transform = entityManager.GetComponent<Transform>(playButtonEntityId);
     Renderable* renderable = entityManager.GetComponent<Renderable>(playButtonEntityId);
     CSimpleSprite* sprite = renderable->GetSprite();
-    const float widthBuffer = sprite->GetWidth() / 2.0f;
-    const float heightBuffer = sprite->GetHeight() / 2.0f;
+    const float widthBuffer = sprite->GetWidth() / 6.0f;
+    const float heightBuffer = sprite->GetHeight() / 6.0f;
 
     float mouseX, mouseY;
     App::GetMousePos(mouseX, mouseY);

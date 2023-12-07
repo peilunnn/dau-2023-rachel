@@ -47,7 +47,7 @@ void Update(float deltaTime)
 
 	if (gameManager.GetGameState() == GameState::MainMenu)
 	{
-		TitleHandler::GetInstance().Update(deltaTimeInSeconds);
+		TitleHandler::GetInstance().OscillateTitle(deltaTimeInSeconds);
 		InputHandler::GetInstance().SetIsPlayButtonClicked();
 		gameManager.Update(deltaTimeInSeconds);
 	}
