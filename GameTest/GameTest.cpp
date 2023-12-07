@@ -41,7 +41,7 @@ vector<CSimpleSprite*> ammoFilledSprites;
 //------------------------------------------------------------------------
 void Init()
 {
-	gameState = MAIN_MENU;
+	gameState = GAMEPLAY;
 
 	// Set up sprites
 	// Main Menu

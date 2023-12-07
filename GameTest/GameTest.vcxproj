@@ -192,7 +192,6 @@
     <ClInclude Include="App\Components\include\BounceDirection.h" />
     <ClInclude Include="App\Components\include\Health.h" />
     <ClInclude Include="App\Managers\include\EntityManager.h" />
-    <ClInclude Include="App\Components\include\Button.h" />
     <ClInclude Include="App\Systems\include\CollisionHandler.h" />
     <ClInclude Include="App\Systems\include\ShootingHandler.h" />
     <ClInclude Include="App\Systems\include\RenderingHandler.h" />
@@ -235,7 +234,6 @@
     <ClCompile Include="App\Components\src\Collider.cpp" />
     <ClCompile Include="App\Components\src\BounceDirection.cpp" />
     <ClCompile Include="App\Managers\src\EntityManager.cpp" />
-    <ClCompile Include="App\Components\src\Button.cpp" />
     <ClCompile Include="App\Components\src\Component.cpp" />
     <ClCompile Include="App\Systems\src\TimerHandler.cpp" />
     <ClCompile Include="App\Utilities\src\Enums.cpp" />

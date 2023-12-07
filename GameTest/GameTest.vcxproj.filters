@@ -19,7 +19,6 @@
     <ClCompile Include="App\Components\src\Collider.cpp" />
     <ClCompile Include="App\Components\src\BounceDirection.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
-    <ClCompile Include="App\Components\src\Button.cpp" />
     <ClCompile Include="App\Systems\src\RenderingHandler.cpp" />
     <ClCompile Include="App\Systems\src\ShootingHandler.cpp" />
     <ClCompile Include="App\Systems\src\HealthHandler.cpp" />
@@ -72,7 +71,6 @@
     <ClInclude Include="App\Components\include\Collider.h" />
     <ClInclude Include="App\Components\include\BounceDirection.h" />
     <ClInclude Include="App\Components\include\Health.h" />
-    <ClInclude Include="App\Components\include\Button.h" />
     <ClInclude Include="App\Systems\include\RenderingHandler.h" />
     <ClInclude Include="App\Systems\include\ShootingHandler.h" />
     <ClInclude Include="App\Systems\include\HealthHandler.h" />

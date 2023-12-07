@@ -21,7 +21,12 @@ void EntityHandler::HandleEvent(const Event& event, float deltaTime)
 	}
 	else if (event.GetEventType() == "EnemyHitPlayer") {
 		EntityId enemyEntityId = event.GetEntities()[0];
-		HandleEnemyHitPlayer(entityManager, enemyEntityId, deltaTime);
+		HandleEnemyHitPlayer(entityManager, enemyEntityId);
+	}
+	else if (event.GetEventType() == "BulletOutOfBounds")
+	{
+		EntityId bulletEntityId = event.GetEntities()[0];
+		HandleBulletOutOfBounds(entityManager, bulletEntityId);
 	}
 }
 
@@ -50,7 +55,12 @@ void EntityHandler::SpawnTwoEnemies(EntityManager& entityManager, EntityId bulle
 }
 
 
-void EntityHandler::HandleEnemyHitPlayer(EntityManager& entityManager, EntityId enemyEntityId, float deltaTime)
+void EntityHandler::HandleEnemyHitPlayer(EntityManager& entityManager, EntityId enemyEntityId)
 {
 	entityManager.MarkEntityForDeletion(enemyEntityId);
+}
+
+void EntityHandler::HandleBulletOutOfBounds(EntityManager& entityManager, EntityId bulletEntityId)
+{
+	entityManager.MarkEntityForDeletion(bulletEntityId);
 }

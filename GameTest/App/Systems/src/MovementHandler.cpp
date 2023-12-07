@@ -7,6 +7,7 @@
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
 #include "Utilities/include/Helper.h"
+#include "Managers/include/SystemManager.h"
 using glm::vec3;
 
 void MovementHandler::Update(float deltaTime)
@@ -120,6 +121,7 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Screen& 
 
 void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
 {
+	SystemManager& systemManager = SystemManager::GetInstance();
 	Transform* transform = entityManager.GetComponent<Transform>(entityId);
 	Velocity* velocity = entityManager.GetComponent<Velocity>(entityId);
 
@@ -130,5 +132,8 @@ void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Screen&
 
 	if (transform->GetPosition().x < screen.SCREEN_LEFT || transform->GetPosition().x > screen.SCREEN_RIGHT ||
 		transform->GetPosition().y < screen.SCREEN_TOP || transform->GetPosition().y > screen.SCREEN_BOTTOM)
-		entityManager.MarkEntityForDeletion(entityId);
+	{
+		Event bulletOutOfBoundsEvent("BulletOutOfBounds", { entityId});
+		systemManager.SendEvent(bulletOutOfBoundsEvent);
+	}
 }
