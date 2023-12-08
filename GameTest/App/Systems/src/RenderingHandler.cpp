@@ -29,7 +29,6 @@ void RenderingHandler::RenderMainMenuScene(EntityManager& entityManager, Screen&
     const float descriptionXOffset = 600.0f;
     const float descriptionYOffset = 450.0f;
 
-
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
     {
         Tag* tag = entityManager.GetComponent<Tag>(entityId);
@@ -58,10 +57,10 @@ void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& scr
     DrawBorder(screen, WHITE);
     DrawBackgroundInBorder(screen, DARK_GREY);
 
-    for (EntityId entityId : entityManager.GetAmmoEmptyEntities())
+    for (EntityId entityId : entityManager.GetAmmoEmptyEntityIds())
         RenderSprite(entityManager, entityId);
 
-    for (EntityId entityId : entityManager.GetAmmoFilledEntities())
+    for (EntityId entityId : entityManager.GetAmmoFilledEntityIds())
         RenderSprite(entityManager, entityId);
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
@@ -83,18 +82,28 @@ void RenderingHandler::RenderGameOverScene(EntityManager& entityManager, Screen&
 {
     SetBackground(BLACK);
 
-    const float gameOverTextX = screen.SCREEN_WIDTH / 2.0f;
-    const float gameOverTextY = screen.SCREEN_HEIGHT / 2.0f;
-    constexpr char* gameOverText = "Game Over";
-    App::Print(gameOverTextX, gameOverTextY, gameOverText, WHITE.r, WHITE.g, WHITE.b);
-
     EntityId scoreEntityId = entityManager.GetScoreEntityId();
     Score* score = entityManager.GetComponent<Score>(scoreEntityId);
-
+    const float gameOverTextXOffset = 545.0f;
+    const float gameOverTextYOffset = 410.0f;
+    const float scoreTextXOffset = 570.0f;
+    const float scoreTextYOffset = 450.0f;
+    const float gameOverTextX = screen.SCREEN_WIDTH - gameOverTextXOffset;
+    const float gameOverTextY = screen.SCREEN_HEIGHT  - gameOverTextYOffset;
+    const float scoreTextX = screen.SCREEN_WIDTH - scoreTextXOffset;
+    const float scoreTextY = screen.SCREEN_HEIGHT - scoreTextYOffset;
+    constexpr char* gameOverText = "Game Over";
     string scoreMessage = "You got a score of : " + to_string(score->GetScore());
-    const float scoreTextX = gameOverTextX - 20.0f;
-    const float scoreTextY = gameOverTextY - 50.0f;
+
     App::Print(scoreTextX, scoreTextY, scoreMessage.c_str(), WHITE.r, WHITE.g, WHITE.b);
+    App::Print(gameOverTextX, gameOverTextY, gameOverText, WHITE.r, WHITE.g, WHITE.b);
+
+    EntityId backButtonEntityId = entityManager.GetBackButtonEntityId();
+    CSimpleSprite* backButtonSprite = entityManager.GetComponent<Renderable>(backButtonEntityId)->GetSprite();
+    Transform* transform = entityManager.GetComponent<Transform>(backButtonEntityId);
+    backButtonSprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
+    backButtonSprite->SetScale(transform->GetScale().x);
+    backButtonSprite->Draw();
 }
 
 void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entityId)

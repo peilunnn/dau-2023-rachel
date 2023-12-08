@@ -1,13 +1,15 @@
 #pragma once
+#include "Components/include/EntityId.h"
+#include "Components/include/Renderable.h"
 #include "Components/include/Tag.h"
+#include "Components/include/Transform.h"
+#include "Managers/include/EntityManager.h"
+#include "Utilities/include/app.h"
 #include "Utilities/include/Enums.h"
-#include "SimpleSprite.h"
-#include <iostream>
+#include <glm/glm.hpp>
 #include <random>
-#include <sstream>
 #include <string>
 #include <Windows.h>
-#include <glm/glm.hpp>
 using glm::vec2;
 using glm::vec3;
 using namespace std;
@@ -22,7 +24,6 @@ struct SpriteDimensions
 
 namespace Helper
 {
-	// For getting sprites and sprite sheets
 	inline const char *PATH_TO_PLAYER = ".\\Data\\SpriteSheets\\Player.png";
 	inline const char *PATH_TO_ENEMY = ".\\Data\\SpriteSheets\\Enemy.png";
 	inline const char *PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
@@ -32,25 +33,8 @@ namespace Helper
 	inline const char *PATH_TO_HEALTH_BAR = ".\\Data\\SpriteSheets\\HealthBar.png";
 	inline const char *PATH_TO_TITLE = ".\\Data\\Sprites\\Title.png";
 	inline const char *PATH_TO_PLAY_BUTTON = ".\\Data\\Sprites\\PlayButton.png";
-	inline const char *PATH_TO_MENU_BUTTON = ".\\Data\\Sprites\\MenuButton.png";
+	inline const char *PATH_TO_BACK_BUTTON = ".\\Data\\Sprites\\BackButton.png";
 
-	// Getting string representation of an EntityType (for reading Tag)
-	inline string GetEntityTypeString(EntityType entityType)
-	{
-		switch (entityType)
-		{
-		case EntityType::Player:
-			return "Player";
-		case EntityType::Enemy:
-			return "Enemy";
-		case EntityType::Bullet:
-			return "Bullet";
-		default:
-			return "Unknown";
-		}
-	}
-
-	// Logging functions
 	template <typename T>
 	inline void Log(const string &message, T value)
 	{
@@ -64,7 +48,6 @@ namespace Helper
 		OutputDebugStringA((message + "\n").c_str());
 	}
 
-	// Random value generation functions
 	inline float GenerateFloat(float min, float max)
 	{
 		static random_device rd;
@@ -83,7 +66,6 @@ namespace Helper
 		return vec3(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY), GenerateFloat(minZ, maxZ));
 	}
 
-	// For spawning enemy in the opposite quadrant of player
 	inline vec3 GetOppositeQuadrantPosition(const vec3 &playerPos, float screenWidth, float screenHeight)
 	{
 		vec3 enemyPos;
@@ -96,5 +78,27 @@ namespace Helper
 		else
 			enemyPos.y = screenHeight * 0.25f; // Spawn in the upper half
 		return enemyPos;
+	}
+
+	inline bool IsButtonClicked(EntityId entityId)
+	{
+		EntityManager& entityManager = EntityManager::GetInstance();
+		Transform* transform = entityManager.GetComponent<Transform>(entityId);
+		Renderable* renderable = entityManager.GetComponent<Renderable>(entityId);
+		CSimpleSprite* sprite = renderable->GetSprite();
+		const float widthBuffer = sprite->GetWidth() / 10.0f;
+		const float heightBuffer = sprite->GetHeight() / 10.0f;
+		float mouseX, mouseY;
+
+		float left = transform->GetPosition().x - widthBuffer;
+		float right = transform->GetPosition().x + widthBuffer;
+		float top = transform->GetPosition().y - heightBuffer;
+		float bottom = transform->GetPosition().y + heightBuffer;
+
+		App::GetMousePos(mouseX, mouseY);
+		bool isWithinX = mouseX >= left && mouseX <= right;
+		bool isWithinY = mouseY >= top && mouseY <= bottom;
+
+		return isWithinX && isWithinY && App::IsKeyPressed(VK_LBUTTON);
 	}
 };

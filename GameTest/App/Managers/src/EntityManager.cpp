@@ -47,15 +47,16 @@ void EntityManager::Init()
 		float xPos = ammoStartingX - i * ammoSpriteSpacing;
 
 		m_ammoEmptyEntityId = CreateAmmoEntity(spriteManager, EntityType::AmmoEmpty, xPos, ammoYPos);
-		m_ammoEmptyEntities.push_back(m_ammoEmptyEntityId);
+		m_ammoEmptyEntityIds.push_back(m_ammoEmptyEntityId);
 		m_ammoFilledEntityId = CreateAmmoEntity(spriteManager, EntityType::AmmoFilled, xPos, ammoYPos);
-		m_ammoFilledEntities.push_back(m_ammoFilledEntityId);
+		m_ammoFilledEntityIds.push_back(m_ammoFilledEntityId);
 	}
 
 	m_scoreEntityId = CreateScoreEntity();
 	m_timerEntityId = CreateTimerEntity();
 	m_titleEntityId = CreateTitleEntity(spriteManager);
 	m_playButtonEntityId = CreatePlayButtonEntity(spriteManager);
+	m_backButtonEntityId = CreateBackButtonEntity(spriteManager);
 }
 
 vector<EntityId> EntityManager::GetAllEntities()
@@ -357,11 +358,36 @@ EntityId EntityManager::CreatePlayButtonEntity(SpriteManager& spriteManager)
 	return playButtonEntityId;
 }
 
+EntityId EntityManager::CreateBackButtonEntity(SpriteManager& spriteManager)
+{
+	EntityId backButtonEntityId = CreateEntityId();
+	CSimpleSprite* backButtonSprite = spriteManager.CreateSprite(backButtonEntityId, Helper::PATH_TO_BACK_BUTTON, 1, 1);
+
+	Screen& screen = screen.GetInstance();
+	const float backButtonXOffset = 520.0f;
+	const float backButtonYOffset = 500.0f;
+	float xPos = screen.SCREEN_WIDTH - backButtonXOffset;
+	float yPos = screen.SCREEN_HEIGHT - backButtonYOffset;
+	constexpr float zPos = 0.0f;
+	constexpr vec3 rot = vec3(0.0f);
+	constexpr vec3 scale = vec3(0.2f);
+
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::BackButton, Scene::GameOver);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(backButtonSprite);
+
+	AddComponent(backButtonEntityId, move(tag));
+	AddComponent(backButtonEntityId, move(transform));
+	AddComponent(backButtonEntityId, move(renderable));
+
+	return backButtonEntityId;
+}
+
 void EntityManager::HideAmmoFilledEntity(int index)
 {
-	if (index >= 0 && index < m_ammoFilledEntities.size())
+	if (index >= 0 && index < m_ammoFilledEntityIds.size())
 	{
-		CSimpleSprite* ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntities[index])->GetSprite();
+		CSimpleSprite* ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntityIds[index])->GetSprite();
 
 		if (!ammoFilledSprite)
 			return;
@@ -372,9 +398,9 @@ void EntityManager::HideAmmoFilledEntity(int index)
 
 void EntityManager::ShowAllAmmoFilledEntity()
 {
-	for (int i = 0; i < m_ammoFilledEntities.size(); i++)
+	for (int i = 0; i < m_ammoFilledEntityIds.size(); i++)
 	{
-		CSimpleSprite* ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntities[i])->GetSprite();
+		CSimpleSprite* ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntityIds[i])->GetSprite();
 		ammoFilledSprite->SetVisible(true);
 	}
 }

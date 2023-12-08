@@ -49,7 +49,7 @@ void Update(float deltaTime)
 	{
 		TitleHandler::GetInstance().OscillateTitle(deltaTimeInSeconds);
 		InputHandler::GetInstance().SetIsPlayButtonClicked();
-		gameManager.Update(deltaTimeInSeconds);
+		gameManager.HandlePlayButtonClick();
 	}
 	else if (gameManager.GetGameState() == GameState::Gameplay)
 	{
@@ -61,6 +61,11 @@ void Update(float deltaTime)
 		CooldownHandler::GetInstance().Update(deltaTimeInSeconds);
 		SystemManager::GetInstance().ProcessEvents(deltaTimeInSeconds);
 		EntityManager::GetInstance().ProcessDeletions();
+	}
+	else if (gameManager.GetGameState() == GameState::GameOver)
+	{
+		InputHandler::GetInstance().SetIsBackButtonClicked();
+		gameManager.HandleBackButtonClick();
 	}
 }
 

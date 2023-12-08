@@ -27,7 +27,8 @@ enum class EntityType
     Score,
     Timer,
     Title,
-    PlayButton
+    PlayButton,
+    BackButton
 };
 
 enum class EntityState

@@ -19,27 +19,18 @@ void InputHandler::Update(float deltaTime)
     inputHandler.HandleShootingInput(entityManager, playerEntityId, deltaTime);
 }
 
-void InputHandler::SetIsPlayButtonClicked() {
+void InputHandler::SetIsPlayButtonClicked()
+{
     EntityManager& entityManager = EntityManager::GetInstance();
     EntityId playButtonEntityId = entityManager.GetPlayButtonEntityId();
-    Transform* transform = entityManager.GetComponent<Transform>(playButtonEntityId);
-    Renderable* renderable = entityManager.GetComponent<Renderable>(playButtonEntityId);
-    CSimpleSprite* sprite = renderable->GetSprite();
-    const float widthBuffer = sprite->GetWidth() / 10.0f;
-    const float heightBuffer = sprite->GetHeight() / 10.0f;
+    m_isPlayButtonClicked = Helper::IsButtonClicked(playButtonEntityId);
+}
 
-    float mouseX, mouseY;
-    App::GetMousePos(mouseX, mouseY);
-
-    float left = transform->GetPosition().x - widthBuffer;
-    float right = transform->GetPosition().x + widthBuffer;
-    float top = transform->GetPosition().y - heightBuffer;
-    float bottom = transform->GetPosition().y + heightBuffer;
-
-    bool isWithinX = mouseX >= left && mouseX <= right;
-    bool isWithinY = mouseY >= top && mouseY <= bottom;
-
-    m_isPlayButtonClicked = isWithinX && isWithinY && App::IsKeyPressed(VK_LBUTTON);
+void InputHandler::SetIsBackButtonClicked()
+{
+    EntityManager& entityManager = EntityManager::GetInstance();
+    EntityId backButtonEntityId = entityManager.GetPlayButtonEntityId();
+    m_isBackButtonClicked = Helper::IsButtonClicked(backButtonEntityId);
 }
 
 void InputHandler::HandlePositionInput(EntityManager &entityManager, EntityId playerEntityId, float deltaTime)

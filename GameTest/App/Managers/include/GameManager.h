@@ -11,7 +11,8 @@ public:
     GameManager(GameManager const&) = delete;
     void operator=(GameManager const&) = delete;
 
-    void Update(float deltaTime);
+    void HandlePlayButtonClick();
+    void HandleBackButtonClick();
     void PrepareGameplay();
 
     GameState GetGameState() const {

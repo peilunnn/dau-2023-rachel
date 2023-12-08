@@ -2,19 +2,29 @@
 #include "Components/include/Cooldown.h"
 #include "Managers/include/GameManager.h"
 #include "Systems/include/InputHandler.h"
+#include "Utilities/include/Helper.h"
 
-void GameManager::Update(float deltaTime)
+void GameManager::HandlePlayButtonClick()
 {
-    EntityManager& entityManager = EntityManager::GetInstance();
     InputHandler& inputHandler = InputHandler::GetInstance();
 
-    if (m_gameState == GameState::MainMenu) {
-        if (inputHandler.GetIsPlayButtonClicked()) {
-            m_gameState = GameState::Gameplay;
-            inputHandler.ResetPlayButtonClick();
-            PrepareGameplay();
-        }
-    }
+    if (!inputHandler.GetIsPlayButtonClicked())
+        return;
+
+    m_gameState = GameState::Gameplay;
+    inputHandler.ResetPlayButtonClick();
+    PrepareGameplay();
+}
+
+void GameManager::HandleBackButtonClick()
+{
+    InputHandler& inputHandler = InputHandler::GetInstance();
+
+    if (!inputHandler.GetIsBackButtonClicked())
+        return;
+
+    m_gameState = GameState::MainMenu;
+    inputHandler.ResetBackButtonClick();
 }
 
 void GameManager::PrepareGameplay() {
