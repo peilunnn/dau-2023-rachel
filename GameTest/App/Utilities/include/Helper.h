@@ -16,26 +16,27 @@ using namespace std;
 
 namespace Helper
 {
-	inline const char *PATH_TO_PLAYER = ".\\Data\\SpriteSheets\\Player.png";
-	inline const char *PATH_TO_ENEMY = ".\\Data\\SpriteSheets\\Enemy.png";
-	inline const char *PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
-	inline const char *PATH_TO_RELOADING_CIRCLE = ".\\Data\\SpriteSheets\\ReloadingCircle.png";
-	inline const char *PATH_TO_AMMO_EMPTY = ".\\Data\\Sprites\\AmmoEmpty.png";
-	inline const char *PATH_TO_AMMO_FILLED = ".\\Data\\Sprites\\AmmoFilled.png";
-	inline const char *PATH_TO_HEALTH_BAR = ".\\Data\\SpriteSheets\\HealthBar.png";
-	inline const char *PATH_TO_TITLE = ".\\Data\\Sprites\\Title.png";
-	inline const char *PATH_TO_PLAY_BUTTON = ".\\Data\\Sprites\\PlayButton.png";
-	inline const char *PATH_TO_BACK_BUTTON = ".\\Data\\Sprites\\BackButton.png";
+	inline const char* PATH_TO_PLAYER = ".\\Data\\SpriteSheets\\Player.png";
+	inline const char* PATH_TO_ENEMY = ".\\Data\\SpriteSheets\\Enemy.png";
+	inline const char* PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
+	inline const char* PATH_TO_RELOADING_CIRCLE = ".\\Data\\SpriteSheets\\ReloadingCircle.png";
+	inline const char* PATH_TO_AMMO_EMPTY = ".\\Data\\Sprites\\AmmoEmpty.png";
+	inline const char* PATH_TO_AMMO_FILLED = ".\\Data\\Sprites\\AmmoFilled.png";
+	inline const char* PATH_TO_HEALTH_BAR = ".\\Data\\SpriteSheets\\HealthBar.png";
+	inline const char* PATH_TO_TITLE = ".\\Data\\Sprites\\Title.png";
+	inline const char* PATH_TO_PLAY_BUTTON = ".\\Data\\Sprites\\PlayButton.png";
+	inline const char* PATH_TO_BACK_BUTTON = ".\\Data\\Sprites\\BackButton.png";
+	inline const char* PATH_TO_STARFIELD = ".\\Data\\Sprites\\Starfield.png";
 
 	template <typename T>
-	inline void Log(const string &message, T value)
+	inline void Log(const string& message, T value)
 	{
 		stringstream ss;
 		ss << message << value << "\n";
 		OutputDebugStringA(ss.str().c_str());
 	}
 
-	inline void Log(const string &message)
+	inline void Log(const string& message)
 	{
 		OutputDebugStringA((message + "\n").c_str());
 	}
@@ -58,7 +59,7 @@ namespace Helper
 		return vec3(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY), GenerateFloat(minZ, maxZ));
 	}
 
-	inline vec3 GetOppositeQuadrantPosition(const vec3 &playerPos, float screenWidth, float screenHeight)
+	inline vec3 GetOppositeQuadrantPosition(const vec3& playerPos, float screenWidth, float screenHeight)
 	{
 		vec3 enemyPos;
 		if (playerPos.x < screenWidth / 2)
@@ -78,16 +79,19 @@ namespace Helper
 		Transform* transform = entityManager.GetComponent<Transform>(entityId);
 		Renderable* renderable = entityManager.GetComponent<Renderable>(entityId);
 		CSimpleSprite* sprite = renderable->GetSprite();
-		const float widthBuffer = sprite->GetWidth() / 10.0f;
-		const float heightBuffer = sprite->GetHeight() / 10.0f;
+
+		float scale = sprite->GetScale();
+		const float actualWidth = sprite->GetWidth() * scale;
+		const float actualHeight = sprite->GetHeight() * scale;
+
 		float mouseX, mouseY;
-
-		float left = transform->GetPosition().x - widthBuffer;
-		float right = transform->GetPosition().x + widthBuffer;
-		float top = transform->GetPosition().y - heightBuffer;
-		float bottom = transform->GetPosition().y + heightBuffer;
-
 		App::GetMousePos(mouseX, mouseY);
+
+		float left = transform->GetPosition().x - actualWidth / 2.0f;
+		float right = transform->GetPosition().x + actualWidth / 2.0f;
+		float top = transform->GetPosition().y - actualHeight / 2.0f;
+		float bottom = transform->GetPosition().y + actualHeight / 2.0f;
+
 		bool isWithinX = mouseX >= left && mouseX <= right;
 		bool isWithinY = mouseY >= top && mouseY <= bottom;
 

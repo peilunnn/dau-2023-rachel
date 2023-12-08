@@ -36,6 +36,7 @@ public:
     EntityId CreatePlayButtonEntity(SpriteManager& spriteManager);
     EntityId CreateBackButtonEntity(SpriteManager& spriteManager);
     EntityId CreateLoadingScreenCharacterEntity(SpriteManager& spriteManager);
+    EntityId CreateStarfieldEntity(SpriteManager& spriteManager);
     
     void HideAmmoFilledEntity(int index);
     void ShowAllAmmoFilledEntity();
@@ -53,6 +54,7 @@ public:
     EntityId GetPlayButtonEntityId() const { return m_playButtonEntityId; }
     EntityId GetBackButtonEntityId() const { return m_backButtonEntityId; }
     EntityId GetLoadingScreenCharacterEntityId() const { return m_loadingScreenCharacterEntityId; }
+    EntityId GetStarfieldEntityId() const { return m_starfieldEntityId; }
     
     vector<EntityId> GetAmmoEmptyEntityIds() const {
         return m_ammoEmptyEntityIds;
@@ -97,6 +99,7 @@ public:
 private:
     EntityManager() = default;
 
+    EntityId m_nextEntityId = -1;
     EntityId m_playerEntityId = -1;
     EntityId m_enemyEntityId = -1;
     EntityId m_reloadingCircleEntityId = -1;
@@ -109,8 +112,8 @@ private:
     EntityId m_playButtonEntityId = -1;
     EntityId m_backButtonEntityId = -1;
     EntityId m_loadingScreenCharacterEntityId = -1;
+    EntityId m_starfieldEntityId = -1;
 
-    EntityId m_nextEntityId = -1;
     unordered_map<EntityId, vector<unique_ptr<Component>>> m_entityComponents = {};
     vector<EntityId> m_entitiesToDelete = vector<EntityId>();
     vector<EntityId> m_ammoEmptyEntityIds = vector<EntityId>();

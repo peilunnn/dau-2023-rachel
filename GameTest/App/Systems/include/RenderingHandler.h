@@ -26,6 +26,8 @@ private:
     void RenderScore(EntityManager& entityManager);
     void RenderTimer(EntityManager& entityManager);
 
+    void RenderStarfield(EntityManager& entityManager);
+
     void SetBackground(const Color& color);
     void DrawBorder(Screen& screen, const Color& color);
     void DrawBackgroundInBorder(Screen& screen, const Color& color);

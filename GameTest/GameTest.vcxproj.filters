@@ -52,6 +52,7 @@
     <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
     <ClCompile Include="App\Managers\src\GameManager.cpp" />
     <ClCompile Include="App\Utilities\src\Color.cpp" />
+    <ClCompile Include="App\Utilities\src\DirectSound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

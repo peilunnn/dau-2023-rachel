@@ -33,10 +33,7 @@ void RenderingHandler::Render()
 
 void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen &screen)
 {
-    SetBackground(BLACK);
-
-    const float descriptionXOffset = 600.0f;
-    const float descriptionYOffset = 450.0f;
+    RenderStarfield(entityManager);
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
     {
@@ -56,6 +53,8 @@ void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen 
         sprite->Draw();
     }
 
+    const float descriptionXOffset = 600.0f;
+    const float descriptionYOffset = 350.0f;
     constexpr char *descriptionText = "Get the highest score in 60 seconds!";
     App::Print(screen.SCREEN_WIDTH - descriptionXOffset, screen.SCREEN_HEIGHT - descriptionYOffset, descriptionText, WHITE.r, WHITE.g, WHITE.b);
 }
@@ -89,39 +88,39 @@ void RenderingHandler::RenderGameScene(EntityManager &entityManager, Screen &scr
 
 void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen &screen)
 {
-    SetBackground(BLACK);
+    RenderStarfield(entityManager);
 
     EntityId scoreEntityId = entityManager.GetScoreEntityId();
     Score *score = entityManager.GetComponent<Score>(scoreEntityId);
     const float gameOverTextXOffset = 545.0f;
-    const float gameOverTextYOffset = 410.0f;
-    const float scoreTextXOffset = 570.0f;
-    const float scoreTextYOffset = 450.0f;
+    const float gameOverTextYOffset = 300.0f;
     const float gameOverTextX = screen.SCREEN_WIDTH - gameOverTextXOffset;
     const float gameOverTextY = screen.SCREEN_HEIGHT - gameOverTextYOffset;
+    constexpr char *gameOverText = "Game Over";
+    App::Print(gameOverTextX, gameOverTextY, gameOverText, WHITE.r, WHITE.g, WHITE.b);
+
+    const float scoreTextXOffset = 570.0f;
+    const float scoreTextYOffset = 350.0f;
     const float scoreTextX = screen.SCREEN_WIDTH - scoreTextXOffset;
     const float scoreTextY = screen.SCREEN_HEIGHT - scoreTextYOffset;
-    constexpr char *gameOverText = "Game Over";
     string scoreMessage = "You got a score of : " + to_string(score->GetScore());
-
     App::Print(scoreTextX, scoreTextY, scoreMessage.c_str(), WHITE.r, WHITE.g, WHITE.b);
-    App::Print(gameOverTextX, gameOverTextY, gameOverText, WHITE.r, WHITE.g, WHITE.b);
 
     EntityId backButtonEntityId = entityManager.GetBackButtonEntityId();
     CSimpleSprite *backButtonSprite = entityManager.GetComponent<Renderable>(backButtonEntityId)->GetSprite();
-    Transform *transform = entityManager.GetComponent<Transform>(backButtonEntityId);
-    backButtonSprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
-    backButtonSprite->SetScale(transform->GetScale().x);
+    Transform *backButtonTransform = entityManager.GetComponent<Transform>(backButtonEntityId);
+    backButtonSprite->SetPosition(backButtonTransform->GetPosition().x, backButtonTransform->GetPosition().y);
+    backButtonSprite->SetScale(backButtonTransform->GetScale().x);
     backButtonSprite->Draw();
 }
 
-void RenderingHandler::RenderLoadingScreen(EntityManager& entityManager, Screen& screen) {
+void RenderingHandler::RenderLoadingScreen(EntityManager& entityManager, Screen& screen)
+{
     SetBackground(BLACK);
     
     EntityId loadingScreenCharacterEntityId = entityManager.GetLoadingScreenCharacterEntityId();
     CSimpleSprite* loadingScreenCharacterSprite = entityManager.GetComponent<Renderable>(loadingScreenCharacterEntityId)->GetSprite();
     Transform* loadingScreenCharacterTransform = entityManager.GetComponent<Transform>(loadingScreenCharacterEntityId);
-    
     loadingScreenCharacterSprite->SetPosition(loadingScreenCharacterTransform->GetPosition().x, loadingScreenCharacterTransform->GetPosition().y);
     loadingScreenCharacterSprite->SetScale(loadingScreenCharacterTransform->GetScale().x);
     loadingScreenCharacterSprite->Draw();
@@ -172,6 +171,16 @@ void RenderingHandler::RenderTimer(EntityManager &entityManager)
 
     string timerText = to_string(static_cast<int>(timer->GetDuration()));
     App::Print(timerTransform->GetPosition().x, timerTransform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
+}
+
+void RenderingHandler::RenderStarfield(EntityManager& entityManager)
+{
+    EntityId starfieldEntityId = entityManager.GetStarfieldEntityId();
+    CSimpleSprite* starfieldSprite = entityManager.GetComponent<Renderable>(starfieldEntityId)->GetSprite();
+    Transform* starfieldTransform = entityManager.GetComponent<Transform>(starfieldEntityId);
+    starfieldSprite->SetPosition(starfieldTransform->GetPosition().x, starfieldTransform->GetPosition().y);
+    starfieldSprite->SetScale(starfieldTransform->GetScale().x);
+    starfieldSprite->Draw();
 }
 
 void RenderingHandler::SetBackground(const Color &color)

@@ -93,8 +93,8 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Screen& 
 
 	if (!(bounceDirection->GetBounced()))
 	{
-		float xPos = transform->GetPosition().x;
-		float yPos = transform->GetPosition().y;
+		const float xPos = transform->GetPosition().x;
+		const float yPos = transform->GetPosition().y;
 		const float widthBuffer = sprite->GetWidth() / 6.0f;
 		const float heightBuffer = sprite->GetHeight() / 6.0f;
 

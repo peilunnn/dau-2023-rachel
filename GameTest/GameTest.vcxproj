@@ -230,6 +230,7 @@
   <ItemGroup>
     <ClCompile Include="App\Components\src\Animation.cpp" />
     <ClCompile Include="App\Utilities\src\app.cpp" />
+    <ClCompile Include="App\Utilities\src\DirectSound.cpp" />
     <ClCompile Include="App\Utilities\src\main.cpp" />
     <ClCompile Include="App\Utilities\src\SimpleController.cpp" />
     <ClCompile Include="App\Utilities\src\SimpleSound.cpp" />

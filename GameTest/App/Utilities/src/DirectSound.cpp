@@ -26,7 +26,7 @@
 //////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #define ASSERT(_f_)	printf("assert\n");
-#include "DirectSound.h"
+#include "Utilities/include/DirectSound.h"
 
 // The following macro is defined since DirectX 5, but will work with
 // older versions too.

@@ -29,7 +29,8 @@ enum class EntityType
     Title,
     PlayButton,
     BackButton,
-    LoadingScreenCharacter
+    LoadingScreenCharacter,
+    Starfield
 };
 
 enum class EntityState

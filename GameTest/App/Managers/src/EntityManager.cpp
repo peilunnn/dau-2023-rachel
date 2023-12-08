@@ -20,9 +20,9 @@ using glm::vec3;
 
 void EntityManager::Init()
 {
-	Screen& screen = screen.GetInstance();
-	ShootingHandler& shootingHandler = ShootingHandler::GetInstance();
-	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	Screen &screen = screen.GetInstance();
+	ShootingHandler &shootingHandler = ShootingHandler::GetInstance();
+	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
 	const float screenWidth = screen.SCREEN_WIDTH;
 	const float screenHeight = screen.SCREEN_HEIGHT;
@@ -44,7 +44,7 @@ void EntityManager::Init()
 
 	for (int i = 0; i < shootingHandler.MAX_BULLETS; ++i)
 	{
-		float xPos = ammoStartingX - i * ammoSpriteSpacing;
+		const float xPos = ammoStartingX - i * ammoSpriteSpacing;
 
 		m_ammoEmptyEntityId = CreateAmmoEntity(spriteManager, EntityType::AmmoEmpty, xPos, ammoYPos);
 		m_ammoEmptyEntityIds.push_back(m_ammoEmptyEntityId);
@@ -58,6 +58,7 @@ void EntityManager::Init()
 	m_playButtonEntityId = CreatePlayButtonEntity(spriteManager);
 	m_backButtonEntityId = CreateBackButtonEntity(spriteManager);
 	m_loadingScreenCharacterEntityId = CreateLoadingScreenCharacterEntity(spriteManager);
+	m_starfieldEntityId = CreateStarfieldEntity(spriteManager);
 }
 
 vector<EntityId> EntityManager::GetAllEntities()
@@ -73,16 +74,16 @@ EntityId EntityManager::CreateEntityId()
 	return m_nextEntityId++;
 }
 
-EntityId EntityManager::CreatePlayerEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreatePlayerEntity(SpriteManager &spriteManager)
 {
 	EntityId playerEntityId = CreateEntityId();
-	CSimpleSprite* playerSprite = spriteManager.CreateSprite(playerEntityId, Helper::PATH_TO_PLAYER, 4, 4);
+	CSimpleSprite *playerSprite = spriteManager.CreateSprite(playerEntityId, Helper::PATH_TO_PLAYER, 4, 4);
 
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	const float maxX = screen.SCREEN_RIGHT - screen.SCREEN_LEFT;
 	const float maxY = screen.SCREEN_BOTTOM - screen.SCREEN_TOP;
-	float xPos = Helper::GenerateFloat(screen.SCREEN_LEFT, screen.SCREEN_RIGHT);
-	float yPos = Helper::GenerateFloat(screen.SCREEN_TOP, screen.SCREEN_BOTTOM);
+	const float xPos = Helper::GenerateFloat(screen.SCREEN_LEFT, screen.SCREEN_RIGHT);
+	const float yPos = Helper::GenerateFloat(screen.SCREEN_TOP, screen.SCREEN_BOTTOM);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.6f);
@@ -115,12 +116,12 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager& spriteManager)
 	return playerEntityId;
 }
 
-EntityId EntityManager::CreateEnemyEntity(SpriteManager& spriteManager, const vec3& playerPos, float screenWidth, float screenHeight)
+EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager, const vec3 &playerPos, float screenWidth, float screenHeight)
 {
 	EntityId enemyEntityId = CreateEntityId();
-	CSimpleSprite* enemySprite = spriteManager.CreateSprite(enemyEntityId, Helper::PATH_TO_ENEMY, 4, 2);
+	CSimpleSprite *enemySprite = spriteManager.CreateSprite(enemyEntityId, Helper::PATH_TO_ENEMY, 4, 2);
 
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	constexpr float minVx = -100.0f;
 	constexpr float maxVx = 300.0f;
 	constexpr float minVy = -100.0;
@@ -154,10 +155,10 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager& spriteManager, const ve
 	return enemyEntityId;
 }
 
-EntityId EntityManager::CreateBulletEntity(SpriteManager& spriteManager, const vec3& pos, const vec2& targetVelocity)
+EntityId EntityManager::CreateBulletEntity(SpriteManager &spriteManager, const vec3 &pos, const vec2 &targetVelocity)
 {
 	EntityId bulletEntityId = CreateEntityId();
-	CSimpleSprite* bulletSprite = spriteManager.CreateSprite(bulletEntityId, Helper::PATH_TO_BULLET_SPRITE, 1, 1);
+	CSimpleSprite *bulletSprite = spriteManager.CreateSprite(bulletEntityId, Helper::PATH_TO_BULLET_SPRITE, 1, 1);
 
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
@@ -182,16 +183,16 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager& spriteManager, const v
 	return bulletEntityId;
 }
 
-EntityId EntityManager::CreateReloadingCircleEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateReloadingCircleEntity(SpriteManager &spriteManager)
 {
 	EntityId reloadingCircleEntityId = CreateEntityId();
-	CSimpleSprite* reloadingCircleSprite = spriteManager.CreateSprite(reloadingCircleEntityId, Helper::PATH_TO_RELOADING_CIRCLE, 5, 2);
+	CSimpleSprite *reloadingCircleSprite = spriteManager.CreateSprite(reloadingCircleEntityId, Helper::PATH_TO_RELOADING_CIRCLE, 5, 2);
 
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	const float maxX = screen.SCREEN_RIGHT - screen.SCREEN_LEFT;
 	const float maxY = screen.SCREEN_BOTTOM - screen.SCREEN_TOP;
-	float xPos = Helper::GenerateFloat(screen.SCREEN_LEFT, screen.SCREEN_RIGHT);
-	float yPos = Helper::GenerateFloat(screen.SCREEN_TOP, screen.SCREEN_BOTTOM);
+	const float xPos = Helper::GenerateFloat(screen.SCREEN_LEFT, screen.SCREEN_RIGHT);
+	const float yPos = Helper::GenerateFloat(screen.SCREEN_TOP, screen.SCREEN_BOTTOM);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
@@ -216,15 +217,15 @@ EntityId EntityManager::CreateReloadingCircleEntity(SpriteManager& spriteManager
 	return reloadingCircleEntityId;
 }
 
-EntityId EntityManager::CreateAmmoEntity(SpriteManager& spriteManager, EntityType entityType, float xPos, float yPos)
+EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos)
 {
 	EntityId ammoEntityId = CreateEntityId();
-	const char* pathToSprite = nullptr;
+	const char *pathToSprite = nullptr;
 	if (entityType == EntityType::AmmoEmpty)
 		pathToSprite = Helper::PATH_TO_AMMO_EMPTY;
 	else if (entityType == EntityType::AmmoFilled)
 		pathToSprite = Helper::PATH_TO_AMMO_FILLED;
-	CSimpleSprite* ammoSprite = spriteManager.CreateSprite(ammoEntityId, pathToSprite, 1, 1);
+	CSimpleSprite *ammoSprite = spriteManager.CreateSprite(ammoEntityId, pathToSprite, 1, 1);
 
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
@@ -241,10 +242,10 @@ EntityId EntityManager::CreateAmmoEntity(SpriteManager& spriteManager, EntityTyp
 	return ammoEntityId;
 }
 
-EntityId EntityManager::CreateHealthBarEntity(SpriteManager& spriteManager, float xPos, float yPos)
+EntityId EntityManager::CreateHealthBarEntity(SpriteManager &spriteManager, float xPos, float yPos)
 {
 	EntityId healthBarEntityId = CreateEntityId();
-	CSimpleSprite* healthBarSprite = spriteManager.CreateSprite(healthBarEntityId, Helper::PATH_TO_HEALTH_BAR, 2, 3);
+	CSimpleSprite *healthBarSprite = spriteManager.CreateSprite(healthBarEntityId, Helper::PATH_TO_HEALTH_BAR, 2, 3);
 
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
@@ -266,7 +267,7 @@ EntityId EntityManager::CreateHealthBarEntity(SpriteManager& spriteManager, floa
 EntityId EntityManager::CreateScoreEntity()
 {
 	EntityId scoreEntityId = CreateEntityId();
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	constexpr float xOffset = 100.0f;
 	constexpr float yOffset = 50.0f;
 	const float xPos = screen.SCREEN_WIDTH - xOffset;
@@ -289,11 +290,11 @@ EntityId EntityManager::CreateScoreEntity()
 EntityId EntityManager::CreateTimerEntity()
 {
 	EntityId timerEntityId = CreateEntityId();
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	constexpr float xOffset = 1000.0f;
 	constexpr float yOffset = 50.0f;
-	float xPos = screen.SCREEN_WIDTH - xOffset;
-	float yPos = screen.SCREEN_HEIGHT - yOffset;
+	const float xPos = screen.SCREEN_WIDTH - xOffset;
+	const float yPos = screen.SCREEN_HEIGHT - yOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
@@ -309,16 +310,16 @@ EntityId EntityManager::CreateTimerEntity()
 	return timerEntityId;
 }
 
-EntityId EntityManager::CreateTitleEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateTitleEntity(SpriteManager &spriteManager)
 {
 	EntityId titleEntityId = CreateEntityId();
-	CSimpleSprite* titleSprite = spriteManager.CreateSprite(titleEntityId, Helper::PATH_TO_TITLE, 1, 1);
+	CSimpleSprite *titleSprite = spriteManager.CreateSprite(titleEntityId, Helper::PATH_TO_TITLE, 1, 1);
 
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	const float titleXOffset = 520.0f;
-	const float titleYOffset = 300.0f;
-	float xPos = screen.SCREEN_WIDTH - titleXOffset;
-	float yPos = screen.SCREEN_HEIGHT - titleYOffset;
+	const float titleYOffset = 200.0f;
+	const float xPos = screen.SCREEN_WIDTH - titleXOffset;
+	const float yPos = screen.SCREEN_HEIGHT - titleYOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.5f);
@@ -334,16 +335,16 @@ EntityId EntityManager::CreateTitleEntity(SpriteManager& spriteManager)
 	return titleEntityId;
 }
 
-EntityId EntityManager::CreatePlayButtonEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreatePlayButtonEntity(SpriteManager &spriteManager)
 {
 	EntityId playButtonEntityId = CreateEntityId();
-	CSimpleSprite* playButtonSprite = spriteManager.CreateSprite(playButtonEntityId, Helper::PATH_TO_PLAY_BUTTON, 1, 1);
+	CSimpleSprite *playButtonSprite = spriteManager.CreateSprite(playButtonEntityId, Helper::PATH_TO_PLAY_BUTTON, 1, 1);
 
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	const float playButtonXOffset = 520.0f;
-	const float playButtonYOffset = 500.0f;
-	float xPos = screen.SCREEN_WIDTH - playButtonXOffset;
-	float yPos = screen.SCREEN_HEIGHT - playButtonYOffset;
+	const float playButtonYOffset = 400.0f;
+	const float xPos = screen.SCREEN_WIDTH - playButtonXOffset;
+	const float yPos = screen.SCREEN_HEIGHT - playButtonYOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.2f);
@@ -359,16 +360,16 @@ EntityId EntityManager::CreatePlayButtonEntity(SpriteManager& spriteManager)
 	return playButtonEntityId;
 }
 
-EntityId EntityManager::CreateBackButtonEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateBackButtonEntity(SpriteManager &spriteManager)
 {
 	EntityId backButtonEntityId = CreateEntityId();
-	CSimpleSprite* backButtonSprite = spriteManager.CreateSprite(backButtonEntityId, Helper::PATH_TO_BACK_BUTTON, 1, 1);
+	CSimpleSprite *backButtonSprite = spriteManager.CreateSprite(backButtonEntityId, Helper::PATH_TO_BACK_BUTTON, 1, 1);
 
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	const float backButtonXOffset = 520.0f;
-	const float backButtonYOffset = 500.0f;
-	float xPos = screen.SCREEN_WIDTH - backButtonXOffset;
-	float yPos = screen.SCREEN_HEIGHT - backButtonYOffset;
+	const float backButtonYOffset = 400.0f;
+	const float xPos = screen.SCREEN_WIDTH - backButtonXOffset;
+	const float yPos = screen.SCREEN_HEIGHT - backButtonYOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.2f);
@@ -384,16 +385,16 @@ EntityId EntityManager::CreateBackButtonEntity(SpriteManager& spriteManager)
 	return backButtonEntityId;
 }
 
-EntityId EntityManager::CreateLoadingScreenCharacterEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager)
 {
 	EntityId loadingScreenCharacterEntityId = CreateEntityId();
-	CSimpleSprite* loadingScreenCharacterSprite = spriteManager.CreateSprite(loadingScreenCharacterEntityId, Helper::PATH_TO_PLAYER, 4, 4);
+	CSimpleSprite *loadingScreenCharacterSprite = spriteManager.CreateSprite(loadingScreenCharacterEntityId, Helper::PATH_TO_PLAYER, 4, 4);
 
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	const float loadingScreenCharacterXOffset = 520.0f;
 	const float loadingScreenCharacterYOffset = 340.0f;
-	float xPos = screen.SCREEN_WIDTH - loadingScreenCharacterXOffset;
-	float yPos = screen.SCREEN_HEIGHT - loadingScreenCharacterYOffset;
+	const float xPos = screen.SCREEN_WIDTH - loadingScreenCharacterXOffset;
+	const float yPos = screen.SCREEN_HEIGHT - loadingScreenCharacterYOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.5f);
@@ -411,11 +412,34 @@ EntityId EntityManager::CreateLoadingScreenCharacterEntity(SpriteManager& sprite
 	return loadingScreenCharacterEntityId;
 }
 
+EntityId EntityManager::CreateStarfieldEntity(SpriteManager &spriteManager)
+{
+	EntityId starfieldEntityId = CreateEntityId();
+	CSimpleSprite *starfieldSprite = spriteManager.CreateSprite(starfieldEntityId, Helper::PATH_TO_STARFIELD, 1, 1);
+
+	Screen &screen = screen.GetInstance();
+	const float xPos = screen.SCREEN_WIDTH / 2.0f;
+	const float yPos = screen.SCREEN_HEIGHT / 2.0f;
+	constexpr float zPos = 0.0f;
+	constexpr vec3 rot = vec3(0.0f);
+	constexpr vec3 scale = vec3(2.0f);
+
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Starfield, GameState::GameOver);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(starfieldSprite);
+
+	AddComponent(starfieldEntityId, move(tag));
+	AddComponent(starfieldEntityId, move(transform));
+	AddComponent(starfieldEntityId, move(renderable));
+
+	return starfieldEntityId;
+}
+
 void EntityManager::HideAmmoFilledEntity(int index)
 {
 	if (index >= 0 && index < m_ammoFilledEntityIds.size())
 	{
-		CSimpleSprite* ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntityIds[index])->GetSprite();
+		CSimpleSprite *ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntityIds[index])->GetSprite();
 
 		if (!ammoFilledSprite)
 			return;
@@ -428,20 +452,20 @@ void EntityManager::ShowAllAmmoFilledEntity()
 {
 	for (int i = 0; i < m_ammoFilledEntityIds.size(); i++)
 	{
-		CSimpleSprite* ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntityIds[i])->GetSprite();
+		CSimpleSprite *ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntityIds[i])->GetSprite();
 		ammoFilledSprite->SetVisible(true);
 	}
 }
 
 void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 {
-	Screen& screen = screen.GetInstance();
-	float xPos = Helper::GenerateFloat(screen.SCREEN_LEFT, screen.SCREEN_RIGHT);
-	float yPos = Helper::GenerateFloat(screen.SCREEN_TOP, screen.SCREEN_BOTTOM);
+	Screen &screen = screen.GetInstance();
+	const float xPos = Helper::GenerateFloat(screen.SCREEN_LEFT, screen.SCREEN_RIGHT);
+	const float yPos = Helper::GenerateFloat(screen.SCREEN_TOP, screen.SCREEN_BOTTOM);
 	constexpr float zPos = 0.0f;
 
 	vec3 newPos = vec3(xPos, yPos, zPos);
-	Transform* transform = GetComponent<Transform>(entityId);
+	Transform *transform = GetComponent<Transform>(entityId);
 	transform->SetPosition(newPos);
 }
 
@@ -459,6 +483,6 @@ void EntityManager::ProcessDeletions()
 	for (EntityId entityId : m_entitiesToDelete)
 	{
 		m_entityComponents.erase(entityId);
-}
+	}
 	m_entitiesToDelete.clear();
 }
