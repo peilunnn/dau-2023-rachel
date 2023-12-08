@@ -9,6 +9,7 @@
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/HealthHandler.h"
 #include "Utilities/include/Enums.h"
+#include "Utilities/include/Helper.h"
 #include "Utilities/include/SimpleSprite.h"
 using glm::vec2;
 
@@ -20,6 +21,7 @@ void AnimationHandler::Init()
 	InitPlayerAnimation(entityManager, spriteManager);
 	InitReloadingCircleAnimation(entityManager, spriteManager);
 	InitHealthBarAnimation(entityManager, spriteManager);
+	InitLoadingScreenCharacterAnimation(entityManager, spriteManager);
 }
 
 void AnimationHandler::InitPlayerAnimation(EntityManager& entityManager, SpriteManager& spriteManager)
@@ -61,6 +63,15 @@ void AnimationHandler::InitHealthBarAnimation(EntityManager& entityManager, Spri
 	healthBarSprite->CreateAnimation(HEALTH_0, speed, {5});
 }
 
+void AnimationHandler::InitLoadingScreenCharacterAnimation(EntityManager& entityManager, SpriteManager& spriteManager)
+{
+	EntityId loadingScreenCharacterEntityId = entityManager.GetLoadingScreenCharacterEntityId();
+	CSimpleSprite* loadingScreenCharacterSprite = spriteManager.GetSprite(loadingScreenCharacterEntityId);
+	
+	constexpr float speed = 1.0f / 5.0f;
+	loadingScreenCharacterSprite->CreateAnimation(PLAYER_ANIM_RIGHT, speed, { 8, 9, 10, 11 });
+}
+
 void AnimationHandler::Update(float deltaTime)
 {
 	EntityManager &entityManager = EntityManager::GetInstance();
@@ -79,6 +90,9 @@ void AnimationHandler::Update(float deltaTime)
 			break;
 		case EntityType::HealthBar:
 			UpdateHealthBarAnimation(entityManager, entityId, deltaTime);
+			break;
+		case EntityType::LoadingScreenCharacter:
+			UpdateLoadingScreenCharacterAnimation(entityManager, entityId, deltaTime);
 			break;
 		}
 	}
@@ -130,7 +144,7 @@ void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager &entityManag
 	CSimpleSprite *reloadingCircleSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	Animation *reloadingCircleAnimation = entityManager.GetComponent<Animation>(entityId);
 	reloadingCircleAnimation->SetCurrentAnimation(RELOADING_CIRCLE_ANIM_SPIN);
-	reloadingCircleSprite->SetAnimation(RELOADING_CIRCLE_ANIM_SPIN);
+	reloadingCircleSprite->SetAnimation(reloadingCircleAnimation->GetCurrentAnimation());
 	reloadingCircleSprite->Update(deltaTime);
 }
 
@@ -138,6 +152,16 @@ void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, En
 {
 	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	healthBarSprite->Update(deltaTime);
+}
+
+void AnimationHandler::UpdateLoadingScreenCharacterAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime)
+{
+	CSimpleSprite* loadingScreenCharacterSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	Animation* loadingScreenCharacterAnimation = entityManager.GetComponent<Animation>(entityId);
+	loadingScreenCharacterAnimation->SetCurrentAnimation(PLAYER_ANIM_RIGHT);
+	loadingScreenCharacterSprite->SetAnimation(loadingScreenCharacterAnimation->GetCurrentAnimation());
+	loadingScreenCharacterSprite->Update(deltaTime);
+	Helper::Log("already set loading screen character animation");
 }
 
 void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
@@ -165,5 +189,5 @@ void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float 
 	int frameIndex = static_cast<int>((health->GetMaxHealth() - health->GetCurrentHealth()) / HealthHandler::GetInstance().GetHealthReduction());
 	frameIndex = min(frameIndex, maxFrames);
 	animation->SetCurrentAnimation(frameIndex);
-	healthBarSprite->SetAnimation(frameIndex);
+	healthBarSprite->SetAnimation(animation->GetCurrentAnimation());
 }

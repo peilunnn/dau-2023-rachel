@@ -35,8 +35,10 @@ private:
     void InitPlayerAnimation(EntityManager& entityManager, SpriteManager& spriteManager);
     void InitReloadingCircleAnimation(EntityManager& entityManager, SpriteManager& spriteManager);
     void InitHealthBarAnimation(EntityManager& entityManager, SpriteManager& spriteManager);
+    void InitLoadingScreenCharacterAnimation(EntityManager& entityManager, SpriteManager& spriteManager);
     void UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void UpdateReloadingCircleAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
-    void UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
+    void UpdateHealthBarAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
+    void UpdateLoadingScreenCharacterAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime);
 };

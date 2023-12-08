@@ -57,6 +57,7 @@ void EntityManager::Init()
 	m_titleEntityId = CreateTitleEntity(spriteManager);
 	m_playButtonEntityId = CreatePlayButtonEntity(spriteManager);
 	m_backButtonEntityId = CreateBackButtonEntity(spriteManager);
+	m_loadingScreenCharacterEntityId = CreateLoadingScreenCharacterEntity(spriteManager);
 }
 
 vector<EntityId> EntityManager::GetAllEntities()
@@ -381,6 +382,33 @@ EntityId EntityManager::CreateBackButtonEntity(SpriteManager& spriteManager)
 	AddComponent(backButtonEntityId, move(renderable));
 
 	return backButtonEntityId;
+}
+
+EntityId EntityManager::CreateLoadingScreenCharacterEntity(SpriteManager& spriteManager)
+{
+	EntityId loadingScreenCharacterEntityId = CreateEntityId();
+	CSimpleSprite* loadingScreenCharacterSprite = spriteManager.CreateSprite(loadingScreenCharacterEntityId, Helper::PATH_TO_PLAYER, 4, 4);
+
+	Screen& screen = screen.GetInstance();
+	const float loadingScreenCharacterXOffset = 520.0f;
+	const float loadingScreenCharacterYOffset = 340.0f;
+	float xPos = screen.SCREEN_WIDTH - loadingScreenCharacterXOffset;
+	float yPos = screen.SCREEN_HEIGHT - loadingScreenCharacterYOffset;
+	constexpr float zPos = 0.0f;
+	constexpr vec3 rot = vec3(0.0f);
+	constexpr vec3 scale = vec3(0.5f);
+
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::LoadingScreenCharacter, GameState::Loading);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(loadingScreenCharacterSprite);
+	unique_ptr<Animation> animation = make_unique<Animation>();
+
+	AddComponent(loadingScreenCharacterEntityId, move(tag));
+	AddComponent(loadingScreenCharacterEntityId, move(transform));
+	AddComponent(loadingScreenCharacterEntityId, move(renderable));
+	AddComponent(loadingScreenCharacterEntityId, move(animation));
+
+	return loadingScreenCharacterEntityId;
 }
 
 void EntityManager::HideAmmoFilledEntity(int index)

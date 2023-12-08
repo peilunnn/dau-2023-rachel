@@ -26,7 +26,7 @@ void RenderingHandler::Render()
             RenderGameOverScene(entityManager, screen);
             break;
         case GameState::Loading:
-            RenderLoadingScreen(screen);
+            RenderLoadingScreen(entityManager, screen);
             break;
     }
 }
@@ -115,11 +115,21 @@ void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen 
     backButtonSprite->Draw();
 }
 
-void RenderingHandler::RenderLoadingScreen(Screen& screen) {
+void RenderingHandler::RenderLoadingScreen(EntityManager& entityManager, Screen& screen) {
     SetBackground(BLACK);
+    
+    EntityId loadingScreenCharacterEntityId = entityManager.GetLoadingScreenCharacterEntityId();
+    CSimpleSprite* loadingScreenCharacterSprite = entityManager.GetComponent<Renderable>(loadingScreenCharacterEntityId)->GetSprite();
+    Transform* loadingScreenCharacterTransform = entityManager.GetComponent<Transform>(loadingScreenCharacterEntityId);
+    
+    loadingScreenCharacterSprite->SetPosition(loadingScreenCharacterTransform->GetPosition().x, loadingScreenCharacterTransform->GetPosition().y);
+    loadingScreenCharacterSprite->SetScale(loadingScreenCharacterTransform->GetScale().x);
+    loadingScreenCharacterSprite->Draw();
 
-    const float loadingTextX = screen.SCREEN_WIDTH / 2.0f;
-    const float loadingTextY = screen.SCREEN_HEIGHT / 2.0f;
+    const float loadingTextXOffset = 540.0f;
+    const float loadingTextYOffset = 400.0f;
+    const float loadingTextX = screen.SCREEN_WIDTH - loadingTextXOffset;
+    const float loadingTextY = screen.SCREEN_HEIGHT - loadingTextYOffset;
     constexpr char* loadingText = "Loading...";
 
     App::Print(loadingTextX, loadingTextY, loadingText, WHITE.r, WHITE.g, WHITE.b);

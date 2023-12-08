@@ -28,7 +28,8 @@ enum class EntityType
     Timer,
     Title,
     PlayButton,
-    BackButton
+    BackButton,
+    LoadingScreenCharacter
 };
 
 enum class EntityState

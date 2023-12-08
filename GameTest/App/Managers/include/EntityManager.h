@@ -35,6 +35,8 @@ public:
     EntityId CreateTitleEntity(SpriteManager& spriteManager);
     EntityId CreatePlayButtonEntity(SpriteManager& spriteManager);
     EntityId CreateBackButtonEntity(SpriteManager& spriteManager);
+    EntityId CreateLoadingScreenCharacterEntity(SpriteManager& spriteManager);
+    
     void HideAmmoFilledEntity(int index);
     void ShowAllAmmoFilledEntity();
     void MoveEntityToRandomPos(EntityId entityId);
@@ -50,6 +52,8 @@ public:
     EntityId GetTitleEntityId() const { return m_titleEntityId; }
     EntityId GetPlayButtonEntityId() const { return m_playButtonEntityId; }
     EntityId GetBackButtonEntityId() const { return m_backButtonEntityId; }
+    EntityId GetLoadingScreenCharacterEntityId() const { return m_loadingScreenCharacterEntityId; }
+    
     vector<EntityId> GetAmmoEmptyEntityIds() const {
         return m_ammoEmptyEntityIds;
     }
@@ -104,6 +108,7 @@ private:
     EntityId m_titleEntityId = -1;
     EntityId m_playButtonEntityId = -1;
     EntityId m_backButtonEntityId = -1;
+    EntityId m_loadingScreenCharacterEntityId = -1;
 
     EntityId m_nextEntityId = -1;
     unordered_map<EntityId, vector<unique_ptr<Component>>> m_entityComponents = {};

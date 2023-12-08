@@ -69,6 +69,10 @@ void Update(float deltaTime)
 		InputHandler::GetInstance().SetIsBackButtonClicked();
 		gameManager.HandleBackButtonClick();
 	}
+	else if (gameManager.GetGameState() == GameState::Loading)
+	{
+		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
+	}
 }
 
 //------------------------------------------------------------------------
