@@ -4,6 +4,28 @@
 #include "Systems/include/InputHandler.h"
 #include "Utilities/include/Helper.h"
 
+void GameManager::Update(float deltaTime)
+{
+    switch (m_gameState)
+    {
+    case GameState::Loading:
+        UpdateLoadingState(deltaTime);
+        break;
+    }
+}
+
+void GameManager::UpdateLoadingState(float deltaTime)
+{
+    m_loadingTimer += deltaTime;
+    if (m_loadingTimer >= m_loadingDuration)
+    {
+        if (m_previousGameState == GameState::MainMenu)
+            m_gameState = GameState::Gameplay;
+        else if (m_previousGameState == GameState::GameOver)
+            m_gameState = GameState::MainMenu;
+    }
+}
+
 void GameManager::HandlePlayButtonClick()
 {
     InputHandler& inputHandler = InputHandler::GetInstance();
@@ -11,9 +33,10 @@ void GameManager::HandlePlayButtonClick()
     if (!inputHandler.GetIsPlayButtonClicked())
         return;
 
-    m_gameState = GameState::Gameplay;
+    m_previousGameState = m_gameState;
+    m_gameState = GameState::Loading;
+    m_loadingTimer = 0.0f;
     inputHandler.ResetPlayButtonClick();
-    PrepareGameplay();
 }
 
 void GameManager::HandleBackButtonClick()
@@ -22,14 +45,16 @@ void GameManager::HandleBackButtonClick()
 
     if (!inputHandler.GetIsBackButtonClicked())
         return;
-
-    m_gameState = GameState::MainMenu;
+    
+    m_previousGameState = m_gameState;
+    m_gameState = GameState::Loading;
+    m_loadingTimer = 0.0f;
     inputHandler.ResetBackButtonClick();
 }
 
-void GameManager::PrepareGameplay() {
-    EntityManager& entityManager = EntityManager::GetInstance();
-    EntityId playerEntityId = entityManager.GetPlayerEntityId();
-    Cooldown* cooldown = entityManager.GetComponent<Cooldown>(playerEntityId);
-    cooldown->StartCooldown();
+void GameManager::TransitionToLoadingState()
+{
+    m_previousGameState = m_gameState;
+    m_gameState = GameState::Loading;
+    m_loadingTimer = 0.0f;
 }

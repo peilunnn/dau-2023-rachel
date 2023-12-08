@@ -16,6 +16,7 @@
 #include "Systems/include/RenderingHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Systems/include/TitleHandler.h"
+#include "Utilities/include/Helper.h"
 using namespace std;
 
 //------------------------------------------------------------------------
@@ -44,6 +45,7 @@ void Update(float deltaTime)
 {
 	GameManager& gameManager = GameManager::GetInstance();
 	float deltaTimeInSeconds = deltaTime / 1000.0f;
+	gameManager.Update(deltaTimeInSeconds);
 
 	if (gameManager.GetGameState() == GameState::MainMenu)
 	{

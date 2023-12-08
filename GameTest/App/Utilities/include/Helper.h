@@ -14,14 +14,6 @@ using glm::vec2;
 using glm::vec3;
 using namespace std;
 
-struct SpriteDimensions
-{
-	float width;
-	float height;
-	float adjustedWidth;  // width after applying the multiplier
-	float adjustedHeight; // height after applying the multiplier
-};
-
 namespace Helper
 {
 	inline const char *PATH_TO_PLAYER = ".\\Data\\SpriteSheets\\Player.png";
