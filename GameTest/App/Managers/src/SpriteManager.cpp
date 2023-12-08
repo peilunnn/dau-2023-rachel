@@ -18,10 +18,6 @@ CSimpleSprite* SpriteManager::GetSprite(EntityId entityId)
     return nullptr;
 }
 
-void SpriteManager::DestroySprite(EntityId entityId) {
-    m_entitySprites.erase(entityId);
-}
-
 void SpriteManager::DestroyAllSprites() {
     m_entitySprites.clear();
 }

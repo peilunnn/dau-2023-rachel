@@ -89,7 +89,7 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager& spriteManager)
 	constexpr float radiusMultiplier = 0.25f;
 	constexpr float playerShootingCooldown = 1.0f;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Player, Scene::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Player, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(playerSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
@@ -130,7 +130,7 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager& spriteManager, const ve
 	constexpr float radiusMultiplier = 0.25f;
 	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, Scene::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(enemySprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
@@ -162,7 +162,7 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager& spriteManager, const v
 	constexpr vec3 scale = vec3(1.0f);
 	constexpr float radiusMultiplier = 0.25f;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Bullet, Scene::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Bullet, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(bulletSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
@@ -196,7 +196,7 @@ EntityId EntityManager::CreateReloadingCircleEntity(SpriteManager& spriteManager
 	constexpr vec3 scale = vec3(0.4f);
 	constexpr float radiusMultiplier = 0.25f;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::ReloadingCircle, Scene::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::ReloadingCircle, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(reloadingCircleSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
@@ -229,7 +229,7 @@ EntityId EntityManager::CreateAmmoEntity(SpriteManager& spriteManager, EntityTyp
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.5f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(entityType, Scene::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(entityType, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(ammoSprite);
 
@@ -249,7 +249,7 @@ EntityId EntityManager::CreateHealthBarEntity(SpriteManager& spriteManager, floa
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::HealthBar, Scene::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::HealthBar, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(healthBarSprite);
 	unique_ptr<Animation> animation = make_unique<Animation>();
@@ -274,7 +274,7 @@ EntityId EntityManager::CreateScoreEntity()
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Score, Scene::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Score, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Score> score = make_unique<Score>();
 
@@ -297,9 +297,9 @@ EntityId EntityManager::CreateTimerEntity()
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Timer, Scene::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Timer, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Timer> timer = make_unique<Timer>();
+	unique_ptr<Timer> timer = make_unique<Timer>(60.0f);
 
 	AddComponent(timerEntityId, move(tag));
 	AddComponent(timerEntityId, move(transform));
@@ -322,7 +322,7 @@ EntityId EntityManager::CreateTitleEntity(SpriteManager& spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.5f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Title, Scene::MainMenu);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Title, GameState::MainMenu);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(titleSprite);
 
@@ -347,7 +347,7 @@ EntityId EntityManager::CreatePlayButtonEntity(SpriteManager& spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.2f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::PlayButton, Scene::MainMenu);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::PlayButton, GameState::MainMenu);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(playButtonSprite);
 
@@ -372,7 +372,7 @@ EntityId EntityManager::CreateBackButtonEntity(SpriteManager& spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.2f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::BackButton, Scene::GameOver);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::BackButton, GameState::GameOver);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(backButtonSprite);
 

@@ -10,9 +10,9 @@ void TimerHandler::Update(float deltaTime)
 
 	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>()) {
 		Timer* timer = entityManager.GetComponent<Timer>(entityId);
-		float countdownTime = timer->GetCountdownTime();
+		float countdownTime = timer->GetDuration();
 		
-		timer->SetCountdownTime(countdownTime - deltaTime);
+		timer->SetDuration(countdownTime - deltaTime);
 		
 		if (countdownTime <= 0)
 			GameManager::GetInstance().SetGameState(GameState::GameOver);

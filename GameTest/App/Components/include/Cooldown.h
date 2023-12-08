@@ -27,7 +27,7 @@ public:
     bool IsActive() const { return m_IsActive; }
 
 private:
-    const float m_totalCooldownTime;
-    float m_TimeLeftInCooldown;
-    bool m_IsActive;
+    const float m_totalCooldownTime = 0.0f;
+    float m_TimeLeftInCooldown = 0.0f;
+    bool m_IsActive = false;
 };

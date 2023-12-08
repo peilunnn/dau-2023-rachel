@@ -17,7 +17,7 @@ public:
     void SetScale(const vec3& newScale) { m_scale = newScale; }
 
 private:
-    vec3 m_position;
-    vec3 m_rotation;
-    vec3 m_scale;
+    vec3 m_position = vec3(0.0f);
+    vec3 m_rotation = vec3(0.0f);
+    vec3 m_scale = vec3(0.0f);
 };

@@ -12,5 +12,5 @@ public:
     void SetVelocity(const vec2& newVelocity) { m_velocity = newVelocity; }
 
 private:
-    vec2 m_velocity;
+    vec2 m_velocity = vec2(0.0f);
 };

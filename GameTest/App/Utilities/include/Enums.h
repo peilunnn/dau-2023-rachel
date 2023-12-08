@@ -38,14 +38,6 @@ enum class EntityState
     HitByBullet
 };
 
-enum class Scene
-{
-    None,
-    MainMenu,
-    Gameplay,
-    GameOver
-};
-
 enum PlayerAnimationState
 {
     PLAYER_ANIM_FORWARDS,
@@ -75,6 +67,7 @@ enum HealthBarAnimationState
 
 enum class GameState
 {
+    None,
     MainMenu,
     Gameplay,
     GameOver

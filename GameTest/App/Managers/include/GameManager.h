@@ -13,7 +13,6 @@ public:
 
     void HandlePlayButtonClick();
     void HandleBackButtonClick();
-    void PrepareGameplay();
 
     GameState GetGameState() const {
         return m_gameState;
@@ -26,5 +25,7 @@ private:
     GameManager() = default;
 
     GameState m_gameState = GameState::MainMenu;
+
+    void PrepareGameplay();
 };
 

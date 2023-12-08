@@ -11,8 +11,8 @@
 void RenderingHandler::Render()
 {
     GameState m_gameState = GameManager::GetInstance().GetGameState();
-    EntityManager& entityManager = EntityManager::GetInstance();
-    Screen& screen = Screen::GetInstance();
+    EntityManager &entityManager = EntityManager::GetInstance();
+    Screen &screen = Screen::GetInstance();
 
     if (m_gameState == GameState::MainMenu)
         RenderMainMenuScene(entityManager, screen);
@@ -22,7 +22,7 @@ void RenderingHandler::Render()
         RenderGameOverScene(entityManager, screen);
 }
 
-void RenderingHandler::RenderMainMenuScene(EntityManager& entityManager, Screen& screen)
+void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen &screen)
 {
     SetBackground(BLACK);
 
@@ -31,27 +31,27 @@ void RenderingHandler::RenderMainMenuScene(EntityManager& entityManager, Screen&
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
     {
-        Tag* tag = entityManager.GetComponent<Tag>(entityId);
-        
-        if (tag->GetScene() != Scene::MainMenu)
+        Tag *tag = entityManager.GetComponent<Tag>(entityId);
+
+        if (tag->GetGameState() != GameState::MainMenu)
             continue;
 
-        CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-        Transform* transform = entityManager.GetComponent<Transform>(entityId);
+        CSimpleSprite *sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+        Transform *transform = entityManager.GetComponent<Transform>(entityId);
         sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
         sprite->SetScale(transform->GetScale().x);
-        
+
         if (entityId == entityManager.GetTitleEntityId())
             sprite->SetAngle(transform->GetRotation().z);
 
         sprite->Draw();
     }
 
-    constexpr char* descriptionText = "Get the highest score in 60 seconds!";
+    constexpr char *descriptionText = "Get the highest score in 60 seconds!";
     App::Print(screen.SCREEN_WIDTH - descriptionXOffset, screen.SCREEN_HEIGHT - descriptionYOffset, descriptionText, WHITE.r, WHITE.g, WHITE.b);
 }
 
-void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& screen)
+void RenderingHandler::RenderGameScene(EntityManager &entityManager, Screen &screen)
 {
     SetBackground(BLACK);
     DrawBorder(screen, WHITE);
@@ -65,9 +65,9 @@ void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& scr
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
     {
-        Tag* tag = entityManager.GetComponent<Tag>(entityId);
+        Tag *tag = entityManager.GetComponent<Tag>(entityId);
 
-        if (tag->GetScene() != Scene::Gameplay)
+        if (tag->GetGameState() != GameState::Gameplay)
             continue;
 
         if (tag->GetEntityType() != EntityType::AmmoEmpty && tag->GetEntityType() != EntityType::AmmoFilled)
@@ -78,29 +78,29 @@ void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& scr
     RenderTimer(entityManager);
 }
 
-void RenderingHandler::RenderGameOverScene(EntityManager& entityManager, Screen& screen)
+void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen &screen)
 {
     SetBackground(BLACK);
 
     EntityId scoreEntityId = entityManager.GetScoreEntityId();
-    Score* score = entityManager.GetComponent<Score>(scoreEntityId);
+    Score *score = entityManager.GetComponent<Score>(scoreEntityId);
     const float gameOverTextXOffset = 545.0f;
     const float gameOverTextYOffset = 410.0f;
     const float scoreTextXOffset = 570.0f;
     const float scoreTextYOffset = 450.0f;
     const float gameOverTextX = screen.SCREEN_WIDTH - gameOverTextXOffset;
-    const float gameOverTextY = screen.SCREEN_HEIGHT  - gameOverTextYOffset;
+    const float gameOverTextY = screen.SCREEN_HEIGHT - gameOverTextYOffset;
     const float scoreTextX = screen.SCREEN_WIDTH - scoreTextXOffset;
     const float scoreTextY = screen.SCREEN_HEIGHT - scoreTextYOffset;
-    constexpr char* gameOverText = "Game Over";
+    constexpr char *gameOverText = "Game Over";
     string scoreMessage = "You got a score of : " + to_string(score->GetScore());
 
     App::Print(scoreTextX, scoreTextY, scoreMessage.c_str(), WHITE.r, WHITE.g, WHITE.b);
     App::Print(gameOverTextX, gameOverTextY, gameOverText, WHITE.r, WHITE.g, WHITE.b);
 
     EntityId backButtonEntityId = entityManager.GetBackButtonEntityId();
-    CSimpleSprite* backButtonSprite = entityManager.GetComponent<Renderable>(backButtonEntityId)->GetSprite();
-    Transform* transform = entityManager.GetComponent<Transform>(backButtonEntityId);
+    CSimpleSprite *backButtonSprite = entityManager.GetComponent<Renderable>(backButtonEntityId)->GetSprite();
+    Transform *transform = entityManager.GetComponent<Transform>(backButtonEntityId);
     backButtonSprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
     backButtonSprite->SetScale(transform->GetScale().x);
     backButtonSprite->Draw();
@@ -108,10 +108,10 @@ void RenderingHandler::RenderGameOverScene(EntityManager& entityManager, Screen&
 
 void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entityId)
 {
-    Tag* tag = entityManager.GetComponent<Tag>(entityId);
-    Transform* transform = entityManager.GetComponent<Transform>(entityId);
-    Renderable* renderable = entityManager.GetComponent<Renderable>(entityId);
-    CSimpleSprite* sprite = renderable->GetSprite();
+    Tag *tag = entityManager.GetComponent<Tag>(entityId);
+    Transform *transform = entityManager.GetComponent<Transform>(entityId);
+    Renderable *renderable = entityManager.GetComponent<Renderable>(entityId);
+    CSimpleSprite *sprite = renderable->GetSprite();
 
     sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
     sprite->SetScale(transform->GetScale().x);
@@ -125,8 +125,8 @@ void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entit
 void RenderingHandler::RenderScore(EntityManager &entityManager)
 {
     EntityId scoreEntityId = entityManager.GetScoreEntityId();
-    Score* score = entityManager.GetComponent<Score>(scoreEntityId);
-    Transform* scoreTransform = entityManager.GetComponent<Transform>(scoreEntityId);
+    Score *score = entityManager.GetComponent<Score>(scoreEntityId);
+    Transform *scoreTransform = entityManager.GetComponent<Transform>(scoreEntityId);
 
     if (!score)
         return;
@@ -138,20 +138,20 @@ void RenderingHandler::RenderScore(EntityManager &entityManager)
 void RenderingHandler::RenderTimer(EntityManager &entityManager)
 {
     EntityId timerEntityId = entityManager.GetTimerEntityId();
-    Timer* timer = entityManager.GetComponent<Timer>(timerEntityId);
-    Transform* timerTransform = entityManager.GetComponent<Transform>(timerEntityId);
+    Timer *timer = entityManager.GetComponent<Timer>(timerEntityId);
+    Transform *timerTransform = entityManager.GetComponent<Transform>(timerEntityId);
 
-    string timerText = to_string(static_cast<int>(timer->GetCountdownTime()));
+    string timerText = to_string(static_cast<int>(timer->GetDuration()));
     App::Print(timerTransform->GetPosition().x, timerTransform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
 }
 
-void RenderingHandler::SetBackground(const Color& color)
+void RenderingHandler::SetBackground(const Color &color)
 {
     glClearColor(color.r, color.g, color.b, color.alpha);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void RenderingHandler::DrawBorder(Screen& screen, const Color& color)
+void RenderingHandler::DrawBorder(Screen &screen, const Color &color)
 {
     const float borderThickness = screen.BORDER_THICKNESS;
     const float borderLeftX = screen.BORDER_LEFT_X;
@@ -169,7 +169,7 @@ void RenderingHandler::DrawBorder(Screen& screen, const Color& color)
     glEnd();
 }
 
-void RenderingHandler::DrawBackgroundInBorder(Screen& screen, const Color& color)
+void RenderingHandler::DrawBackgroundInBorder(Screen &screen, const Color &color)
 {
     float borderThickness = screen.BORDER_THICKNESS;
     float borderLeftX = screen.BORDER_LEFT_X;
