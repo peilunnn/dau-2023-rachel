@@ -26,6 +26,10 @@ void RenderingHandler::RenderMainMenuScene(EntityManager& entityManager, Screen&
 {
     SetBackground(BLACK);
 
+    const float descriptionXOffset = 600.0f;
+    const float descriptionYOffset = 450.0f;
+
+
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
     {
         Tag* tag = entityManager.GetComponent<Tag>(entityId);
@@ -45,7 +49,7 @@ void RenderingHandler::RenderMainMenuScene(EntityManager& entityManager, Screen&
     }
 
     constexpr char* descriptionText = "Get the highest score in 60 seconds!";
-    App::Print(screen.SCREEN_WIDTH - screen.DESCRIPTION_X_OFFSET, screen.SCREEN_HEIGHT - screen.DESCRIPTION_Y_OFFSET, descriptionText, screen.R_TEXT, screen.G_TEXT, screen.B_TEXT);
+    App::Print(screen.SCREEN_WIDTH - descriptionXOffset, screen.SCREEN_HEIGHT - descriptionYOffset, descriptionText, WHITE.r, WHITE.g, WHITE.b);
 }
 
 void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& screen)
@@ -82,9 +86,15 @@ void RenderingHandler::RenderGameOverScene(EntityManager& entityManager, Screen&
     const float gameOverTextX = screen.SCREEN_WIDTH / 2.0f;
     const float gameOverTextY = screen.SCREEN_HEIGHT / 2.0f;
     constexpr char* gameOverText = "Game Over";
-    App::Print(gameOverTextX, gameOverTextY, gameOverText, 1.0f, 1.0f, 1.0f);
+    App::Print(gameOverTextX, gameOverTextY, gameOverText, WHITE.r, WHITE.g, WHITE.b);
 
-    RenderScore(entityManager);
+    EntityId scoreEntityId = entityManager.GetScoreEntityId();
+    Score* score = entityManager.GetComponent<Score>(scoreEntityId);
+
+    string scoreMessage = "You got a score of : " + to_string(score->GetScore());
+    const float scoreTextX = gameOverTextX - 20.0f;
+    const float scoreTextY = gameOverTextY - 50.0f;
+    App::Print(scoreTextX, scoreTextY, scoreMessage.c_str(), WHITE.r, WHITE.g, WHITE.b);
 }
 
 void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entityId)

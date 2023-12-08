@@ -24,35 +24,6 @@ public:
     const float SCREEN_TOP = NDCtoScreenY(BORDER_TOP_Y, SCREEN_HEIGHT);
     const float SCREEN_BOTTOM = NDCtoScreenY(BORDER_BOTTOM_Y, SCREEN_HEIGHT);
 
-    const float TITLE_X_OFFSET = 520.0f;
-    const float TITLE_Y_OFFSET = 300.0f;
-    const float DESCRIPTION_X_OFFSET = 600.0f;
-    const float DESCRIPTION_Y_OFFSET = 450.0f;
-    const float PLAY_BUTTON_X_OFFSET = 520.0f;
-    const float PLAY_BUTTON_Y_OFFSET = 500.0f;
-
-    const float R_MAIN_MENU_BG = 0.0f;
-    const float G_MAIN_MENU_BG = 0.0f;
-    const float B_MAIN_MENU_BG = 0.0f;
-    const float ALPHA_MAIN_MENU_BG = 1.0f;
-
-    const float R_GAMEPLAY_BG = 0.2f;
-    const float G_GAMEPLAY_BG = 0.2f;
-    const float B_GAMEPLAY_BG = 0.2f;
-    const float ALPHA_GAMEPLAY_BG = 1.0f;
-
-    const float R_BORDER = 1.0f;
-    const float G_BORDER = 1.0f;
-    const float B_BORDER = 1.0f;
-
-    const float R_BG_IN_BORDER = 0.0f;
-    const float G_BG_IN_BORDER = 0.0f;
-    const float B_BG_IN_BORDER = 0.0f;
-
-    const float R_TEXT = 1.0f;
-    const float G_TEXT = 1.0f;
-    const float B_TEXT = 1.0f;
-
     float Screen::NDCtoScreenX(float ndcX, float screenWidth) {
         return (ndcX + 1.0f) * 0.5f * screenWidth;
     }

@@ -313,8 +313,10 @@ EntityId EntityManager::CreateTitleEntity(SpriteManager& spriteManager)
 	CSimpleSprite* titleSprite = spriteManager.CreateSprite(titleEntityId, Helper::PATH_TO_TITLE, 1, 1);
 
 	Screen& screen = screen.GetInstance();
-	float xPos = screen.SCREEN_WIDTH - screen.TITLE_X_OFFSET;
-	float yPos = screen.SCREEN_HEIGHT - screen.TITLE_Y_OFFSET;
+	const float titleXOffset = 520.0f;
+	const float titleYOffset = 300.0f;
+	float xPos = screen.SCREEN_WIDTH - titleXOffset;
+	float yPos = screen.SCREEN_HEIGHT - titleYOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.5f);
@@ -336,8 +338,10 @@ EntityId EntityManager::CreatePlayButtonEntity(SpriteManager& spriteManager)
 	CSimpleSprite* playButtonSprite = spriteManager.CreateSprite(playButtonEntityId, Helper::PATH_TO_PLAY_BUTTON, 1, 1);
 
 	Screen& screen = screen.GetInstance();
-	float xPos = screen.SCREEN_WIDTH - screen.PLAY_BUTTON_X_OFFSET;
-	float yPos = screen.SCREEN_HEIGHT - screen.PLAY_BUTTON_Y_OFFSET;
+	const float playButtonXOffset = 520.0f;
+	const float playButtonYOffset = 500.0f;
+	float xPos = screen.SCREEN_WIDTH - playButtonXOffset;
+	float yPos = screen.SCREEN_HEIGHT - playButtonYOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.2f);
