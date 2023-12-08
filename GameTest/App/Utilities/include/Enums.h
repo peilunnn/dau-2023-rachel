@@ -42,6 +42,7 @@ enum class Scene
     None,
     MainMenu,
     Gameplay,
+    GameOver
 };
 
 enum PlayerAnimationState
@@ -75,5 +76,5 @@ enum class GameState
 {
     MainMenu,
     Gameplay,
-    Paused
+    GameOver
 };

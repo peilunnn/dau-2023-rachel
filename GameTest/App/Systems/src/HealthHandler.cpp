@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Components/include/Health.h"
 #include "Components/include/Tag.h"
+#include "Managers/include/GameManager.h"
 #include "Systems/include/HealthHandler.h"
 #include "Utilities/include/Helper.h"
 
@@ -9,9 +10,7 @@ void HealthHandler::HandleEvent(const Event &event, float deltaTime)
 	EntityManager &entityManager = EntityManager::GetInstance();
 
 	if (event.GetEventType() == "EnemyHitPlayer")
-	{
 		HandleEnemyHitPlayer(entityManager);
-	}
 }
 
 void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
@@ -23,14 +22,11 @@ void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 	if (!health)
 		return;
 
-	int currentHealth = health->GetCurrentHealth();
-	health->SetCurrentHealth(currentHealth - m_healthReduction);
+	int newHealth = health->GetCurrentHealth() - m_healthReduction;
+	health->SetCurrentHealth(newHealth);
 
-	if (currentHealth > 0)
+	if (newHealth > 0)
 		tag->SetEntityState(EntityState::Alive);
 	else
-	{
-		// TODO: end the game
-		Helper::Log("game over");
-	}
+		GameManager::GetInstance().SetGameState(GameState::GameOver);
 }

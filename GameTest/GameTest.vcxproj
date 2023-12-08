@@ -213,6 +213,7 @@
     <ClInclude Include="App\Systems\include\CooldownHandler.h" />
     <ClInclude Include="App\Components\include\Screen.h" />
     <ClInclude Include="App\Managers\include\GameManager.h" />
+    <ClInclude Include="App\Utilities\include\Color.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="App\Components\src\Cooldown.cpp" />
     <ClCompile Include="App\Systems\src\CooldownHandler.cpp" />
     <ClCompile Include="App\Managers\src\GameManager.cpp" />
+    <ClCompile Include="App\Utilities\src\Color.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Systems\src\CollisionHandler.cpp" />
@@ -286,7 +288,6 @@
     <Image Include="Data\Sprites\AmmoEmpty.png" />
     <Image Include="Data\Sprites\AmmoFilled.png" />
     <Image Include="Data\Sprites\Bullet.bmp" />
-    <Image Include="Data\Sprites\MenuButton.png" />
     <Image Include="Data\Sprites\PlayButton.png" />
     <Image Include="Data\Sprites\Title.png" />
   </ItemGroup>

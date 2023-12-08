@@ -10,19 +10,21 @@
 
 void RenderingHandler::Render()
 {
-    GameState gameState = GameManager::GetInstance().GetGameState();
+    GameState m_gameState = GameManager::GetInstance().GetGameState();
     EntityManager& entityManager = EntityManager::GetInstance();
     Screen& screen = Screen::GetInstance();
 
-    if (gameState == GameState::MainMenu)
+    if (m_gameState == GameState::MainMenu)
         RenderMainMenuScene(entityManager, screen);
-    else if (gameState == GameState::Gameplay)
+    else if (m_gameState == GameState::Gameplay)
         RenderGameScene(entityManager, screen);
+    else if (m_gameState == GameState::GameOver)
+        RenderGameOverScene(entityManager, screen);
 }
 
 void RenderingHandler::RenderMainMenuScene(EntityManager& entityManager, Screen& screen)
 {
-    SetBackground(screen.R_MAIN_MENU_BG, screen.G_MAIN_MENU_BG, screen.B_MAIN_MENU_BG, screen.ALPHA_MAIN_MENU_BG);
+    SetBackground(BLACK);
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
     {
@@ -48,9 +50,9 @@ void RenderingHandler::RenderMainMenuScene(EntityManager& entityManager, Screen&
 
 void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& screen)
 {
-    SetBackground(screen.R_GAMEPLAY_BG, screen.G_GAMEPLAY_BG, screen.B_GAMEPLAY_BG, screen.ALPHA_GAMEPLAY_BG);
-    DrawBorder(screen, screen.R_BORDER, screen.G_BORDER, screen.B_BORDER);
-    DrawBackgroundInBorder(screen, screen.R_BG_IN_BORDER, screen.G_BG_IN_BORDER, screen.B_BG_IN_BORDER);
+    SetBackground(BLACK);
+    DrawBorder(screen, WHITE);
+    DrawBackgroundInBorder(screen, DARK_GREY);
 
     for (EntityId entityId : entityManager.GetAmmoEmptyEntities())
         RenderSprite(entityManager, entityId);
@@ -71,6 +73,18 @@ void RenderingHandler::RenderGameScene(EntityManager& entityManager, Screen& scr
 
     RenderScore(entityManager);
     RenderTimer(entityManager);
+}
+
+void RenderingHandler::RenderGameOverScene(EntityManager& entityManager, Screen& screen)
+{
+    SetBackground(BLACK);
+
+    const float gameOverTextX = screen.SCREEN_WIDTH / 2.0f;
+    const float gameOverTextY = screen.SCREEN_HEIGHT / 2.0f;
+    constexpr char* gameOverText = "Game Over";
+    App::Print(gameOverTextX, gameOverTextY, gameOverText, 1.0f, 1.0f, 1.0f);
+
+    RenderScore(entityManager);
 }
 
 void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entityId)
@@ -95,15 +109,11 @@ void RenderingHandler::RenderScore(EntityManager &entityManager)
     Score* score = entityManager.GetComponent<Score>(scoreEntityId);
     Transform* scoreTransform = entityManager.GetComponent<Transform>(scoreEntityId);
 
-    constexpr float r = 1.0f;
-    constexpr float g = 1.0f;
-    constexpr float b = 1.0f;
-
     if (!score)
         return;
 
     string scoreText = "Score: " + to_string(score->GetScore());
-    App::Print(scoreTransform->GetPosition().x, scoreTransform->GetPosition().y, scoreText.c_str(), r, g, b);
+    App::Print(scoreTransform->GetPosition().x, scoreTransform->GetPosition().y, scoreText.c_str(), WHITE.r, WHITE.g, WHITE.b);
 }
 
 void RenderingHandler::RenderTimer(EntityManager &entityManager)
@@ -116,13 +126,13 @@ void RenderingHandler::RenderTimer(EntityManager &entityManager)
     App::Print(timerTransform->GetPosition().x, timerTransform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
 }
 
-void RenderingHandler::SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
+void RenderingHandler::SetBackground(const Color& color)
 {
-    glClearColor(red, green, blue, alpha);
+    glClearColor(color.r, color.g, color.b, color.alpha);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void RenderingHandler::DrawBorder(Screen& screen, GLfloat red, GLfloat green, GLfloat blue)
+void RenderingHandler::DrawBorder(Screen& screen, const Color& color)
 {
     const float borderThickness = screen.BORDER_THICKNESS;
     const float borderLeftX = screen.BORDER_LEFT_X;
@@ -130,7 +140,7 @@ void RenderingHandler::DrawBorder(Screen& screen, GLfloat red, GLfloat green, GL
     const float borderTopY = screen.BORDER_TOP_Y;
     const float borderBottomY = screen.BORDER_BOTTOM_Y;
 
-    glColor3f(red, green, blue);
+    glColor3f(color.r, color.g, color.b);
     glLineWidth(borderThickness);
     glBegin(GL_LINE_LOOP);
     glVertex2f(borderLeftX, borderTopY);
@@ -140,7 +150,7 @@ void RenderingHandler::DrawBorder(Screen& screen, GLfloat red, GLfloat green, GL
     glEnd();
 }
 
-void RenderingHandler::DrawBackgroundInBorder(Screen& screen, GLfloat red, GLfloat green, GLfloat blue)
+void RenderingHandler::DrawBackgroundInBorder(Screen& screen, const Color& color)
 {
     float borderThickness = screen.BORDER_THICKNESS;
     float borderLeftX = screen.BORDER_LEFT_X;
@@ -148,7 +158,7 @@ void RenderingHandler::DrawBackgroundInBorder(Screen& screen, GLfloat red, GLflo
     float borderTopY = screen.BORDER_TOP_Y;
     float borderBottomY = screen.BORDER_BOTTOM_Y;
 
-    glColor3f(red, green, blue);
+    glColor3f(color.r, color.g, color.b);
     glBegin(GL_QUADS);
     glVertex2f(borderLeftX, borderTopY);
     glVertex2f(borderRightX, borderTopY);

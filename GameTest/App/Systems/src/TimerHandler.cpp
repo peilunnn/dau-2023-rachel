@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Components/include/Timer.h"
 #include "Managers/include/EntityManager.h"
+#include "Managers/include/GameManager.h"
 #include "Systems/include/TimerHandler.h"
 
 void TimerHandler::Update(float deltaTime)
@@ -13,8 +14,7 @@ void TimerHandler::Update(float deltaTime)
 		
 		timer->SetCountdownTime(countdownTime - deltaTime);
 		
-		if (countdownTime <= 0) {
-			// TODO: end the game
-		}
+		if (countdownTime <= 0)
+			GameManager::GetInstance().SetGameState(GameState::GameOver);
 	}
 }

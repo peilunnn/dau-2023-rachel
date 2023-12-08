@@ -51,6 +51,7 @@
     <ClCompile Include="App\Systems\src\TitleHandler.cpp" />
     <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
     <ClCompile Include="App\Managers\src\GameManager.cpp" />
+    <ClCompile Include="App\Utilities\src\Color.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -109,6 +110,7 @@
     <ClInclude Include="App\Utilities\include\mydirectsound.h" />
     <ClInclude Include="App\Managers\include\SpriteManager.h" />
     <ClInclude Include="App\Managers\include\GameManager.h" />
+    <ClInclude Include="App\Utilities\include\Color.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">
@@ -136,6 +138,5 @@
     <Image Include="Data\SpriteSheets\ReloadingCircle.png" />
     <Image Include="Data\SpriteSheets\Buttons.png" />
     <Image Include="Data\Sprites\PlayButton.png" />
-    <Image Include="Data\Sprites\MenuButton.png" />
   </ItemGroup>
 </Project>

@@ -340,7 +340,7 @@ EntityId EntityManager::CreatePlayButtonEntity(SpriteManager& spriteManager)
 	float yPos = screen.SCREEN_HEIGHT - screen.PLAY_BUTTON_Y_OFFSET;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.5f);
+	constexpr vec3 scale = vec3(0.2f);
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::PlayButton, Scene::MainMenu);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);

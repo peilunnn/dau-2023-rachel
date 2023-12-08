@@ -15,15 +15,15 @@ public:
     void PrepareGameplay();
 
     GameState GetGameState() const {
-        return gameState;
+        return m_gameState;
     }
     void SetGameState(GameState newState) {
-        gameState = newState;
+        m_gameState = newState;
     }
 
 private:
     GameManager() = default;
 
-    GameState gameState = GameState::MainMenu;
+    GameState m_gameState = GameState::MainMenu;
 };
 

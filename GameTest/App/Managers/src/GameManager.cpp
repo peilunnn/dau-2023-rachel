@@ -8,14 +8,12 @@ void GameManager::Update(float deltaTime)
     EntityManager& entityManager = EntityManager::GetInstance();
     InputHandler& inputHandler = InputHandler::GetInstance();
 
-    if (gameState == GameState::MainMenu) {
+    if (m_gameState == GameState::MainMenu) {
         if (inputHandler.GetIsPlayButtonClicked()) {
-            gameState = GameState::Gameplay;
+            m_gameState = GameState::Gameplay;
             inputHandler.ResetPlayButtonClick();
             PrepareGameplay();
         }
-    }
-    else if (gameState == GameState::Gameplay) {
     }
 }
 

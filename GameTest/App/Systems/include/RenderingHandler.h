@@ -1,9 +1,8 @@
 #pragma once
 #include "Components/include/Screen.h"
-#include "Components/include/Tag.h"
-#include "Components/include/Transform.h"
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
+#include "Utilities/include/Color.h"
 
 class RenderingHandler : public System {
 public:
@@ -21,11 +20,12 @@ private:
 
     void RenderMainMenuScene(EntityManager& entityManager, Screen& screen);
     void RenderGameScene(EntityManager& entityManager, Screen& screen);
+    void RenderGameOverScene(EntityManager& entityManager, Screen& screen);
     void RenderSprite(EntityManager& entityManager, EntityId entityId);
     void RenderScore(EntityManager& entityManager);
     void RenderTimer(EntityManager& entityManager);
 
-    void SetBackground(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-    void DrawBorder(Screen& screen, GLfloat red, GLfloat green, GLfloat blue);
-    void DrawBackgroundInBorder(Screen& screen, GLfloat red, GLfloat green, GLfloat blue);
+    void SetBackground(const Color& color);
+    void DrawBorder(Screen& screen, const Color& color);
+    void DrawBackgroundInBorder(Screen& screen, const Color& color);
 };
