@@ -70,5 +70,6 @@ enum class GameState
     None,
     MainMenu,
     Gameplay,
-    GameOver
+    GameOver,
+    Loading
 };

@@ -14,12 +14,21 @@ void RenderingHandler::Render()
     EntityManager &entityManager = EntityManager::GetInstance();
     Screen &screen = Screen::GetInstance();
 
-    if (m_gameState == GameState::MainMenu)
-        RenderMainMenuScene(entityManager, screen);
-    else if (m_gameState == GameState::Gameplay)
-        RenderGameScene(entityManager, screen);
-    else if (m_gameState == GameState::GameOver)
-        RenderGameOverScene(entityManager, screen);
+    switch (m_gameState)
+    {
+        case GameState::MainMenu: 
+            RenderMainMenuScene(entityManager, screen);
+            break;
+        case GameState::Gameplay:
+            RenderGameScene(entityManager, screen);
+            break;
+        case GameState::GameOver:
+            RenderGameOverScene(entityManager, screen);
+            break;
+        case GameState::Loading:
+            RenderLoadingScreen(screen);
+            break;
+    }
 }
 
 void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen &screen)
@@ -104,6 +113,16 @@ void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen 
     backButtonSprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
     backButtonSprite->SetScale(transform->GetScale().x);
     backButtonSprite->Draw();
+}
+
+void RenderingHandler::RenderLoadingScreen(Screen& screen) {
+    SetBackground(BLACK);
+
+    const float loadingTextX = screen.SCREEN_WIDTH / 2.0f;
+    const float loadingTextY = screen.SCREEN_HEIGHT / 2.0f;
+    constexpr char* loadingText = "Loading...";
+
+    App::Print(loadingTextX, loadingTextY, loadingText, WHITE.r, WHITE.g, WHITE.b);
 }
 
 void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entityId)

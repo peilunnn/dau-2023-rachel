@@ -21,6 +21,7 @@ private:
     void RenderMainMenuScene(EntityManager& entityManager, Screen& screen);
     void RenderGameScene(EntityManager& entityManager, Screen& screen);
     void RenderGameOverScene(EntityManager& entityManager, Screen& screen);
+    void RenderLoadingScreen(Screen& screen);
     void RenderSprite(EntityManager& entityManager, EntityId entityId);
     void RenderScore(EntityManager& entityManager);
     void RenderTimer(EntityManager& entityManager);
