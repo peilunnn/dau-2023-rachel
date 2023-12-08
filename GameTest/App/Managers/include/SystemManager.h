@@ -21,6 +21,6 @@ public:
 private:
     SystemManager() = default;
 
-    vector<System*> m_systems;
-    queue<Event> m_eventQueue;
+    vector<System*> m_systems = vector<System*>();
+    queue<Event> m_eventQueue = queue<Event>();
 };

@@ -23,7 +23,7 @@ private:
         m_subscribedEvents.insert("BulletOutOfBounds");
     }
 
-    set<string> m_subscribedEvents;
+    set<string> m_subscribedEvents = {};
     void HandleBulletHitEnemy(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime);
     void SpawnTwoEnemies(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager& entityManager, EntityId enemyEntityId);

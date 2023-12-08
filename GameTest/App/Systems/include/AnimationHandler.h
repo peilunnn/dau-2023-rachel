@@ -29,7 +29,7 @@ private:
         m_subscribedEvents.insert("EnemyHitPlayer");
     }
 
-    set<string> m_subscribedEvents;
+    set<string> m_subscribedEvents = {};
     int m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 
     void InitPlayerAnimation(EntityManager& entityManager, SpriteManager& spriteManager);

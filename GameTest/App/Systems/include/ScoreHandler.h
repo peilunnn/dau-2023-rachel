@@ -22,7 +22,7 @@ private:
         m_subscribedEvents.insert("BulletHitEnemy");
     }
 
-    set<string> m_subscribedEvents;
+    set<string> m_subscribedEvents = {};
 
     void HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime);
 };

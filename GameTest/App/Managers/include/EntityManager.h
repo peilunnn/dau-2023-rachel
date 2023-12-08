@@ -106,7 +106,7 @@ private:
     EntityId m_backButtonEntityId = -1;
 
     EntityId m_nextEntityId = -1;
-    unordered_map<EntityId, vector<unique_ptr<Component>>> m_entityComponents;
+    unordered_map<EntityId, vector<unique_ptr<Component>>> m_entityComponents = {};
     vector<EntityId> m_entitiesToDelete = vector<EntityId>();
     vector<EntityId> m_ammoEmptyEntityIds = vector<EntityId>();
     vector<EntityId> m_ammoFilledEntityIds = vector<EntityId>();

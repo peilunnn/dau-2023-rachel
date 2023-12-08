@@ -16,7 +16,6 @@ public:
 
     CSimpleSprite* CreateSprite(EntityId entityId, const char* path, int columns, int rows);
     CSimpleSprite* GetSprite(EntityId entityId);
-    void DestroySprite(EntityId entityId);
     void DestroyAllSprites();
 
 private:

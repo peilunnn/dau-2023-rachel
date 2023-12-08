@@ -25,7 +25,7 @@ private:
         m_subscribedEvents.insert("PlayerHitReloadingCircle");
     }
 
-    set<string> m_subscribedEvents;
+    set<string> m_subscribedEvents = {};
     int m_bulletsShotSoFar = 0;
     const float m_bulletSpeed = 1500.0f;
 

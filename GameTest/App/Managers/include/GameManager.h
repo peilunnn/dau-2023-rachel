@@ -31,7 +31,6 @@ private:
     GameState m_gameState = GameState::MainMenu;
     float m_loadingTimer = 0.0f;
     float m_loadingDuration = 1.0f;
-    void PrepareGameplay();
     void UpdateLoadingState(float deltaTime);
 };
 

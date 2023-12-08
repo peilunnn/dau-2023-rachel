@@ -26,7 +26,7 @@ private:
         m_subscribedEvents.insert("EnemyHitPlayer");
     }
 
-    set<string> m_subscribedEvents;
+    set<string> m_subscribedEvents = {};
     const int m_healthReduction = 20;
 
     void HandleEnemyHitPlayer(EntityManager& entityManager);

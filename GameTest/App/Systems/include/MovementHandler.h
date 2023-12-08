@@ -24,7 +24,7 @@ private:
         m_subscribedEvents.insert("BulletHitEnemy");
     }
 
-    set<string> m_subscribedEvents;
+    set<string> m_subscribedEvents = {};
 
     void HandlePlayerMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
     void HandleEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);

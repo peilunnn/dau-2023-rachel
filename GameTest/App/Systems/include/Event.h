@@ -24,6 +24,6 @@ public:
 	}
 
 private:
-	string m_eventType;
-	vector<EntityId> m_entityIds;
+	string m_eventType = "";
+	vector<EntityId> m_entityIds = vector<EntityId>();
 };
