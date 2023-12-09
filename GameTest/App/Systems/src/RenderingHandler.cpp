@@ -10,11 +10,11 @@
 
 void RenderingHandler::Render()
 {
-    GameState m_gameState = GameManager::GetInstance().GetGameState();
+    GameState m_currentGameState = GameManager::GetInstance().GetCurrentGameState();
     EntityManager &entityManager = EntityManager::GetInstance();
     Screen &screen = Screen::GetInstance();
 
-    switch (m_gameState)
+    switch (m_currentGameState)
     {
         case GameState::MainMenu: 
             RenderMainMenuScene(entityManager, screen);
@@ -39,7 +39,7 @@ void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen 
     {
         Tag *tag = entityManager.GetComponent<Tag>(entityId);
 
-        if (tag->GetGameState() != GameState::MainMenu)
+        if (tag->GetCurrentGameState() != GameState::MainMenu)
             continue;
 
         CSimpleSprite *sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
@@ -75,7 +75,7 @@ void RenderingHandler::RenderGameScene(EntityManager &entityManager, Screen &scr
     {
         Tag *tag = entityManager.GetComponent<Tag>(entityId);
 
-        if (tag->GetGameState() != GameState::Gameplay)
+        if (tag->GetCurrentGameState() != GameState::Gameplay)
             continue;
 
         if (tag->GetEntityType() != EntityType::AmmoEmpty && tag->GetEntityType() != EntityType::AmmoFilled)

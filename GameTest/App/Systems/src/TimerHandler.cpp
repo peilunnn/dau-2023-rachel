@@ -7,6 +7,7 @@
 void TimerHandler::Update(float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
+	GameManager& gameManager = GameManager::GetInstance();
 
 	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>()) {
 		Timer* timer = entityManager.GetComponent<Timer>(entityId);
@@ -15,6 +16,9 @@ void TimerHandler::Update(float deltaTime)
 		timer->SetDuration(countdownTime - deltaTime);
 		
 		if (countdownTime <= 0)
-			GameManager::GetInstance().SetGameState(GameState::GameOver);
+		{
+			gameManager.SetPreviousGameState(GameState::Gameplay);
+			gameManager.SetCurrentGameState(GameState::Loading);
+		}
 	}
 }

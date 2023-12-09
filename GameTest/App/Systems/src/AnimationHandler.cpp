@@ -161,7 +161,6 @@ void AnimationHandler::UpdateLoadingScreenCharacterAnimation(EntityManager& enti
 	loadingScreenCharacterAnimation->SetCurrentAnimation(PLAYER_ANIM_RIGHT);
 	loadingScreenCharacterSprite->SetAnimation(loadingScreenCharacterAnimation->GetCurrentAnimation());
 	loadingScreenCharacterSprite->Update(deltaTime);
-	Helper::Log("already set loading screen character animation");
 }
 
 void AnimationHandler::HandleEvent(const Event& event, float deltaTime)

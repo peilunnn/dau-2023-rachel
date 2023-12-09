@@ -15,6 +15,7 @@ void HealthHandler::HandleEvent(const Event &event, float deltaTime)
 
 void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 {
+	GameManager& gameManager = GameManager::GetInstance();
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	Tag *tag = entityManager.GetComponent<Tag>(playerEntityId);
 	Health *health = entityManager.GetComponent<Health>(playerEntityId);
@@ -28,5 +29,8 @@ void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 	if (newHealth > 0)
 		tag->SetEntityState(EntityState::Alive);
 	else
-		GameManager::GetInstance().SetGameState(GameState::GameOver);
+	{
+		gameManager.SetPreviousGameState(GameState::Gameplay);
+		gameManager.SetCurrentGameState(GameState::Loading);
+	}
 }

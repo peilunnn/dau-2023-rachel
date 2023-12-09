@@ -47,13 +47,13 @@ void Update(float deltaTime)
 	float deltaTimeInSeconds = deltaTime / 1000.0f;
 	gameManager.Update(deltaTimeInSeconds);
 
-	if (gameManager.GetGameState() == GameState::MainMenu)
+	if (gameManager.GetCurrentGameState() == GameState::MainMenu)
 	{
 		TitleHandler::GetInstance().OscillateTitle(deltaTimeInSeconds);
 		InputHandler::GetInstance().SetIsPlayButtonClicked();
 		gameManager.HandlePlayButtonClick();
 	}
-	else if (gameManager.GetGameState() == GameState::Gameplay)
+	else if (gameManager.GetCurrentGameState() == GameState::Gameplay)
 	{
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
 		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
@@ -64,12 +64,12 @@ void Update(float deltaTime)
 		SystemManager::GetInstance().ProcessEvents(deltaTimeInSeconds);
 		EntityManager::GetInstance().ProcessDeletions();
 	}
-	else if (gameManager.GetGameState() == GameState::GameOver)
+	else if (gameManager.GetCurrentGameState() == GameState::GameOver)
 	{
 		InputHandler::GetInstance().SetIsBackButtonClicked();
 		gameManager.HandleBackButtonClick();
 	}
-	else if (gameManager.GetGameState() == GameState::Loading)
+	else if (gameManager.GetCurrentGameState() == GameState::Loading)
 	{
 		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
 	}
