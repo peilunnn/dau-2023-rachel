@@ -10,6 +10,7 @@
 #include <assert.h>
 //-----------------------------------------------------------------------------
 #include "Utilities/include/SimpleSound.h"
+#include "Utilities/include/Helper.h"
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
@@ -39,12 +40,12 @@ bool CSimpleSound::Initialize(HWND hwnd)
 void CSimpleSound::Shutdown()
 {
 	// Release the secondary buffers.
-	for (auto sound : m_sounds) 
+	for (auto sound : m_sounds)
 	{
-		if( sound.second )
+		if (sound.second)
 		{
 			sound.second->Release();
-		}		
+		}
 	}
 	// Shutdown the Direct Sound API.
 	ShutdownDirectSound();
@@ -60,14 +61,14 @@ bool CSimpleSound::InitializeDirectSound(HWND hwnd)
 
 	// Initialize the direct sound interface pointer for the default sound device.
 	result = DirectSoundCreate8(NULL, &m_directSound, NULL);
-	if(FAILED(result))
+	if (FAILED(result))
 	{
 		return false;
 	}
 
 	// Set the cooperative level to priority so the format of the primary sound buffer can be modified.
 	result = m_directSound->SetCooperativeLevel(hwnd, DSSCL_PRIORITY);
-	if(FAILED(result))
+	if (FAILED(result))
 	{
 		return false;
 	}
@@ -82,7 +83,7 @@ bool CSimpleSound::InitializeDirectSound(HWND hwnd)
 
 	// Get control of the primary sound buffer on the default sound device.
 	result = m_directSound->CreateSoundBuffer(&bufferDesc, &m_primaryBuffer, NULL);
-	if(FAILED(result))
+	if (FAILED(result))
 	{
 		return false;
 	}
@@ -98,7 +99,7 @@ bool CSimpleSound::InitializeDirectSound(HWND hwnd)
 
 	// Set the primary buffer to be the wave format specified.
 	result = m_primaryBuffer->SetFormat(&waveFormat);
-	if(FAILED(result))
+	if (FAILED(result))
 	{
 		return false;
 	}
@@ -106,18 +107,17 @@ bool CSimpleSound::InitializeDirectSound(HWND hwnd)
 	return true;
 }
 
-
 void CSimpleSound::ShutdownDirectSound()
 {
 	// Release the primary sound buffer pointer.
-	if(m_primaryBuffer)
+	if (m_primaryBuffer)
 	{
 		m_primaryBuffer->Release();
 		m_primaryBuffer = 0;
 	}
 
 	// Release the direct sound interface pointer.
-	if(m_directSound)
+	if (m_directSound)
 	{
 		m_directSound->Release();
 		m_directSound = 0;
@@ -126,12 +126,12 @@ void CSimpleSound::ShutdownDirectSound()
 	return;
 }
 
-bool CSimpleSound::PlaySound(const char *filename, DWORD flags)
+bool CSimpleSound::PlayS(const char *filename, DWORD flags)
 {
 	HRESULT result;
 
 	// Set position at the beginning of the sound buffer.
-	//result = m_secondaryBuffer1->SetCurrentPosition(0);
+	// result = m_secondaryBuffer1->SetCurrentPosition(0);
 	if (m_sounds[filename] == nullptr)
 	{
 		result = LoadWaveFile(filename);
@@ -139,15 +139,18 @@ bool CSimpleSound::PlaySound(const char *filename, DWORD flags)
 		{
 			return false;
 		}
+		Helper::Log("loaded");
 	}
 
 	if (m_sounds[filename])
 	{
+		Helper::Log("found file in map");
 		result = m_sounds[filename]->SetCurrentPosition(0);
 		if (FAILED(result))
 		{
 			return false;
 		}
+		Helper::Log("finished setting current position");
 
 		// Set volume of the buffer to 100%.
 		result = m_sounds[filename]->SetVolume(DSBVOLUME_MAX);
@@ -155,6 +158,7 @@ bool CSimpleSound::PlaySound(const char *filename, DWORD flags)
 		{
 			return false;
 		}
+		Helper::Log("finished setting volume");
 
 		// Play the contents of the secondary sound buffer.
 		result = m_sounds[filename]->Play(0, 0, flags);
@@ -162,11 +166,11 @@ bool CSimpleSound::PlaySound(const char *filename, DWORD flags)
 		{
 			return false;
 		}
+		Helper::Log("finished playing");
 		return true;
 	}
 	return false;
 }
-
 
 bool CSimpleSound::IsPlaying(const char *filename)
 {
@@ -176,15 +180,15 @@ bool CSimpleSound::IsPlaying(const char *filename)
 		HRESULT result = m_sounds[filename]->GetStatus(&dwStatus);
 		if (!FAILED(result))
 		{
-			return (dwStatus&DSBSTATUS_PLAYING) != 0;
-		}			
+			return (dwStatus & DSBSTATUS_PLAYING) != 0;
+		}
 	}
 	return false;
 }
 
 bool CSimpleSound::StopSound(const char *filename)
 {
-	if (IsPlaying(filename) )
+	if (IsPlaying(filename))
 	{
 		if (m_sounds[filename] != nullptr)
 		{
@@ -195,26 +199,27 @@ bool CSimpleSound::StopSound(const char *filename)
 	return false;
 }
 
-bool CSimpleSound::LoadWaveFile(const char* filename)
-{	
+bool CSimpleSound::LoadWaveFile(const char *filename)
+{
 	int error;
-	FILE* filePtr = nullptr;
+	FILE *filePtr = nullptr;
 	unsigned int count;
 	WaveHeaderType waveFileHeader;
 	WAVEFORMATEX waveFormat;
 	DSBUFFERDESC bufferDesc;
 	HRESULT result;
-	IDirectSoundBuffer* tempBuffer;
-	unsigned char* waveData;
-	unsigned char* bufferPtr;
+	IDirectSoundBuffer *tempBuffer;
+	unsigned char *waveData;
+	unsigned char *bufferPtr;
 	unsigned long bufferSize;
 	// Find entry in map.
-	IDirectSoundBuffer8** secondaryBuffer = &m_sounds[filename];
+	IDirectSoundBuffer8 **secondaryBuffer = &m_sounds[filename];
 
 	// Open the wave file in binary.
 	error = fopen_s(&filePtr, filename, "rb");
 	if (error != 0)
 	{
+		Helper::Log("failed to open wave file in binary");
 		return false;
 	}
 
@@ -222,6 +227,7 @@ bool CSimpleSound::LoadWaveFile(const char* filename)
 	count = (unsigned int)fread(&waveFileHeader, sizeof(waveFileHeader), 1, filePtr);
 	if (count != 1)
 	{
+		Helper::Log("failed to read in wave file header");
 		return false;
 	}
 
@@ -229,6 +235,7 @@ bool CSimpleSound::LoadWaveFile(const char* filename)
 	if ((waveFileHeader.m_chunkId[0] != 'R') || (waveFileHeader.m_chunkId[1] != 'I') ||
 		(waveFileHeader.m_chunkId[2] != 'F') || (waveFileHeader.m_chunkId[3] != 'F'))
 	{
+		Helper::Log("error - chunk id not in RIFF format");
 		return false;
 	}
 
@@ -236,6 +243,7 @@ bool CSimpleSound::LoadWaveFile(const char* filename)
 	if ((waveFileHeader.m_format[0] != 'W') || (waveFileHeader.m_format[1] != 'A') ||
 		(waveFileHeader.m_format[2] != 'V') || (waveFileHeader.m_format[3] != 'E'))
 	{
+		Helper::Log("error - file not in WAVE format");
 		return false;
 	}
 
@@ -243,6 +251,7 @@ bool CSimpleSound::LoadWaveFile(const char* filename)
 	if ((waveFileHeader.m_subChunkId[0] != 'f') || (waveFileHeader.m_subChunkId[1] != 'm') ||
 		(waveFileHeader.m_subChunkId[2] != 't') || (waveFileHeader.m_subChunkId[3] != ' '))
 	{
+		Helper::Log("error - sub chunk ID not in fmt format");
 		return false;
 	}
 
@@ -250,6 +259,7 @@ bool CSimpleSound::LoadWaveFile(const char* filename)
 	if ((waveFileHeader.m_dataChunkId[0] != 'd') || (waveFileHeader.m_dataChunkId[1] != 'a') ||
 		(waveFileHeader.m_dataChunkId[2] != 't') || (waveFileHeader.m_dataChunkId[3] != 'a'))
 	{
+		Helper::Log("error - data chunk header not there");
 		return false;
 	}
 
@@ -278,7 +288,7 @@ bool CSimpleSound::LoadWaveFile(const char* filename)
 	}
 
 	// Test the buffer format against the direct sound 8 interface and create the secondary buffer.
-	result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (void**)&*secondaryBuffer);
+	result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (void **)&*secondaryBuffer);
 	if (FAILED(result))
 	{
 		return false;
@@ -313,7 +323,7 @@ bool CSimpleSound::LoadWaveFile(const char* filename)
 	}
 
 	// Lock the secondary buffer to write wave data into it.
-	result = (*secondaryBuffer)->Lock(0, waveFileHeader.m_dataSize, (void**)&bufferPtr, (DWORD*)&bufferSize, NULL, 0, 0);
+	result = (*secondaryBuffer)->Lock(0, waveFileHeader.m_dataSize, (void **)&bufferPtr, (DWORD *)&bufferSize, NULL, 0, 0);
 	if (FAILED(result))
 	{
 		return false;
@@ -323,7 +333,7 @@ bool CSimpleSound::LoadWaveFile(const char* filename)
 	memcpy(bufferPtr, waveData, waveFileHeader.m_dataSize);
 
 	// Unlock the secondary buffer after the data has been written to it.
-	result = (*secondaryBuffer)->Unlock((void*)bufferPtr, bufferSize, NULL, 0);
+	result = (*secondaryBuffer)->Unlock((void *)bufferPtr, bufferSize, NULL, 0);
 	if (FAILED(result))
 	{
 		return false;

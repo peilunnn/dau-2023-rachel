@@ -15,6 +15,7 @@
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/Helper.h"
+#include "Utilities/include/app.h"
 using glm::vec2;
 using glm::vec3;
 

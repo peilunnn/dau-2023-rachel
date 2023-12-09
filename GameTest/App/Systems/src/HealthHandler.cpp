@@ -29,8 +29,5 @@ void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 	if (newHealth > 0)
 		tag->SetEntityState(EntityState::Alive);
 	else
-	{
-		gameManager.SetPreviousGameState(GameState::Gameplay);
-		gameManager.SetCurrentGameState(GameState::Loading);
-	}
+		gameManager.TransitionToLoadingState();
 }

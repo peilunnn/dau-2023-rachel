@@ -16,8 +16,8 @@ void GameManager::Update(float deltaTime)
 
 void GameManager::UpdateLoadingState(float deltaTime)
 {
-    m_loadingTimer += deltaTime;
-    if (m_loadingTimer >= m_loadingDuration)
+    m_timeSpentInLoading += deltaTime;
+    if (m_timeSpentInLoading >= m_loadingDuration)
     {
         if (m_previousGameState == GameState::MainMenu)
             m_currentGameState = GameState::Gameplay;
@@ -34,10 +34,10 @@ void GameManager::HandlePlayButtonClick()
 
     if (!inputHandler.GetIsPlayButtonClicked())
         return;
+    
+    Helper::PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
 
-    m_previousGameState = m_currentGameState;
-    m_currentGameState = GameState::Loading;
-    m_loadingTimer = 0.0f;
+    TransitionToLoadingState();
     inputHandler.ResetPlayButtonClick();
 }
 
@@ -47,16 +47,16 @@ void GameManager::HandleBackButtonClick()
 
     if (!inputHandler.GetIsBackButtonClicked())
         return;
-    
-    m_previousGameState = m_currentGameState;
-    m_currentGameState = GameState::Loading;
-    m_loadingTimer = 0.0f;
+
+    Helper::PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
+
+    TransitionToLoadingState();
     inputHandler.ResetBackButtonClick();
 }
 
 void GameManager::TransitionToLoadingState()
 {
+    m_timeSpentInLoading = 0.0f;
     m_previousGameState = m_currentGameState;
     m_currentGameState = GameState::Loading;
-    m_loadingTimer = 0.0f;
 }

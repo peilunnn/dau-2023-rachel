@@ -27,7 +27,7 @@ private:
 
     set<string> m_subscribedEvents = {};
     int m_bulletsShotSoFar = 0;
-    const float m_bulletSpeed = 1500.0f;
+    const float m_bulletSpeed = 2000.0f;
 
     void HandlePlayerShoot(EntityManager& entityManager);
     void HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime);

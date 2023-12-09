@@ -53,10 +53,10 @@ namespace App
 		APP_NATIVE_TO_VIRTUAL_COORDS(x, y);
 #endif
 	}
-	void PlaySound(const char *fileName, bool looping)
+	void PlayS(const char *fileName, bool looping)
 	{
 		DWORD flags = (looping) ? DSBPLAY_LOOPING : 0;
-		CSimpleSound::GetInstance().PlaySound(fileName, flags);
+		CSimpleSound::GetInstance().PlayS(fileName, flags);
 	}
 	void StopSound(const char *fileName)
 	{

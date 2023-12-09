@@ -16,9 +16,6 @@ void TimerHandler::Update(float deltaTime)
 		timer->SetDuration(countdownTime - deltaTime);
 		
 		if (countdownTime <= 0)
-		{
-			gameManager.SetPreviousGameState(GameState::Gameplay);
-			gameManager.SetCurrentGameState(GameState::Loading);
-		}
+			gameManager.TransitionToLoadingState();
 	}
 }

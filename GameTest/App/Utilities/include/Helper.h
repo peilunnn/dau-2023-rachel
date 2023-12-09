@@ -10,12 +10,15 @@
 #include <random>
 #include <string>
 #include <Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib, "Winmm.lib")
 using glm::vec2;
 using glm::vec3;
 using namespace std;
 
 namespace Helper
 {
+	// Sprites
 	inline const char* PATH_TO_PLAYER = ".\\Data\\SpriteSheets\\Player.png";
 	inline const char* PATH_TO_ENEMY = ".\\Data\\SpriteSheets\\Enemy.png";
 	inline const char* PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
@@ -27,6 +30,17 @@ namespace Helper
 	inline const char* PATH_TO_PLAY_BUTTON = ".\\Data\\Sprites\\PlayButton.png";
 	inline const char* PATH_TO_BACK_BUTTON = ".\\Data\\Sprites\\BackButton.png";
 	inline const char* PATH_TO_STARFIELD = ".\\Data\\Sprites\\Starfield.png";
+
+	// Sounds
+	inline const char* PATH_TO_GUNFIRE = ".\\Data\\Sounds\\Gunfire.wav";
+	inline const char* PATH_TO_RELOAD = ".\\Data\\Sounds\\Reload.wav";
+	inline const char* PATH_TO_HURT = ".\\Data\\Sounds\\Hurt.wav";
+	inline const char* PATH_TO_BUTTON_CLICK = ".\\Data\\Sounds\\ButtonClick.wav";
+
+	inline void PlaySoundFromFile(const char* soundFilePath)
+	{
+		PlaySoundA(soundFilePath, NULL, SND_FILENAME | SND_ASYNC);
+	}
 
 	template <typename T>
 	inline void Log(const string& message, T value)

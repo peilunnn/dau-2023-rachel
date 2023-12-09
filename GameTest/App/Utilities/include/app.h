@@ -59,7 +59,7 @@ namespace App
 	// Plays the passed .wav file. Set looping to true if you want the sound to loop.
 	// If the sound is already playing it will restart.
 	//-------------------------------------------------------------------------------------------
-	void PlaySound(const char *fileName, bool looping = false);
+	void PlayS(const char *fileName, bool looping = false);
 
 	//-------------------------------------------------------------------------------------------
 	// void StopSound(const char *fileName);

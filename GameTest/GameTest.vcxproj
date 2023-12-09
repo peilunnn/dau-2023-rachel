@@ -214,7 +214,6 @@
     <ClInclude Include="App\Components\include\Screen.h" />
     <ClInclude Include="App\Managers\include\GameManager.h" />
     <ClInclude Include="App\Utilities\include\Color.h" />
-    <ClInclude Include="App\Systems\include\SoundHandler.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -262,7 +261,6 @@
     <ClCompile Include="App\Components\src\Score.cpp" />
     <ClCompile Include="App\Components\src\Screen.cpp" />
     <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
-    <ClCompile Include="App\Systems\src\SoundHandler.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -294,6 +292,19 @@
     <Image Include="Data\Sprites\Bullet.bmp" />
     <Image Include="Data\Sprites\PlayButton.png" />
     <Image Include="Data\Sprites\Title.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Data\Sounds\BubblePop.mp3" />
+    <Media Include="Data\Sounds\BubblePop.wav" />
+    <Media Include="Data\Sounds\ButtonClick.mp3" />
+    <Media Include="Data\Sounds\ButtonClick.wav" />
+    <Media Include="Data\Sounds\Doo.wav" />
+    <Media Include="Data\Sounds\Gunfire.mp3" />
+    <Media Include="Data\Sounds\Gunfire.wav" />
+    <Media Include="Data\Sounds\Hurt.wav" />
+    <Media Include="Data\Sounds\Reload.mp3" />
+    <Media Include="Data\Sounds\Reload.wav" />
+    <Media Include="Data\Sounds\Test.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

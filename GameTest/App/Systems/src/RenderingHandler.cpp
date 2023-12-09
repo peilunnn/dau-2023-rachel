@@ -124,7 +124,7 @@ void RenderingHandler::RenderLoadingScreen(EntityManager& entityManager, Screen&
     loadingScreenCharacterSprite->SetPosition(loadingScreenCharacterTransform->GetPosition().x, loadingScreenCharacterTransform->GetPosition().y);
     loadingScreenCharacterSprite->SetScale(loadingScreenCharacterTransform->GetScale().x);
     loadingScreenCharacterSprite->Draw();
-
+    
     const float loadingTextXOffset = 540.0f;
     const float loadingTextYOffset = 400.0f;
     const float loadingTextX = screen.SCREEN_WIDTH - loadingTextXOffset;

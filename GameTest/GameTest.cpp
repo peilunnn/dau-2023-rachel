@@ -17,6 +17,7 @@
 #include "Systems/include/TimerHandler.h"
 #include "Systems/include/TitleHandler.h"
 #include "Utilities/include/Helper.h"
+#include "Utilities/include/app.h"
 using namespace std;
 
 //------------------------------------------------------------------------

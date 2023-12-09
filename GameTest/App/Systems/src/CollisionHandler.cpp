@@ -5,6 +5,7 @@
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/CollisionHandler.h"
 #include "Systems/include/Event.h"
+#include "Utilities/include/Helper.h"
 #include <set>
 using glm::dot;
 using glm::vec2;
@@ -94,6 +95,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
 			return;
 
 		playerTag->SetEntityState(EntityState::HitByEnemy);
+		Helper::PlaySoundFromFile(Helper::PATH_TO_HURT);
 		Event enemyHitPlayerEvent("EnemyHitPlayer", {enemyEntityId, playerEntityId});
 		systemManager.SendEvent(enemyHitPlayerEvent);
 	}

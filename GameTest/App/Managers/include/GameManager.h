@@ -14,7 +14,6 @@ public:
     void Update(float deltaTime);
     void HandlePlayButtonClick();
     void HandleBackButtonClick();
-
     void TransitionToLoadingState();
 
     GameState GetPreviousGameState() const {
@@ -23,20 +22,26 @@ public:
     GameState GetCurrentGameState() const {
         return m_currentGameState;
     }
+    float GetTimeSpentInLoading() const {
+        return m_timeSpentInLoading;
+    }
     void SetPreviousGameState(GameState newState) {
         m_previousGameState = newState;
     }
     void SetCurrentGameState(GameState newState) {
         m_currentGameState = newState;
     }
+    void SetTimeSpentInLoading(float newTimeLeftInLoading) {
+        m_timeSpentInLoading = newTimeLeftInLoading;
+    }
 
 private:
     GameManager() = default;
 
-    GameState m_previousGameState = GameState::None;
-    GameState m_currentGameState = GameState::Gameplay;
-    float m_loadingTimer = 0.0f;
-    float m_loadingDuration = 1.0f;
+    GameState m_previousGameState = GameState::GameOver;
+    GameState m_currentGameState = GameState::MainMenu;
+    float m_timeSpentInLoading = 0.0f;
+    float m_loadingDuration = 1.5f;
     void UpdateLoadingState(float deltaTime);
 };
 

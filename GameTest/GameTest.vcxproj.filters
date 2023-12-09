@@ -6,9 +6,6 @@
     <ClCompile Include="App\Utilities\src\SimpleController.cpp">
       <Filter>NextAPI</Filter>
     </ClCompile>
-    <ClCompile Include="App\Utilities\src\SimpleSound.cpp">
-      <Filter>NextAPI</Filter>
-    </ClCompile>
     <ClCompile Include="App\Utilities\src\SimpleSprite.cpp">
       <Filter>NextAPI</Filter>
     </ClCompile>
@@ -27,8 +24,6 @@
     <ClCompile Include="App\Systems\src\InputHandler.cpp" />
     <ClCompile Include="App\Components\src\Animation.cpp" />
     <ClCompile Include="App\Systems\src\AnimationHandler.cpp" />
-    <ClCompile Include="App\Utilities\src\app.cpp" />
-    <ClCompile Include="App\Utilities\src\main.cpp" />
     <ClCompile Include="App\Managers\src\EntityManager.cpp" />
     <ClCompile Include="App\Systems\src\CollisionHandler.cpp" />
     <ClCompile Include="App\Systems\src\MovementHandler.cpp" />
@@ -52,15 +47,14 @@
     <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
     <ClCompile Include="App\Managers\src\GameManager.cpp" />
     <ClCompile Include="App\Utilities\src\Color.cpp" />
+    <ClCompile Include="App\Utilities\src\app.cpp" />
     <ClCompile Include="App\Utilities\src\DirectSound.cpp" />
-    <ClCompile Include="App\Systems\src\SoundHandler.cpp" />
+    <ClCompile Include="App\Utilities\src\SimpleSound.cpp" />
+    <ClCompile Include="App\Utilities\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Utilities\include\SimpleController.h">
-      <Filter>NextAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="App\Utilities\include\SimpleSound.h">
       <Filter>NextAPI</Filter>
     </ClInclude>
     <ClInclude Include="App\Utilities\include\SimpleSprite.h">
@@ -84,7 +78,6 @@
     <ClInclude Include="App\Systems\include\InputHandler.h" />
     <ClInclude Include="App\Components\include\Animation.h" />
     <ClInclude Include="App\Systems\include\AnimationHandler.h" />
-    <ClInclude Include="App\Utilities\include\app.h" />
     <ClInclude Include="App\Utilities\include\AppSettings.h" />
     <ClInclude Include="App\Utilities\include\main.h" />
     <ClInclude Include="App\Managers\include\EntityManager.h" />
@@ -108,12 +101,13 @@
     <ClInclude Include="App\Components\include\Velocity.h" />
     <ClInclude Include="App\Components\include\Screen.h" />
     <ClInclude Include="App\Systems\include\TitleHandler.h" />
-    <ClInclude Include="App\Utilities\include\DirectSound.h" />
-    <ClInclude Include="App\Utilities\include\mydirectsound.h" />
     <ClInclude Include="App\Managers\include\SpriteManager.h" />
     <ClInclude Include="App\Managers\include\GameManager.h" />
     <ClInclude Include="App\Utilities\include\Color.h" />
-    <ClInclude Include="App\Systems\include\SoundHandler.h" />
+    <ClInclude Include="App\Utilities\include\SimpleSound.h" />
+    <ClInclude Include="App\Utilities\include\mydirectsound.h" />
+    <ClInclude Include="App\Utilities\include\DirectSound.h" />
+    <ClInclude Include="App\Utilities\include\app.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">
@@ -142,5 +136,18 @@
     <Image Include="Data\SpriteSheets\Buttons.png" />
     <Image Include="Data\Sprites\PlayButton.png" />
     <Image Include="Data\Sprites\BackButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Data\Sounds\Test.wav" />
+    <Media Include="Data\Sounds\BubblePop.mp3" />
+    <Media Include="Data\Sounds\ButtonClick.mp3" />
+    <Media Include="Data\Sounds\Gunfire.mp3" />
+    <Media Include="Data\Sounds\Hurt.wav" />
+    <Media Include="Data\Sounds\Reload.mp3" />
+    <Media Include="Data\Sounds\BubblePop.wav" />
+    <Media Include="Data\Sounds\ButtonClick.wav" />
+    <Media Include="Data\Sounds\Gunfire.wav" />
+    <Media Include="Data\Sounds\Reload.wav" />
+    <Media Include="Data\Sounds\Doo.wav" />
   </ItemGroup>
 </Project>

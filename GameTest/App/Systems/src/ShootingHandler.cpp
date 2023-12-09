@@ -3,6 +3,7 @@
 #include "Components/include/Transform.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/app.h"
+#include "Utilities/include/Helper.h"
 using glm::vec2;
 using glm::vec3;
 
@@ -31,6 +32,8 @@ void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 
 	if (cooldown->IsCooldownComplete() && m_bulletsShotSoFar < MAX_BULLETS && playerTransform)
 	{
+		Helper::PlaySoundFromFile(Helper::PATH_TO_GUNFIRE);
+
 		vec3 bulletPos = playerTransform->GetPosition();
 		vec2 direction = normalize(vec2(mouseX, mouseY) - vec2(bulletPos.x, bulletPos.y));
 
@@ -51,6 +54,8 @@ void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 
 void ShootingHandler::HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
 {
+	Helper::PlaySoundFromFile(Helper::PATH_TO_RELOAD);
+
 	EntityId reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
 	m_bulletsShotSoFar = 0;
 	entityManager.ShowAllAmmoFilledEntity();

@@ -10,7 +10,6 @@
 #include "Systems/include/RenderingHandler.h"
 #include "Systems/include/ScoreHandler.h"
 #include "Systems/include/ShootingHandler.h"
-#include "Systems/include/SoundHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Systems/include/TitleHandler.h"
 
@@ -28,7 +27,6 @@ void SystemManager::Init()
     m_systems.push_back(&AnimationHandler::GetInstance());
     m_systems.push_back(&RenderingHandler::GetInstance());
     m_systems.push_back(&TitleHandler::GetInstance());
-    m_systems.push_back(&SoundHandler::GetInstance());
 }
 
 void SystemManager::SendEvent(Event event)
