@@ -27,6 +27,9 @@ using namespace std;
 //------------------------------------------------------------------------
 void Init()
 {
+	// Set up background music
+	Helper::PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
+
 	// Set up entities
 	EntityManager &entityManager = EntityManager::GetInstance();
 	entityManager.Init();
@@ -92,4 +95,5 @@ void Render()
 void Shutdown()
 {
 	SpriteManager::GetInstance().DestroyAllSprites();
+	Helper::StopSound();
 }

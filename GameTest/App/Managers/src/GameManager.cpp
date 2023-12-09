@@ -57,6 +57,31 @@ void GameManager::HandleBackButtonClick()
 void GameManager::TransitionToLoadingState()
 {
     m_timeSpentInLoading = 0.0f;
+ 
+    // Transitioning from MainMenu to Gameplay
+    if (m_currentGameState == GameState::MainMenu)
+    {
+        Helper::StopSound();
+        Helper::PlaySoundFromFile(Helper::PATH_TO_GAMEPLAY_MUSIC);
+        Helper::Log("main menu to gameplay, playing sound now before i go into loading");
+    }
+    
+    // Transitioning from Gameplay to GameOver
+    else if (m_currentGameState == GameState::Gameplay)
+    {
+        Helper::StopSound();
+        Helper::PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC);
+        Helper::Log("gameplay to gameover, playing sound now before i go into loading");
+    }
+
+    // Transitioning from GameOver to MainMenu
+    else if (m_currentGameState == GameState::GameOver)
+    {
+        Helper::StopSound();
+        Helper::PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC);
+        Helper::Log("gameover to gameplay, playing sound now before i go into loading");
+    }
+
     m_previousGameState = m_currentGameState;
     m_currentGameState = GameState::Loading;
 }
