@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Components/include/Cooldown.h"
 #include "Components/include/Transform.h"
+#include "Managers/include/SoundManager.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/app.h"
 #include "Utilities/include/Helper.h"
@@ -23,6 +24,7 @@ void ShootingHandler::HandleEvent(const Event& event, float deltaTime)
 void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 {
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	SoundManager& soundManager = SoundManager::GetInstance();
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	float mouseX, mouseY;
 	App::GetMousePos(mouseX, mouseY);
@@ -32,7 +34,7 @@ void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 
 	if (cooldown->IsCooldownComplete() && m_bulletsShotSoFar < MAX_BULLETS && playerTransform)
 	{
-		Helper::PlaySoundFromFile(Helper::PATH_TO_GUNFIRE);
+		soundManager.PlaySoundFromFile(Helper::PATH_TO_GUNFIRE);
 
 		vec3 bulletPos = playerTransform->GetPosition();
 		vec2 direction = normalize(vec2(mouseX, mouseY) - vec2(bulletPos.x, bulletPos.y));
@@ -54,7 +56,7 @@ void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 
 void ShootingHandler::HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
 {
-	Helper::PlaySoundFromFile(Helper::PATH_TO_RELOAD);
+	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_RELOAD);
 
 	EntityId reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
 	m_bulletsShotSoFar = 0;

@@ -32,26 +32,13 @@ namespace Helper
 	inline const char* PATH_TO_STARFIELD = ".\\Data\\Sprites\\Starfield.png";
 
 	// Sounds
+	inline const char* PATH_TO_TEST = ".\\Data\\Sounds\\Test.wav";
 	inline const char* PATH_TO_GUNFIRE = ".\\Data\\Sounds\\Gunfire.wav";
 	inline const char* PATH_TO_RELOAD = ".\\Data\\Sounds\\Reload.wav";
 	inline const char* PATH_TO_HURT = ".\\Data\\Sounds\\Hurt.wav";
 	inline const char* PATH_TO_BUTTON_CLICK = ".\\Data\\Sounds\\ButtonClick.wav";
 	inline const char* PATH_TO_GAMEPLAY_MUSIC = ".\\Data\\Sounds\\GameplayMusic.wav";
 	inline const char* PATH_TO_NON_GAMEPLAY_MUSIC = ".\\Data\\Sounds\\NonGameplayMusic.wav";
-
-	inline void PlaySoundFromFile(const char* soundFilePath, bool loop = false)
-	{
-		DWORD flags = SND_FILENAME | SND_ASYNC;
-		if (loop) {
-			flags |= SND_LOOP;
-		}
-		PlaySoundA(soundFilePath, NULL, flags);
-	}
-
-	inline void StopSound()
-	{
-		PlaySoundA(NULL, NULL, 0);
-	}
 
 	template <typename T>
 	inline void Log(const string& message, T value)

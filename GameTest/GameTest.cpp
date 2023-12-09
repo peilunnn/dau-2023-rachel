@@ -8,6 +8,7 @@
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SystemManager.h"
 #include "Managers/include/SpriteManager.h"
+#include "Managers/include/SoundManager.h"
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/CollisionHandler.h"
 #include "Systems/include/CooldownHandler.h"
@@ -28,7 +29,7 @@ using namespace std;
 void Init()
 {
 	// Set up background music
-	Helper::PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
+	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
 
 	// Set up entities
 	EntityManager &entityManager = EntityManager::GetInstance();
@@ -77,6 +78,8 @@ void Update(float deltaTime)
 	{
 		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
 	}
+
+	SoundManager::GetInstance().Cleanup();
 }
 
 //------------------------------------------------------------------------
@@ -95,5 +98,4 @@ void Render()
 void Shutdown()
 {
 	SpriteManager::GetInstance().DestroyAllSprites();
-	Helper::StopSound();
 }

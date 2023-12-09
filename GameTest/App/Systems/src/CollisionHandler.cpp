@@ -3,6 +3,7 @@
 #include "Components/include/Tag.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/SystemManager.h"
+#include "Managers/include/SoundManager.h"
 #include "Systems/include/CollisionHandler.h"
 #include "Systems/include/Event.h"
 #include "Utilities/include/Helper.h"
@@ -95,7 +96,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
 			return;
 
 		playerTag->SetEntityState(EntityState::HitByEnemy);
-		Helper::PlaySoundFromFile(Helper::PATH_TO_HURT);
+		SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_HURT);
 		Event enemyHitPlayerEvent("EnemyHitPlayer", {enemyEntityId, playerEntityId});
 		systemManager.SendEvent(enemyHitPlayerEvent);
 	}

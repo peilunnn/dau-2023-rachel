@@ -117,16 +117,18 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)\App</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\peilu\Downloads\SFML-2.6.1\include;$(ProjectDir)\App</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dxguid.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>openal32.lib;ogg.lib;vorbis.lib;vorbisfile.lib;flac.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;dxguid.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\peilu\Downloads\SFML-2.6.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)\GameTest\glut\bin\x64\*.dll" "$(OutputPath)" /Y</Command>
@@ -214,6 +216,7 @@
     <ClInclude Include="App\Components\include\Screen.h" />
     <ClInclude Include="App\Managers\include\GameManager.h" />
     <ClInclude Include="App\Utilities\include\Color.h" />
+    <ClInclude Include="App\Managers\include\SoundManager.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -261,6 +264,7 @@
     <ClCompile Include="App\Components\src\Score.cpp" />
     <ClCompile Include="App\Components\src\Screen.cpp" />
     <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
+    <ClCompile Include="App\Managers\src\SoundManager.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

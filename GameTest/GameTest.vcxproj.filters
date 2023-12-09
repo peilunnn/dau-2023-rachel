@@ -51,6 +51,7 @@
     <ClCompile Include="App\Utilities\src\DirectSound.cpp" />
     <ClCompile Include="App\Utilities\src\SimpleSound.cpp" />
     <ClCompile Include="App\Utilities\src\main.cpp" />
+    <ClCompile Include="App\Managers\src\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -108,6 +109,7 @@
     <ClInclude Include="App\Utilities\include\mydirectsound.h" />
     <ClInclude Include="App\Utilities\include\DirectSound.h" />
     <ClInclude Include="App\Utilities\include\app.h" />
+    <ClInclude Include="App\Managers\include\SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

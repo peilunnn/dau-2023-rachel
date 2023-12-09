@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Components/include/Cooldown.h"
 #include "Managers/include/GameManager.h"
+#include "Managers/include/SoundManager.h"
 #include "Systems/include/InputHandler.h"
 #include "Utilities/include/Helper.h"
 
@@ -34,8 +35,8 @@ void GameManager::HandlePlayButtonClick()
 
     if (!inputHandler.GetIsPlayButtonClicked())
         return;
-    
-    Helper::PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
+
+    SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
 
     TransitionToLoadingState();
     inputHandler.ResetPlayButtonClick();
@@ -48,7 +49,7 @@ void GameManager::HandleBackButtonClick()
     if (!inputHandler.GetIsBackButtonClicked())
         return;
 
-    Helper::PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
+    SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
 
     TransitionToLoadingState();
     inputHandler.ResetBackButtonClick();
@@ -56,30 +57,22 @@ void GameManager::HandleBackButtonClick()
 
 void GameManager::TransitionToLoadingState()
 {
+    SoundManager& soundManager = SoundManager::GetInstance();
+
     m_timeSpentInLoading = 0.0f;
  
     // Transitioning from MainMenu to Gameplay
     if (m_currentGameState == GameState::MainMenu)
     {
-        Helper::StopSound();
-        Helper::PlaySoundFromFile(Helper::PATH_TO_GAMEPLAY_MUSIC);
-        Helper::Log("main menu to gameplay, playing sound now before i go into loading");
+        soundManager.StopSound(Helper::PATH_TO_NON_GAMEPLAY_MUSIC);
+        soundManager.PlaySoundFromFile(Helper::PATH_TO_GAMEPLAY_MUSIC, true);
     }
     
     // Transitioning from Gameplay to GameOver
     else if (m_currentGameState == GameState::Gameplay)
     {
-        Helper::StopSound();
-        Helper::PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC);
-        Helper::Log("gameplay to gameover, playing sound now before i go into loading");
-    }
-
-    // Transitioning from GameOver to MainMenu
-    else if (m_currentGameState == GameState::GameOver)
-    {
-        Helper::StopSound();
-        Helper::PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC);
-        Helper::Log("gameover to gameplay, playing sound now before i go into loading");
+        soundManager.StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
+        soundManager.PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
     }
 
     m_previousGameState = m_currentGameState;
