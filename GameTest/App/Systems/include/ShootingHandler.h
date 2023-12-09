@@ -13,7 +13,6 @@ public:
 
     const int MAX_BULLETS = 10;
 
-    void Shoot(EntityManager& entityManager, EntityId playerEntityId, float mouseX, float mouseY);
     void HandleEvent(const Event& event, float deltaTime) override;
 
     set<string> GetSubscribedEvents() const override {
@@ -22,6 +21,7 @@ public:
 
 private:
     ShootingHandler() {
+        m_subscribedEvents.insert("PlayerShoot");
         m_subscribedEvents.insert("PlayerHitReloadingCircle");
     }
 
@@ -29,5 +29,6 @@ private:
     int m_bulletsShotSoFar = 0;
     const float m_bulletSpeed = 1500.0f;
 
+    void HandlePlayerShoot(EntityManager& entityManager);
     void HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime);
 };

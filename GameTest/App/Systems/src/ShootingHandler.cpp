@@ -2,12 +2,30 @@
 #include "Components/include/Cooldown.h"
 #include "Components/include/Transform.h"
 #include "Systems/include/ShootingHandler.h"
+#include "Utilities/include/app.h"
 using glm::vec2;
 using glm::vec3;
 
-void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityId, float mouseX, float mouseY)
+void ShootingHandler::HandleEvent(const Event& event, float deltaTime)
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+
+	if (event.GetEventType() == "PlayerShoot") {
+		HandlePlayerShoot(entityManager);
+	}
+	else if (event.GetEventType()  == "PlayerHitReloadingCircle") {
+		HandlePlayerHitReloadingCircle(entityManager, deltaTime);
+	}
+}
+
+
+void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 {
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	EntityId playerEntityId = entityManager.GetPlayerEntityId();
+	float mouseX, mouseY;
+	App::GetMousePos(mouseX, mouseY);
+
 	Cooldown* cooldown = entityManager.GetComponent<Cooldown>(playerEntityId);
 	Transform* playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
 
@@ -28,15 +46,6 @@ void ShootingHandler::Shoot(EntityManager& entityManager, EntityId playerEntityI
 		entityManager.HideAmmoFilledEntity(m_bulletsShotSoFar - 1);
 
 		cooldown->StartCooldown();
-	}
-}
-
-void ShootingHandler::HandleEvent(const Event& event, float deltaTime)
-{
-	EntityManager& entityManager = EntityManager::GetInstance();
-
-	if (event.GetEventType()  == "PlayerHitReloadingCircle") {
-		HandlePlayerHitReloadingCircle(entityManager, deltaTime);
 	}
 }
 

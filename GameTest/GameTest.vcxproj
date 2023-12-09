@@ -214,6 +214,7 @@
     <ClInclude Include="App\Components\include\Screen.h" />
     <ClInclude Include="App\Managers\include\GameManager.h" />
     <ClInclude Include="App\Utilities\include\Color.h" />
+    <ClInclude Include="App\Systems\include\SoundHandler.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="App\Components\src\Score.cpp" />
     <ClCompile Include="App\Components\src\Screen.cpp" />
     <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
+    <ClCompile Include="App\Systems\src\SoundHandler.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

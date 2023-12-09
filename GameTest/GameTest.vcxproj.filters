@@ -53,6 +53,7 @@
     <ClCompile Include="App\Managers\src\GameManager.cpp" />
     <ClCompile Include="App\Utilities\src\Color.cpp" />
     <ClCompile Include="App\Utilities\src\DirectSound.cpp" />
+    <ClCompile Include="App\Systems\src\SoundHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="App\Managers\include\SpriteManager.h" />
     <ClInclude Include="App\Managers\include\GameManager.h" />
     <ClInclude Include="App\Utilities\include\Color.h" />
+    <ClInclude Include="App\Systems\include\SoundHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

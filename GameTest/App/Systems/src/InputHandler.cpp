@@ -3,6 +3,7 @@
 #include "Components/include/Renderable.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
+#include "Managers/include/SystemManager.h"
 #include "Systems/include/InputHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/app.h"
@@ -47,15 +48,13 @@ void InputHandler::HandlePositionInput(EntityManager &entityManager, EntityId pl
 
 void InputHandler::HandleShootingInput(EntityManager &entityManager, EntityId playerEntityId, float deltaTime)
 {
-    float mouseX, mouseY;
+    SystemManager &systemManager = SystemManager::GetInstance();
     Transform *playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
-    Cooldown *cooldown = entityManager.GetComponent<Cooldown>(playerEntityId);
 
     if (!(playerTransform && App::IsKeyPressed(VK_LBUTTON)))
         return;
 
     vec3 bulletPos = playerTransform->GetPosition();
-    App::GetMousePos(mouseX, mouseY);
-    ShootingHandler::GetInstance().Shoot(entityManager, playerEntityId, mouseX, mouseY);
-    cooldown->Update(deltaTime);
+    Event playerShootEvent("PlayerShoot", {});
+    systemManager.SendEvent(playerShootEvent);
 }
