@@ -9,6 +9,12 @@
 #include "Utilities/include/app.h"
 #include "Utilities/include/Helper.h"
 
+InputHandler& InputHandler::GetInstance()
+{
+    static InputHandler instance;
+    return instance;
+}
+
 void InputHandler::Update(float deltaTime)
 {
     EntityManager &entityManager = EntityManager::GetInstance();

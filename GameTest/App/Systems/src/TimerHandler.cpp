@@ -4,6 +4,12 @@
 #include "Managers/include/GameManager.h"
 #include "Systems/include/TimerHandler.h"
 
+TimerHandler& TimerHandler::GetInstance()
+{
+	static TimerHandler instance;
+	return instance;
+}
+
 void TimerHandler::Update(float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();

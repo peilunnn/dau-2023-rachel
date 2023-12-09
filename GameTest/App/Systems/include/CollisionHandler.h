@@ -6,10 +6,7 @@ using namespace std;
 
 class CollisionHandler : public System {
 public:
-    static CollisionHandler& GetInstance() {
-        static CollisionHandler instance;
-        return instance;
-    }
+    static CollisionHandler& GetInstance();
     CollisionHandler(CollisionHandler const&) = delete;
     void operator=(CollisionHandler const&) = delete;
 

@@ -4,10 +4,7 @@
 
 class EntityHandler : public System {
 public:
-    static EntityHandler& GetInstance() {
-        static EntityHandler instance;
-        return instance;
-    }
+    static EntityHandler& GetInstance();
     EntityHandler(EntityHandler const&) = delete;
     void operator=(EntityHandler const&) = delete;
 

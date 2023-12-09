@@ -3,6 +3,12 @@
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/TitleHandler.h"
 
+TitleHandler& TitleHandler::GetInstance()
+{
+	static TitleHandler instance;
+	return instance;
+}
+
 void TitleHandler::OscillateTitle(float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();

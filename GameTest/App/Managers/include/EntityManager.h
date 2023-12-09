@@ -14,10 +14,7 @@ using glm::vec3;
 class EntityManager
 {
 public:
-    static EntityManager& GetInstance() {
-        static EntityManager instance;
-        return instance;
-    }
+    static EntityManager& GetInstance();
     EntityManager(EntityManager const&) = delete;
     void operator=(EntityManager const&) = delete;
 

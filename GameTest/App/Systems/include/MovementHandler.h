@@ -6,10 +6,7 @@ using glm::vec2;
 
 class MovementHandler : public System {
 public:
-    static MovementHandler& GetInstance() {
-        static MovementHandler instance;
-        return instance;
-    }
+    static MovementHandler& GetInstance();
     MovementHandler(MovementHandler const&) = delete;
     void operator=(MovementHandler const&) = delete;
 

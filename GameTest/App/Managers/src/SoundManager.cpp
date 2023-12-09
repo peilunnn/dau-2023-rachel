@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "Managers/include/SoundManager.h"
 
+SoundManager& SoundManager::GetInstance()
+{
+    static SoundManager instance;
+    return instance;
+}
+
 void SoundManager::PlaySoundFromFile(const std::string& soundFilePath, bool loop)
 {
     auto itBuffer = m_soundBuffers.find(soundFilePath);

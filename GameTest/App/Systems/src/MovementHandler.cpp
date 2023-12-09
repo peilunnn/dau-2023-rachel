@@ -9,6 +9,12 @@
 #include "Systems/include/MovementHandler.h"
 using glm::vec3;
 
+MovementHandler& MovementHandler::GetInstance()
+{
+	static MovementHandler instance;
+	return instance;
+}
+
 void MovementHandler::Update(float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
@@ -67,11 +73,11 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Screen&
 	float newX = transform->GetPosition().x + movementX;
 	float newY = transform->GetPosition().y + movementY;
 
-	float newXPos = max(screen.SCREEN_LEFT + widthBuffer,
-						min(newX, screen.SCREEN_RIGHT - widthBuffer));
+	float newXPos = max(screen.BORDER_LEFT_SCREEN_COORDS + widthBuffer,
+						min(newX, screen.BORDER_RIGHT_SCREEN_COORDS - widthBuffer));
 
-	float newYPos = max(screen.SCREEN_TOP + heightBuffer + bottomOffset,
-						min(newY, screen.SCREEN_BOTTOM + heightBuffer + topOffset));
+	float newYPos = max(screen.BORDER_TOP_SCREEN_COORDS + heightBuffer + bottomOffset,
+						min(newY, screen.BORDER_BOTTOM_SCREEN_COORDS + heightBuffer + topOffset));
 
 	vec3 newPos = vec3(newXPos, newYPos, transform->GetPosition().z);
 	transform->SetPosition(newPos);
@@ -98,15 +104,15 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Screen& 
 		const float widthBuffer = sprite->GetWidth() / 6.0f;
 		const float heightBuffer = sprite->GetHeight() / 6.0f;
 
-		if (xPos <= screen.SCREEN_LEFT + widthBuffer ||
-			xPos >= screen.SCREEN_RIGHT - widthBuffer)
+		if (xPos <= screen.BORDER_LEFT_SCREEN_COORDS + widthBuffer ||
+			xPos >= screen.BORDER_RIGHT_SCREEN_COORDS - widthBuffer)
 		{
 			currentVelocity.x *= -1;
 			velocity->SetVelocity(currentVelocity);
 			bounceDirection->SetBounced(true);
 		}
-		if (yPos <= screen.SCREEN_TOP + heightBuffer + topOffset ||
-			yPos >= screen.SCREEN_BOTTOM + heightBuffer + bottomOffset)
+		if (yPos <= screen.BORDER_TOP_SCREEN_COORDS + heightBuffer + topOffset ||
+			yPos >= screen.BORDER_BOTTOM_SCREEN_COORDS + heightBuffer + bottomOffset)
 		{
 			currentVelocity.y *= -1;
 			velocity->SetVelocity(currentVelocity);
@@ -128,8 +134,8 @@ void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Screen&
 	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
 	transform->SetPosition(newPos);
 
-	if (transform->GetPosition().x < screen.SCREEN_LEFT || transform->GetPosition().x > screen.SCREEN_RIGHT ||
-		transform->GetPosition().y < screen.SCREEN_TOP || transform->GetPosition().y > screen.SCREEN_BOTTOM)
+	if (transform->GetPosition().x < screen.BORDER_LEFT_SCREEN_COORDS || transform->GetPosition().x > screen.BORDER_RIGHT_SCREEN_COORDS ||
+		transform->GetPosition().y < screen.BORDER_TOP_SCREEN_COORDS || transform->GetPosition().y > screen.BORDER_BOTTOM_SCREEN_COORDS)
 	{
 		Event bulletOutOfBoundsEvent("BulletOutOfBounds", { entityId});
 		systemManager.SendEvent(bulletOutOfBoundsEvent);

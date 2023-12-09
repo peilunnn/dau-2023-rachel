@@ -5,10 +5,7 @@ using namespace std;
 
 class InputHandler : public System {
 public:
-    static InputHandler& GetInstance() {
-        static InputHandler instance;
-        return instance;
-    }
+    static InputHandler& GetInstance();
     InputHandler(InputHandler const&) = delete;
     void operator=(InputHandler const&) = delete;
 

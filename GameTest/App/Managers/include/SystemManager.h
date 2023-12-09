@@ -7,10 +7,7 @@ using namespace std;
 
 class SystemManager {
 public:
-    static SystemManager& GetInstance() {
-        static SystemManager instance;
-        return instance;
-    }
+    static SystemManager& GetInstance();
     SystemManager(SystemManager const&) = delete;
     void operator=(SystemManager const&) = delete;
 

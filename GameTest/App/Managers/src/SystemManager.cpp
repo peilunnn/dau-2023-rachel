@@ -13,6 +13,12 @@
 #include "Systems/include/TimerHandler.h"
 #include "Systems/include/TitleHandler.h"
 
+SystemManager& SystemManager::GetInstance()
+{
+    static SystemManager instance;
+    return instance;
+}
+
 void SystemManager::Init()
 {
     m_systems.push_back(&CollisionHandler::GetInstance());

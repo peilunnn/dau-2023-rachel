@@ -13,6 +13,12 @@
 #include "Utilities/include/SimpleSprite.h"
 using glm::vec2;
 
+AnimationHandler& AnimationHandler::GetInstance()
+{
+	static AnimationHandler instance;
+	return instance;
+}
+
 void AnimationHandler::Init()
 {
 	EntityManager& entityManager = EntityManager::GetInstance();

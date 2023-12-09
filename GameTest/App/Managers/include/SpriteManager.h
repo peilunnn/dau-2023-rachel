@@ -7,10 +7,7 @@ using namespace std;
 
 class SpriteManager {
 public:
-    static SpriteManager& GetInstance() {
-        static SpriteManager instance;
-        return instance;
-    }
+    static SpriteManager& GetInstance();
     SpriteManager(const SpriteManager&) = delete;
     void operator=(const SpriteManager&) = delete;
 

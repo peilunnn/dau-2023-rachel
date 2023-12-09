@@ -11,6 +11,12 @@
 using glm::dot;
 using glm::vec2;
 
+CollisionHandler& CollisionHandler::GetInstance()
+{
+	static CollisionHandler instance;
+	return instance;
+}
+
 void CollisionHandler::Update(float deltaTime)
 {
 	EntityManager &entityManager = EntityManager::GetInstance();

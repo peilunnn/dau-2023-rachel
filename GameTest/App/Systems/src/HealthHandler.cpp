@@ -5,6 +5,12 @@
 #include "Systems/include/HealthHandler.h"
 #include "Utilities/include/Helper.h"
 
+HealthHandler& HealthHandler::GetInstance()
+{
+	static HealthHandler instance;
+	return instance;
+}
+
 void HealthHandler::HandleEvent(const Event &event, float deltaTime)
 {
 	EntityManager &entityManager = EntityManager::GetInstance();

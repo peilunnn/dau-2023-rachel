@@ -8,6 +8,12 @@
 
 using glm::vec3;
 
+EntityHandler& EntityHandler::GetInstance()
+{
+	static EntityHandler instance;
+	return instance;
+}
+
 void EntityHandler::HandleEvent(const Event &event, float deltaTime)
 {
 	EntityManager &entityManager = EntityManager::GetInstance();

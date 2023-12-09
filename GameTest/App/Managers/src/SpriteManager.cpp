@@ -2,6 +2,12 @@
 #include "Managers/include/SpriteManager.h"
 #include "Utilities/include/app.h"
 
+SpriteManager& SpriteManager::GetInstance()
+{
+    static SpriteManager instance;
+    return instance;
+}
+
 CSimpleSprite* SpriteManager::CreateSprite(EntityId entityId, const char* path, int columns, int rows)
 {
     CSimpleSprite* sprite = App::CreateSprite(path, columns, rows);

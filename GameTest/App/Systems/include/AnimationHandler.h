@@ -9,10 +9,7 @@ using namespace std;
 class AnimationHandler : public System
 {
 public:
-    static AnimationHandler& GetInstance() {
-        static AnimationHandler instance;
-        return instance;
-    }
+    static AnimationHandler& GetInstance();
     AnimationHandler(AnimationHandler const&) = delete;
     void operator=(AnimationHandler const&) = delete;
 

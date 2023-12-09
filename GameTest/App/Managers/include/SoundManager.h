@@ -7,10 +7,7 @@ using namespace std;
 class SoundManager
 {
 public:
-    static SoundManager& GetInstance() {
-        static SoundManager instance;
-        return instance;
-    }
+    static SoundManager& GetInstance();
     SoundManager(SoundManager const&) = delete;
     void operator=(SoundManager const&) = delete;
 

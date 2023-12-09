@@ -3,10 +3,7 @@
 
 class TimerHandler : public System {
 public:
-    static TimerHandler& GetInstance() {
-        static TimerHandler instance;
-        return instance;
-    }
+    static TimerHandler& GetInstance();
     TimerHandler(TimerHandler const&) = delete;
     void operator=(TimerHandler const&) = delete;
 

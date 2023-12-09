@@ -3,10 +3,7 @@
 
 class CooldownHandler : public System {
 public:
-    static CooldownHandler& GetInstance() {
-        static CooldownHandler instance;
-        return instance;
-    }
+    static CooldownHandler& GetInstance();
     CooldownHandler(CooldownHandler const&) = delete;
     void operator=(CooldownHandler const&) = delete;
 

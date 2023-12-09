@@ -4,10 +4,7 @@
 class GameManager
 {
 public:
-    static GameManager& GetInstance() {
-        static GameManager instance;
-        return instance;
-    }
+    static GameManager& GetInstance();
     GameManager(GameManager const&) = delete;
     void operator=(GameManager const&) = delete;
 

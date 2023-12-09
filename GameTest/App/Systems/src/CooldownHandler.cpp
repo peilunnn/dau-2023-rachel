@@ -3,6 +3,12 @@
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/CooldownHandler.h"
 
+CooldownHandler& CooldownHandler::GetInstance()
+{
+    static CooldownHandler instance;
+    return instance;
+}
+
 void CooldownHandler::Update(float deltaTime)
 {
     EntityManager &entityManager = EntityManager::GetInstance();

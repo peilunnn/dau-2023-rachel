@@ -8,6 +8,12 @@
 #include "Utilities/include/App.h"
 #include "Utilities/include/Helper.h"
 
+RenderingHandler& RenderingHandler::GetInstance()
+{
+    static RenderingHandler instance;
+    return instance;
+}
+
 void RenderingHandler::Render()
 {
     GameState m_currentGameState = GameManager::GetInstance().GetCurrentGameState();

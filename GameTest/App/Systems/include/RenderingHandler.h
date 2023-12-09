@@ -6,10 +6,7 @@
 
 class RenderingHandler : public System {
 public:
-    static RenderingHandler& GetInstance() {
-        static RenderingHandler instance;
-        return instance;
-    }
+    static RenderingHandler& GetInstance();
     RenderingHandler(RenderingHandler const&) = delete;
     void operator=(RenderingHandler const&) = delete;
 

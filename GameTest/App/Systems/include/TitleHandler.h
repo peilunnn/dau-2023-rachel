@@ -3,10 +3,7 @@
 
 class TitleHandler : public System {
 public:
-    static TitleHandler& GetInstance() {
-        static TitleHandler instance;
-        return instance;
-    }
+    static TitleHandler& GetInstance();
     TitleHandler(TitleHandler const&) = delete;
     void operator=(TitleHandler const&) = delete;
 

@@ -4,10 +4,7 @@
 
 class ShootingHandler : public System {
 public:
-    static ShootingHandler& GetInstance() {
-        static ShootingHandler instance;
-        return instance;
-    }
+    static ShootingHandler& GetInstance();
     ShootingHandler(ShootingHandler const&) = delete;
     void operator=(ShootingHandler const&) = delete;
 

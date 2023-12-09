@@ -5,10 +5,7 @@
 
 class ScoreHandler : public System {
 public:
-    static ScoreHandler& GetInstance() {
-        static ScoreHandler instance;
-        return instance;
-    }
+    static ScoreHandler& GetInstance();
     ScoreHandler(ScoreHandler const&) = delete;
     void operator=(ScoreHandler const&) = delete;
 

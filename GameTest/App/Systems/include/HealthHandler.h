@@ -5,10 +5,7 @@
 
 class HealthHandler : public System {
 public:
-    static HealthHandler& GetInstance() {
-        static HealthHandler instance;
-        return instance;
-    }
+    static HealthHandler& GetInstance();
     HealthHandler(HealthHandler const&) = delete;
     void operator=(HealthHandler const&) = delete;
 

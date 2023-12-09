@@ -19,6 +19,12 @@
 using glm::vec2;
 using glm::vec3;
 
+EntityManager& EntityManager::GetInstance()
+{
+	static EntityManager instance;
+	return instance;
+}
+
 void EntityManager::Init()
 {
 	Screen &screen = screen.GetInstance();
@@ -81,10 +87,8 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager &spriteManager)
 	CSimpleSprite *playerSprite = spriteManager.CreateSprite(playerEntityId, Helper::PATH_TO_PLAYER, 4, 4);
 
 	Screen &screen = screen.GetInstance();
-	const float maxX = screen.SCREEN_RIGHT - screen.SCREEN_LEFT;
-	const float maxY = screen.SCREEN_BOTTOM - screen.SCREEN_TOP;
-	const float xPos = Helper::GenerateFloat(screen.SCREEN_LEFT, screen.SCREEN_RIGHT);
-	const float yPos = Helper::GenerateFloat(screen.SCREEN_TOP, screen.SCREEN_BOTTOM);
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORDS, screen.BORDER_RIGHT_SCREEN_COORDS);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORDS, screen.BORDER_BOTTOM_SCREEN_COORDS);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.6f);
@@ -190,10 +194,8 @@ EntityId EntityManager::CreateReloadingCircleEntity(SpriteManager &spriteManager
 	CSimpleSprite *reloadingCircleSprite = spriteManager.CreateSprite(reloadingCircleEntityId, Helper::PATH_TO_RELOADING_CIRCLE, 5, 2);
 
 	Screen &screen = screen.GetInstance();
-	const float maxX = screen.SCREEN_RIGHT - screen.SCREEN_LEFT;
-	const float maxY = screen.SCREEN_BOTTOM - screen.SCREEN_TOP;
-	const float xPos = Helper::GenerateFloat(screen.SCREEN_LEFT, screen.SCREEN_RIGHT);
-	const float yPos = Helper::GenerateFloat(screen.SCREEN_TOP, screen.SCREEN_BOTTOM);
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORDS, screen.BORDER_RIGHT_SCREEN_COORDS);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORDS, screen.BORDER_BOTTOM_SCREEN_COORDS);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
@@ -461,8 +463,8 @@ void EntityManager::ShowAllAmmoFilledEntity()
 void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 {
 	Screen &screen = screen.GetInstance();
-	const float xPos = Helper::GenerateFloat(screen.SCREEN_LEFT, screen.SCREEN_RIGHT);
-	const float yPos = Helper::GenerateFloat(screen.SCREEN_TOP, screen.SCREEN_BOTTOM);
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORDS, screen.BORDER_RIGHT_SCREEN_COORDS);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORDS, screen.BORDER_BOTTOM_SCREEN_COORDS);
 	constexpr float zPos = 0.0f;
 
 	vec3 newPos = vec3(xPos, yPos, zPos);

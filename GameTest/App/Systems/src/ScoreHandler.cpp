@@ -2,6 +2,12 @@
 #include "Components/include/Score.h"
 #include "Systems/include/ScoreHandler.h"
 
+ScoreHandler& ScoreHandler::GetInstance()
+{
+	static ScoreHandler instance;
+	return instance;
+}
+
 void ScoreHandler::HandleEvent(const Event& event, float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();

@@ -5,6 +5,12 @@
 #include "Systems/include/InputHandler.h"
 #include "Utilities/include/Helper.h"
 
+GameManager& GameManager::GetInstance()
+{
+    static GameManager instance;
+    return instance;
+}
+
 void GameManager::Update(float deltaTime)
 {
     switch (m_currentGameState)

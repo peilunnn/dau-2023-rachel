@@ -8,6 +8,12 @@
 using glm::vec2;
 using glm::vec3;
 
+ShootingHandler& ShootingHandler::GetInstance()
+{
+	static ShootingHandler instance;
+	return instance;
+}
+
 void ShootingHandler::HandleEvent(const Event& event, float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
