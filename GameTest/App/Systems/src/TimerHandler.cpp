@@ -1,8 +1,9 @@
 #include "stdafx.h"
-#include "Components/include/Timer.h"
 #include "Components/include/Health.h"
+#include "Components/include/Timer.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
+#include "Systems/include/AnimationHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Utilities/include/Helper.h"
 
@@ -15,8 +16,10 @@ TimerHandler& TimerHandler::GetInstance()
 void TimerHandler::Update(float deltaTime) {
     EntityManager& entityManager = EntityManager::GetInstance();
     GameManager& gameManager = GameManager::GetInstance();
+    AnimationHandler& animationHandler = AnimationHandler::GetInstance();
 
-    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>()) {
+    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>())
+    {
         Timer* timer = entityManager.GetComponent<Timer>(entityId);
 
         // We only start decrementing remaining time if the player is dead
@@ -25,22 +28,21 @@ void TimerHandler::Update(float deltaTime) {
             int currentHealth = health->GetCurrentHealth();
             if (health->GetCurrentHealth() <= 0) 
             {
-                float remainingTime = timer->GetDuration();
-                timer->SetDuration(remainingTime - deltaTime);
+                float newRemainingTime = timer->GetRemainingTime() - deltaTime;
+                timer->SetRemainingTime(newRemainingTime);
 
-                if (remainingTime <= 0)
-                {
-                    Helper::Log("health reached 0 and player death animation finished");
+                if (newRemainingTime > 0)
+                    animationHandler.RotatePlayer(deltaTime);
+                else
                     gameManager.TransitionToLoadingState();
-                }
             }
         }
 
         // For all other normal timers, we decrement remaining time every frame
         else
         {
-            float remainingTime = timer->GetDuration();
-            timer->SetDuration(remainingTime - deltaTime);
+            float remainingTime = timer->GetRemainingTime();
+            timer->SetRemainingTime(remainingTime - deltaTime);
 
             if (remainingTime <= 0)
             {
@@ -48,6 +50,17 @@ void TimerHandler::Update(float deltaTime) {
                 gameManager.TransitionToLoadingState();
             }
         }
+    }
+}
+
+void TimerHandler::ResetTimers()
+{
+    EntityManager& entityManager = EntityManager::GetInstance();
+
+    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>())
+    {
+        Timer* timer = entityManager.GetComponent<Timer>(entityId);
+        timer->SetRemainingTime(timer->GetInitialDuration());
     }
 }
 

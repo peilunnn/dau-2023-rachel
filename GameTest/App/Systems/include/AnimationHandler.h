@@ -21,12 +21,13 @@ public:
         return m_subscribedEvents;
     }
 
+    void RotatePlayer(float deltaTime);
     void ResetHealthBarAnimation();
+    void ResetPlayerAnimation();
 
 private:
     AnimationHandler() {
         m_subscribedEvents.insert("EnemyHitPlayer");
-        m_subscribedEvents.insert("PlayerDied");
     }
 
     set<string> m_subscribedEvents = {};
@@ -41,5 +42,4 @@ private:
     void UpdateHealthBarAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
     void UpdateLoadingScreenCharacterAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime);
-    void HandlePlayerDied(EntityManager &entityManager, float deltaTime);
 };

@@ -44,9 +44,4 @@ void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 
 	if (newHealth > 0)
 		tag->SetEntityState(EntityState::Alive);
-	else
-	{
-		Event playerDied("PlayerDied", {});
-		systemManager.SendEvent(playerDied);
-	}
 }

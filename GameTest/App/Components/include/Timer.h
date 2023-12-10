@@ -4,13 +4,16 @@
 
 class Timer : public Component {
 public:
-    Timer(TimerType type, float duration) : m_type(type), m_duration(duration) {}
+    Timer::Timer(TimerType type, float initialDuration)
+        : m_type(type), m_initialDuration(initialDuration), m_remainingTime(initialDuration) {}
 
-    float GetDuration() const { return m_duration; }
+    float GetInitialDuration() const { return m_initialDuration; }
+    float GetRemainingTime() const { return m_remainingTime; }
     TimerType GetType() const { return m_type; }
-    void SetDuration(float newDuration) { m_duration = newDuration; }
+    void SetRemainingTime(float newRemainingTime) { m_remainingTime = newRemainingTime; }
 
 private:
-    float m_duration = 0.0f;
+    float m_initialDuration = 0.0f;
+    float m_remainingTime = 0.0f;
     TimerType m_type = TimerType::None;
 };

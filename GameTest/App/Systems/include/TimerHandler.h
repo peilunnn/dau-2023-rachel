@@ -8,6 +8,7 @@ public:
     void operator=(TimerHandler const&) = delete;
 
     void Update(float deltaTime);
+    void ResetTimers();
 
 private:
     TimerHandler() = default;

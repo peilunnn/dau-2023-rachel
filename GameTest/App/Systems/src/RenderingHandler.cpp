@@ -175,7 +175,7 @@ void RenderingHandler::RenderCountdownTimer(EntityManager &entityManager)
     Timer *timer = entityManager.GetComponent<Timer>(countdownTimerEntityId);
     Transform *timerTransform = entityManager.GetComponent<Transform>(countdownTimerEntityId);
 
-    string timerText = to_string(static_cast<int>(timer->GetDuration()));
+    string timerText = to_string(static_cast<int>(timer->GetRemainingTime()));
     App::Print(timerTransform->GetPosition().x, timerTransform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
 }
 

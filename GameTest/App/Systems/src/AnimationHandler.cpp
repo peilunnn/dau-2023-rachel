@@ -177,10 +177,18 @@ void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
 	{
 		HandleEnemyHitPlayer(entityManager, deltaTime);
 	}
-	else if (event.GetEventType() == "PlayerDied")
-	{
-		HandlePlayerDied(entityManager, deltaTime);
-	}
+}
+
+void AnimationHandler::RotatePlayer(float deltaTime)
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityId playerEntityId = entityManager.GetPlayerEntityId();
+	CSimpleSprite* playerSprite = entityManager.GetComponent<Renderable>(playerEntityId)->GetSprite();
+	constexpr float targetAngle = 67.5f;
+	float currentAngle = playerSprite->GetAngle();
+	const float rotationSpeed = 0.8f;
+	float newAngle = currentAngle + rotationSpeed * deltaTime;
+	playerSprite->SetAngle(newAngle);
 }
 
 void AnimationHandler::ResetHealthBarAnimation()
@@ -191,6 +199,14 @@ void AnimationHandler::ResetHealthBarAnimation()
 	Animation* healthBarAnimation = entityManager.GetComponent<Animation>(healthBarEntityId);
 	healthBarAnimation->SetCurrentAnimation(HEALTH_100);
 	healthBarSprite->SetAnimation(healthBarAnimation->GetCurrentAnimation());
+}
+
+void AnimationHandler::ResetPlayerAnimation()
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityId playerEntityId = entityManager.GetPlayerEntityId();
+	CSimpleSprite* playerSprite = entityManager.GetComponent<Renderable>(playerEntityId)->GetSprite();
+	playerSprite->SetAngle(0.0f);
 }
 
 void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime)
@@ -209,11 +225,4 @@ void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float 
 	frameIndex = min(frameIndex, maxFrames);
 	animation->SetCurrentAnimation(frameIndex);
 	healthBarSprite->SetAnimation(animation->GetCurrentAnimation());
-}
-
-void AnimationHandler::HandlePlayerDied(EntityManager& entityManager, float deltaTime)
-{
-	EntityId playerEntityId = entityManager.GetPlayerEntityId();
-	CSimpleSprite* playerSprite = entityManager.GetComponent<Renderable>(playerEntityId)->GetSprite();
-	playerSprite->SetAngle(90.0f);
 }
