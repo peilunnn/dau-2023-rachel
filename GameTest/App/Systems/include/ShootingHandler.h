@@ -16,6 +16,8 @@ public:
         return m_subscribedEvents;
     }
 
+    void ResetBullets();
+
 private:
     ShootingHandler() {
         m_subscribedEvents.insert("PlayerShoot");

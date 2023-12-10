@@ -11,6 +11,8 @@ public:
     void operator=(RenderingHandler const&) = delete;
 
     void Render();
+    void HideAmmoFilledEntity(int index);
+    void ShowAllAmmoFilledEntities();
 
 private:
     RenderingHandler() = default;

@@ -35,8 +35,6 @@ public:
     EntityId CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager);
     EntityId CreateStarfieldEntity(SpriteManager &spriteManager);
     
-    void HideAmmoFilledEntity(int index);
-    void ShowAllAmmoFilledEntity();
     void MoveEntityToRandomPos(EntityId entityId);
     void MarkEntityForDeletion(EntityId entityId);
     void ProcessDeletions();

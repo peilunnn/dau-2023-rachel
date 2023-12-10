@@ -2,6 +2,7 @@
 #include "Components/include/Cooldown.h"
 #include "Components/include/Transform.h"
 #include "Managers/include/SoundManager.h"
+#include "Systems/include/RenderingHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/app.h"
 #include "Utilities/include/Helper.h"
@@ -26,11 +27,19 @@ void ShootingHandler::HandleEvent(const Event& event, float deltaTime)
 	}
 }
 
+void ShootingHandler::ResetBullets()
+{
+	RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
+	m_bulletsShotSoFar = 0;
+	renderingHandler.ShowAllAmmoFilledEntities();
+}
+
 
 void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 {
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
 	SoundManager& soundManager = SoundManager::GetInstance();
+	RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	float mouseX, mouseY;
 	App::GetMousePos(mouseX, mouseY);
@@ -54,7 +63,7 @@ void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 		entityManager.CreateBulletEntity(spriteManager, bulletPos, bulletVelocity);
 
 		m_bulletsShotSoFar++;
-		entityManager.HideAmmoFilledEntity(m_bulletsShotSoFar - 1);
+		renderingHandler.HideAmmoFilledEntity(m_bulletsShotSoFar - 1);
 
 		cooldown->StartCooldown();
 	}
@@ -63,9 +72,10 @@ void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 void ShootingHandler::HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
 {
 	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_RELOAD);
+	RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
 
 	EntityId reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
 	m_bulletsShotSoFar = 0;
-	entityManager.ShowAllAmmoFilledEntity();
+	renderingHandler.ShowAllAmmoFilledEntities();
 	entityManager.MoveEntityToRandomPos(reloadingCircleEntityId);
 }

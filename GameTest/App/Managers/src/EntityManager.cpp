@@ -441,28 +441,6 @@ EntityId EntityManager::CreateStarfieldEntity(SpriteManager &spriteManager)
 	return starfieldEntityId;
 }
 
-void EntityManager::HideAmmoFilledEntity(int index)
-{
-	if (index >= 0 && index < m_ammoFilledEntityIds.size())
-	{
-		CSimpleSprite *ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntityIds[index])->GetSprite();
-
-		if (!ammoFilledSprite)
-			return;
-
-		ammoFilledSprite->SetVisible(false);
-	}
-}
-
-void EntityManager::ShowAllAmmoFilledEntity()
-{
-	for (int i = 0; i < m_ammoFilledEntityIds.size(); i++)
-	{
-		CSimpleSprite *ammoFilledSprite = GetComponent<Renderable>(m_ammoFilledEntityIds[i])->GetSprite();
-		ammoFilledSprite->SetVisible(true);
-	}
-}
-
 void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 {
 	Screen &screen = screen.GetInstance();

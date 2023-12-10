@@ -37,6 +37,34 @@ void RenderingHandler::Render()
     }
 }
 
+void RenderingHandler::HideAmmoFilledEntity(int index)
+{
+    EntityManager& entityManager = EntityManager::GetInstance();
+    vector<EntityId> ammoFilledEntityIds = entityManager.GetAmmoFilledEntityIds();
+
+    if (index >= 0 && index < ammoFilledEntityIds.size())
+    {
+        CSimpleSprite* ammoFilledSprite = entityManager.GetComponent<Renderable>(ammoFilledEntityIds[index])->GetSprite();
+
+        if (!ammoFilledSprite)
+            return;
+
+        ammoFilledSprite->SetVisible(false);
+    }
+}
+
+void RenderingHandler::ShowAllAmmoFilledEntities()
+{
+    EntityManager& entityManager = EntityManager::GetInstance();
+    vector<EntityId> ammoFilledEntityIds = entityManager.GetAmmoFilledEntityIds();
+
+    for (int i = 0; i < ammoFilledEntityIds.size(); i++)
+    {
+        CSimpleSprite* ammoFilledSprite = entityManager.GetComponent<Renderable>(ammoFilledEntityIds[i])->GetSprite();
+        ammoFilledSprite->SetVisible(true);
+    }
+}
+
 void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen &screen)
 {
     RenderStarfield(entityManager);
