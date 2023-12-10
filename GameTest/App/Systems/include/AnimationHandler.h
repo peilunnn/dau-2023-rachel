@@ -21,6 +21,8 @@ public:
         return m_subscribedEvents;
     }
 
+    void ResetHealthBarAnimation();
+
 private:
     AnimationHandler() {
         m_subscribedEvents.insert("EnemyHitPlayer");

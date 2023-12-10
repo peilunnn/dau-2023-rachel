@@ -156,7 +156,7 @@ void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager &entityManag
 
 void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	CSimpleSprite* healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	healthBarSprite->Update(deltaTime);
 }
 
@@ -181,6 +181,16 @@ void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
 	{
 		HandlePlayerDied(entityManager, deltaTime);
 	}
+}
+
+void AnimationHandler::ResetHealthBarAnimation()
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityId healthBarEntityId = entityManager.GetHealthBarEntityId();
+	CSimpleSprite* healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
+	Animation* healthBarAnimation = entityManager.GetComponent<Animation>(healthBarEntityId);
+	healthBarAnimation->SetCurrentAnimation(HEALTH_100);
+	healthBarSprite->SetAnimation(healthBarAnimation->GetCurrentAnimation());
 }
 
 void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime)

@@ -71,6 +71,7 @@ void Update(float deltaTime)
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::GameOver)
 	{
+		gameManager.ResetGame();
 		InputHandler::GetInstance().SetIsBackButtonClicked();
 		gameManager.HandleBackButtonClick();
 	}

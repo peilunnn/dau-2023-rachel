@@ -18,6 +18,17 @@ void HealthHandler::HandleEvent(const Event &event, float deltaTime)
 		HandleEnemyHitPlayer(entityManager);
 }
 
+void HealthHandler::ResetPlayerHealth()
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityId playerEntityId = entityManager.GetPlayerEntityId();
+	Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+	Health* playerHealth = entityManager.GetComponent<Health>(playerEntityId);
+	playerHealth->SetCurrentHealth(playerHealth->GetMaxHealth());
+	playerTag->SetEntityState(EntityState::Alive);
+}
+
+
 void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 {
 	SystemManager& systemManager= SystemManager::GetInstance();

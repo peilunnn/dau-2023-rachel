@@ -17,6 +17,7 @@ public:
     int GetHealthReduction() const {
         return m_healthReduction;
     }
+    void ResetPlayerHealth();
 
 private:
     HealthHandler() {

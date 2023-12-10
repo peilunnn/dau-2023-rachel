@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SoundManager.h"
+#include "Systems/include/AnimationHandler.h"
+#include "Systems/include/HealthHandler.h"
 #include "Systems/include/InputHandler.h"
 #include "Utilities/include/Helper.h"
 
@@ -82,4 +84,10 @@ void GameManager::TransitionToLoadingState()
 
     m_previousGameState = m_currentGameState;
     m_currentGameState = GameState::Loading;
+}
+
+void GameManager::ResetGame()
+{
+    HealthHandler::GetInstance().ResetPlayerHealth();
+    AnimationHandler::GetInstance().ResetHealthBarAnimation();
 }
