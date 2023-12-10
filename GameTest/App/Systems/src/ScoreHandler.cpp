@@ -17,6 +17,14 @@ void ScoreHandler::HandleEvent(const Event& event, float deltaTime)
 	}
 }
 
+void ScoreHandler::ResetScore()
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityId scoreEntityId = entityManager.GetScoreEntityId();
+	Score* score = entityManager.GetComponent<Score>(scoreEntityId);
+	score->SetScore(0);
+}
+
 void ScoreHandler::HandleBulletHitEnemy(EntityManager &entityManager, float deltaTime)
 {
 	EntityId scoreEntityId = entityManager.GetScoreEntityId();

@@ -5,6 +5,7 @@
 #include "Systems/include/HealthHandler.h"
 #include "Systems/include/InputHandler.h"
 #include "Systems/include/TimerHandler.h"
+#include "Systems/include/ScoreHandler.h"
 #include "Utilities/include/Helper.h"
 
 GameManager& GameManager::GetInstance()
@@ -93,4 +94,5 @@ void GameManager::ResetGame()
     AnimationHandler::GetInstance().ResetHealthBarAnimation();
     AnimationHandler::GetInstance().ResetPlayerAnimation();
     TimerHandler::GetInstance().ResetTimers();
+    ScoreHandler::GetInstance().ResetScore();
 }

@@ -14,6 +14,8 @@ public:
         return m_subscribedEvents;
     }
 
+    void ResetScore();
+
 private:
     ScoreHandler() {
         m_subscribedEvents.insert("BulletHitEnemy");

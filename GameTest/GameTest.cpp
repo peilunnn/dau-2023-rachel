@@ -54,6 +54,7 @@ void Update(float deltaTime)
 
 	if (gameManager.GetCurrentGameState() == GameState::MainMenu)
 	{
+		gameManager.ResetGame();
 		TitleHandler::GetInstance().OscillateTitle(deltaTimeInSeconds);
 		InputHandler::GetInstance().SetIsPlayButtonClicked();
 		gameManager.HandlePlayButtonClick();
@@ -71,7 +72,6 @@ void Update(float deltaTime)
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::GameOver)
 	{
-		gameManager.ResetGame();
 		InputHandler::GetInstance().SetIsBackButtonClicked();
 		gameManager.HandleBackButtonClick();
 	}
