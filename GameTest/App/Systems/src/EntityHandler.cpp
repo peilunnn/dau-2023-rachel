@@ -1,10 +1,6 @@
 #include "stdafx.h"
-#include "Components/include/Screen.h"
-#include "Components/include/Transform.h"
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/EntityHandler.h"
-#include "Utilities/include/App.h"
-#include "Utilities/include/Helper.h"
 
 using glm::vec3;
 

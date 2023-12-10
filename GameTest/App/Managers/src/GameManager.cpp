@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "Components/include/Cooldown.h"
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SoundManager.h"
 #include "Systems/include/InputHandler.h"

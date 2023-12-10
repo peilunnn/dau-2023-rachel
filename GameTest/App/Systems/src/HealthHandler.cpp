@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "Components/include/Health.h"
 #include "Components/include/Tag.h"
-#include "Components/include/Timer.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/HealthHandler.h"
-#include "Utilities/include/Helper.h"
 
 HealthHandler& HealthHandler::GetInstance()
 {

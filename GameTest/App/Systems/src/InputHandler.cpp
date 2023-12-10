@@ -1,6 +1,4 @@
 #include "stdafx.h"
-#include "Components/include/Cooldown.h"
-#include "Components/include/Renderable.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
 #include "Managers/include/SystemManager.h"

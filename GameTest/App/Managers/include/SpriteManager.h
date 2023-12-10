@@ -1,6 +1,6 @@
 #pragma once
-#include "Utilities/include/SimpleSprite.h"
 #include "Components/include/EntityId.h"
+#include "Utilities/include/SimpleSprite.h"
 #include <memory>
 #include <unordered_map>
 using namespace std;

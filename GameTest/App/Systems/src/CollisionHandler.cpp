@@ -2,12 +2,11 @@
 #include "Components/include/Collider.h"
 #include "Components/include/Tag.h"
 #include "Managers/include/EntityManager.h"
-#include "Managers/include/SystemManager.h"
 #include "Managers/include/SoundManager.h"
+#include "Managers/include/SystemManager.h"
 #include "Systems/include/CollisionHandler.h"
 #include "Systems/include/Event.h"
 #include "Utilities/include/Helper.h"
-#include <set>
 using glm::dot;
 using glm::vec2;
 

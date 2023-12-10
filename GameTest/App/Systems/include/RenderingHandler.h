@@ -22,7 +22,6 @@ private:
     void RenderSprite(EntityManager& entityManager, EntityId entityId);
     void RenderScore(EntityManager& entityManager);
     void RenderCountdownTimer(EntityManager& entityManager);
-
     void RenderStarfield(EntityManager& entityManager);
 
     void SetBackground(const Color& color);
