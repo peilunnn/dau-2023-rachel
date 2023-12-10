@@ -6,7 +6,7 @@ using namespace std;
 
 class Renderable: public Component{
 public:
-    Renderable(CSimpleSprite* newSprite) : m_sprite(newSprite) {}
+    Renderable(CSimpleSprite* newSprite = nullptr) : m_sprite(newSprite) {}
 
     CSimpleSprite* GetSprite() const { return m_sprite; }
     void SetSprite(CSimpleSprite* newSprite) { m_sprite = newSprite; }

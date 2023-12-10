@@ -29,15 +29,26 @@ private:
     }
 
     set<string> m_subscribedEvents = {};
+    const float FADE_RATE = 0.5f;
     float m_fadeAmount = 0.0f;
     float m_shakeDuration = 0.0f;
     float m_shakeIntensity = 0.0f;
     float m_shakeTimer = 0.0f;
+    const float MIN_SHAKE_DURATION = 1.0f;
+    const float MAX_SHAKE_DURATION = 2.0f;
+    const float MIN_SHAKE_INTENSITY = 5.0f;
+    const float MAX_SHAKE_INTENSITY = 20.0f;
 
     void RenderMainMenuScene(EntityManager& entityManager, Screen& screen);
     void RenderGameplayScene(EntityManager& entityManager, Screen& screen);
     void RenderGameOverScene(EntityManager& entityManager, Screen& screen);
     void RenderLoadingScreen(EntityManager& entityManager, Screen& screen);
+    void RenderObjects(EntityManager& entityManager, GameState gameState);
+    void RenderAmmo();
+    void RenderDescriptionText(Screen& screen);
+    void RenderLoadingText(Screen& screen);
+    void RenderGameOverText(Screen& screen);
+    void RenderGameOverScoreText(EntityManager& entityManager, Screen& screen);
     void RenderSprite(EntityManager& entityManager, EntityId entityId);
     void RenderScore(EntityManager& entityManager);
     void RenderCountdownTimer(EntityManager& entityManager);
@@ -47,5 +58,6 @@ private:
     void DrawBackgroundInBorder(Screen& screen, const Color& color);
     void RenderFadeOverlay();
     void SetUpScreenShake();
+    void ApplyScreenShake();
     void HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime);
 };

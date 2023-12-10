@@ -32,18 +32,18 @@ void RenderingHandler::Render()
 
     switch (m_currentGameState)
     {
-    case GameState::MainMenu:
-        RenderMainMenuScene(entityManager, screen);
-        break;
-    case GameState::Gameplay:
-        RenderGameplayScene(entityManager, screen);
-        break;
-    case GameState::GameOver:
-        RenderGameOverScene(entityManager, screen);
-        break;
-    case GameState::Loading:
-        RenderLoadingScreen(entityManager, screen);
-        break;
+        case GameState::MainMenu:
+            RenderMainMenuScene(entityManager, screen);
+            break;
+        case GameState::Gameplay:
+            RenderGameplayScene(entityManager, screen);
+            break;
+        case GameState::GameOver:
+            RenderGameOverScene(entityManager, screen);
+            break;
+        case GameState::Loading:
+            RenderLoadingScreen(entityManager, screen);
+            break;
     }
 }
 
@@ -97,67 +97,23 @@ void RenderingHandler::UpdateScreenShakeTimer(float deltaTime)
 void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen &screen)
 {
     RenderStarfield(entityManager);
-
-    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
-    {
-        Tag *tag = entityManager.GetComponent<Tag>(entityId);
-
-        if (tag->GetCurrentGameState() != GameState::MainMenu)
-            continue;
-
-        CSimpleSprite *sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-        Transform *transform = entityManager.GetComponent<Transform>(entityId);
-        sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
-        sprite->SetScale(transform->GetScale().x);
-
-        if (entityId == entityManager.GetTitleEntityId())
-            sprite->SetAngle(transform->GetRotation().z);
-
-        sprite->Draw();
-    }
-
-    const float descriptionXOffset = 600.0f;
-    const float descriptionYOffset = 350.0f;
-    constexpr char *descriptionText = "Get the highest score in 60 seconds!";
-    App::Print(screen.SCREEN_WIDTH - descriptionXOffset, screen.SCREEN_HEIGHT - descriptionYOffset, descriptionText, WHITE.r, WHITE.g, WHITE.b);
+    RenderObjects(entityManager, GameState::MainMenu);
+    RenderDescriptionText(screen);
 }
 
 void RenderingHandler::RenderGameplayScene(EntityManager &entityManager, Screen &screen)
 {
-    float shakeOffsetX = 0.0f;
-    float shakeOffsetY = 0.0f;
-    if (m_shakeTimer > 0.0f)
-    {
-        float shakeOffsetX = (static_cast<float>(rand()) / RAND_MAX * 2 - 1) * m_shakeIntensity;
-        float shakeOffsetY = (static_cast<float>(rand()) / RAND_MAX * 2 - 1) * m_shakeIntensity;
-
-        glPushMatrix();
-        glTranslatef(shakeOffsetX, shakeOffsetY, 0.0f);
-    }
+    ApplyScreenShake();
 
     SetBackground(BLACK);
     DrawBorder(screen, WHITE);
     DrawBackgroundInBorder(screen, DARK_GREY);
 
-    for (EntityId entityId : entityManager.GetAmmoEmptyEntityIds())
-        RenderSprite(entityManager, entityId);
-
-    for (EntityId entityId : entityManager.GetAmmoFilledEntityIds())
-        RenderSprite(entityManager, entityId);
-
-    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
-    {
-        Tag *tag = entityManager.GetComponent<Tag>(entityId);
-
-        if (tag->GetCurrentGameState() != GameState::Gameplay)
-            continue;
-
-        if (tag->GetEntityType() != EntityType::AmmoEmpty && tag->GetEntityType() != EntityType::AmmoFilled)
-            RenderSprite(entityManager, entityId);
-    }
-
-    RenderScore(entityManager);
+    RenderAmmo();
     RenderCountdownTimer(entityManager);
+    RenderScore(entityManager);
+    RenderObjects(entityManager, GameState::Gameplay);
+
     RenderFadeOverlay();
 
     if (m_shakeTimer > 0.0f)
@@ -167,49 +123,83 @@ void RenderingHandler::RenderGameplayScene(EntityManager &entityManager, Screen 
 void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen &screen)
 {
     RenderStarfield(entityManager);
+    RenderGameOverText(screen);
+    RenderGameOverScoreText(entityManager, screen);
+    RenderSprite(entityManager, entityManager.GetBackButtonEntityId());
+}
 
-    EntityId scoreEntityId = entityManager.GetScoreEntityId();
-    Score *score = entityManager.GetComponent<Score>(scoreEntityId);
+void RenderingHandler::RenderLoadingScreen(EntityManager &entityManager, Screen &screen)
+{
+    SetBackground(BLACK);
+    RenderSprite(entityManager, entityManager.GetLoadingScreenCharacterEntityId());
+    RenderLoadingText(screen);
+}
+
+void RenderingHandler::RenderObjects(EntityManager& entityManager, GameState gameState)
+{
+    for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
+    {
+        Tag* tag = entityManager.GetComponent<Tag>(entityId);
+
+        if (tag->GetCurrentGameState() != gameState)
+            continue;
+
+        if (tag->GetEntityType() == EntityType::AmmoEmpty || tag->GetEntityType() == EntityType::AmmoFilled)
+            continue;
+
+        RenderSprite(entityManager, entityId);
+    }
+}
+
+void RenderingHandler::RenderAmmo()
+{
+    EntityManager& entityManager = EntityManager::GetInstance();
+
+    for (EntityId entityId : entityManager.GetAmmoEmptyEntityIds())
+        RenderSprite(entityManager, entityId);
+    
+    for (EntityId entityId : entityManager.GetAmmoFilledEntityIds())
+        RenderSprite(entityManager, entityId);
+}
+
+void RenderingHandler::RenderDescriptionText(Screen& screen)
+{
+    const float descriptionXOffset = 600.0f;
+    const float descriptionYOffset = 350.0f;
+    constexpr char* descriptionText = "Get the highest score in 60 seconds!";
+    App::Print(screen.SCREEN_WIDTH - descriptionXOffset, screen.SCREEN_HEIGHT - descriptionYOffset, descriptionText, WHITE.r, WHITE.g, WHITE.b);
+}
+
+void RenderingHandler::RenderLoadingText(Screen& screen)
+{
+    const float loadingTextXOffset = 540.0f;
+    const float loadingTextYOffset = 400.0f;
+    const float loadingTextX = screen.SCREEN_WIDTH - loadingTextXOffset;
+    const float loadingTextY = screen.SCREEN_HEIGHT - loadingTextYOffset;
+    constexpr char* loadingText = "Loading...";
+    App::Print(loadingTextX, loadingTextY, loadingText, WHITE.r, WHITE.g, WHITE.b);
+}
+
+void RenderingHandler::RenderGameOverText(Screen& screen)
+{
     const float gameOverTextXOffset = 545.0f;
     const float gameOverTextYOffset = 300.0f;
     const float gameOverTextX = screen.SCREEN_WIDTH - gameOverTextXOffset;
     const float gameOverTextY = screen.SCREEN_HEIGHT - gameOverTextYOffset;
-    constexpr char *gameOverText = "Game Over";
+    constexpr char* gameOverText = "Game Over";
     App::Print(gameOverTextX, gameOverTextY, gameOverText, WHITE.r, WHITE.g, WHITE.b);
+}
 
+void RenderingHandler::RenderGameOverScoreText(EntityManager& entityManager, Screen& screen)
+{
+    EntityId scoreEntityId = entityManager.GetScoreEntityId();
+    Score* score = entityManager.GetComponent<Score>(scoreEntityId);
     const float scoreTextXOffset = 570.0f;
     const float scoreTextYOffset = 350.0f;
     const float scoreTextX = screen.SCREEN_WIDTH - scoreTextXOffset;
     const float scoreTextY = screen.SCREEN_HEIGHT - scoreTextYOffset;
     string scoreMessage = "You got a score of : " + to_string(score->GetScore());
     App::Print(scoreTextX, scoreTextY, scoreMessage.c_str(), WHITE.r, WHITE.g, WHITE.b);
-
-    EntityId backButtonEntityId = entityManager.GetBackButtonEntityId();
-    CSimpleSprite *backButtonSprite = entityManager.GetComponent<Renderable>(backButtonEntityId)->GetSprite();
-    Transform *backButtonTransform = entityManager.GetComponent<Transform>(backButtonEntityId);
-    backButtonSprite->SetPosition(backButtonTransform->GetPosition().x, backButtonTransform->GetPosition().y);
-    backButtonSprite->SetScale(backButtonTransform->GetScale().x);
-    backButtonSprite->Draw();
-}
-
-void RenderingHandler::RenderLoadingScreen(EntityManager &entityManager, Screen &screen)
-{
-    SetBackground(BLACK);
-
-    EntityId loadingScreenCharacterEntityId = entityManager.GetLoadingScreenCharacterEntityId();
-    CSimpleSprite *loadingScreenCharacterSprite = entityManager.GetComponent<Renderable>(loadingScreenCharacterEntityId)->GetSprite();
-    Transform *loadingScreenCharacterTransform = entityManager.GetComponent<Transform>(loadingScreenCharacterEntityId);
-    loadingScreenCharacterSprite->SetPosition(loadingScreenCharacterTransform->GetPosition().x, loadingScreenCharacterTransform->GetPosition().y);
-    loadingScreenCharacterSprite->SetScale(loadingScreenCharacterTransform->GetScale().x);
-    loadingScreenCharacterSprite->Draw();
-
-    const float loadingTextXOffset = 540.0f;
-    const float loadingTextYOffset = 400.0f;
-    const float loadingTextX = screen.SCREEN_WIDTH - loadingTextXOffset;
-    const float loadingTextY = screen.SCREEN_HEIGHT - loadingTextYOffset;
-    constexpr char *loadingText = "Loading...";
-
-    App::Print(loadingTextX, loadingTextY, loadingText, WHITE.r, WHITE.g, WHITE.b);
 }
 
 void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entityId)
@@ -221,6 +211,9 @@ void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entit
 
     sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
     sprite->SetScale(transform->GetScale().x);
+
+    if (entityId == entityManager.GetTitleEntityId())
+        sprite->SetAngle(transform->GetRotation().z);
 
     if (tag->GetEntityType() == EntityType::AmmoFilled && !(sprite->GetIsVisible()))
         return;
@@ -320,17 +313,22 @@ void RenderingHandler::RenderFadeOverlay()
     glEnd();
 }
 
-void RenderingHandler::SetUpScreenShake()
-{
-    const float minDuration = 1.0f;
-    const float maxDuration = 2.0f;
-    m_shakeDuration = minDuration + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (maxDuration - minDuration)));
+void RenderingHandler::SetUpScreenShake() {
+    m_shakeDuration = MIN_SHAKE_DURATION + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (MAX_SHAKE_DURATION - MIN_SHAKE_DURATION)));
 
-    const float minIntensity = 5.0f;
-    const float maxIntensity = 20.0f;
-    m_shakeIntensity = minIntensity + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (maxIntensity - minIntensity)));
+    m_shakeIntensity = MIN_SHAKE_INTENSITY + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (MAX_SHAKE_INTENSITY - MIN_SHAKE_INTENSITY)));
 
     m_shakeTimer = m_shakeDuration;
+}
+
+void RenderingHandler::ApplyScreenShake() {
+    if (m_shakeTimer <= 0.0f)
+        return;
+    
+    float shakeOffsetX = (rand() / static_cast<float>(RAND_MAX) * 2 - 1) * m_shakeIntensity;
+    float shakeOffsetY = (rand() / static_cast<float>(RAND_MAX) * 2 - 1) * m_shakeIntensity;
+    glPushMatrix();
+    glTranslatef(shakeOffsetX, shakeOffsetY, 0.0f);
 }
 
 void RenderingHandler::HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime)
