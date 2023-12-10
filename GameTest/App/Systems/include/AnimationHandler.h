@@ -24,6 +24,7 @@ public:
 private:
     AnimationHandler() {
         m_subscribedEvents.insert("EnemyHitPlayer");
+        m_subscribedEvents.insert("PlayerDied");
     }
 
     set<string> m_subscribedEvents = {};
@@ -37,5 +38,6 @@ private:
     void UpdateReloadingCircleAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void UpdateHealthBarAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
     void UpdateLoadingScreenCharacterAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
-    void HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime);
+    void HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime);
+    void HandlePlayerDied(EntityManager &entityManager, float deltaTime);
 };

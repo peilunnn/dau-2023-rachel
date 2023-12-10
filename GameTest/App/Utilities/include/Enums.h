@@ -75,3 +75,9 @@ enum class GameState
     GameOver,
     Loading
 };
+
+enum class TimerType {
+    None,
+    Countdown,
+    PlayerDeath
+};

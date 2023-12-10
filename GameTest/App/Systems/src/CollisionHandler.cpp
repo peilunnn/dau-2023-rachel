@@ -101,6 +101,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
 		if (playerTag->GetEntityState() != EntityState::Alive)
 			return;
 
+		Helper::Log("enemy hit player");
 		playerTag->SetEntityState(EntityState::HitByEnemy);
 		SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_HURT);
 		Event enemyHitPlayerEvent("EnemyHitPlayer", {enemyEntityId, playerEntityId});

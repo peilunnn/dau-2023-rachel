@@ -45,18 +45,9 @@ void EntityHandler::HandleBulletHitEnemy(EntityManager &entityManager, EntityId 
 
 void EntityHandler::SpawnTwoEnemies(EntityManager &entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime)
 {
-	Screen &screen = Screen::GetInstance();
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
-
-	constexpr int columns = 4;
-	constexpr int rows = 2;
-	const float screenWidth = screen.SCREEN_WIDTH;
-	const float screenHeight = screen.SCREEN_HEIGHT;
-	EntityId playerEntityId = entityManager.GetPlayerEntityId();
-	vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->GetPosition();
-
-	EntityId firstEnemyEntityId = entityManager.CreateEnemyEntity(spriteManager, playerPos, screenWidth, screenHeight);
-	EntityId secondEnemyEntityId = entityManager.CreateEnemyEntity(spriteManager, playerPos, screenWidth, screenHeight);
+	EntityId firstEnemyEntityId = entityManager.CreateEnemyEntity(spriteManager);
+	EntityId secondEnemyEntityId = entityManager.CreateEnemyEntity(spriteManager);
 }
 
 void EntityHandler::HandleEnemyHitPlayer(EntityManager &entityManager, EntityId enemyEntityId)

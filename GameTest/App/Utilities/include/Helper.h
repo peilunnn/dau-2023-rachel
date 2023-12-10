@@ -10,8 +10,7 @@
 #include <random>
 #include <string>
 #include <Windows.h>
-#include <mmsystem.h>
-#pragma comment(lib, "Winmm.lib")
+#include <sstream>
 using glm::vec2;
 using glm::vec3;
 using namespace std;
@@ -82,6 +81,9 @@ namespace Helper
 			enemyPos.y = screenHeight * 0.75f; // Spawn in the lower half
 		else
 			enemyPos.y = screenHeight * 0.25f; // Spawn in the upper half
+
+		enemyPos.z = 0.0f;
+
 		return enemyPos;
 	}
 

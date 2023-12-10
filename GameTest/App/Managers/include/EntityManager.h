@@ -14,26 +14,26 @@ using glm::vec3;
 class EntityManager
 {
 public:
-    static EntityManager& GetInstance();
-    EntityManager(EntityManager const&) = delete;
-    void operator=(EntityManager const&) = delete;
+    static EntityManager &GetInstance();
+    EntityManager(EntityManager const &) = delete;
+    void operator=(EntityManager const &) = delete;
 
     void Init();
     vector<EntityId> GetAllEntities();
     EntityId CreateEntityId();
-    EntityId CreatePlayerEntity(SpriteManager& spriteManager);
-    EntityId CreateEnemyEntity(SpriteManager& spriteManager, const vec3 &playerPos, float screenWidth, float screenHeight);
-    EntityId CreateBulletEntity(SpriteManager& spriteManager, const vec3 &pos, const vec2 &targetVelocity);
-    EntityId CreateReloadingCircleEntity(SpriteManager& spriteManager);
-    EntityId CreateAmmoEntity(SpriteManager& spriteManager, EntityType entityType, float xPos, float yPos);
-    EntityId CreateHealthBarEntity(SpriteManager& spriteManager, float xPos, float yPos);
+    EntityId CreatePlayerEntity(SpriteManager &spriteManager);
+    EntityId CreateEnemyEntity(SpriteManager &spriteManager);
+    EntityId CreateBulletEntity(SpriteManager &spriteManager, const vec3 &pos, const vec2 &targetVelocity);
+    EntityId CreateReloadingCircleEntity(SpriteManager &spriteManager);
+    EntityId CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos);
+    EntityId CreateHealthBarEntity(SpriteManager &spriteManager, float xPos, float yPos);
     EntityId CreateScoreEntity();
-    EntityId CreateTimerEntity();
-    EntityId CreateTitleEntity(SpriteManager& spriteManager);
-    EntityId CreatePlayButtonEntity(SpriteManager& spriteManager);
-    EntityId CreateBackButtonEntity(SpriteManager& spriteManager);
-    EntityId CreateLoadingScreenCharacterEntity(SpriteManager& spriteManager);
-    EntityId CreateStarfieldEntity(SpriteManager& spriteManager);
+    EntityId CreateCountdownTimerEntity();
+    EntityId CreateTitleEntity(SpriteManager &spriteManager);
+    EntityId CreatePlayButtonEntity(SpriteManager &spriteManager);
+    EntityId CreateBackButtonEntity(SpriteManager &spriteManager);
+    EntityId CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager);
+    EntityId CreateStarfieldEntity(SpriteManager &spriteManager);
     
     void HideAmmoFilledEntity(int index);
     void ShowAllAmmoFilledEntity();
@@ -46,17 +46,19 @@ public:
     EntityId GetReloadingCircleEntityId() const { return m_reloadingCircleEntityId; }
     EntityId GetHealthBarEntityId() const { return m_healthBarEntityId; }
     EntityId GetScoreEntityId() const { return m_scoreEntityId; }
-    EntityId GetTimerEntityId() const { return m_timerEntityId; }
+    EntityId GetCountdownTimerEntityId() const { return m_countdownTimerEntityId; }
     EntityId GetTitleEntityId() const { return m_titleEntityId; }
     EntityId GetPlayButtonEntityId() const { return m_playButtonEntityId; }
     EntityId GetBackButtonEntityId() const { return m_backButtonEntityId; }
     EntityId GetLoadingScreenCharacterEntityId() const { return m_loadingScreenCharacterEntityId; }
     EntityId GetStarfieldEntityId() const { return m_starfieldEntityId; }
     
-    vector<EntityId> GetAmmoEmptyEntityIds() const {
+    vector<EntityId> GetAmmoEmptyEntityIds() const
+    {
         return m_ammoEmptyEntityIds;
     }
-    vector<EntityId> GetAmmoFilledEntityIds() const {
+    vector<EntityId> GetAmmoFilledEntityIds() const
+    {
         return m_ammoFilledEntityIds;
     }
 
@@ -67,12 +69,15 @@ public:
     }
 
     template <typename T>
-    T* GetComponent(EntityId entityId)
+    T *GetComponent(EntityId entityId)
     {
         auto it = m_entityComponents.find(entityId);
-        if (it != m_entityComponents.end()) {
-            for (auto& comp : it->second) {
-                if (auto casted = dynamic_cast<T*>(comp.get())) {
+        if (it != m_entityComponents.end())
+        {
+            for (auto &comp : it->second)
+            {
+                if (auto casted = dynamic_cast<T *>(comp.get()))
+                {
                     return casted;
                 }
             }
@@ -104,7 +109,7 @@ private:
     EntityId m_ammoFilledEntityId = -1;
     EntityId m_healthBarEntityId = -1;
     EntityId m_scoreEntityId = -1;
-    EntityId m_timerEntityId = -1;
+    EntityId m_countdownTimerEntityId = -1;
     EntityId m_titleEntityId = -1;
     EntityId m_playButtonEntityId = -1;
     EntityId m_backButtonEntityId = -1;

@@ -41,7 +41,7 @@ void GameManager::HandlePlayButtonClick()
 
     if (!inputHandler.GetIsPlayButtonClicked())
         return;
-
+    
     SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
 
     TransitionToLoadingState();

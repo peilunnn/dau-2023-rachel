@@ -21,7 +21,7 @@ private:
     void RenderLoadingScreen(EntityManager& entityManager, Screen& screen);
     void RenderSprite(EntityManager& entityManager, EntityId entityId);
     void RenderScore(EntityManager& entityManager);
-    void RenderTimer(EntityManager& entityManager);
+    void RenderCountdownTimer(EntityManager& entityManager);
 
     void RenderStarfield(EntityManager& entityManager);
 

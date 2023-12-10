@@ -8,7 +8,7 @@
 #include "Utilities/include/App.h"
 #include "Utilities/include/Helper.h"
 
-RenderingHandler& RenderingHandler::GetInstance()
+RenderingHandler &RenderingHandler::GetInstance()
 {
     static RenderingHandler instance;
     return instance;
@@ -22,18 +22,18 @@ void RenderingHandler::Render()
 
     switch (m_currentGameState)
     {
-        case GameState::MainMenu: 
-            RenderMainMenuScene(entityManager, screen);
-            break;
-        case GameState::Gameplay:
-            RenderGameScene(entityManager, screen);
-            break;
-        case GameState::GameOver:
-            RenderGameOverScene(entityManager, screen);
-            break;
-        case GameState::Loading:
-            RenderLoadingScreen(entityManager, screen);
-            break;
+    case GameState::MainMenu:
+        RenderMainMenuScene(entityManager, screen);
+        break;
+    case GameState::Gameplay:
+        RenderGameScene(entityManager, screen);
+        break;
+    case GameState::GameOver:
+        RenderGameOverScene(entityManager, screen);
+        break;
+    case GameState::Loading:
+        RenderLoadingScreen(entityManager, screen);
+        break;
     }
 }
 
@@ -89,7 +89,7 @@ void RenderingHandler::RenderGameScene(EntityManager &entityManager, Screen &scr
     }
 
     RenderScore(entityManager);
-    RenderTimer(entityManager);
+    RenderCountdownTimer(entityManager);
 }
 
 void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen &screen)
@@ -120,22 +120,22 @@ void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen 
     backButtonSprite->Draw();
 }
 
-void RenderingHandler::RenderLoadingScreen(EntityManager& entityManager, Screen& screen)
+void RenderingHandler::RenderLoadingScreen(EntityManager &entityManager, Screen &screen)
 {
     SetBackground(BLACK);
-    
+
     EntityId loadingScreenCharacterEntityId = entityManager.GetLoadingScreenCharacterEntityId();
-    CSimpleSprite* loadingScreenCharacterSprite = entityManager.GetComponent<Renderable>(loadingScreenCharacterEntityId)->GetSprite();
-    Transform* loadingScreenCharacterTransform = entityManager.GetComponent<Transform>(loadingScreenCharacterEntityId);
+    CSimpleSprite *loadingScreenCharacterSprite = entityManager.GetComponent<Renderable>(loadingScreenCharacterEntityId)->GetSprite();
+    Transform *loadingScreenCharacterTransform = entityManager.GetComponent<Transform>(loadingScreenCharacterEntityId);
     loadingScreenCharacterSprite->SetPosition(loadingScreenCharacterTransform->GetPosition().x, loadingScreenCharacterTransform->GetPosition().y);
     loadingScreenCharacterSprite->SetScale(loadingScreenCharacterTransform->GetScale().x);
     loadingScreenCharacterSprite->Draw();
-    
+
     const float loadingTextXOffset = 540.0f;
     const float loadingTextYOffset = 400.0f;
     const float loadingTextX = screen.SCREEN_WIDTH - loadingTextXOffset;
     const float loadingTextY = screen.SCREEN_HEIGHT - loadingTextYOffset;
-    constexpr char* loadingText = "Loading...";
+    constexpr char *loadingText = "Loading...";
 
     App::Print(loadingTextX, loadingTextY, loadingText, WHITE.r, WHITE.g, WHITE.b);
 }
@@ -169,21 +169,21 @@ void RenderingHandler::RenderScore(EntityManager &entityManager)
     App::Print(scoreTransform->GetPosition().x, scoreTransform->GetPosition().y, scoreText.c_str(), WHITE.r, WHITE.g, WHITE.b);
 }
 
-void RenderingHandler::RenderTimer(EntityManager &entityManager)
+void RenderingHandler::RenderCountdownTimer(EntityManager &entityManager)
 {
-    EntityId timerEntityId = entityManager.GetTimerEntityId();
-    Timer *timer = entityManager.GetComponent<Timer>(timerEntityId);
-    Transform *timerTransform = entityManager.GetComponent<Transform>(timerEntityId);
+    EntityId countdownTimerEntityId = entityManager.GetCountdownTimerEntityId();
+    Timer *timer = entityManager.GetComponent<Timer>(countdownTimerEntityId);
+    Transform *timerTransform = entityManager.GetComponent<Transform>(countdownTimerEntityId);
 
     string timerText = to_string(static_cast<int>(timer->GetDuration()));
     App::Print(timerTransform->GetPosition().x, timerTransform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
 }
 
-void RenderingHandler::RenderStarfield(EntityManager& entityManager)
+void RenderingHandler::RenderStarfield(EntityManager &entityManager)
 {
     EntityId starfieldEntityId = entityManager.GetStarfieldEntityId();
-    CSimpleSprite* starfieldSprite = entityManager.GetComponent<Renderable>(starfieldEntityId)->GetSprite();
-    Transform* starfieldTransform = entityManager.GetComponent<Transform>(starfieldEntityId);
+    CSimpleSprite *starfieldSprite = entityManager.GetComponent<Renderable>(starfieldEntityId)->GetSprite();
+    Transform *starfieldTransform = entityManager.GetComponent<Transform>(starfieldEntityId);
     starfieldSprite->SetPosition(starfieldTransform->GetPosition().x, starfieldTransform->GetPosition().y);
     starfieldSprite->SetScale(starfieldTransform->GetScale().x);
     starfieldSprite->Draw();
@@ -198,10 +198,10 @@ void RenderingHandler::SetBackground(const Color &color)
 void RenderingHandler::DrawBorder(Screen &screen, const Color &color)
 {
     const float borderThickness = screen.BORDER_THICKNESS;
-    const float borderLeftX = screen.BORDER_LEFT_X;
-    const float borderRightX = screen.BORDER_RIGHT_X;
-    const float borderTopY = screen.BORDER_TOP_Y;
-    const float borderBottomY = screen.BORDER_BOTTOM_Y;
+    const float borderLeftX = screen.BORDER_LEFT_NDC_X;
+    const float borderRightX = screen.BORDER_RIGHT_NDC_X;
+    const float borderTopY = screen.BORDER_TOP_NDC_Y;
+    const float borderBottomY = screen.BORDER_BOTTOM_NDC_Y;
 
     glColor3f(color.r, color.g, color.b);
     glLineWidth(borderThickness);
@@ -216,10 +216,10 @@ void RenderingHandler::DrawBorder(Screen &screen, const Color &color)
 void RenderingHandler::DrawBackgroundInBorder(Screen &screen, const Color &color)
 {
     float borderThickness = screen.BORDER_THICKNESS;
-    float borderLeftX = screen.BORDER_LEFT_X;
-    float borderRightX = screen.BORDER_RIGHT_X;
-    float borderTopY = screen.BORDER_TOP_Y;
-    float borderBottomY = screen.BORDER_BOTTOM_Y;
+    float borderLeftX = screen.BORDER_LEFT_NDC_X;
+    float borderRightX = screen.BORDER_RIGHT_NDC_X;
+    float borderTopY = screen.BORDER_TOP_NDC_Y;
+    float borderBottomY = screen.BORDER_BOTTOM_NDC_Y;
 
     glColor3f(color.r, color.g, color.b);
     glBegin(GL_QUADS);

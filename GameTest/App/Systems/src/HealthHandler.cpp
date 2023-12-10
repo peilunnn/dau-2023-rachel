@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "Components/include/Health.h"
 #include "Components/include/Tag.h"
-#include "Managers/include/GameManager.h"
+#include "Components/include/Timer.h"
+#include "Managers/include/SystemManager.h"
 #include "Systems/include/HealthHandler.h"
 #include "Utilities/include/Helper.h"
 
@@ -21,7 +22,7 @@ void HealthHandler::HandleEvent(const Event &event, float deltaTime)
 
 void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 {
-	GameManager& gameManager = GameManager::GetInstance();
+	SystemManager& systemManager= SystemManager::GetInstance();
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	Tag *tag = entityManager.GetComponent<Tag>(playerEntityId);
 	Health *health = entityManager.GetComponent<Health>(playerEntityId);
@@ -35,5 +36,8 @@ void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 	if (newHealth > 0)
 		tag->SetEntityState(EntityState::Alive);
 	else
-		gameManager.TransitionToLoadingState();
+	{
+		Event playerDied("PlayerDied", {});
+		systemManager.SendEvent(playerDied);
+	}
 }

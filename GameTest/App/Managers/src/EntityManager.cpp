@@ -44,8 +44,7 @@ void EntityManager::Init()
 	const float healthBarYPos = screenHeight - healthBarYOffset;
 
 	m_playerEntityId = CreatePlayerEntity(spriteManager);
-	vec3 playerPos = GetComponent<Transform>(m_playerEntityId)->GetPosition();
-	m_enemyEntityId = CreateEnemyEntity(spriteManager, playerPos, screenWidth, screenHeight);
+	m_enemyEntityId = CreateEnemyEntity(spriteManager);
 	m_reloadingCircleEntityId = CreateReloadingCircleEntity(spriteManager);
 	m_healthBarEntityId = CreateHealthBarEntity(spriteManager, healthBarXPos, healthBarYPos);
 
@@ -60,7 +59,7 @@ void EntityManager::Init()
 	}
 
 	m_scoreEntityId = CreateScoreEntity();
-	m_timerEntityId = CreateTimerEntity();
+	m_countdownTimerEntityId = CreateCountdownTimerEntity();
 	m_titleEntityId = CreateTitleEntity(spriteManager);
 	m_playButtonEntityId = CreatePlayButtonEntity(spriteManager);
 	m_backButtonEntityId = CreateBackButtonEntity(spriteManager);
@@ -87,8 +86,8 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager &spriteManager)
 	CSimpleSprite *playerSprite = spriteManager.CreateSprite(playerEntityId, Helper::PATH_TO_PLAYER, 4, 4);
 
 	Screen &screen = screen.GetInstance();
-	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORDS, screen.BORDER_RIGHT_SCREEN_COORDS);
-	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORDS, screen.BORDER_BOTTOM_SCREEN_COORDS);
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD_X, screen.BORDER_RIGHT_SCREEN_COORD_X);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD_Y, screen.BORDER_BOTTOM_SCREEN_COORD_Y);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.6f);
@@ -108,6 +107,7 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager &spriteManager)
 	unique_ptr<Health> health = make_unique<Health>();
 	unique_ptr<Animation> animation = make_unique<Animation>();
 	unique_ptr<Cooldown> cooldown = make_unique<Cooldown>(playerShootingCooldown);
+	unique_ptr<Timer> playerDeathTimer = make_unique<Timer>(TimerType::PlayerDeath, 2.0f);
 
 	AddComponent(playerEntityId, move(tag));
 	AddComponent(playerEntityId, move(transform));
@@ -117,11 +117,12 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager &spriteManager)
 	AddComponent(playerEntityId, move(health));
 	AddComponent(playerEntityId, move(animation));
 	AddComponent(playerEntityId, move(cooldown));
+	AddComponent(playerEntityId, move(playerDeathTimer));
 
 	return playerEntityId;
 }
 
-EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager, const vec3 &playerPos, float screenWidth, float screenHeight)
+EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 {
 	EntityId enemyEntityId = CreateEntityId();
 	CSimpleSprite *enemySprite = spriteManager.CreateSprite(enemyEntityId, Helper::PATH_TO_ENEMY, 4, 2);
@@ -131,6 +132,7 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager, const ve
 	constexpr float maxVx = 300.0f;
 	constexpr float minVy = -100.0;
 	constexpr float maxVy = 300.0f;
+	vec3 playerPos = GetComponent<Transform>(m_playerEntityId)->GetPosition();
 	vec3 pos = Helper::GetOppositeQuadrantPosition(playerPos, screen.SCREEN_WIDTH, screen.SCREEN_HEIGHT);
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
@@ -194,8 +196,8 @@ EntityId EntityManager::CreateReloadingCircleEntity(SpriteManager &spriteManager
 	CSimpleSprite *reloadingCircleSprite = spriteManager.CreateSprite(reloadingCircleEntityId, Helper::PATH_TO_RELOADING_CIRCLE, 5, 2);
 
 	Screen &screen = screen.GetInstance();
-	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORDS, screen.BORDER_RIGHT_SCREEN_COORDS);
-	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORDS, screen.BORDER_BOTTOM_SCREEN_COORDS);
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD_X, screen.BORDER_RIGHT_SCREEN_COORD_X);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD_Y, screen.BORDER_BOTTOM_SCREEN_COORD_Y);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
@@ -290,9 +292,9 @@ EntityId EntityManager::CreateScoreEntity()
 	return scoreEntityId;
 }
 
-EntityId EntityManager::CreateTimerEntity()
+EntityId EntityManager::CreateCountdownTimerEntity()
 {
-	EntityId timerEntityId = CreateEntityId();
+	EntityId countdownTimerEntityId = CreateEntityId();
 	Screen &screen = screen.GetInstance();
 	constexpr float xOffset = 1000.0f;
 	constexpr float yOffset = 50.0f;
@@ -304,13 +306,13 @@ EntityId EntityManager::CreateTimerEntity()
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Timer, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Timer> timer = make_unique<Timer>(60.0f);
+	unique_ptr<Timer> timer = make_unique<Timer>(TimerType::Countdown, 60.0f);
 
-	AddComponent(timerEntityId, move(tag));
-	AddComponent(timerEntityId, move(transform));
-	AddComponent(timerEntityId, move(timer));
+	AddComponent(countdownTimerEntityId, move(tag));
+	AddComponent(countdownTimerEntityId, move(transform));
+	AddComponent(countdownTimerEntityId, move(timer));
 
-	return timerEntityId;
+	return countdownTimerEntityId;
 }
 
 EntityId EntityManager::CreateTitleEntity(SpriteManager &spriteManager)
@@ -463,8 +465,8 @@ void EntityManager::ShowAllAmmoFilledEntity()
 void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 {
 	Screen &screen = screen.GetInstance();
-	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORDS, screen.BORDER_RIGHT_SCREEN_COORDS);
-	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORDS, screen.BORDER_BOTTOM_SCREEN_COORDS);
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD_X, screen.BORDER_RIGHT_SCREEN_COORD_X);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD_Y, screen.BORDER_BOTTOM_SCREEN_COORD_Y);
 	constexpr float zPos = 0.0f;
 
 	vec3 newPos = vec3(xPos, yPos, zPos);

@@ -5,6 +5,7 @@
 #include "Components/include/Tag.h"
 #include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
+#include "Managers/include/GameManager.h"
 #include "Managers/include/SpriteManager.h"
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/HealthHandler.h"
@@ -177,6 +178,10 @@ void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
 	{
 		HandleEnemyHitPlayer(entityManager, deltaTime);
 	}
+	else if (event.GetEventType() == "PlayerDied")
+	{
+		HandlePlayerDied(entityManager, deltaTime);
+	}
 }
 
 void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime)
@@ -195,4 +200,11 @@ void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float 
 	frameIndex = min(frameIndex, maxFrames);
 	animation->SetCurrentAnimation(frameIndex);
 	healthBarSprite->SetAnimation(animation->GetCurrentAnimation());
+}
+
+void AnimationHandler::HandlePlayerDied(EntityManager& entityManager, float deltaTime)
+{
+	EntityId playerEntityId = entityManager.GetPlayerEntityId();
+	CSimpleSprite* playerSprite = entityManager.GetComponent<Renderable>(playerEntityId)->GetSprite();
+	playerSprite->SetAngle(90.0f);
 }

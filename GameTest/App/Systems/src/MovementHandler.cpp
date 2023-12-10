@@ -73,11 +73,11 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Screen&
 	float newX = transform->GetPosition().x + movementX;
 	float newY = transform->GetPosition().y + movementY;
 
-	float newXPos = max(screen.BORDER_LEFT_SCREEN_COORDS + widthBuffer,
-						min(newX, screen.BORDER_RIGHT_SCREEN_COORDS - widthBuffer));
+	float newXPos = max(screen.BORDER_LEFT_SCREEN_COORD_X + widthBuffer,
+						min(newX, screen.BORDER_RIGHT_SCREEN_COORD_X - widthBuffer));
 
-	float newYPos = max(screen.BORDER_TOP_SCREEN_COORDS + heightBuffer + bottomOffset,
-						min(newY, screen.BORDER_BOTTOM_SCREEN_COORDS + heightBuffer + topOffset));
+	float newYPos = max(screen.BORDER_TOP_SCREEN_COORD_Y + heightBuffer + bottomOffset,
+						min(newY, screen.BORDER_BOTTOM_SCREEN_COORD_Y + heightBuffer + topOffset));
 
 	vec3 newPos = vec3(newXPos, newYPos, transform->GetPosition().z);
 	transform->SetPosition(newPos);
@@ -104,15 +104,15 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Screen& 
 		const float widthBuffer = sprite->GetWidth() / 6.0f;
 		const float heightBuffer = sprite->GetHeight() / 6.0f;
 
-		if (xPos <= screen.BORDER_LEFT_SCREEN_COORDS + widthBuffer ||
-			xPos >= screen.BORDER_RIGHT_SCREEN_COORDS - widthBuffer)
+		if (xPos <= screen.BORDER_LEFT_SCREEN_COORD_X + widthBuffer ||
+			xPos >= screen.BORDER_RIGHT_SCREEN_COORD_X - widthBuffer)
 		{
 			currentVelocity.x *= -1;
 			velocity->SetVelocity(currentVelocity);
 			bounceDirection->SetBounced(true);
 		}
-		if (yPos <= screen.BORDER_TOP_SCREEN_COORDS + heightBuffer + topOffset ||
-			yPos >= screen.BORDER_BOTTOM_SCREEN_COORDS + heightBuffer + bottomOffset)
+		if (yPos <= screen.BORDER_TOP_SCREEN_COORD_Y + heightBuffer + topOffset ||
+			yPos >= screen.BORDER_BOTTOM_SCREEN_COORD_Y + heightBuffer + bottomOffset)
 		{
 			currentVelocity.y *= -1;
 			velocity->SetVelocity(currentVelocity);
@@ -134,8 +134,8 @@ void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Screen&
 	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
 	transform->SetPosition(newPos);
 
-	if (transform->GetPosition().x < screen.BORDER_LEFT_SCREEN_COORDS || transform->GetPosition().x > screen.BORDER_RIGHT_SCREEN_COORDS ||
-		transform->GetPosition().y < screen.BORDER_TOP_SCREEN_COORDS || transform->GetPosition().y > screen.BORDER_BOTTOM_SCREEN_COORDS)
+	if (transform->GetPosition().x < screen.BORDER_LEFT_SCREEN_COORD_X || transform->GetPosition().x > screen.BORDER_RIGHT_SCREEN_COORD_X ||
+		transform->GetPosition().y < screen.BORDER_TOP_SCREEN_COORD_Y || transform->GetPosition().y > screen.BORDER_BOTTOM_SCREEN_COORD_Y)
 	{
 		Event bulletOutOfBoundsEvent("BulletOutOfBounds", { entityId});
 		systemManager.SendEvent(bulletOutOfBoundsEvent);
