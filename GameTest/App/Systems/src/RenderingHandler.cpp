@@ -26,7 +26,7 @@ void RenderingHandler::Render()
         RenderMainMenuScene(entityManager, screen);
         break;
     case GameState::Gameplay:
-        RenderGameScene(entityManager, screen);
+        RenderGameplayScene(entityManager, screen);
         break;
     case GameState::GameOver:
         RenderGameOverScene(entityManager, screen);
@@ -65,6 +65,17 @@ void RenderingHandler::ShowAllAmmoFilledEntities()
     }
 }
 
+void RenderingHandler::UpdateFade(float deltaTime)
+{
+    const float fadeRate = 0.5f;
+    m_fadeAmount += deltaTime * fadeRate;
+}
+
+void RenderingHandler::ResetFade()
+{
+    m_fadeAmount = 0;
+}
+
 void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen &screen)
 {
     RenderStarfield(entityManager);
@@ -93,7 +104,7 @@ void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen 
     App::Print(screen.SCREEN_WIDTH - descriptionXOffset, screen.SCREEN_HEIGHT - descriptionYOffset, descriptionText, WHITE.r, WHITE.g, WHITE.b);
 }
 
-void RenderingHandler::RenderGameScene(EntityManager &entityManager, Screen &screen)
+void RenderingHandler::RenderGameplayScene(EntityManager &entityManager, Screen &screen)
 {
     SetBackground(BLACK);
     DrawBorder(screen, WHITE);
@@ -118,6 +129,7 @@ void RenderingHandler::RenderGameScene(EntityManager &entityManager, Screen &scr
 
     RenderScore(entityManager);
     RenderCountdownTimer(entityManager);
+    RenderFadeOverlay();
 }
 
 void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen &screen)
@@ -226,10 +238,10 @@ void RenderingHandler::SetBackground(const Color &color)
 void RenderingHandler::DrawBorder(Screen &screen, const Color &color)
 {
     const float borderThickness = screen.BORDER_THICKNESS;
-    const float borderLeftX = screen.BORDER_LEFT_NDC_X;
-    const float borderRightX = screen.BORDER_RIGHT_NDC_X;
-    const float borderTopY = screen.BORDER_TOP_NDC_Y;
-    const float borderBottomY = screen.BORDER_BOTTOM_NDC_Y;
+    const float borderLeftX = screen.BORDER_LEFT_NDC;
+    const float borderRightX = screen.BORDER_RIGHT_NDC;
+    const float borderTopY = screen.BORDER_TOP_NDC;
+    const float borderBottomY = screen.BORDER_BOTTOM_NDC;
 
     glColor3f(color.r, color.g, color.b);
     glLineWidth(borderThickness);
@@ -244,10 +256,10 @@ void RenderingHandler::DrawBorder(Screen &screen, const Color &color)
 void RenderingHandler::DrawBackgroundInBorder(Screen &screen, const Color &color)
 {
     float borderThickness = screen.BORDER_THICKNESS;
-    float borderLeftX = screen.BORDER_LEFT_NDC_X;
-    float borderRightX = screen.BORDER_RIGHT_NDC_X;
-    float borderTopY = screen.BORDER_TOP_NDC_Y;
-    float borderBottomY = screen.BORDER_BOTTOM_NDC_Y;
+    float borderLeftX = screen.BORDER_LEFT_NDC;
+    float borderRightX = screen.BORDER_RIGHT_NDC;
+    float borderTopY = screen.BORDER_TOP_NDC;
+    float borderBottomY = screen.BORDER_BOTTOM_NDC;
 
     glColor3f(color.r, color.g, color.b);
     glBegin(GL_QUADS);
@@ -255,5 +267,23 @@ void RenderingHandler::DrawBackgroundInBorder(Screen &screen, const Color &color
     glVertex2f(borderRightX, borderTopY);
     glVertex2f(borderRightX, borderBottomY);
     glVertex2f(borderLeftX, borderBottomY);
+    glEnd();
+}
+
+void RenderingHandler::RenderFadeOverlay()
+{
+    Screen& screen = Screen::GetInstance();
+
+    if (m_fadeAmount == 0.0f)
+        return;
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glColor4f(0.0f, 0.0f, 0.0f, m_fadeAmount);
+    glBegin(GL_QUADS);
+    glVertex2f(screen.SCREEN_LEFT_NDC, screen.SCREEN_BOTTOM_NDC);
+    glVertex2f(screen.SCREEN_RIGHT_NDC, screen.SCREEN_BOTTOM_NDC);
+    glVertex2f(screen.SCREEN_RIGHT_NDC, screen.SCREEN_TOP_NDC);
+    glVertex2f(screen.SCREEN_LEFT_NDC, screen.SCREEN_TOP_NDC);
     glEnd();
 }

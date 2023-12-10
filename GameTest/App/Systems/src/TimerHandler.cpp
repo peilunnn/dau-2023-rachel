@@ -4,6 +4,7 @@
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
 #include "Systems/include/AnimationHandler.h"
+#include "Systems/include/RenderingHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Utilities/include/Helper.h"
 
@@ -17,6 +18,7 @@ void TimerHandler::Update(float deltaTime) {
     EntityManager& entityManager = EntityManager::GetInstance();
     GameManager& gameManager = GameManager::GetInstance();
     AnimationHandler& animationHandler = AnimationHandler::GetInstance();
+    RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>())
     {
@@ -32,7 +34,10 @@ void TimerHandler::Update(float deltaTime) {
                 timer->SetRemainingTime(newRemainingTime);
 
                 if (newRemainingTime > 0)
+                {
                     animationHandler.RotatePlayer(deltaTime);
+                    renderingHandler.UpdateFade(deltaTime);
+                }
                 else
                     gameManager.TransitionToLoadingState();
             }

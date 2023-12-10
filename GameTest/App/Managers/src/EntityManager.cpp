@@ -85,8 +85,8 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager &spriteManager)
 	CSimpleSprite *playerSprite = spriteManager.CreateSprite(playerEntityId, Helper::PATH_TO_PLAYER, 4, 4);
 
 	Screen &screen = screen.GetInstance();
-	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD_X, screen.BORDER_RIGHT_SCREEN_COORD_X);
-	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD_Y, screen.BORDER_BOTTOM_SCREEN_COORD_Y);
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD, screen.BORDER_RIGHT_SCREEN_COORD);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD, screen.BORDER_BOTTOM_SCREEN_COORD);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.6f);
@@ -127,8 +127,8 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	CSimpleSprite *enemySprite = spriteManager.CreateSprite(enemyEntityId, Helper::PATH_TO_ENEMY, 4, 2);
 
 	Screen &screen = screen.GetInstance();
-	const float borderWidth = (screen.BORDER_RIGHT_SCREEN_COORD_X - screen.BORDER_LEFT_SCREEN_COORD_X);
-	const float borderHeight = (screen.BORDER_BOTTOM_SCREEN_COORD_Y - screen.BORDER_TOP_SCREEN_COORD_Y);
+	const float borderWidth = (screen.BORDER_RIGHT_SCREEN_COORD - screen.BORDER_LEFT_SCREEN_COORD);
+	const float borderHeight = (screen.BORDER_BOTTOM_SCREEN_COORD - screen.BORDER_TOP_SCREEN_COORD);
 	constexpr float minVx = -100.0f;
 	constexpr float maxVx = 300.0f;
 	constexpr float minVy = -100.0;
@@ -197,8 +197,8 @@ EntityId EntityManager::CreateReloadingCircleEntity(SpriteManager &spriteManager
 	CSimpleSprite *reloadingCircleSprite = spriteManager.CreateSprite(reloadingCircleEntityId, Helper::PATH_TO_RELOADING_CIRCLE, 5, 2);
 
 	Screen &screen = screen.GetInstance();
-	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD_X, screen.BORDER_RIGHT_SCREEN_COORD_X);
-	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD_Y, screen.BORDER_BOTTOM_SCREEN_COORD_Y);
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD, screen.BORDER_RIGHT_SCREEN_COORD);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD, screen.BORDER_BOTTOM_SCREEN_COORD);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
@@ -444,8 +444,8 @@ EntityId EntityManager::CreateStarfieldEntity(SpriteManager &spriteManager)
 void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 {
 	Screen &screen = screen.GetInstance();
-	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD_X, screen.BORDER_RIGHT_SCREEN_COORD_X);
-	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD_Y, screen.BORDER_BOTTOM_SCREEN_COORD_Y);
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD, screen.BORDER_RIGHT_SCREEN_COORD);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD, screen.BORDER_BOTTOM_SCREEN_COORD);
 	constexpr float zPos = 0.0f;
 
 	vec3 newPos = vec3(xPos, yPos, zPos);

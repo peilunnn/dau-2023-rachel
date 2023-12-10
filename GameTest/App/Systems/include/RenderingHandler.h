@@ -13,12 +13,16 @@ public:
     void Render();
     void HideAmmoFilledEntity(int index);
     void ShowAllAmmoFilledEntities();
+    void UpdateFade(float deltaTime);
+    void ResetFade();
 
 private:
     RenderingHandler() = default;
 
+    float m_fadeAmount = 0.0f;
+
     void RenderMainMenuScene(EntityManager& entityManager, Screen& screen);
-    void RenderGameScene(EntityManager& entityManager, Screen& screen);
+    void RenderGameplayScene(EntityManager& entityManager, Screen& screen);
     void RenderGameOverScene(EntityManager& entityManager, Screen& screen);
     void RenderLoadingScreen(EntityManager& entityManager, Screen& screen);
     void RenderSprite(EntityManager& entityManager, EntityId entityId);
@@ -29,4 +33,5 @@ private:
     void SetBackground(const Color& color);
     void DrawBorder(Screen& screen, const Color& color);
     void DrawBackgroundInBorder(Screen& screen, const Color& color);
+    void RenderFadeOverlay();
 };

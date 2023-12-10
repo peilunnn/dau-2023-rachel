@@ -6,6 +6,7 @@
 #include "Systems/include/InputHandler.h"
 #include "Systems/include/ScoreHandler.h"
 #include "Systems/include/ShootingHandler.h"
+#include "Systems/include/RenderingHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Utilities/include/Helper.h"
 
@@ -98,4 +99,5 @@ void GameManager::ResetGame()
     ScoreHandler::GetInstance().ResetScore();
     ShootingHandler::GetInstance().ResetBullets();
     EntityManager::GetInstance().ResetEnemies();
+    RenderingHandler::GetInstance().ResetFade();
 }
