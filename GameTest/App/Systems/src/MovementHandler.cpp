@@ -28,15 +28,22 @@ void MovementHandler::Update(float deltaTime)
 
 		switch (entityType)
 		{
-		case EntityType::Player:
-			UpdatePlayerMovement(entityManager, screen, entityId, deltaTime);
-			break;
-		case EntityType::Enemy:
-			UpdateEnemyMovement(entityManager, screen, entityId, deltaTime);
-			break;
-		case EntityType::Bullet:
-			UpdateBulletMovement(entityManager, screen, entityId, deltaTime);
-			break;
+			case EntityType::Player:
+			{
+				Tag* playerTag = entityManager.GetComponent<Tag>(entityId);
+
+				if (playerTag->GetEntityState() != EntityState::Alive)
+					return;
+
+				UpdatePlayerMovement(entityManager, screen, entityId, deltaTime);
+				break;
+			}
+			case EntityType::Enemy:
+				UpdateEnemyMovement(entityManager, screen, entityId, deltaTime);
+				break;
+			case EntityType::Bullet:
+				UpdateBulletMovement(entityManager, screen, entityId, deltaTime);
+				break;
 		}
 	}
 }

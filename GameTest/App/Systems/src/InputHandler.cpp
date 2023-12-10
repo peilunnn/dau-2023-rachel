@@ -17,9 +17,13 @@ void InputHandler::Update(float deltaTime)
 {
     EntityManager &entityManager = EntityManager::GetInstance();
     EntityId playerEntityId = entityManager.GetPlayerEntityId();
+    Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
     ShootingHandler &shootingHandler = ShootingHandler::GetInstance();
     InputHandler &inputHandler = InputHandler::GetInstance();
-
+    
+    if (playerTag->GetEntityState() != EntityState::Alive)
+        return;
+    
     inputHandler.HandlePositionInput(entityManager, playerEntityId, deltaTime);
     inputHandler.HandleShootingInput(entityManager, playerEntityId, deltaTime);
 }
