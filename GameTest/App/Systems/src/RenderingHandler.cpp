@@ -14,6 +14,16 @@ RenderingHandler &RenderingHandler::GetInstance()
     return instance;
 }
 
+void RenderingHandler::HandleEvent(const Event& event, float deltaTime)
+{
+    EntityManager& entityManager = EntityManager::GetInstance();
+
+    if (event.GetEventType() == "EnemyHitPlayer")
+    {
+        HandleEnemyHitPlayer(entityManager, deltaTime);
+    }
+}
+
 void RenderingHandler::Render()
 {
     GameState m_currentGameState = GameManager::GetInstance().GetCurrentGameState();
@@ -76,6 +86,14 @@ void RenderingHandler::ResetFade()
     m_fadeAmount = 0;
 }
 
+void RenderingHandler::UpdateScreenShakeTimer(float deltaTime)
+{
+    if (m_shakeTimer <= 0.0f)
+        return;
+
+    m_shakeTimer -= deltaTime;
+}
+
 void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen &screen)
 {
     RenderStarfield(entityManager);
@@ -106,6 +124,17 @@ void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen 
 
 void RenderingHandler::RenderGameplayScene(EntityManager &entityManager, Screen &screen)
 {
+    float shakeOffsetX = 0.0f;
+    float shakeOffsetY = 0.0f;
+    if (m_shakeTimer > 0.0f)
+    {
+        float shakeOffsetX = (static_cast<float>(rand()) / RAND_MAX * 2 - 1) * m_shakeIntensity;
+        float shakeOffsetY = (static_cast<float>(rand()) / RAND_MAX * 2 - 1) * m_shakeIntensity;
+
+        glPushMatrix();
+        glTranslatef(shakeOffsetX, shakeOffsetY, 0.0f);
+    }
+
     SetBackground(BLACK);
     DrawBorder(screen, WHITE);
     DrawBackgroundInBorder(screen, DARK_GREY);
@@ -130,6 +159,9 @@ void RenderingHandler::RenderGameplayScene(EntityManager &entityManager, Screen 
     RenderScore(entityManager);
     RenderCountdownTimer(entityManager);
     RenderFadeOverlay();
+
+    if (m_shakeTimer > 0.0f)
+        glPopMatrix();
 }
 
 void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen &screen)
@@ -286,4 +318,22 @@ void RenderingHandler::RenderFadeOverlay()
     glVertex2f(screen.SCREEN_RIGHT_NDC, screen.SCREEN_TOP_NDC);
     glVertex2f(screen.SCREEN_LEFT_NDC, screen.SCREEN_TOP_NDC);
     glEnd();
+}
+
+void RenderingHandler::SetUpScreenShake()
+{
+    const float minDuration = 1.0f;
+    const float maxDuration = 2.0f;
+    m_shakeDuration = minDuration + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (maxDuration - minDuration)));
+
+    const float minIntensity = 5.0f;
+    const float maxIntensity = 20.0f;
+    m_shakeIntensity = minIntensity + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (maxIntensity - minIntensity)));
+
+    m_shakeTimer = m_shakeDuration;
+}
+
+void RenderingHandler::HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime)
+{
+    SetUpScreenShake();
 }

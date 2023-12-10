@@ -64,6 +64,7 @@ void Update(float deltaTime)
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
 		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
 		CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
+		RenderingHandler::GetInstance().UpdateScreenShakeTimer(deltaTime);
 		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
 		TimerHandler::GetInstance().Update(deltaTimeInSeconds);
 		CooldownHandler::GetInstance().Update(deltaTimeInSeconds);
