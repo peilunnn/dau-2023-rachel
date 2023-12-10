@@ -470,3 +470,21 @@ void EntityManager::ProcessDeletions()
 	}
 	m_entitiesToDelete.clear();
 }
+
+void EntityManager::ResetEnemies()
+{
+	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	vector<EntityId> allEntities = GetAllEntities();
+	
+	// Delete all enemies
+	for (EntityId entityId : allEntities) 
+	{
+		Tag* tag = GetComponent<Tag>(entityId);
+		if (tag->GetEntityType() == EntityType::Enemy)
+			MarkEntityForDeletion(entityId);
+	}
+	ProcessDeletions();
+
+	// Create one new enemy
+	CreateEnemyEntity(spriteManager);
+}

@@ -4,9 +4,9 @@
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/HealthHandler.h"
 #include "Systems/include/InputHandler.h"
-#include "Systems/include/TimerHandler.h"
 #include "Systems/include/ScoreHandler.h"
 #include "Systems/include/ShootingHandler.h"
+#include "Systems/include/TimerHandler.h"
 #include "Utilities/include/Helper.h"
 
 GameManager& GameManager::GetInstance()
@@ -97,4 +97,5 @@ void GameManager::ResetGame()
     TimerHandler::GetInstance().ResetTimers();
     ScoreHandler::GetInstance().ResetScore();
     ShootingHandler::GetInstance().ResetBullets();
+    EntityManager::GetInstance().ResetEnemies();
 }

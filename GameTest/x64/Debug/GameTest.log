@@ -1,10 +1,4 @@
-﻿  TimerHandler.cpp
-  GameTest.cpp
-  ShootingHandler.cpp
-  Generating Code...
-sfml-audio-s-d.lib(SoundFileFactory.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundFileFactory.obj)' or at ''; linking object as if no debug info
-sfml-audio-s-d.lib(SoundFileReaderFlac.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundFileReaderFlac.obj)' or at ''; linking object as if no debug info
-sfml-audio-s-d.lib(SoundFileReaderMp3.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundFileReaderMp3.obj)' or at ''; linking object as if no debug info
+﻿  GameManager.cpp
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

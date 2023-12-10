@@ -38,6 +38,7 @@ public:
     void MoveEntityToRandomPos(EntityId entityId);
     void MarkEntityForDeletion(EntityId entityId);
     void ProcessDeletions();
+    void ResetEnemies();
 
     EntityId GetPlayerEntityId() const { return m_playerEntityId; }
     EntityId GetReloadingCircleEntityId() const { return m_reloadingCircleEntityId; }
@@ -49,15 +50,8 @@ public:
     EntityId GetBackButtonEntityId() const { return m_backButtonEntityId; }
     EntityId GetLoadingScreenCharacterEntityId() const { return m_loadingScreenCharacterEntityId; }
     EntityId GetStarfieldEntityId() const { return m_starfieldEntityId; }
-    
-    vector<EntityId> GetAmmoEmptyEntityIds() const
-    {
-        return m_ammoEmptyEntityIds;
-    }
-    vector<EntityId> GetAmmoFilledEntityIds() const
-    {
-        return m_ammoFilledEntityIds;
-    }
+    vector<EntityId> GetAmmoEmptyEntityIds() const { return m_ammoEmptyEntityIds; }
+    vector<EntityId> GetAmmoFilledEntityIds() const { return m_ammoFilledEntityIds; }
 
     template <typename T>
     void AddComponent(EntityId entityId, unique_ptr<T> component)

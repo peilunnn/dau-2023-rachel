@@ -34,7 +34,6 @@ void ShootingHandler::ResetBullets()
 	renderingHandler.ShowAllAmmoFilledEntities();
 }
 
-
 void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 {
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
