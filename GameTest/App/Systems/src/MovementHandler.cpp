@@ -29,13 +29,13 @@ void MovementHandler::Update(float deltaTime)
 		switch (entityType)
 		{
 		case EntityType::Player:
-			HandlePlayerMovement(entityManager, screen, entityId, deltaTime);
+			UpdatePlayerMovement(entityManager, screen, entityId, deltaTime);
 			break;
 		case EntityType::Enemy:
-			HandleEnemyMovement(entityManager, screen, entityId, deltaTime);
+			UpdateEnemyMovement(entityManager, screen, entityId, deltaTime);
 			break;
 		case EntityType::Bullet:
-			HandleBulletMovement(entityManager, screen, entityId, deltaTime);
+			UpdateBulletMovement(entityManager, screen, entityId, deltaTime);
 			break;
 		}
 	}
@@ -57,7 +57,7 @@ void MovementHandler::HandleBulletHitEnemy(EntityManager& entityManager, EntityI
 	velocity->SetVelocity(zeroVector);
 }
 
-void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
+void MovementHandler::UpdatePlayerMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
 {
 	Transform* transform = entityManager.GetComponent<Transform>(entityId);
 	Velocity* velocity = entityManager.GetComponent<Velocity>(entityId);
@@ -83,7 +83,7 @@ void MovementHandler::HandlePlayerMovement(EntityManager &entityManager, Screen&
 	transform->SetPosition(newPos);
 }
 
-void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
+void MovementHandler::UpdateEnemyMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
 {
 	Transform* transform = entityManager.GetComponent<Transform>(entityId);
 	BounceDirection* bounceDirection = entityManager.GetComponent<BounceDirection>(entityId);
@@ -123,7 +123,7 @@ void MovementHandler::HandleEnemyMovement(EntityManager &entityManager, Screen& 
 		bounceDirection->SetBounced(false);
 }
 
-void MovementHandler::HandleBulletMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
+void MovementHandler::UpdateBulletMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
 {
 	SystemManager& systemManager = SystemManager::GetInstance();
 	Transform* transform = entityManager.GetComponent<Transform>(entityId);

@@ -128,19 +128,21 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	CSimpleSprite *enemySprite = spriteManager.CreateSprite(enemyEntityId, Helper::PATH_TO_ENEMY, 4, 2);
 
 	Screen &screen = screen.GetInstance();
+	const float borderWidth = (screen.BORDER_RIGHT_SCREEN_COORD_X - screen.BORDER_LEFT_SCREEN_COORD_X);
+	const float borderHeight = (screen.BORDER_BOTTOM_SCREEN_COORD_Y - screen.BORDER_TOP_SCREEN_COORD_Y);
 	constexpr float minVx = -100.0f;
 	constexpr float maxVx = 300.0f;
 	constexpr float minVy = -100.0;
 	constexpr float maxVy = 300.0f;
 	vec3 playerPos = GetComponent<Transform>(m_playerEntityId)->GetPosition();
-	vec3 pos = Helper::GetOppositeQuadrantPosition(playerPos, screen.SCREEN_WIDTH, screen.SCREEN_HEIGHT);
+	vec3 enemyPos = Helper::GetOppositeQuadrantPosition(playerPos, borderWidth, borderHeight);
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
 	constexpr float radiusMultiplier = 0.25f;
 	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, GameState::Gameplay);
-	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
+	unique_ptr<Transform> transform = make_unique<Transform>(enemyPos, rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(enemySprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);

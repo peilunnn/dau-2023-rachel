@@ -29,7 +29,10 @@ void TimerHandler::Update(float deltaTime) {
                 timer->SetDuration(remainingTime - deltaTime);
 
                 if (remainingTime <= 0)
+                {
+                    Helper::Log("health reached 0 and player death animation finished");
                     gameManager.TransitionToLoadingState();
+                }
             }
         }
 
@@ -40,7 +43,10 @@ void TimerHandler::Update(float deltaTime) {
             timer->SetDuration(remainingTime - deltaTime);
 
             if (remainingTime <= 0)
+            {
+                Helper::Log("countdown reached 0");
                 gameManager.TransitionToLoadingState();
+            }
         }
     }
 }

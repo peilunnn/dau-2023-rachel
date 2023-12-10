@@ -70,17 +70,17 @@ namespace Helper
 		return vec3(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY), GenerateFloat(minZ, maxZ));
 	}
 
-	inline vec3 GetOppositeQuadrantPosition(const vec3& playerPos, float screenWidth, float screenHeight)
+	inline vec3 GetOppositeQuadrantPosition(const vec3& playerPos, float borderWidth, float borderHeight)
 	{
 		vec3 enemyPos;
-		if (playerPos.x < screenWidth / 2)
-			enemyPos.x = screenWidth * 0.75f; // Spawn in the right half
+		if (playerPos.x < borderWidth / 2)
+			enemyPos.x = borderWidth * 0.6f; // Spawn in the right half
 		else
-			enemyPos.x = screenWidth * 0.25f; // Spawn in the left half
-		if (playerPos.y < screenHeight / 2)
-			enemyPos.y = screenHeight * 0.75f; // Spawn in the lower half
+			enemyPos.x = borderWidth * 0.4f; // Spawn in the left half
+		if (playerPos.y < borderHeight / 2)
+			enemyPos.y = borderHeight * 0.6f; // Spawn in the lower half
 		else
-			enemyPos.y = screenHeight * 0.25f; // Spawn in the upper half
+			enemyPos.y = borderHeight * 0.4f; // Spawn in the upper half
 
 		enemyPos.z = 0.0f;
 

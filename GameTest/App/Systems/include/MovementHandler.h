@@ -23,8 +23,8 @@ private:
 
     set<string> m_subscribedEvents = {};
 
-    void HandlePlayerMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
-    void HandleEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
-    void HandleBulletMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
+    void UpdatePlayerMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
+    void UpdateEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
+    void UpdateBulletMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
     void HandleBulletHitEnemy(EntityManager& entityManager, EntityId enemyEntityId, float deltaTime);
 };

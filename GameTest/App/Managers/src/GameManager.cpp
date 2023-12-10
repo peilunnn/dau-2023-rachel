@@ -41,7 +41,7 @@ void GameManager::HandlePlayButtonClick()
 
     if (!inputHandler.GetIsPlayButtonClicked())
         return;
-    
+
     SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
 
     TransitionToLoadingState();
@@ -68,14 +68,14 @@ void GameManager::TransitionToLoadingState()
     m_timeSpentInLoading = 0.0f;
  
     // Transitioning from MainMenu to Gameplay
-    if (m_currentGameState == GameState::MainMenu)
+    if (m_previousGameState == GameState::GameOver && m_currentGameState == GameState::MainMenu)
     {
         soundManager.StopSound(Helper::PATH_TO_NON_GAMEPLAY_MUSIC);
         soundManager.PlaySoundFromFile(Helper::PATH_TO_GAMEPLAY_MUSIC, true);
     }
     
     // Transitioning from Gameplay to GameOver
-    else if (m_currentGameState == GameState::Gameplay)
+    else if (m_previousGameState == GameState::MainMenu && m_currentGameState == GameState::Gameplay)
     {
         soundManager.StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
         soundManager.PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);

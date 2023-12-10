@@ -42,7 +42,6 @@ public:
     void ProcessDeletions();
 
     EntityId GetPlayerEntityId() const { return m_playerEntityId; }
-    EntityId GetEnemyEntityId() const { return m_enemyEntityId; }
     EntityId GetReloadingCircleEntityId() const { return m_reloadingCircleEntityId; }
     EntityId GetHealthBarEntityId() const { return m_healthBarEntityId; }
     EntityId GetScoreEntityId() const { return m_scoreEntityId; }
