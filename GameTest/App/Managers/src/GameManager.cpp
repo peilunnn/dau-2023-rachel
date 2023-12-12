@@ -113,7 +113,6 @@ void GameManager::TransitionToLoadingState()
 void GameManager::ResetGame()
 {
     SoundManager::GetInstance().ResetSounds();
-    SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
     HealthHandler::GetInstance().ResetPlayerHealth();
     AnimationHandler::GetInstance().ResetHealthBarAnimation();
     AnimationHandler::GetInstance().ResetPlayerAnimation();

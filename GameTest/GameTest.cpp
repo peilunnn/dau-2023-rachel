@@ -29,7 +29,7 @@ void Init()
 {
 	// Seed the random number generator
 	srand(static_cast<unsigned int>(time(nullptr)));
-
+	
 	// Set up entities
 	EntityManager &entityManager = EntityManager::GetInstance();
 	entityManager.Init();
@@ -56,6 +56,7 @@ void Update(float deltaTime)
 		if (!gameManager.GetGameReset())
 		{
 			gameManager.ResetGame();
+			SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
 			gameManager.SetGameReset(true);
 		}
 		TitleHandler::GetInstance().OscillateTitle(deltaTimeInSeconds);
@@ -86,6 +87,7 @@ void Update(float deltaTime)
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::Paused)
 	{
+		gameManager.SetGameReset(false);
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
 		InputHandler::GetInstance().SetIsQuitButtonClicked();
 		gameManager.HandleQuitButtonClick();
