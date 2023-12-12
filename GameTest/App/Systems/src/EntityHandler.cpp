@@ -14,18 +14,18 @@ void EntityHandler::HandleEvent(const Event &event, float deltaTime)
 {
 	EntityManager &entityManager = EntityManager::GetInstance();
 
-	if (event.GetEventType() == "BulletHitEnemy")
+	if (event.GetEventType() == EventType::BulletHitEnemy)
 	{
 		EntityId bulletEntityId = event.GetEntities()[0];
 		EntityId enemyEntityId = event.GetEntities()[1];
 		HandleBulletHitEnemy(entityManager, bulletEntityId, enemyEntityId, deltaTime);
 	}
-	else if (event.GetEventType() == "EnemyHitPlayer")
+	else if (event.GetEventType() == EventType::EnemyHitPlayer)
 	{
 		EntityId enemyEntityId = event.GetEntities()[0];
 		HandleEnemyHitPlayer(entityManager, enemyEntityId);
 	}
-	else if (event.GetEventType() == "BulletOutOfBounds")
+	else if (event.GetEventType() == EventType::BulletOutOfBounds)
 	{
 		EntityId bulletEntityId = event.GetEntities()[0];
 		HandleBulletOutOfBounds(entityManager, bulletEntityId);

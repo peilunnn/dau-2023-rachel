@@ -72,7 +72,7 @@ void InputHandler::HandleShootingInput(EntityManager &entityManager, EntityId pl
         return;
 
     vec3 bulletPos = playerTransform->GetPosition();
-    Event playerShootEvent("PlayerShoot", {});
+    Event playerShootEvent(EventType::PlayerShoot, {});
     systemManager.SendEvent(playerShootEvent);
 }
 

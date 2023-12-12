@@ -10,7 +10,7 @@ public:
     void operator=(ScoreHandler const&) = delete;
 
     void HandleEvent(const Event& event, float deltaTime) override;
-    set<string> GetSubscribedEvents() const override {
+    set<EventType> GetSubscribedEvents() const override {
         return m_subscribedEvents;
     }
 
@@ -18,10 +18,10 @@ public:
 
 private:
     ScoreHandler() {
-        m_subscribedEvents.insert("BulletHitEnemy");
+        m_subscribedEvents.insert(EventType::BulletHitEnemy);
     }
 
-    set<string> m_subscribedEvents = {};
+    set<EventType> m_subscribedEvents = {};
 
     void HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime);
 };

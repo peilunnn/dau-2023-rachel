@@ -16,7 +16,7 @@ public:
     void Init();
     void Update(float deltaTime);
     void HandleEvent(const Event &event, float deltaTime) override;
-    set<string> GetSubscribedEvents() const override
+    set<EventType> GetSubscribedEvents() const override
     {
         return m_subscribedEvents;
     }
@@ -27,10 +27,10 @@ public:
 
 private:
     AnimationHandler() {
-        m_subscribedEvents.insert("EnemyHitPlayer");
+        m_subscribedEvents.insert(EventType::EnemyHitPlayer);
     }
 
-    set<string> m_subscribedEvents = {};
+    set<EventType> m_subscribedEvents = {};
     int m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 
     void InitPlayerAnimation(EntityManager& entityManager, SpriteManager& spriteManager);

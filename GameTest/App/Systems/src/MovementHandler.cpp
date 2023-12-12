@@ -57,7 +57,7 @@ void MovementHandler::HandleEvent(const Event& event, float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
 
-	if (event.GetEventType() == "BulletHitEnemy") {
+	if (event.GetEventType() == EventType::BulletHitEnemy) {
 		HandleBulletHitEnemy(entityManager, event.GetEntities()[1], deltaTime);
 	}
 }
@@ -149,7 +149,7 @@ void MovementHandler::UpdateBulletMovement(EntityManager &entityManager, Screen&
 	if (transform->GetPosition().x < screen.BORDER_LEFT_SCREEN_COORD || transform->GetPosition().x > screen.BORDER_RIGHT_SCREEN_COORD ||
 		transform->GetPosition().y < screen.BORDER_TOP_SCREEN_COORD || transform->GetPosition().y > screen.BORDER_BOTTOM_SCREEN_COORD)
 	{
-		Event bulletOutOfBoundsEvent("BulletOutOfBounds", { entityId});
+		Event bulletOutOfBoundsEvent(EventType::BulletOutOfBounds, { entityId});
 		systemManager.SendEvent(bulletOutOfBoundsEvent);
 	}
 }

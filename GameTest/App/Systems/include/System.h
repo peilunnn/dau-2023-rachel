@@ -9,9 +9,9 @@ public:
 	virtual void HandleEvent(const Event& event, float deltaTime) {
 		// Default implementation does nothing so that only systems that actually need to handle events will override
 	}
-	virtual set<string> GetSubscribedEvents() const
+	virtual set<EventType> GetSubscribedEvents() const
 	{
 		// Default implementation returns empty set so that only systems that actually need to handle events will override
-		return set<string>();
+		return set<EventType>();
 	};
 };

@@ -19,10 +19,10 @@ void ShootingHandler::HandleEvent(const Event& event, float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
 
-	if (event.GetEventType() == "PlayerShoot") {
+	if (event.GetEventType() == EventType::PlayerShoot) {
 		HandlePlayerShoot(entityManager);
 	}
-	else if (event.GetEventType()  == "PlayerHitReloadingCircle") {
+	else if (event.GetEventType()  == EventType::PlayerHitReloadingCircle) {
 		HandlePlayerHitReloadingCircle(entityManager, deltaTime);
 	}
 }

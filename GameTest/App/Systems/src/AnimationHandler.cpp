@@ -178,10 +178,8 @@ void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
 
-	if (event.GetEventType() == "EnemyHitPlayer")
-	{
+	if (event.GetEventType() == EventType::EnemyHitPlayer)
 		HandleEnemyHitPlayer(entityManager, deltaTime);
-	}
 }
 
 void AnimationHandler::RotatePlayer(float deltaTime)

@@ -12,7 +12,7 @@ void ScoreHandler::HandleEvent(const Event& event, float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
 
-	if (event.GetEventType() == "BulletHitEnemy") {
+	if (event.GetEventType() == EventType::BulletHitEnemy) {
 		HandleBulletHitEnemy(entityManager, deltaTime);
 	}
 }

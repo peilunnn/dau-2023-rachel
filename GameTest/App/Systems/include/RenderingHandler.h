@@ -11,7 +11,7 @@ public:
     void operator=(RenderingHandler const&) = delete;
 
     void HandleEvent(const Event& event, float deltaTime) override;
-    set<string> GetSubscribedEvents() const override
+    set<EventType> GetSubscribedEvents() const override
     {
         return m_subscribedEvents;
     }
@@ -25,10 +25,10 @@ public:
 
 private:
     RenderingHandler() {
-        m_subscribedEvents.insert("EnemyHitPlayer");
+        m_subscribedEvents.insert(EventType::EnemyHitPlayer);
     }
 
-    set<string> m_subscribedEvents = {};
+    set<EventType> m_subscribedEvents = {};
     const float FADE_RATE = 0.5f;
     float m_fadeAmount = 0.0f;
     float m_shakeDuration = 0.0f;

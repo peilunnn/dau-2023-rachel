@@ -90,7 +90,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
 			return;
 
 		enemyTag->SetEntityState(EntityState::Dead);
-		Event bulletHitEnemyEvent("BulletHitEnemy", {bulletEntity, enemyEntityId});
+		Event bulletHitEnemyEvent(EventType::BulletHitEnemy, {bulletEntity, enemyEntityId});
 		systemManager.SendEvent(bulletHitEnemyEvent);
 	}
 
@@ -107,7 +107,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
 
 		playerTag->SetEntityState(EntityState::HitByEnemy);
 		SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_HURT);
-		Event enemyHitPlayerEvent("EnemyHitPlayer", {enemyEntityId, playerEntityId});
+		Event enemyHitPlayerEvent(EventType::EnemyHitPlayer, {enemyEntityId, playerEntityId});
 		systemManager.SendEvent(enemyHitPlayerEvent);
 	}
 
@@ -119,7 +119,7 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
 		EntityId reloadingCircleEntityId = (firstEntityType == EntityType::ReloadingCircle) ? firstEntityId : secondEntityId;
 		Tag *playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 
-		Event playerHitReloadingCircleEvent("PlayerHitReloadingCircle", {playerEntityId, reloadingCircleEntityId});
+		Event playerHitReloadingCircleEvent(EventType::PlayerHitReloadingCircle, {playerEntityId, reloadingCircleEntityId});
 		systemManager.SendEvent(playerHitReloadingCircleEvent);
 	}
 }

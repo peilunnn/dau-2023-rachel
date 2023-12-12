@@ -2,32 +2,35 @@
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
 
-class ShootingHandler : public System {
+class ShootingHandler : public System
+{
 public:
-    static ShootingHandler& GetInstance();
-    ShootingHandler(ShootingHandler const&) = delete;
-    void operator=(ShootingHandler const&) = delete;
+    static ShootingHandler &GetInstance();
+    ShootingHandler(ShootingHandler const &) = delete;
+    void operator=(ShootingHandler const &) = delete;
 
     const int MAX_BULLETS = 10;
 
-    void HandleEvent(const Event& event, float deltaTime) override;
+    void HandleEvent(const Event &event, float deltaTime) override;
 
-    set<string> GetSubscribedEvents() const override {
+    set<EventType> GetSubscribedEvents() const override
+    {
         return m_subscribedEvents;
     }
 
     void ResetBullets();
 
 private:
-    ShootingHandler() {
-        m_subscribedEvents.insert("PlayerShoot");
-        m_subscribedEvents.insert("PlayerHitReloadingCircle");
+    ShootingHandler()
+    {
+        m_subscribedEvents.insert(EventType::PlayerShoot);
+        m_subscribedEvents.insert(EventType::PlayerHitReloadingCircle);
     }
 
-    set<string> m_subscribedEvents = {};
+    set<EventType> m_subscribedEvents = {};
     int m_bulletsShotSoFar = 0;
     const float m_bulletSpeed = 2000.0f;
 
-    void HandlePlayerShoot(EntityManager& entityManager);
-    void HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime);
+    void HandlePlayerShoot(EntityManager &entityManager);
+    void HandlePlayerHitReloadingCircle(EntityManager &entityManager, float deltaTime);
 };

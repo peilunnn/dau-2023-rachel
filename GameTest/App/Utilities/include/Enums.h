@@ -41,6 +41,16 @@ enum class EntityState
     Dead
 };
 
+enum class EventType
+{
+    None,
+    PlayerShoot,
+    PlayerHitReloadingCircle,
+    EnemyHitPlayer,
+    BulletHitEnemy,
+    BulletOutOfBounds
+};
+
 enum PlayerAnimationState
 {
     PLAYER_ANIM_FORWARDS,

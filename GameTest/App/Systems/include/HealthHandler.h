@@ -10,7 +10,7 @@ public:
     void operator=(HealthHandler const&) = delete;
 
     void HandleEvent(const Event& event, float deltaTime) override;
-    set<string> GetSubscribedEvents() const override {
+    set<EventType> GetSubscribedEvents() const override {
         return m_subscribedEvents;
     }
 
@@ -21,10 +21,10 @@ public:
 
 private:
     HealthHandler() {
-        m_subscribedEvents.insert("EnemyHitPlayer");
+        m_subscribedEvents.insert(EventType::EnemyHitPlayer);
     }
 
-    set<string> m_subscribedEvents = {};
+    set<EventType> m_subscribedEvents = {};
     const int m_healthReduction = 20;
 
     void HandleEnemyHitPlayer(EntityManager& entityManager);

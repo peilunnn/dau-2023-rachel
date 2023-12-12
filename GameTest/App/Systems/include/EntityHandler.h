@@ -9,18 +9,18 @@ public:
     void operator=(EntityHandler const&) = delete;
 
     void HandleEvent(const Event& event, float deltaTime) override;
-    set<string> GetSubscribedEvents() const override {
+    set<EventType> GetSubscribedEvents() const override {
         return m_subscribedEvents;
     }
 
 private:
     EntityHandler() {
-        m_subscribedEvents.insert("BulletHitEnemy");
-        m_subscribedEvents.insert("EnemyHitPlayer");
-        m_subscribedEvents.insert("BulletOutOfBounds");
+        m_subscribedEvents.insert(EventType::BulletHitEnemy);
+        m_subscribedEvents.insert(EventType::EnemyHitPlayer);
+        m_subscribedEvents.insert(EventType::BulletOutOfBounds);
     }
 
-    set<string> m_subscribedEvents = {};
+    set<EventType> m_subscribedEvents = {};
     void HandleBulletHitEnemy(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime);
     void SpawnTwoEnemies(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager& entityManager, EntityId enemyEntityId);
