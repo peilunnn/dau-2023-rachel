@@ -40,6 +40,8 @@ public:
     void MarkEntityForDeletion(EntityId entityId);
     void ProcessDeletions();
     void ResetEnemies();
+    void InitBulletPool(size_t poolSize);
+    void ReturnBulletToPool(EntityId bulletEntityId);
 
     EntityId GetPlayerEntityId() const { return m_playerEntityId; }
     EntityId GetReloadingCircleEntityId() const { return m_reloadingCircleEntityId; }
@@ -54,6 +56,7 @@ public:
     EntityId GetStarfieldEntityId() const { return m_starfieldEntityId; }
     vector<EntityId> GetAmmoEmptyEntityIds() const { return m_ammoEmptyEntityIds; }
     vector<EntityId> GetAmmoFilledEntityIds() const { return m_ammoFilledEntityIds; }
+    EntityId GetBulletFromPool();
 
     template <typename T>
     void AddComponent(EntityId entityId, unique_ptr<T> component)
@@ -109,9 +112,11 @@ private:
     EntityId m_quitButtonEntityId = -1;
     EntityId m_loadingScreenCharacterEntityId = -1;
     EntityId m_starfieldEntityId = -1;
-
     unordered_map<EntityId, vector<unique_ptr<Component>>> m_entityComponents = {};
     vector<EntityId> m_entitiesToDelete = vector<EntityId>();
     vector<EntityId> m_ammoEmptyEntityIds = vector<EntityId>();
     vector<EntityId> m_ammoFilledEntityIds = vector<EntityId>();
+
+    vector<EntityId> m_bulletPool;
+    size_t m_poolIndex = 0;
 };

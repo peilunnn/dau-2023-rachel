@@ -66,6 +66,8 @@ void EntityManager::Init()
 	m_backButtonEntityId = CreateBackButtonEntity(spriteManager);
 	m_quitButtonEntityId = CreateQuitButtonEntity(spriteManager);
 	m_loadingScreenCharacterEntityId = CreateLoadingScreenCharacterEntity(spriteManager);
+
+	InitBulletPool(ShootingHandler::GetInstance().MAX_BULLETS);
 }
 
 vector<EntityId> EntityManager::GetAllEntities()
@@ -519,4 +521,40 @@ void EntityManager::ResetEnemies()
 
 	// Create one new enemy
 	CreateEnemyEntity(spriteManager);
+}
+
+void EntityManager::InitBulletPool(size_t poolSize)
+{
+	SpriteManager& spriteManager = SpriteManager::GetInstance();
+
+	for (size_t i = 0; i < poolSize; ++i)
+	{
+		constexpr vec3 bulletPos = vec3(0.0f);
+		constexpr vec2 bulletVelocity = vec2(0.0f);
+		EntityId bulletEntityId = CreateBulletEntity(spriteManager, bulletPos, bulletVelocity);
+		
+		CSimpleSprite* bulletSprite = GetComponent<Renderable>(bulletEntityId)->GetSprite();
+		bulletSprite->SetIsVisible(false);
+		m_bulletPool.push_back(bulletEntityId);
+	}
+}
+
+void EntityManager::ReturnBulletToPool(EntityId bulletEntityId)
+{
+	CSimpleSprite* bulletSprite = GetComponent<Renderable>(bulletEntityId)->GetSprite();
+	Transform* bulletTransform = GetComponent<Transform>(bulletEntityId);
+	vec3 newTransform = vec3(0.0f);
+
+	bulletSprite->SetIsVisible(false);
+	bulletTransform->SetPosition(newTransform);
+}
+
+EntityId EntityManager::GetBulletFromPool()
+{
+	// If we have finished using all bullets in the pool, reset index
+	if (m_poolIndex >= m_bulletPool.size())
+		m_poolIndex = 0;
+
+	EntityId bulletEntityId = m_bulletPool[m_poolIndex++];
+	return bulletEntityId;
 }

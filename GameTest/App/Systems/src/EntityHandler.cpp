@@ -34,7 +34,7 @@ void EntityHandler::HandleEvent(const Event &event, float deltaTime)
 
 void EntityHandler::HandleBulletHitEnemy(EntityManager &entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime)
 {
-	entityManager.MarkEntityForDeletion(bulletEntityId);
+	entityManager.ReturnBulletToPool(bulletEntityId);
 	entityManager.MarkEntityForDeletion(enemyEntityId);
 	SpawnTwoEnemies(entityManager, bulletEntityId, enemyEntityId, deltaTime);
 }
@@ -53,5 +53,5 @@ void EntityHandler::HandleEnemyHitPlayer(EntityManager &entityManager, EntityId 
 
 void EntityHandler::HandleBulletOutOfBounds(EntityManager &entityManager, EntityId bulletEntityId)
 {
-	entityManager.MarkEntityForDeletion(bulletEntityId);
+	entityManager.ReturnBulletToPool(bulletEntityId);
 }

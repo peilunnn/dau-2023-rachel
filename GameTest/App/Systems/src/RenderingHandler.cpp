@@ -62,7 +62,7 @@ void RenderingHandler::HideAmmoFilledEntity(int index)
         if (!ammoFilledSprite)
             return;
 
-        ammoFilledSprite->SetVisible(false);
+        ammoFilledSprite->SetIsVisible(false);
     }
 }
 
@@ -74,7 +74,7 @@ void RenderingHandler::ShowAllAmmoFilledEntities()
     for (int i = 0; i < ammoFilledEntityIds.size(); i++)
     {
         CSimpleSprite* ammoFilledSprite = entityManager.GetComponent<Renderable>(ammoFilledEntityIds[i])->GetSprite();
-        ammoFilledSprite->SetVisible(true);
+        ammoFilledSprite->SetIsVisible(true);
     }
 }
 

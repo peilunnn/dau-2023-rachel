@@ -65,8 +65,8 @@ void Update(float deltaTime)
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::Gameplay)
 	{
-		InputHandler::GetInstance().Update(deltaTimeInSeconds);
 		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
+		InputHandler::GetInstance().Update(deltaTimeInSeconds);
 		CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
 		RenderingHandler::GetInstance().UpdateScreenShakeTimer(deltaTime);
 		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);

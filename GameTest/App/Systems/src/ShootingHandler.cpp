@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Components/include/Cooldown.h"
 #include "Components/include/Transform.h"
+#include "Components/include/Velocity.h"
 #include "Managers/include/SoundManager.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Systems/include/ShootingHandler.h"
@@ -50,16 +51,23 @@ void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 	{
 		soundManager.PlaySoundFromFile(Helper::PATH_TO_GUNFIRE);
 
+		EntityId bulletEntityId = entityManager.GetBulletFromPool();
+		CSimpleSprite* bulletSprite = entityManager.GetComponent<Renderable>(bulletEntityId)->GetSprite();
+		Transform* bulletTransform = entityManager.GetComponent<Transform>(bulletEntityId);
+		Velocity* bulletVelocityComponent = entityManager.GetComponent<Velocity>(bulletEntityId);
+
 		vec3 bulletPos = playerTransform->GetPosition();
-		vec2 direction = normalize(vec2(mouseX, mouseY) - vec2(bulletPos.x, bulletPos.y));
+		vec2 bulletDirection = normalize(vec2(mouseX, mouseY) - vec2(bulletPos.x, bulletPos.y));
 
-		if (dot(direction, direction) == 0)
-			direction = vec2(1.0f, 0.0f);
+		if (dot(bulletDirection, bulletDirection) == 0)
+			bulletDirection = vec2(1.0f, 0.0f);
 		else
-			direction = normalize(direction);
+			bulletDirection = normalize(bulletDirection);
 
-		vec2 bulletVelocity = direction * m_bulletSpeed;
-		entityManager.CreateBulletEntity(spriteManager, bulletPos, bulletVelocity);
+		vec2 bulletVelocity = bulletDirection * m_bulletSpeed;
+		bulletVelocityComponent->SetVelocity(bulletVelocity);
+		bulletTransform->SetPosition(bulletPos);
+		bulletSprite->SetIsVisible(true);
 
 		m_bulletsShotSoFar++;
 		renderingHandler.HideAmmoFilledEntity(m_bulletsShotSoFar - 1);

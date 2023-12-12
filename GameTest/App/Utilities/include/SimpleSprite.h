@@ -23,7 +23,7 @@ public:
     void SetScale(float s) { m_scale = s; }
     void SetFrame(unsigned int f);
     void SetAnimation(int id);
-    void SetVisible(bool newIsVisible) {
+    void SetIsVisible(bool newIsVisible) {
         m_isVisible = newIsVisible; // For ammo
     }
 

@@ -1,21 +1,9 @@
-﻿  EntityManager.cpp
-  GameManager.cpp
-  SystemManager.cpp
-  AnimationHandler.cpp
-  CollisionHandler.cpp
-  CooldownHandler.cpp
-  EntityHandler.cpp
-  HealthHandler.cpp
-  InputHandler.cpp
-  MovementHandler.cpp
-  RenderingHandler.cpp
-  ScoreHandler.cpp
-  ShootingHandler.cpp
-  System.cpp
-  TimerHandler.cpp
-  TitleHandler.cpp
-  GameTest.cpp
-  Generating Code...
+﻿  RenderingHandler.cpp
+sfml-audio-s-d.lib(ALCheck.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(ALCheck.obj)' or at ''; linking object as if no debug info
+sfml-audio-s-d.lib(AudioDevice.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(AudioDevice.obj)' or at ''; linking object as if no debug info
+sfml-audio-s-d.lib(SoundFileWriterFlac.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundFileWriterFlac.obj)' or at ''; linking object as if no debug info
+sfml-audio-s-d.lib(SoundFileWriterOgg.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundFileWriterOgg.obj)' or at ''; linking object as if no debug info
+sfml-audio-s-d.lib(SoundFileWriterWav.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundFileWriterWav.obj)' or at ''; linking object as if no debug info
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
