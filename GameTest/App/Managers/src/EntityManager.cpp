@@ -62,6 +62,8 @@ void EntityManager::Init()
 	m_titleEntityId = CreateTitleEntity(spriteManager);
 	m_playButtonEntityId = CreatePlayButtonEntity(spriteManager);
 	m_backButtonEntityId = CreateBackButtonEntity(spriteManager);
+	m_continueButtonEntityId = CreateContinueButtonEntity(spriteManager);
+	m_quitButtonEntityId = CreateQuitButtonEntity(spriteManager);
 	m_loadingScreenCharacterEntityId = CreateLoadingScreenCharacterEntity(spriteManager);
 	m_starfieldEntityId = CreateStarfieldEntity(spriteManager);
 }
@@ -389,6 +391,56 @@ EntityId EntityManager::CreateBackButtonEntity(SpriteManager &spriteManager)
 	AddComponent(backButtonEntityId, move(renderable));
 
 	return backButtonEntityId;
+}
+
+EntityId EntityManager::CreateContinueButtonEntity(SpriteManager& spriteManager)
+{
+	EntityId continueButtonEntityId = CreateEntityId();
+	CSimpleSprite* continueButtonSprite = spriteManager.CreateSprite(continueButtonEntityId, Helper::PATH_TO_CONTINUE_BUTTON, 1, 1);
+
+	Screen& screen = screen.GetInstance();
+	const float continueButtonXOffset = 520.0f;
+	const float continueButtonYOffset = 300.0f;
+	const float xPos = screen.SCREEN_WIDTH - continueButtonXOffset;
+	const float yPos = screen.SCREEN_HEIGHT - continueButtonYOffset;
+	constexpr float zPos = 0.0f;
+	constexpr vec3 rot = vec3(0.0f);
+	constexpr vec3 scale = vec3(0.2f);
+
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::ContinueButton, GameState::Paused);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(continueButtonSprite);
+
+	AddComponent(continueButtonEntityId, move(tag));
+	AddComponent(continueButtonEntityId, move(transform));
+	AddComponent(continueButtonEntityId, move(renderable));
+
+	return continueButtonEntityId;
+}
+
+EntityId EntityManager::CreateQuitButtonEntity(SpriteManager& spriteManager)
+{
+	EntityId quitButtonEntityId = CreateEntityId();
+	CSimpleSprite* quitButtonSprite = spriteManager.CreateSprite(quitButtonEntityId, Helper::PATH_TO_QUIT_BUTTON, 1, 1);
+
+	Screen& screen = screen.GetInstance();
+	const float quitButtonXOffset = 520.0f;
+	const float quitButtonYOffset = 375.0f;
+	const float xPos = screen.SCREEN_WIDTH - quitButtonXOffset;
+	const float yPos = screen.SCREEN_HEIGHT - quitButtonYOffset;
+	constexpr float zPos = 0.0f;
+	constexpr vec3 rot = vec3(0.0f);
+	constexpr vec3 scale = vec3(0.2f);
+
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::QuitButton, GameState::Paused);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(quitButtonSprite);
+
+	AddComponent(quitButtonEntityId, move(tag));
+	AddComponent(quitButtonEntityId, move(transform));
+	AddComponent(quitButtonEntityId, move(renderable));
+
+	return quitButtonEntityId;
 }
 
 EntityId EntityManager::CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager)

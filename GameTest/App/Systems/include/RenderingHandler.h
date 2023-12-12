@@ -42,7 +42,8 @@ private:
     void RenderMainMenuScene(EntityManager& entityManager, Screen& screen);
     void RenderGameplayScene(EntityManager& entityManager, Screen& screen);
     void RenderGameOverScene(EntityManager& entityManager, Screen& screen);
-    void RenderLoadingScreen(EntityManager& entityManager, Screen& screen);
+    void RenderLoadingScene(EntityManager& entityManager, Screen& screen);
+    void RenderPauseScene(EntityManager& entityManager, Screen& screen);
     void RenderObjects(EntityManager& entityManager, GameState gameState);
     void RenderAmmo();
     void RenderDescriptionText(Screen& screen);
@@ -53,10 +54,12 @@ private:
     void RenderScore(EntityManager& entityManager);
     void RenderCountdownTimer(EntityManager& entityManager);
     void RenderStarfield(EntityManager& entityManager);
-    void SetBackground(const Color& color);
+    void SetBackground(const Color& color, float alpha = 1.0f);
     void DrawBorder(Screen& screen, const Color& color);
     void DrawBackgroundInBorder(Screen& screen, const Color& color);
-    void RenderFadeOverlay();
+    void RenderOverlay(Screen& screen, float alpha);
+    void RenderFadeOverlay(Screen& screen);
+    void RenderTransluscentOverlay(Screen& screen);
     void SetUpScreenShake();
     void ApplyScreenShake();
     void HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime);

@@ -28,4 +28,5 @@ private:
 
     void HandlePositionInput(EntityManager& entityManager, EntityId playerEntityId, float deltaTime);
     void HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, float deltaTime);
+    void HandlePauseInput();
 };

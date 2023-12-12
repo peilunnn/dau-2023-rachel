@@ -42,7 +42,10 @@ void RenderingHandler::Render()
             RenderGameOverScene(entityManager, screen);
             break;
         case GameState::Loading:
-            RenderLoadingScreen(entityManager, screen);
+            RenderLoadingScene(entityManager, screen);
+            break;
+        case GameState::Paused:
+            RenderPauseScene(entityManager, screen);
             break;
     }
 }
@@ -114,7 +117,7 @@ void RenderingHandler::RenderGameplayScene(EntityManager &entityManager, Screen 
     RenderScore(entityManager);
     RenderObjects(entityManager, GameState::Gameplay);
 
-    RenderFadeOverlay();
+    RenderFadeOverlay(screen);
 
     if (m_shakeTimer > 0.0f)
         glPopMatrix();
@@ -128,11 +131,18 @@ void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen 
     RenderSprite(entityManager, entityManager.GetBackButtonEntityId());
 }
 
-void RenderingHandler::RenderLoadingScreen(EntityManager &entityManager, Screen &screen)
+void RenderingHandler::RenderLoadingScene(EntityManager &entityManager, Screen &screen)
 {
     SetBackground(BLACK);
     RenderSprite(entityManager, entityManager.GetLoadingScreenCharacterEntityId());
     RenderLoadingText(screen);
+}
+
+void RenderingHandler::RenderPauseScene(EntityManager& entityManager, Screen& screen)
+{
+    RenderGameplayScene(entityManager, screen);
+    RenderTransluscentOverlay(screen);
+    RenderObjects(entityManager, GameState::Paused);
 }
 
 void RenderingHandler::RenderObjects(EntityManager& entityManager, GameState gameState)
@@ -254,9 +264,9 @@ void RenderingHandler::RenderStarfield(EntityManager &entityManager)
     starfieldSprite->Draw();
 }
 
-void RenderingHandler::SetBackground(const Color &color)
+void RenderingHandler::SetBackground(const Color& color, float alpha)
 {
-    glClearColor(color.r, color.g, color.b, color.alpha);
+    glClearColor(color.r, color.g, color.b, alpha);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -295,22 +305,35 @@ void RenderingHandler::DrawBackgroundInBorder(Screen &screen, const Color &color
     glEnd();
 }
 
-void RenderingHandler::RenderFadeOverlay()
+void RenderingHandler::RenderOverlay(Screen& screen, float alpha)
 {
-    Screen& screen = Screen::GetInstance();
-
-    if (m_fadeAmount == 0.0f)
-        return;
-
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4f(0.0f, 0.0f, 0.0f, m_fadeAmount);
+
+    if (alpha <= 0.0f)
+        return;
+
+    glColor4f(0.0f, 0.0f, 0.0f, alpha);
+
     glBegin(GL_QUADS);
     glVertex2f(screen.SCREEN_LEFT_NDC, screen.SCREEN_BOTTOM_NDC);
     glVertex2f(screen.SCREEN_RIGHT_NDC, screen.SCREEN_BOTTOM_NDC);
     glVertex2f(screen.SCREEN_RIGHT_NDC, screen.SCREEN_TOP_NDC);
     glVertex2f(screen.SCREEN_LEFT_NDC, screen.SCREEN_TOP_NDC);
     glEnd();
+
+    glDisable(GL_BLEND);
+}
+
+void RenderingHandler::RenderFadeOverlay(Screen& screen)
+{
+    RenderOverlay(screen, m_fadeAmount);
+}
+
+void RenderingHandler::RenderTransluscentOverlay(Screen& screen)
+{
+    const float overlayAlpha = 0.5f;
+    RenderOverlay(screen, overlayAlpha);
 }
 
 void RenderingHandler::SetUpScreenShake() {

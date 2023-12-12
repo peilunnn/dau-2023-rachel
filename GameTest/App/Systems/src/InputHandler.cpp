@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
+#include "Managers/include/GameManager.h"
+#include "Managers/include/SoundManager.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/InputHandler.h"
 #include "Systems/include/ShootingHandler.h"
@@ -19,13 +21,13 @@ void InputHandler::Update(float deltaTime)
     EntityId playerEntityId = entityManager.GetPlayerEntityId();
     Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
     ShootingHandler &shootingHandler = ShootingHandler::GetInstance();
-    InputHandler &inputHandler = InputHandler::GetInstance();
     
     if (playerTag->GetEntityState() != EntityState::Alive)
         return;
     
-    inputHandler.HandlePositionInput(entityManager, playerEntityId, deltaTime);
-    inputHandler.HandleShootingInput(entityManager, playerEntityId, deltaTime);
+    HandlePositionInput(entityManager, playerEntityId, deltaTime);
+    HandleShootingInput(entityManager, playerEntityId, deltaTime);
+    HandlePauseInput();
 }
 
 void InputHandler::SetIsPlayButtonClicked()
@@ -65,4 +67,18 @@ void InputHandler::HandleShootingInput(EntityManager &entityManager, EntityId pl
     vec3 bulletPos = playerTransform->GetPosition();
     Event playerShootEvent("PlayerShoot", {});
     systemManager.SendEvent(playerShootEvent);
+}
+
+void InputHandler::HandlePauseInput()
+{
+    if (!App::IsKeyPressed('P'))
+        return;
+
+    EntityManager& entityManager = EntityManager::GetInstance();
+    EntityId playerEntityId = entityManager.GetPlayerEntityId();
+    Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+
+    playerTag->SetEntityState(EntityState::Dead);
+    GameManager::GetInstance().SetCurrentGameState(GameState::Paused);
+    SoundManager::GetInstance().StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
 }

@@ -18,7 +18,6 @@
 #include "Systems/include/TimerHandler.h"
 #include "Systems/include/TitleHandler.h"
 #include "Utilities/include/Helper.h"
-#include "Utilities/include/app.h"
 using namespace std;
 
 //------------------------------------------------------------------------
@@ -28,6 +27,9 @@ using namespace std;
 //------------------------------------------------------------------------
 void Init()
 {
+	// Seed the random number generator
+	srand(static_cast<unsigned int>(time(nullptr)));
+
 	// Set up background music
 	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
 

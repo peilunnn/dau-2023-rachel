@@ -44,4 +44,6 @@ void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 
 	if (newHealth > 0)
 		tag->SetEntityState(EntityState::Alive);
+	else
+		tag->SetEntityState(EntityState::Dead);
 }

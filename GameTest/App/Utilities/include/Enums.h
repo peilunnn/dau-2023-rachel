@@ -29,6 +29,8 @@ enum class EntityType
     Title,
     PlayButton,
     BackButton,
+    ContinueButton,
+    QuitButton,
     LoadingScreenCharacter,
     Starfield
 };
@@ -37,7 +39,7 @@ enum class EntityState
 {
     Alive,
     HitByEnemy,
-    HitByBullet
+    Dead
 };
 
 enum PlayerAnimationState
@@ -73,7 +75,8 @@ enum class GameState
     MainMenu,
     Gameplay,
     GameOver,
-    Loading
+    Loading,
+    Paused
 };
 
 enum class TimerType {

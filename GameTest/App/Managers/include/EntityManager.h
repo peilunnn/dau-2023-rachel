@@ -31,7 +31,9 @@ public:
     EntityId CreateCountdownTimerEntity();
     EntityId CreateTitleEntity(SpriteManager &spriteManager);
     EntityId CreatePlayButtonEntity(SpriteManager &spriteManager);
-    EntityId CreateBackButtonEntity(SpriteManager &spriteManager);
+    EntityId CreateBackButtonEntity(SpriteManager& spriteManager);
+    EntityId CreateContinueButtonEntity(SpriteManager& spriteManager);
+    EntityId CreateQuitButtonEntity(SpriteManager &spriteManager);
     EntityId CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager);
     EntityId CreateStarfieldEntity(SpriteManager &spriteManager);
     
@@ -48,6 +50,8 @@ public:
     EntityId GetTitleEntityId() const { return m_titleEntityId; }
     EntityId GetPlayButtonEntityId() const { return m_playButtonEntityId; }
     EntityId GetBackButtonEntityId() const { return m_backButtonEntityId; }
+    EntityId GetContinueButtonEntityId() const { return m_continueButtonEntityId; }
+    EntityId GetQuitButtonEntityId() const { return m_quitButtonEntityId; }
     EntityId GetLoadingScreenCharacterEntityId() const { return m_loadingScreenCharacterEntityId; }
     EntityId GetStarfieldEntityId() const { return m_starfieldEntityId; }
     vector<EntityId> GetAmmoEmptyEntityIds() const { return m_ammoEmptyEntityIds; }
@@ -104,6 +108,8 @@ private:
     EntityId m_titleEntityId = -1;
     EntityId m_playButtonEntityId = -1;
     EntityId m_backButtonEntityId = -1;
+    EntityId m_continueButtonEntityId = -1;
+    EntityId m_quitButtonEntityId = -1;
     EntityId m_loadingScreenCharacterEntityId = -1;
     EntityId m_starfieldEntityId = -1;
 
