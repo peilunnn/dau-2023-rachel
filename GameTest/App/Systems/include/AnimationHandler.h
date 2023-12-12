@@ -16,11 +16,6 @@ public:
     void Init();
     void Update(float deltaTime);
     void HandleEvent(const Event &event, float deltaTime) override;
-    set<EventType> GetSubscribedEvents() const override
-    {
-        return m_subscribedEvents;
-    }
-
     void RotatePlayer(float deltaTime);
     void ResetHealthBarAnimation();
     void ResetPlayerAnimation();
@@ -29,8 +24,7 @@ private:
     AnimationHandler() {
         m_subscribedEvents.insert(EventType::EnemyHitPlayer);
     }
-
-    set<EventType> m_subscribedEvents = {};
+    
     int m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 
     void InitPlayerAnimation(EntityManager& entityManager, SpriteManager& spriteManager);

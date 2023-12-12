@@ -12,12 +12,6 @@ public:
     const int MAX_BULLETS = 10;
 
     void HandleEvent(const Event &event, float deltaTime) override;
-
-    set<EventType> GetSubscribedEvents() const override
-    {
-        return m_subscribedEvents;
-    }
-
     void ResetBullets();
 
 private:
@@ -27,7 +21,6 @@ private:
         m_subscribedEvents.insert(EventType::PlayerHitReloadingCircle);
     }
 
-    set<EventType> m_subscribedEvents = {};
     int m_bulletsShotSoFar = 0;
     const float m_bulletSpeed = 2000.0f;
 

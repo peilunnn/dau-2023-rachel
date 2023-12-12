@@ -12,16 +12,11 @@ public:
 
     void Update(float deltaTime);
     void HandleEvent(const Event& event, float deltaTime) override;
-    set<EventType> GetSubscribedEvents() const override {
-        return m_subscribedEvents;
-    }
 
 private:
     MovementHandler() {
         m_subscribedEvents.insert(EventType::BulletHitEnemy);
     }
-
-    set<EventType> m_subscribedEvents = {};
 
     void UpdatePlayerMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
     void UpdateEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
