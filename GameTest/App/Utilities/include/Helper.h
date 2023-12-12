@@ -28,7 +28,6 @@ namespace Helper
 	inline const char* PATH_TO_TITLE = ".\\Data\\Sprites\\Title.png";
 	inline const char* PATH_TO_PLAY_BUTTON = ".\\Data\\Sprites\\PlayButton.png";
 	inline const char* PATH_TO_BACK_BUTTON = ".\\Data\\Sprites\\BackButton.png";
-	inline const char* PATH_TO_CONTINUE_BUTTON = ".\\Data\\Sprites\\ContinueButton.png";
 	inline const char* PATH_TO_QUIT_BUTTON = ".\\Data\\Sprites\\QuitButton.png";
 	inline const char* PATH_TO_STARFIELD = ".\\Data\\Sprites\\Starfield.png";
 

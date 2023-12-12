@@ -5,6 +5,7 @@
 #include "Components/include/Tag.h"
 #include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
+#include "Managers/include/GameManager.h"
 #include "Managers/include/SpriteManager.h"
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/HealthHandler.h"
@@ -80,7 +81,11 @@ void AnimationHandler::InitLoadingScreenCharacterAnimation(EntityManager& entity
 
 void AnimationHandler::Update(float deltaTime)
 {
+	GameManager& gameManager = GameManager::GetInstance();
 	EntityManager &entityManager = EntityManager::GetInstance();
+
+	if (gameManager.GetCurrentGameState() == GameState::Paused)
+		return;
 
 	for (auto entityId : entityManager.GetEntitiesWithComponents<Tag, Animation>())
 	{

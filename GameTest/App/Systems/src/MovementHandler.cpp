@@ -5,6 +5,7 @@
 #include "Components/include/Tag.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
+#include "Managers/include/GameManager.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/MovementHandler.h"
 using glm::vec3;
@@ -17,10 +18,14 @@ MovementHandler& MovementHandler::GetInstance()
 
 void MovementHandler::Update(float deltaTime)
 {
+	GameManager& gameManager = GameManager::GetInstance();
 	EntityManager& entityManager = EntityManager::GetInstance();
 	Screen& screen = Screen::GetInstance();
 	const float screenWidth = screen.SCREEN_WIDTH;
 	const float screenHeight = screen.SCREEN_HEIGHT;
+
+	if (gameManager.GetCurrentGameState() == GameState::Paused)
+		return;
 
 	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
 	{

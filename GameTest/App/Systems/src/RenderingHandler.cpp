@@ -125,10 +125,9 @@ void RenderingHandler::RenderGameplayScene(EntityManager &entityManager, Screen 
 
 void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen &screen)
 {
-    RenderStarfield(entityManager);
+    RenderObjects(entityManager, GameState::GameOver);
     RenderGameOverText(screen);
     RenderGameOverScoreText(entityManager, screen);
-    RenderSprite(entityManager, entityManager.GetBackButtonEntityId());
 }
 
 void RenderingHandler::RenderLoadingScene(EntityManager &entityManager, Screen &screen)

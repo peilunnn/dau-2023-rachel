@@ -85,8 +85,9 @@ void Update(float deltaTime)
 	else if (gameManager.GetCurrentGameState() == GameState::Paused)
 	{
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
+		InputHandler::GetInstance().SetIsQuitButtonClicked();
+		gameManager.HandleQuitButtonClick();
 	}
-
 
 	SoundManager::GetInstance().Cleanup();
 }

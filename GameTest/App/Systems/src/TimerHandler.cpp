@@ -15,10 +15,13 @@ TimerHandler& TimerHandler::GetInstance()
 }
 
 void TimerHandler::Update(float deltaTime) {
-    EntityManager& entityManager = EntityManager::GetInstance();
     GameManager& gameManager = GameManager::GetInstance();
+    EntityManager& entityManager = EntityManager::GetInstance();
     AnimationHandler& animationHandler = AnimationHandler::GetInstance();
     RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
+
+    if (gameManager.GetCurrentGameState() == GameState::Paused)
+        return;
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>())
     {

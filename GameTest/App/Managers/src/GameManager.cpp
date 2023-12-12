@@ -35,7 +35,7 @@ void GameManager::UpdateLoadingState(float deltaTime)
             m_currentGameState = GameState::Gameplay;
         else if (m_previousGameState == GameState::Gameplay)
             m_currentGameState = GameState::GameOver;
-        else if (m_previousGameState == GameState::GameOver)
+        else if (m_previousGameState == GameState::GameOver || m_previousGameState == GameState::Paused)
             m_currentGameState = GameState::MainMenu;
     }
 }
@@ -66,6 +66,19 @@ void GameManager::HandleBackButtonClick()
     inputHandler.ResetBackButtonClick();
 }
 
+void GameManager::HandleQuitButtonClick()
+{
+    InputHandler& inputHandler = InputHandler::GetInstance();
+
+    if (!inputHandler.GetIsQuitButtonClicked())
+        return;
+
+    SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
+
+    TransitionToLoadingState();
+    inputHandler.ResetQuitButtonClick();
+}
+
 void GameManager::TransitionToLoadingState()
 {
     SoundManager& soundManager = SoundManager::GetInstance();
@@ -73,7 +86,7 @@ void GameManager::TransitionToLoadingState()
     m_timeSpentInLoading = 0.0f;
  
     // Transitioning from MainMenu to Gameplay
-    if (m_previousGameState == GameState::GameOver && m_currentGameState == GameState::MainMenu)
+    if ((m_previousGameState == GameState::GameOver || m_previousGameState == GameState::Paused) && m_currentGameState == GameState::MainMenu)
     {
         soundManager.StopSound(Helper::PATH_TO_NON_GAMEPLAY_MUSIC);
         soundManager.PlaySoundFromFile(Helper::PATH_TO_GAMEPLAY_MUSIC, true);
@@ -81,6 +94,13 @@ void GameManager::TransitionToLoadingState()
     
     // Transitioning from Gameplay to GameOver
     else if (m_previousGameState == GameState::MainMenu && m_currentGameState == GameState::Gameplay)
+    {
+        soundManager.StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
+        soundManager.PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
+    }
+
+    // Transitioning from Paused to MainMenu
+    else if (m_previousGameState == GameState::Gameplay && m_currentGameState == GameState::Paused)
     {
         soundManager.StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
         soundManager.PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);

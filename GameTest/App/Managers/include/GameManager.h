@@ -11,6 +11,7 @@ public:
     void Update(float deltaTime);
     void HandlePlayButtonClick();
     void HandleBackButtonClick();
+    void HandleQuitButtonClick();
     void TransitionToLoadingState();
     void ResetGame();
     void TogglePause();

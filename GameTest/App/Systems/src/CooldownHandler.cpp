@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Components/include/Cooldown.h"
 #include "Managers/include/EntityManager.h"
+#include "Managers/include/GameManager.h"
 #include "Systems/include/CooldownHandler.h"
 
 CooldownHandler& CooldownHandler::GetInstance()
@@ -11,7 +12,11 @@ CooldownHandler& CooldownHandler::GetInstance()
 
 void CooldownHandler::Update(float deltaTime)
 {
+    GameManager& gameManager = GameManager::GetInstance();
     EntityManager &entityManager = EntityManager::GetInstance();
+    
+    if (gameManager.GetCurrentGameState() == GameState::Paused)
+        return;
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Cooldown>())
     {

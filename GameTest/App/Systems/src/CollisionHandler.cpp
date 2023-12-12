@@ -2,6 +2,7 @@
 #include "Components/include/Collider.h"
 #include "Components/include/Tag.h"
 #include "Managers/include/EntityManager.h"
+#include "Managers/include/GameManager.h"
 #include "Managers/include/SoundManager.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/CollisionHandler.h"
@@ -18,9 +19,13 @@ CollisionHandler& CollisionHandler::GetInstance()
 
 void CollisionHandler::Update(float deltaTime)
 {
+	GameManager& gameManager = GameManager::GetInstance();
 	EntityManager &entityManager = EntityManager::GetInstance();
 	SystemManager &systemManager = SystemManager::GetInstance();
 	vector<EntityId> allEntities = entityManager.GetAllEntities();
+
+	if (gameManager.GetCurrentGameState() == GameState::Paused)
+		return;
 
 	for (EntityId &i : allEntities)
 	{

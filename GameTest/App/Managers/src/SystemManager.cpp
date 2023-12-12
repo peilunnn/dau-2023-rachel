@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Managers/include/GameManager.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/CollisionHandler.h"
@@ -42,6 +43,11 @@ void SystemManager::SendEvent(Event event)
 
 void SystemManager::ProcessEvents(float deltaTime)
 {
+    GameManager& gameManager = GameManager::GetInstance();
+
+    if (gameManager.GetCurrentGameState() == GameState::Paused)
+        return;
+
     while (!m_eventQueue.empty())
     {
         Event event = m_eventQueue.front();

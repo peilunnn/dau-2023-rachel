@@ -29,7 +29,6 @@ enum class EntityType
     Title,
     PlayButton,
     BackButton,
-    ContinueButton,
     QuitButton,
     LoadingScreenCharacter,
     Starfield
