@@ -30,9 +30,6 @@ void Init()
 	// Seed the random number generator
 	srand(static_cast<unsigned int>(time(nullptr)));
 
-	// Set up background music
-	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
-
 	// Set up entities
 	EntityManager &entityManager = EntityManager::GetInstance();
 	entityManager.Init();
@@ -56,7 +53,11 @@ void Update(float deltaTime)
 
 	if (gameManager.GetCurrentGameState() == GameState::MainMenu)
 	{
-		gameManager.ResetGame();
+		if (!gameManager.GetGameReset())
+		{
+			gameManager.ResetGame();
+			gameManager.SetGameReset(true);
+		}
 		TitleHandler::GetInstance().OscillateTitle(deltaTimeInSeconds);
 		InputHandler::GetInstance().SetIsPlayButtonClicked();
 		gameManager.HandlePlayButtonClick();
@@ -75,6 +76,7 @@ void Update(float deltaTime)
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::GameOver)
 	{
+		gameManager.SetGameReset(false);
 		InputHandler::GetInstance().SetIsBackButtonClicked();
 		gameManager.HandleBackButtonClick();
 	}

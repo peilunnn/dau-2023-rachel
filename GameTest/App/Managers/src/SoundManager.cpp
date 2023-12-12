@@ -84,3 +84,18 @@ void SoundManager::Cleanup()
     }
 }
 
+void SoundManager::ResetSounds()
+{
+    // Stop and remove all sounds
+    for (auto& sound : m_sounds)
+    {
+        sound.stop();
+    }
+    m_sounds.clear();
+
+    // Clear the sound buffers
+    m_soundBuffers.clear();
+
+    // Clear the sound map
+    m_soundMap.clear();
+}

@@ -16,24 +16,14 @@ public:
     void ResetGame();
     void TogglePause();
 
-    GameState GetPreviousGameState() const {
-        return m_previousGameState;
-    }
-    GameState GetCurrentGameState() const {
-        return m_currentGameState;
-    }
-    float GetTimeSpentInLoading() const {
-        return m_timeSpentInLoading;
-    }
-    void SetPreviousGameState(GameState newState) {
-        m_previousGameState = newState;
-    }
-    void SetCurrentGameState(GameState newState) {
-        m_currentGameState = newState;
-    }
-    void SetTimeSpentInLoading(float newTimeLeftInLoading) {
-        m_timeSpentInLoading = newTimeLeftInLoading;
-    }
+    GameState GetPreviousGameState() const { return m_previousGameState; }
+    GameState GetCurrentGameState() const { return m_currentGameState; }
+    float GetTimeSpentInLoading() const { return m_timeSpentInLoading; }
+    void SetPreviousGameState(GameState newState) { m_previousGameState = newState; }
+    void SetCurrentGameState(GameState newState) { m_currentGameState = newState; }
+    void SetTimeSpentInLoading(float newTimeLeftInLoading) { m_timeSpentInLoading = newTimeLeftInLoading; }
+    void SetGameReset(bool newIsGameReset) { isGameReset = newIsGameReset; }
+    bool GetGameReset() const { return isGameReset; }
 
 private:
     GameManager() = default;
@@ -42,6 +32,8 @@ private:
     GameState m_currentGameState = GameState::MainMenu;
     float m_timeSpentInLoading = 0.0f;
     float m_loadingDuration = 1.5f;
+    bool isGameReset = false;
+
     void UpdateLoadingState(float deltaTime);
 };
 

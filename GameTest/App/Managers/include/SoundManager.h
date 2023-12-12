@@ -16,6 +16,7 @@ public:
     void PauseSound(const string& soundFilePath);
     void ResumeSound(const string& soundFilePath);
     void Cleanup();
+    void ResetSounds();
 
 private:
     SoundManager() = default;
