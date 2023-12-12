@@ -17,17 +17,18 @@ InputHandler& InputHandler::GetInstance()
 
 void InputHandler::Update(float deltaTime)
 {
-    EntityManager &entityManager = EntityManager::GetInstance();
+    GameManager& gameManager = GameManager::GetInstance();
+    EntityManager& entityManager = EntityManager::GetInstance();
     EntityId playerEntityId = entityManager.GetPlayerEntityId();
-    Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
-    ShootingHandler &shootingHandler = ShootingHandler::GetInstance();
+
+    if (gameManager.GetCurrentGameState() == GameState::Gameplay || gameManager.GetCurrentGameState() == GameState::Paused)
+        HandlePauseInput();
     
-    if (playerTag->GetEntityState() != EntityState::Alive)
+    if (gameManager.GetCurrentGameState() == GameState::Paused)
         return;
-    
+
     HandlePositionInput(entityManager, playerEntityId, deltaTime);
     HandleShootingInput(entityManager, playerEntityId, deltaTime);
-    HandlePauseInput();
 }
 
 void InputHandler::SetIsPlayButtonClicked()
@@ -71,14 +72,10 @@ void InputHandler::HandleShootingInput(EntityManager &entityManager, EntityId pl
 
 void InputHandler::HandlePauseInput()
 {
-    if (!App::IsKeyPressed('P'))
-        return;
+    bool isPKeyPressed = App::IsKeyPressed('P');
 
-    EntityManager& entityManager = EntityManager::GetInstance();
-    EntityId playerEntityId = entityManager.GetPlayerEntityId();
-    Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+    if (isPKeyPressed && !m_wasPPressedLastFrame)
+        GameManager::GetInstance().TogglePause();
 
-    playerTag->SetEntityState(EntityState::Dead);
-    GameManager::GetInstance().SetCurrentGameState(GameState::Paused);
-    SoundManager::GetInstance().StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
+    m_wasPPressedLastFrame = isPKeyPressed;
 }

@@ -101,3 +101,18 @@ void GameManager::ResetGame()
     EntityManager::GetInstance().ResetEnemies();
     RenderingHandler::GetInstance().ResetFade();
 }
+
+void GameManager::TogglePause()
+{
+    if (m_currentGameState == GameState::Paused)
+    {
+        m_currentGameState = m_previousGameState;
+        SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_GAMEPLAY_MUSIC, true);
+    }
+    else
+    {
+        m_previousGameState = m_currentGameState;
+        m_currentGameState = GameState::Paused;
+        SoundManager::GetInstance().StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
+    }
+}

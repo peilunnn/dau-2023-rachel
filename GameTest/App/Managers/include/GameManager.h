@@ -13,6 +13,7 @@ public:
     void HandleBackButtonClick();
     void TransitionToLoadingState();
     void ResetGame();
+    void TogglePause();
 
     GameState GetPreviousGameState() const {
         return m_previousGameState;

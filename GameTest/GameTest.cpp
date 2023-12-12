@@ -82,6 +82,11 @@ void Update(float deltaTime)
 	{
 		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
 	}
+	else if (gameManager.GetCurrentGameState() == GameState::Paused)
+	{
+		InputHandler::GetInstance().Update(deltaTimeInSeconds);
+	}
+
 
 	SoundManager::GetInstance().Cleanup();
 }
