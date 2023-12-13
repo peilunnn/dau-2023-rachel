@@ -2,11 +2,12 @@
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SoundManager.h"
 #include "Systems/include/AnimationHandler.h"
+#include "Systems/include/CollisionHandler.h"
 #include "Systems/include/HealthHandler.h"
 #include "Systems/include/InputHandler.h"
+#include "Systems/include/RenderingHandler.h"
 #include "Systems/include/ScoreHandler.h"
 #include "Systems/include/ShootingHandler.h"
-#include "Systems/include/RenderingHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Utilities/include/Helper.h"
 

@@ -1,7 +1,9 @@
 #pragma once
 #include "Components/include/Collider.h"
+#include "Components/include/Screen.h"
 #include "Components/include/Transform.h"
 #include "Managers/include/SystemManager.h"
+#include "Utilities/include/QuadtreeNode.h"
 using namespace std;
 
 class CollisionHandler : public System {
@@ -13,8 +15,15 @@ public:
     void Update(float deltaTime);
 
 private:
-    CollisionHandler() = default;
+    CollisionHandler::CollisionHandler()
+        : m_rootQuadtree(QuadtreeNode(0, 0, 0, Screen::GetInstance().SCREEN_WIDTH, Screen::GetInstance().SCREEN_HEIGHT)) {}
 
-    bool IsColliding(Transform* transform1, Collider* collider1, Transform* transform2, Collider* collider2);
-    void HandleCollisionEvent(EntityManager& entityManager, SystemManager& systemManager, EntityId firstEntityId, EntityId secondEntityId);
+    QuadtreeNode m_rootQuadtree;
+
+    void PopulateQuadtree(EntityManager& entityManager, vector<EntityId> allEntityIds);
+    bool IsColliding(Transform* firstTransform, Collider* firstCollider, Transform* secondTransform, Collider* secondCollider);
+    void HandleCollisionEvent(EntityId firstEntityId, EntityId secondEntityId);
+    void HandleBulletEnemyCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId bulletEntityId, EntityId enemyEntityId);
+    void HandlePlayerEnemyCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId enemyEntityId);
+    void HandlePlayerReloadingCircleCollision(SystemManager& systemManager, EntityId playerEntityId, EntityId reloadingCircleEntityId);
 };

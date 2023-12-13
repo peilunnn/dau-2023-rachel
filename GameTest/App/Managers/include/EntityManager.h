@@ -19,7 +19,7 @@ public:
     void operator=(EntityManager const &) = delete;
 
     void Init();
-    vector<EntityId> GetAllEntities();    
+    vector<EntityId> GetAllEntityIds();
     void MoveEntityToRandomPos(EntityId entityId);
     void MarkEntityForDeletion(EntityId entityId);
     void ProcessDeletions();
@@ -112,18 +112,18 @@ private:
     const int m_enemyPoolSize = 30;
 
     EntityId CreateEntityId();
-    EntityId CreatePlayerEntity(SpriteManager& spriteManager);
-    EntityId CreateEnemyEntity(SpriteManager& spriteManager);
-    EntityId CreateBulletEntity(SpriteManager& spriteManager, const vec3& pos, const vec2& targetVelocity);
-    EntityId CreateReloadingCircleEntity(SpriteManager& spriteManager);
-    EntityId CreateAmmoEntity(SpriteManager& spriteManager, EntityType entityType, float xPos, float yPos);
-    EntityId CreateHealthBarEntity(SpriteManager& spriteManager);
+    EntityId CreatePlayerEntity(SpriteManager &spriteManager);
+    EntityId CreateEnemyEntity(SpriteManager &spriteManager);
+    EntityId CreateBulletEntity(SpriteManager &spriteManager, const vec3 &pos, const vec2 &targetVelocity);
+    EntityId CreateReloadingCircleEntity(SpriteManager &spriteManager);
+    EntityId CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos);
+    EntityId CreateHealthBarEntity(SpriteManager &spriteManager);
     EntityId CreateScoreEntity();
     EntityId CreateCountdownTimerEntity();
-    EntityId CreateTitleEntity(SpriteManager& spriteManager);
-    EntityId CreatePlayButtonEntity(SpriteManager& spriteManager);
-    EntityId CreateBackButtonEntity(SpriteManager& spriteManager);
-    EntityId CreateQuitButtonEntity(SpriteManager& spriteManager);
-    EntityId CreateLoadingScreenCharacterEntity(SpriteManager& spriteManager);
-    EntityId CreateStarfieldEntity(SpriteManager& spriteManager);
+    EntityId CreateTitleEntity(SpriteManager &spriteManager);
+    EntityId CreatePlayButtonEntity(SpriteManager &spriteManager);
+    EntityId CreateBackButtonEntity(SpriteManager &spriteManager);
+    EntityId CreateQuitButtonEntity(SpriteManager &spriteManager);
+    EntityId CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager);
+    EntityId CreateStarfieldEntity(SpriteManager &spriteManager);
 };

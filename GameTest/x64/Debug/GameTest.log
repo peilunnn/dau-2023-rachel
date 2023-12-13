@@ -1,37 +1,9 @@
-﻿  Collider.cpp
-  Screen.cpp
-  Tag.cpp
-  Timer.cpp
-  EntityManager.cpp
-  GameManager.cpp
+﻿  GameManager.cpp
   SystemManager.cpp
-  AnimationHandler.cpp
   CollisionHandler.cpp
-  CooldownHandler.cpp
-  EntityHandler.cpp
-  Event.cpp
-  HealthHandler.cpp
-  InputHandler.cpp
-  MovementHandler.cpp
-  RenderingHandler.cpp
-  ScoreHandler.cpp
   ShootingHandler.cpp
-  System.cpp
-  TimerHandler.cpp
-  Generating Code...
-  Compiling...
-  TitleHandler.cpp
-  Enums.cpp
-  Helper.cpp
-  SimpleSound.cpp
   GameTest.cpp
   Generating Code...
-sfml-audio-s-d.lib(AudioDevice.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(AudioDevice.obj)' or at ''; linking object as if no debug info
-sfml-audio-s-d.lib(SoundBuffer.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundBuffer.obj)' or at ''; linking object as if no debug info
-sfml-audio-s-d.lib(SoundFileFactory.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundFileFactory.obj)' or at ''; linking object as if no debug info
-sfml-audio-s-d.lib(SoundFileReaderFlac.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundFileReaderFlac.obj)' or at ''; linking object as if no debug info
-sfml-audio-s-d.lib(SoundFileWriterFlac.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundFileWriterFlac.obj)' or at ''; linking object as if no debug info
-sfml-audio-s-d.lib(SoundFileWriterOgg.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundFileWriterOgg.obj)' or at ''; linking object as if no debug info
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

@@ -76,10 +76,9 @@ void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 
 void ShootingHandler::HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
 {
-	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_RELOAD);
 	RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
-
 	EntityId reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
+
 	m_bulletsShotSoFar = 0;
 	renderingHandler.ShowAllAmmoFilledEntities();
 	entityManager.MoveEntityToRandomPos(reloadingCircleEntityId);

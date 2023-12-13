@@ -217,6 +217,7 @@
     <ClInclude Include="App\Managers\include\GameManager.h" />
     <ClInclude Include="App\Utilities\include\Color.h" />
     <ClInclude Include="App\Managers\include\SoundManager.h" />
+    <ClInclude Include="App\Utilities\include\QuadtreeNode.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="App\Components\src\Screen.cpp" />
     <ClCompile Include="App\Managers\src\SpriteManager.cpp" />
     <ClCompile Include="App\Managers\src\SoundManager.cpp" />
+    <ClCompile Include="App\Utilities\src\QuadtreeNode.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

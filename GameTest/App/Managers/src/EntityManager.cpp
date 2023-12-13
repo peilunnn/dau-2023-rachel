@@ -20,7 +20,7 @@
 using glm::vec2;
 using glm::vec3;
 
-EntityManager& EntityManager::GetInstance()
+EntityManager &EntityManager::GetInstance()
 {
 	static EntityManager instance;
 	return instance;
@@ -67,12 +67,12 @@ void EntityManager::Init()
 	EntityHandler::GetInstance().InitializeEnemy(*this, firstEnemyEntityId);
 }
 
-vector<EntityId> EntityManager::GetAllEntities()
+vector<EntityId> EntityManager::GetAllEntityIds()
 {
-	vector<EntityId> allEntities;
+	vector<EntityId> allEntityIds;
 	for (const auto &pair : m_entityComponents)
-		allEntities.push_back(pair.first);
-	return allEntities;
+		allEntityIds.push_back(pair.first);
+	return allEntityIds;
 }
 
 EntityId EntityManager::CreateEntityId()
@@ -248,7 +248,7 @@ EntityId EntityManager::CreateHealthBarEntity(SpriteManager &spriteManager)
 	EntityId healthBarEntityId = CreateEntityId();
 	CSimpleSprite *healthBarSprite = spriteManager.CreateSprite(healthBarEntityId, Helper::PATH_TO_HEALTH_BAR, 2, 3);
 
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	const float xOffset = 880.0f;
 	const float yOffset = 720.0f;
 	const float xPos = screen.SCREEN_WIDTH - xOffset;
@@ -391,12 +391,12 @@ EntityId EntityManager::CreateBackButtonEntity(SpriteManager &spriteManager)
 	return backButtonEntityId;
 }
 
-EntityId EntityManager::CreateQuitButtonEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateQuitButtonEntity(SpriteManager &spriteManager)
 {
 	EntityId quitButtonEntityId = CreateEntityId();
-	CSimpleSprite* quitButtonSprite = spriteManager.CreateSprite(quitButtonEntityId, Helper::PATH_TO_QUIT_BUTTON, 1, 1);
+	CSimpleSprite *quitButtonSprite = spriteManager.CreateSprite(quitButtonEntityId, Helper::PATH_TO_QUIT_BUTTON, 1, 1);
 
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	const float quitButtonXOffset = 520.0f;
 	const float quitButtonYOffset = 400.0f;
 	const float xPos = screen.SCREEN_WIDTH - quitButtonXOffset;
@@ -489,7 +489,7 @@ void EntityManager::MarkEntityForDeletion(EntityId entityId)
 
 void EntityManager::ProcessDeletions()
 {
-	GameManager& gameManager = GameManager::GetInstance();
+	GameManager &gameManager = GameManager::GetInstance();
 
 	if (gameManager.GetCurrentGameState() == GameState::Paused)
 		return;
@@ -503,12 +503,12 @@ void EntityManager::ProcessDeletions()
 
 void EntityManager::ResetEnemies()
 {
-	SpriteManager& spriteManager = SpriteManager::GetInstance();
-	vector<EntityId> allEntities = GetAllEntities();
-	
-	for (EntityId entityId : allEntities)
+	SpriteManager &spriteManager = SpriteManager::GetInstance();
+	vector<EntityId> allEntityIds = GetAllEntityIds();
+
+	for (EntityId entityId : allEntityIds)
 	{
-		Tag* tag = GetComponent<Tag>(entityId);
+		Tag *tag = GetComponent<Tag>(entityId);
 		if (tag->GetEntityType() == EntityType::Enemy)
 			ReturnEnemyToPool(entityId);
 	}
@@ -519,7 +519,7 @@ void EntityManager::ResetEnemies()
 
 void EntityManager::InitBulletPool(size_t bulletPoolSize)
 {
-	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
 	for (size_t i = 0; i < bulletPoolSize; ++i)
 	{
@@ -527,7 +527,7 @@ void EntityManager::InitBulletPool(size_t bulletPoolSize)
 		constexpr vec2 bulletVelocity = vec2(0.0f);
 		EntityId bulletEntityId = CreateBulletEntity(spriteManager, bulletPos, bulletVelocity);
 		SetEntityStateAndVisibility(bulletEntityId, EntityState::Dead, false);
-		
+
 		m_bulletPool.push_back(bulletEntityId);
 	}
 }
@@ -539,7 +539,7 @@ void EntityManager::ReturnBulletToPool(EntityId bulletEntityId)
 
 void EntityManager::InitEnemyPool(size_t enemyPoolSize)
 {
-	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
 	for (size_t i = 0; i < enemyPoolSize; ++i)
 	{
@@ -556,9 +556,9 @@ void EntityManager::ReturnEnemyToPool(EntityId enemyEntityId)
 
 void EntityManager::SetEntityStateAndVisibility(EntityId entityId, EntityState state, bool isVisible)
 {
-	Tag* tag = GetComponent<Tag>(entityId);
+	Tag *tag = GetComponent<Tag>(entityId);
 	tag->SetEntityState(state);
-	CSimpleSprite* sprite = GetComponent<Renderable>(entityId)->GetSprite();
+	CSimpleSprite *sprite = GetComponent<Renderable>(entityId)->GetSprite();
 	sprite->SetIsVisible(isVisible);
 }
 
