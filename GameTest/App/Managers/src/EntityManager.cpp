@@ -511,7 +511,7 @@ void EntityManager::ResetEnemies()
 	for (EntityId entityId : allEntities)
 	{
 		Tag* tag = GetComponent<Tag>(entityId);
-		if (tag && tag->GetEntityType() == EntityType::Enemy)
+		if (tag->GetEntityType() == EntityType::Enemy)
 			ReturnEnemyToPool(entityId);
 	}
 
@@ -528,22 +528,15 @@ void EntityManager::InitBulletPool(size_t bulletPoolSize)
 		constexpr vec3 bulletPos = vec3(0.0f);
 		constexpr vec2 bulletVelocity = vec2(0.0f);
 		EntityId bulletEntityId = CreateBulletEntity(spriteManager, bulletPos, bulletVelocity);
-
-		Tag* bulletTag = GetComponent<Tag>(bulletEntityId);
-		bulletTag->SetEntityState(EntityState::Dead);
-
-		CSimpleSprite* bulletSprite = GetComponent<Renderable>(bulletEntityId)->GetSprite();
-		bulletSprite->SetIsVisible(false);
+		SetEntityStateAndVisibility(bulletEntityId, EntityState::Dead, false);
+		
 		m_bulletPool.push_back(bulletEntityId);
 	}
 }
 
 void EntityManager::ReturnBulletToPool(EntityId bulletEntityId)
 {
-	Tag* bulletTag = GetComponent<Tag>(bulletEntityId);
-	bulletTag->SetEntityState(EntityState::Dead);
-	CSimpleSprite* bulletSprite = GetComponent<Renderable>(bulletEntityId)->GetSprite();
-	bulletSprite->SetIsVisible(false);
+	SetEntityStateAndVisibility(bulletEntityId, EntityState::Dead, false);
 }
 
 void EntityManager::InitEnemyPool(size_t enemyPoolSize)
@@ -553,20 +546,22 @@ void EntityManager::InitEnemyPool(size_t enemyPoolSize)
 	for (size_t i = 0; i < enemyPoolSize; ++i)
 	{
 		EntityId enemyEntityId = CreateEnemyEntity(spriteManager);
-		Tag* enemyTag = GetComponent<Tag>(enemyEntityId);
-		enemyTag->SetEntityState(EntityState::Dead);
-		CSimpleSprite* enemySprite = GetComponent<Renderable>(enemyEntityId)->GetSprite();
-		enemySprite->SetIsVisible(false);
+		SetEntityStateAndVisibility(enemyEntityId, EntityState::Dead, false);
 		m_enemyPool.push_back(enemyEntityId);
 	}
 }
 
 void EntityManager::ReturnEnemyToPool(EntityId enemyEntityId)
 {
-	Tag* enemyTag = GetComponent<Tag>(enemyEntityId);
-	enemyTag->SetEntityState(EntityState::Dead);
-	CSimpleSprite* enemySprite = GetComponent<Renderable>(enemyEntityId)->GetSprite();
-	enemySprite->SetIsVisible(false);
+	SetEntityStateAndVisibility(enemyEntityId, EntityState::Dead, false);
+}
+
+void EntityManager::SetEntityStateAndVisibility(EntityId entityId, EntityState state, bool isVisible)
+{
+	Tag* tag = GetComponent<Tag>(entityId);
+	tag->SetEntityState(state);
+	CSimpleSprite* sprite = GetComponent<Renderable>(entityId)->GetSprite();
+	sprite->SetIsVisible(isVisible);
 }
 
 EntityId EntityManager::GetBulletFromPool()
@@ -575,10 +570,7 @@ EntityId EntityManager::GetBulletFromPool()
 		m_BulletPoolIndex = 0;
 
 	EntityId bulletEntityId = m_bulletPool[m_BulletPoolIndex++];
-	Tag* bulletTag = GetComponent<Tag>(bulletEntityId);
-	bulletTag->SetEntityState(EntityState::Alive);
-	CSimpleSprite* bulletSprite = GetComponent<Renderable>(bulletEntityId)->GetSprite();
-	bulletSprite->SetIsVisible(true);
+	SetEntityStateAndVisibility(bulletEntityId, EntityState::Alive, true);
 
 	return bulletEntityId;
 }
@@ -589,10 +581,7 @@ EntityId EntityManager::GetEnemyFromPool()
 		m_enemyPoolIndex = 0;
 
 	EntityId enemyEntityId = m_enemyPool[m_enemyPoolIndex++];
-	Tag* enemyTag = GetComponent<Tag>(enemyEntityId);
-	enemyTag->SetEntityState(EntityState::Alive);
-	CSimpleSprite* enemySprite = GetComponent<Renderable>(enemyEntityId)->GetSprite();
-	enemySprite->SetIsVisible(true);
+	SetEntityStateAndVisibility(enemyEntityId, EntityState::Alive, true);
 
 	return enemyEntityId;
 }

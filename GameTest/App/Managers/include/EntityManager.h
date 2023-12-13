@@ -28,6 +28,7 @@ public:
     void ReturnBulletToPool(EntityId bulletEntityId);
     void InitEnemyPool(size_t enemyPoolSize);
     void ReturnEnemyToPool(EntityId enemyEntityId);
+    void SetEntityStateAndVisibility(EntityId entityId, EntityState state, bool isVisible);
 
     EntityId GetPlayerEntityId() const { return m_playerEntityId; }
     EntityId GetReloadingCircleEntityId() const { return m_reloadingCircleEntityId; }
