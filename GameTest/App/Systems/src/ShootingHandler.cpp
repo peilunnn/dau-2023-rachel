@@ -52,7 +52,6 @@ void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 		soundManager.PlaySoundFromFile(Helper::PATH_TO_GUNFIRE);
 
 		EntityId bulletEntityId = entityManager.GetBulletFromPool();
-		CSimpleSprite* bulletSprite = entityManager.GetComponent<Renderable>(bulletEntityId)->GetSprite();
 		Transform* bulletTransform = entityManager.GetComponent<Transform>(bulletEntityId);
 		Velocity* bulletVelocityComponent = entityManager.GetComponent<Velocity>(bulletEntityId);
 
@@ -67,7 +66,6 @@ void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 		vec2 bulletVelocity = bulletDirection * m_bulletSpeed;
 		bulletVelocityComponent->SetVelocity(bulletVelocity);
 		bulletTransform->SetPosition(bulletPos);
-		bulletSprite->SetIsVisible(true);
 
 		m_bulletsShotSoFar++;
 		renderingHandler.HideAmmoFilledEntity(m_bulletsShotSoFar - 1);

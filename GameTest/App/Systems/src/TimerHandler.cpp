@@ -53,10 +53,7 @@ void TimerHandler::Update(float deltaTime) {
             timer->SetRemainingTime(remainingTime - deltaTime);
 
             if (remainingTime <= 0)
-            {
-                Helper::Log("countdown reached 0");
                 gameManager.TransitionToLoadingState();
-            }
         }
     }
 }

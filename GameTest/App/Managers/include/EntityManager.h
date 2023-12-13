@@ -19,29 +19,15 @@ public:
     void operator=(EntityManager const &) = delete;
 
     void Init();
-    vector<EntityId> GetAllEntities();
-    EntityId CreateEntityId();
-    EntityId CreatePlayerEntity(SpriteManager &spriteManager);
-    EntityId CreateEnemyEntity(SpriteManager &spriteManager);
-    EntityId CreateBulletEntity(SpriteManager &spriteManager, const vec3 &pos, const vec2 &targetVelocity);
-    EntityId CreateReloadingCircleEntity(SpriteManager &spriteManager);
-    EntityId CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos);
-    EntityId CreateHealthBarEntity(SpriteManager &spriteManager, float xPos, float yPos);
-    EntityId CreateScoreEntity();
-    EntityId CreateCountdownTimerEntity();
-    EntityId CreateTitleEntity(SpriteManager &spriteManager);
-    EntityId CreatePlayButtonEntity(SpriteManager &spriteManager);
-    EntityId CreateBackButtonEntity(SpriteManager& spriteManager);
-    EntityId CreateQuitButtonEntity(SpriteManager &spriteManager);
-    EntityId CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager);
-    EntityId CreateStarfieldEntity(SpriteManager &spriteManager);
-    
+    vector<EntityId> GetAllEntities();    
     void MoveEntityToRandomPos(EntityId entityId);
     void MarkEntityForDeletion(EntityId entityId);
     void ProcessDeletions();
     void ResetEnemies();
-    void InitBulletPool(size_t poolSize);
+    void InitBulletPool(size_t bulletPoolSize);
     void ReturnBulletToPool(EntityId bulletEntityId);
+    void InitEnemyPool(size_t enemyPoolSize);
+    void ReturnEnemyToPool(EntityId enemyEntityId);
 
     EntityId GetPlayerEntityId() const { return m_playerEntityId; }
     EntityId GetReloadingCircleEntityId() const { return m_reloadingCircleEntityId; }
@@ -57,6 +43,7 @@ public:
     vector<EntityId> GetAmmoEmptyEntityIds() const { return m_ammoEmptyEntityIds; }
     vector<EntityId> GetAmmoFilledEntityIds() const { return m_ammoFilledEntityIds; }
     EntityId GetBulletFromPool();
+    EntityId GetEnemyFromPool();
 
     template <typename T>
     void AddComponent(EntityId entityId, unique_ptr<T> component)
@@ -117,6 +104,25 @@ private:
     vector<EntityId> m_ammoEmptyEntityIds = vector<EntityId>();
     vector<EntityId> m_ammoFilledEntityIds = vector<EntityId>();
 
-    vector<EntityId> m_bulletPool;
-    size_t m_poolIndex = 0;
+    vector<EntityId> m_bulletPool = vector<EntityId>();
+    size_t m_BulletPoolIndex = 0;
+    vector<EntityId> m_enemyPool = vector<EntityId>();
+    size_t m_enemyPoolIndex = 0;
+    const int m_enemyPoolSize = 30;
+
+    EntityId CreateEntityId();
+    EntityId CreatePlayerEntity(SpriteManager& spriteManager);
+    EntityId CreateEnemyEntity(SpriteManager& spriteManager);
+    EntityId CreateBulletEntity(SpriteManager& spriteManager, const vec3& pos, const vec2& targetVelocity);
+    EntityId CreateReloadingCircleEntity(SpriteManager& spriteManager);
+    EntityId CreateAmmoEntity(SpriteManager& spriteManager, EntityType entityType, float xPos, float yPos);
+    EntityId CreateHealthBarEntity(SpriteManager& spriteManager, float xPos, float yPos);
+    EntityId CreateScoreEntity();
+    EntityId CreateCountdownTimerEntity();
+    EntityId CreateTitleEntity(SpriteManager& spriteManager);
+    EntityId CreatePlayButtonEntity(SpriteManager& spriteManager);
+    EntityId CreateBackButtonEntity(SpriteManager& spriteManager);
+    EntityId CreateQuitButtonEntity(SpriteManager& spriteManager);
+    EntityId CreateLoadingScreenCharacterEntity(SpriteManager& spriteManager);
+    EntityId CreateStarfieldEntity(SpriteManager& spriteManager);
 };

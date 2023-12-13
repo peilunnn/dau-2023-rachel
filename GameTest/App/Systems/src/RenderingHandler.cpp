@@ -218,6 +218,9 @@ void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entit
     Renderable *renderable = entityManager.GetComponent<Renderable>(entityId);
     CSimpleSprite *sprite = renderable->GetSprite();
 
+    if (!sprite->GetIsVisible())
+        return;
+
     sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
     sprite->SetScale(transform->GetScale().x);
 

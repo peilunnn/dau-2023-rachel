@@ -82,15 +82,20 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
 	if ((firstEntityType == EntityType::Bullet && secondEntityType == EntityType::Enemy) ||
 		(firstEntityType == EntityType::Enemy && secondEntityType == EntityType::Bullet))
 	{
-		EntityId bulletEntity = (firstEntityType == EntityType::Bullet) ? firstEntityId : secondEntityId;
+		EntityId bulletEntityId = (firstEntityType == EntityType::Bullet) ? firstEntityId : secondEntityId;
 		EntityId enemyEntityId = (firstEntityType == EntityType::Enemy) ? firstEntityId : secondEntityId;
-		Tag *enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
+		Tag* bulletTag = entityManager.GetComponent<Tag>(bulletEntityId);
+		Tag* enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
+
+		if (bulletTag->GetEntityState() == EntityState::Dead)
+			return;
 
 		if (enemyTag->GetEntityState() == EntityState::Dead)
 			return;
 
+		bulletTag->SetEntityState(EntityState::Dead);
 		enemyTag->SetEntityState(EntityState::Dead);
-		Event bulletHitEnemyEvent(EventType::BulletHitEnemy, {bulletEntity, enemyEntityId});
+		Event bulletHitEnemyEvent(EventType::BulletHitEnemy, {bulletEntityId, enemyEntityId});
 		systemManager.SendEvent(bulletHitEnemyEvent);
 	}
 
@@ -100,12 +105,17 @@ void CollisionHandler::HandleCollisionEvent(EntityManager &entityManager, System
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
 		EntityId enemyEntityId = (firstEntityType == EntityType::Enemy) ? firstEntityId : secondEntityId;
-		Tag *playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+		Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+		Tag* enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
 
 		if (playerTag->GetEntityState() != EntityState::Alive)
 			return;
 
+		if (enemyTag->GetEntityState() == EntityState::Dead)
+			return;
+
 		playerTag->SetEntityState(EntityState::HitByEnemy);
+		enemyTag->SetEntityState(EntityState::Dead);
 		SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_HURT);
 		Event enemyHitPlayerEvent(EventType::EnemyHitPlayer, {enemyEntityId, playerEntityId});
 		systemManager.SendEvent(enemyHitPlayerEvent);

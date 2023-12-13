@@ -15,6 +15,7 @@
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
 #include "Systems/include/ShootingHandler.h"
+#include "Systems/include/EntityHandler.h"
 #include "Utilities/include/Helper.h"
 using glm::vec2;
 using glm::vec3;
@@ -44,7 +45,6 @@ void EntityManager::Init()
 	const float healthBarYPos = screenHeight - healthBarYOffset;
 
 	m_playerEntityId = CreatePlayerEntity(spriteManager);
-	m_enemyEntityId = CreateEnemyEntity(spriteManager);
 	m_reloadingCircleEntityId = CreateReloadingCircleEntity(spriteManager);
 	m_healthBarEntityId = CreateHealthBarEntity(spriteManager, healthBarXPos, healthBarYPos);
 
@@ -68,6 +68,10 @@ void EntityManager::Init()
 	m_loadingScreenCharacterEntityId = CreateLoadingScreenCharacterEntity(spriteManager);
 
 	InitBulletPool(ShootingHandler::GetInstance().MAX_BULLETS);
+	InitEnemyPool(m_enemyPoolSize);
+	EntityId firstEnemyEntityId = GetEnemyFromPool();
+	EntityHandler::GetInstance().InitializeEnemy(*this, firstEnemyEntityId);
+	Helper::Log("enemy pool set up");
 }
 
 vector<EntityId> EntityManager::GetAllEntities()
@@ -131,28 +135,22 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	CSimpleSprite *enemySprite = spriteManager.CreateSprite(enemyEntityId, Helper::PATH_TO_ENEMY, 4, 2);
 
 	Screen &screen = screen.GetInstance();
-	const float borderWidth = (screen.BORDER_RIGHT_SCREEN_COORD - screen.BORDER_LEFT_SCREEN_COORD);
-	const float borderHeight = (screen.BORDER_BOTTOM_SCREEN_COORD - screen.BORDER_TOP_SCREEN_COORD);
-	constexpr float minVx = -100.0f;
-	constexpr float maxVx = 300.0f;
-	constexpr float minVy = -100.0;
-	constexpr float maxVy = 300.0f;
-	vec3 playerPos = GetComponent<Transform>(m_playerEntityId)->GetPosition();
-	vec3 enemyPos = Helper::GetOppositeQuadrantPosition(playerPos, borderWidth, borderHeight);
+	constexpr vec3 pos = vec3(0.0f);
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.4f);
+	constexpr vec2 zeroVelocity = vec2(0.4f);
 	constexpr float radiusMultiplier = 0.25f;
-	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, GameState::Gameplay);
-	unique_ptr<Transform> transform = make_unique<Transform>(enemyPos, rot, scale);
+	tag->SetEntityState(EntityState::Dead);
+	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(enemySprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::Enemy);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Player) | static_cast<int>(CollisionType::Bullet));
 	collider->SetRadius(enemySprite->GetWidth() * radiusMultiplier);
-	unique_ptr<Velocity> velocity = make_unique<Velocity>(randomVelocity);
+	unique_ptr<Velocity> velocity = make_unique<Velocity>(zeroVelocity);
 	unique_ptr<BounceDirection> bounceDirection = make_unique<BounceDirection>();
 	unique_ptr<Animation> animation = make_unique<Animation>();
 
@@ -510,29 +508,30 @@ void EntityManager::ResetEnemies()
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
 	vector<EntityId> allEntities = GetAllEntities();
 	
-	// Delete all enemies
-	for (EntityId entityId : allEntities) 
+	for (EntityId entityId : allEntities)
 	{
 		Tag* tag = GetComponent<Tag>(entityId);
-		if (tag->GetEntityType() == EntityType::Enemy)
-			MarkEntityForDeletion(entityId);
+		if (tag && tag->GetEntityType() == EntityType::Enemy)
+			ReturnEnemyToPool(entityId);
 	}
-	ProcessDeletions();
 
-	// Create one new enemy
-	CreateEnemyEntity(spriteManager);
+	EntityId newEnemyEntityId = GetEnemyFromPool();
+	EntityHandler::GetInstance().InitializeEnemy(*this, newEnemyEntityId);
 }
 
-void EntityManager::InitBulletPool(size_t poolSize)
+void EntityManager::InitBulletPool(size_t bulletPoolSize)
 {
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
 
-	for (size_t i = 0; i < poolSize; ++i)
+	for (size_t i = 0; i < bulletPoolSize; ++i)
 	{
 		constexpr vec3 bulletPos = vec3(0.0f);
 		constexpr vec2 bulletVelocity = vec2(0.0f);
 		EntityId bulletEntityId = CreateBulletEntity(spriteManager, bulletPos, bulletVelocity);
-		
+
+		Tag* bulletTag = GetComponent<Tag>(bulletEntityId);
+		bulletTag->SetEntityState(EntityState::Dead);
+
 		CSimpleSprite* bulletSprite = GetComponent<Renderable>(bulletEntityId)->GetSprite();
 		bulletSprite->SetIsVisible(false);
 		m_bulletPool.push_back(bulletEntityId);
@@ -541,20 +540,59 @@ void EntityManager::InitBulletPool(size_t poolSize)
 
 void EntityManager::ReturnBulletToPool(EntityId bulletEntityId)
 {
+	Tag* bulletTag = GetComponent<Tag>(bulletEntityId);
+	bulletTag->SetEntityState(EntityState::Dead);
 	CSimpleSprite* bulletSprite = GetComponent<Renderable>(bulletEntityId)->GetSprite();
-	Transform* bulletTransform = GetComponent<Transform>(bulletEntityId);
-	vec3 newTransform = vec3(0.0f);
-
 	bulletSprite->SetIsVisible(false);
-	bulletTransform->SetPosition(newTransform);
+}
+
+void EntityManager::InitEnemyPool(size_t enemyPoolSize)
+{
+	SpriteManager& spriteManager = SpriteManager::GetInstance();
+
+	for (size_t i = 0; i < enemyPoolSize; ++i)
+	{
+		EntityId enemyEntityId = CreateEnemyEntity(spriteManager);
+		Tag* enemyTag = GetComponent<Tag>(enemyEntityId);
+		enemyTag->SetEntityState(EntityState::Dead);
+		CSimpleSprite* enemySprite = GetComponent<Renderable>(enemyEntityId)->GetSprite();
+		enemySprite->SetIsVisible(false);
+		m_enemyPool.push_back(enemyEntityId);
+	}
+}
+
+void EntityManager::ReturnEnemyToPool(EntityId enemyEntityId)
+{
+	Tag* enemyTag = GetComponent<Tag>(enemyEntityId);
+	enemyTag->SetEntityState(EntityState::Dead);
+	CSimpleSprite* enemySprite = GetComponent<Renderable>(enemyEntityId)->GetSprite();
+	enemySprite->SetIsVisible(false);
 }
 
 EntityId EntityManager::GetBulletFromPool()
 {
-	// If we have finished using all bullets in the pool, reset index
-	if (m_poolIndex >= m_bulletPool.size())
-		m_poolIndex = 0;
+	if (m_BulletPoolIndex >= m_bulletPool.size())
+		m_BulletPoolIndex = 0;
 
-	EntityId bulletEntityId = m_bulletPool[m_poolIndex++];
+	EntityId bulletEntityId = m_bulletPool[m_BulletPoolIndex++];
+	Tag* bulletTag = GetComponent<Tag>(bulletEntityId);
+	bulletTag->SetEntityState(EntityState::Alive);
+	CSimpleSprite* bulletSprite = GetComponent<Renderable>(bulletEntityId)->GetSprite();
+	bulletSprite->SetIsVisible(true);
+
 	return bulletEntityId;
+}
+
+EntityId EntityManager::GetEnemyFromPool()
+{
+	if (m_enemyPoolIndex >= m_enemyPool.size())
+		m_enemyPoolIndex = 0;
+
+	EntityId enemyEntityId = m_enemyPool[m_enemyPoolIndex++];
+	Tag* enemyTag = GetComponent<Tag>(enemyEntityId);
+	enemyTag->SetEntityState(EntityState::Alive);
+	CSimpleSprite* enemySprite = GetComponent<Renderable>(enemyEntityId)->GetSprite();
+	enemySprite->SetIsVisible(true);
+
+	return enemyEntityId;
 }
