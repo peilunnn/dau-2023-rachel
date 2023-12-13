@@ -27,9 +27,7 @@ enum class EntityType
     Score,
     Timer,
     Title,
-    PlayButton,
-    BackButton,
-    QuitButton,
+    Button,
     LoadingScreenCharacter,
     Starfield
 };

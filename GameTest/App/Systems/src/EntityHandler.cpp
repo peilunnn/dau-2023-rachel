@@ -23,7 +23,7 @@ void EntityHandler::HandleEvent(const Event &event, float deltaTime)
 	{
 		EntityId bulletEntityId = event.GetEntities()[0];
 		EntityId enemyEntityId = event.GetEntities()[1];
-		HandleBulletHitEnemy(entityManager, bulletEntityId, enemyEntityId, deltaTime);
+		HandleBulletHitEnemy(entityManager, bulletEntityId, enemyEntityId);
 	}
 	else if (event.GetEventType() == EventType::EnemyHitPlayer)
 	{
@@ -63,7 +63,7 @@ void EntityHandler::InitializeEnemy(EntityManager& entityManager, EntityId enemy
 	enemyVelocity->SetVelocity(randomVelocity);
 }
 
-void EntityHandler::HandleBulletHitEnemy(EntityManager &entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime)
+void EntityHandler::HandleBulletHitEnemy(EntityManager &entityManager, EntityId bulletEntityId, EntityId enemyEntityId)
 {
 	SpawnTwoEnemies();
 	entityManager.ReturnBulletToPool(bulletEntityId);

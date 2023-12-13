@@ -117,7 +117,7 @@ private:
     EntityId CreateBulletEntity(SpriteManager& spriteManager, const vec3& pos, const vec2& targetVelocity);
     EntityId CreateReloadingCircleEntity(SpriteManager& spriteManager);
     EntityId CreateAmmoEntity(SpriteManager& spriteManager, EntityType entityType, float xPos, float yPos);
-    EntityId CreateHealthBarEntity(SpriteManager& spriteManager, float xPos, float yPos);
+    EntityId CreateHealthBarEntity(SpriteManager& spriteManager);
     EntityId CreateScoreEntity();
     EntityId CreateCountdownTimerEntity();
     EntityId CreateTitleEntity(SpriteManager& spriteManager);

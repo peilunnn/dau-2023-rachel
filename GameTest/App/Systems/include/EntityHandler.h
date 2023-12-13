@@ -18,7 +18,7 @@ private:
         m_subscribedEvents.insert(EventType::BulletOutOfBounds);
     }
 
-    void HandleBulletHitEnemy(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId, float deltaTime);
+    void HandleBulletHitEnemy(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId);
     void SpawnTwoEnemies();
     void HandleEnemyHitPlayer(EntityManager& entityManager, EntityId enemyEntityId);
     void HandleBulletOutOfBounds(EntityManager& entityManager, EntityId bulletEntityId);

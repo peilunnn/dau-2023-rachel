@@ -32,21 +32,15 @@ void EntityManager::Init()
 	ShootingHandler &shootingHandler = ShootingHandler::GetInstance();
 	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
-	const float screenWidth = screen.SCREEN_WIDTH;
-	const float screenHeight = screen.SCREEN_HEIGHT;
-	const int ammoSpriteSpacing = screen.AMMO_SPRITE_SPACING;
+	const int ammoSpriteSpacing = 30;
 	const float ammoXOffset = 20.0f;
 	const float ammoYOffset = 720.0f;
-	const float healthBarXOffset = 880.0f;
-	const float healthBarYOffset = 720.0f;
-	const float ammoStartingX = screenWidth - ammoXOffset;
-	const float ammoYPos = screenHeight - ammoYOffset;
-	const float healthBarXPos = screenWidth - healthBarXOffset;
-	const float healthBarYPos = screenHeight - healthBarYOffset;
+	const float ammoStartingX = screen.SCREEN_WIDTH - ammoXOffset;
+	const float ammoYPos = screen.SCREEN_HEIGHT - ammoYOffset;
 
 	m_playerEntityId = CreatePlayerEntity(spriteManager);
 	m_reloadingCircleEntityId = CreateReloadingCircleEntity(spriteManager);
-	m_healthBarEntityId = CreateHealthBarEntity(spriteManager, healthBarXPos, healthBarYPos);
+	m_healthBarEntityId = CreateHealthBarEntity(spriteManager);
 
 	for (int i = 0; i < shootingHandler.MAX_BULLETS; ++i)
 	{
@@ -71,7 +65,6 @@ void EntityManager::Init()
 	InitEnemyPool(m_enemyPoolSize);
 	EntityId firstEnemyEntityId = GetEnemyFromPool();
 	EntityHandler::GetInstance().InitializeEnemy(*this, firstEnemyEntityId);
-	Helper::Log("enemy pool set up");
 }
 
 vector<EntityId> EntityManager::GetAllEntities()
@@ -250,11 +243,16 @@ EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, EntityTyp
 	return ammoEntityId;
 }
 
-EntityId EntityManager::CreateHealthBarEntity(SpriteManager &spriteManager, float xPos, float yPos)
+EntityId EntityManager::CreateHealthBarEntity(SpriteManager &spriteManager)
 {
 	EntityId healthBarEntityId = CreateEntityId();
 	CSimpleSprite *healthBarSprite = spriteManager.CreateSprite(healthBarEntityId, Helper::PATH_TO_HEALTH_BAR, 2, 3);
 
+	Screen& screen = screen.GetInstance();
+	const float xOffset = 880.0f;
+	const float yOffset = 720.0f;
+	const float xPos = screen.SCREEN_WIDTH - xOffset;
+	const float yPos = screen.SCREEN_HEIGHT - yOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
@@ -357,7 +355,7 @@ EntityId EntityManager::CreatePlayButtonEntity(SpriteManager &spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.2f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::PlayButton, GameState::MainMenu);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Button, GameState::MainMenu);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(playButtonSprite);
 
@@ -382,7 +380,7 @@ EntityId EntityManager::CreateBackButtonEntity(SpriteManager &spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.2f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::BackButton, GameState::GameOver);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Button, GameState::GameOver);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(backButtonSprite);
 
@@ -407,7 +405,7 @@ EntityId EntityManager::CreateQuitButtonEntity(SpriteManager& spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.2f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::QuitButton, GameState::Paused);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Button, GameState::Paused);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(quitButtonSprite);
 
