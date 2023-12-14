@@ -30,6 +30,7 @@ namespace Helper
 	inline const char* PATH_TO_BACK_BUTTON = ".\\Data\\Sprites\\BackButton.png";
 	inline const char* PATH_TO_QUIT_BUTTON = ".\\Data\\Sprites\\QuitButton.png";
 	inline const char* PATH_TO_STARFIELD = ".\\Data\\Sprites\\Starfield.png";
+	inline const char* PATH_TO_CROSSHAIR = ".\\Data\\Sprites\\Crosshair.png";
 
 	// Sounds
 	inline const char* PATH_TO_TEST = ".\\Data\\Sounds\\Test.wav";
@@ -74,14 +75,20 @@ namespace Helper
 	inline vec3 GetOppositeQuadrantPosition(const vec3& playerPos, float borderWidth, float borderHeight)
 	{
 		vec3 enemyPos;
-		if (playerPos.x < borderWidth / 2)
-			enemyPos.x = borderWidth * 0.6f; // Spawn in the right half
+		float spawnOffsetMajor = 0.7f;
+		float spawnOffsetMinor = 0.3f;
+		float xMidpoint = borderWidth / 2.0f;
+		float yMidpoint = borderHeight / 2.0f;
+
+		if (playerPos.x < xMidpoint)
+			enemyPos.x = borderWidth * spawnOffsetMajor; // Spawn in the right half
 		else
-			enemyPos.x = borderWidth * 0.4f; // Spawn in the left half
-		if (playerPos.y < borderHeight / 2)
-			enemyPos.y = borderHeight * 0.6f; // Spawn in the lower half
+			enemyPos.x = borderWidth * spawnOffsetMinor; // Spawn in the left half
+		
+		if (playerPos.y < yMidpoint)
+			enemyPos.y = borderHeight * spawnOffsetMajor; // Spawn in the lower half
 		else
-			enemyPos.y = borderHeight * 0.4f; // Spawn in the upper half
+			enemyPos.y = borderHeight * spawnOffsetMinor; // Spawn in the upper half
 
 		enemyPos.z = 0.0f;
 

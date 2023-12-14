@@ -29,7 +29,8 @@ enum class EntityType
     Title,
     Button,
     LoadingScreenCharacter,
-    Starfield
+    Starfield,
+    Crosshair
 };
 
 enum class EntityState

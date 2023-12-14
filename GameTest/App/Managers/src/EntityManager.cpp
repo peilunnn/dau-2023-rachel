@@ -60,6 +60,7 @@ void EntityManager::Init()
 	m_backButtonEntityId = CreateBackButtonEntity(spriteManager);
 	m_quitButtonEntityId = CreateQuitButtonEntity(spriteManager);
 	m_loadingScreenCharacterEntityId = CreateLoadingScreenCharacterEntity(spriteManager);
+	m_crosshairEntityId = CreateCrosshairEntity(spriteManager);
 
 	InitBulletPool(ShootingHandler::GetInstance().MAX_BULLETS);
 	InitEnemyPool(m_enemyPoolSize);
@@ -464,6 +465,29 @@ EntityId EntityManager::CreateStarfieldEntity(SpriteManager &spriteManager)
 	AddComponent(starfieldEntityId, move(renderable));
 
 	return starfieldEntityId;
+}
+
+EntityId EntityManager::CreateCrosshairEntity(SpriteManager& spriteManager)
+{
+	EntityId crosshairEntityId = CreateEntityId();
+	CSimpleSprite* crosshairSprite = spriteManager.CreateSprite(crosshairEntityId, Helper::PATH_TO_CROSSHAIR, 1, 1);
+
+	Screen& screen = screen.GetInstance();
+	const float xPos = 0.0f;
+	const float yPos = 0.0f;
+	constexpr float zPos = 0.0f;
+	constexpr vec3 rot = vec3(0.0f);
+	constexpr vec3 scale = vec3(1.5f);
+
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Crosshair, GameState::Gameplay);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(crosshairSprite);
+
+	AddComponent(crosshairEntityId, move(tag));
+	AddComponent(crosshairEntityId, move(transform));
+	AddComponent(crosshairEntityId, move(renderable));
+
+	return crosshairEntityId;
 }
 
 void EntityManager::MoveEntityToRandomPos(EntityId entityId)

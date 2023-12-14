@@ -53,6 +53,8 @@ void Update(float deltaTime)
 
 	if (gameManager.GetCurrentGameState() == GameState::MainMenu)
 	{
+		glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
+
 		if (!gameManager.GetGameReset())
 		{
 			gameManager.ResetGame();
@@ -65,6 +67,7 @@ void Update(float deltaTime)
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::Gameplay)
 	{
+		glutSetCursor(GLUT_CURSOR_NONE);
 		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
 		CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
@@ -77,16 +80,19 @@ void Update(float deltaTime)
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::GameOver)
 	{
+		glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
 		gameManager.SetGameReset(false);
 		InputHandler::GetInstance().SetIsBackButtonClicked();
 		gameManager.HandleBackButtonClick();
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::Loading)
 	{
+		glutSetCursor(GLUT_CURSOR_NONE);
 		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::Paused)
 	{
+		glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
 		gameManager.SetGameReset(false);
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
 		InputHandler::GetInstance().SetIsQuitButtonClicked();

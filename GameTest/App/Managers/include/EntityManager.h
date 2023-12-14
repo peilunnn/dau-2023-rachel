@@ -41,6 +41,7 @@ public:
     EntityId GetQuitButtonEntityId() const { return m_quitButtonEntityId; }
     EntityId GetLoadingScreenCharacterEntityId() const { return m_loadingScreenCharacterEntityId; }
     EntityId GetStarfieldEntityId() const { return m_starfieldEntityId; }
+    EntityId GetCrosshairEntityId() const { return m_crosshairEntityId; }
     vector<EntityId> GetAmmoEmptyEntityIds() const { return m_ammoEmptyEntityIds; }
     vector<EntityId> GetAmmoFilledEntityIds() const { return m_ammoFilledEntityIds; }
     EntityId GetBulletFromPool();
@@ -100,6 +101,7 @@ private:
     EntityId m_quitButtonEntityId = -1;
     EntityId m_loadingScreenCharacterEntityId = -1;
     EntityId m_starfieldEntityId = -1;
+    EntityId m_crosshairEntityId = -1;
     unordered_map<EntityId, vector<unique_ptr<Component>>> m_entityComponents = {};
     vector<EntityId> m_entitiesToDelete = vector<EntityId>();
     vector<EntityId> m_ammoEmptyEntityIds = vector<EntityId>();
@@ -125,5 +127,6 @@ private:
     EntityId CreateBackButtonEntity(SpriteManager &spriteManager);
     EntityId CreateQuitButtonEntity(SpriteManager &spriteManager);
     EntityId CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager);
-    EntityId CreateStarfieldEntity(SpriteManager &spriteManager);
+    EntityId CreateStarfieldEntity(SpriteManager& spriteManager);
+    EntityId CreateCrosshairEntity(SpriteManager &spriteManager);
 };

@@ -9,6 +9,7 @@ public:
     void operator=(GameManager const&) = delete;
 
     void Update(float deltaTime);
+    void UpdateCrosshairPosition();
     void HandlePlayButtonClick();
     void HandleBackButtonClick();
     void HandleQuitButtonClick();
