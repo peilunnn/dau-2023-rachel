@@ -47,12 +47,14 @@ void EntityHandler::InitializeEnemy(EntityManager& entityManager, EntityId enemy
 	const float borderWidth = (screen.BORDER_RIGHT_SCREEN_COORD - screen.BORDER_LEFT_SCREEN_COORD);
 	const float borderHeight = (screen.BORDER_BOTTOM_SCREEN_COORD - screen.BORDER_TOP_SCREEN_COORD);
 	vec3 enemyPos = Helper::GetOppositeQuadrantPosition(playerPos, borderWidth, borderHeight);
-
 	Transform* enemyTransform = entityManager.GetComponent<Transform>(enemyEntityId);
 	enemyTransform->SetPosition(enemyPos);
 
 	CSimpleSprite* enemySprite = entityManager.GetComponent<Renderable>(enemyEntityId)->GetSprite();
 	enemySprite->SetIsVisible(true);
+
+	Helper::Log("enemyPos x: ", enemyPos.x);
+	Helper::Log("enemyPos y: ", enemyPos.y);
 
 	constexpr float minVx = -100.0f;
 	constexpr float maxVx = 300.0f;

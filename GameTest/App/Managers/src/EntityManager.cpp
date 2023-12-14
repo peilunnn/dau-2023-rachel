@@ -63,8 +63,6 @@ void EntityManager::Init()
 
 	InitBulletPool(ShootingHandler::GetInstance().MAX_BULLETS);
 	InitEnemyPool(m_enemyPoolSize);
-	EntityId firstEnemyEntityId = GetEnemyFromPool();
-	EntityHandler::GetInstance().InitializeEnemy(*this, firstEnemyEntityId);
 }
 
 vector<EntityId> EntityManager::GetAllEntityIds()

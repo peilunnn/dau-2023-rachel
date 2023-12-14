@@ -16,27 +16,9 @@ ShootingHandler& ShootingHandler::GetInstance()
 	return instance;
 }
 
-void ShootingHandler::HandleEvent(const Event& event, float deltaTime)
+void ShootingHandler::HandlePlayerShoot()
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
-
-	if (event.GetEventType() == EventType::PlayerShoot) {
-		HandlePlayerShoot(entityManager);
-	}
-	else if (event.GetEventType()  == EventType::PlayerHitReloadingCircle) {
-		HandlePlayerHitReloadingCircle(entityManager, deltaTime);
-	}
-}
-
-void ShootingHandler::ResetBullets()
-{
-	RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
-	m_bulletsShotSoFar = 0;
-	renderingHandler.ShowAllAmmoFilledEntities();
-}
-
-void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
-{
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
 	SoundManager& soundManager = SoundManager::GetInstance();
 	RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
@@ -74,8 +56,16 @@ void ShootingHandler::HandlePlayerShoot(EntityManager& entityManager)
 	}
 }
 
-void ShootingHandler::HandlePlayerHitReloadingCircle(EntityManager& entityManager, float deltaTime)
+void ShootingHandler::ResetBullets()
 {
+	RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
+	m_bulletsShotSoFar = 0;
+	renderingHandler.ShowAllAmmoFilledEntities();
+}
+
+void ShootingHandler::HandlePlayerHitReloadingCircle()
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
 	RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
 	EntityId reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
 

@@ -8,6 +8,7 @@
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/CollisionHandler.h"
 #include "Systems/include/Event.h"
+#include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/Helper.h"
 using glm::dot;
 using glm::vec2;
@@ -164,9 +165,7 @@ void CollisionHandler::HandlePlayerEnemyCollision(EntityManager& entityManager, 
 void CollisionHandler::HandlePlayerReloadingCircleCollision(SystemManager& systemManager, EntityId playerEntityId, EntityId reloadingCircleEntityId)
 {
 	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_RELOAD);
-
-	Event playerHitReloadingCircleEvent(EventType::PlayerHitReloadingCircle, { playerEntityId, reloadingCircleEntityId });
-	systemManager.SendEvent(playerHitReloadingCircleEvent);
+	ShootingHandler::GetInstance().HandlePlayerHitReloadingCircle();
 }
 
 

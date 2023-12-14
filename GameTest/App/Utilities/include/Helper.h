@@ -56,6 +56,8 @@ namespace Helper
 
 	inline float GenerateFloat(float min, float max)
 	{
+		srand(static_cast<unsigned int>(time(nullptr)));
+
 		static random_device rd;
 		static mt19937 eng(rd());
 		uniform_real_distribution<> distr(min, max);
@@ -65,11 +67,6 @@ namespace Helper
 	inline vec2 GenerateVec2(float minX, float maxX, float minY, float maxY)
 	{
 		return vec2(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY));
-	}
-
-	inline vec3 GenerateVec3(float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
-	{
-		return vec3(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY), GenerateFloat(minZ, maxZ));
 	}
 
 	inline vec3 GetOppositeQuadrantPosition(const vec3& playerPos, float borderWidth, float borderHeight)

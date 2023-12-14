@@ -43,7 +43,6 @@ enum class EntityState
 enum class EventType
 {
     None,
-    PlayerShoot,
     PlayerHitReloadingCircle,
     EnemyHitPlayer,
     BulletHitEnemy,

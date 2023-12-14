@@ -66,17 +66,15 @@ void Update(float deltaTime)
 	{
 		glutSetCursor(GLUT_CURSOR_NONE);
 
-		srand(static_cast<unsigned int>(time(nullptr)));
-
-		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
+		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
 		CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
-		RenderingHandler::GetInstance().UpdateScreenShakeTimer(deltaTime);
 		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
 		TimerHandler::GetInstance().Update(deltaTimeInSeconds);
 		CooldownHandler::GetInstance().Update(deltaTimeInSeconds);
 		SystemManager::GetInstance().ProcessEvents(deltaTimeInSeconds);
 		EntityManager::GetInstance().ProcessDeletions();
+		RenderingHandler::GetInstance().UpdateScreenShakeTimer(deltaTime);
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::GameOver)
 	{

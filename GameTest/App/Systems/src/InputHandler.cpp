@@ -4,6 +4,7 @@
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/InputHandler.h"
+#include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/app.h"
 #include "Utilities/include/Helper.h"
 
@@ -71,9 +72,7 @@ void InputHandler::HandleShootingInput(EntityManager &entityManager, EntityId pl
     if (playerTag->GetEntityState() == EntityState::Dead || !(App::IsKeyPressed(VK_LBUTTON)))
         return;
 
-    vec3 bulletPos = playerTransform->GetPosition();
-    Event playerShootEvent(EventType::PlayerShoot, {});
-    systemManager.SendEvent(playerShootEvent);
+    ShootingHandler::GetInstance().HandlePlayerShoot();
 }
 
 void InputHandler::HandlePauseInput()

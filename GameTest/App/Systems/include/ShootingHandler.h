@@ -11,19 +11,13 @@ public:
 
     const int MAX_BULLETS = 10;
 
-    void HandleEvent(const Event &event, float deltaTime) override;
+    void HandlePlayerShoot();
+    void HandlePlayerHitReloadingCircle();
     void ResetBullets();
 
 private:
-    ShootingHandler()
-    {
-        m_subscribedEvents.insert(EventType::PlayerShoot);
-        m_subscribedEvents.insert(EventType::PlayerHitReloadingCircle);
-    }
+    ShootingHandler() = default;
 
     int m_bulletsShotSoFar = 0;
     const float m_bulletSpeed = 2000.0f;
-
-    void HandlePlayerShoot(EntityManager &entityManager);
-    void HandlePlayerHitReloadingCircle(EntityManager &entityManager, float deltaTime);
 };
