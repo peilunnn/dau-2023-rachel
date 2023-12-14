@@ -20,11 +20,13 @@ public:
     GameState GetPreviousGameState() const { return m_previousGameState; }
     GameState GetCurrentGameState() const { return m_currentGameState; }
     float GetTimeSpentInLoading() const { return m_timeSpentInLoading; }
+    bool GetGameReset() const { return m_isGameReset; }
+    bool GetIsFirstEnemyInit() const { return m_isFirstEnemyInit; }
     void SetPreviousGameState(GameState newState) { m_previousGameState = newState; }
     void SetCurrentGameState(GameState newState) { m_currentGameState = newState; }
     void SetTimeSpentInLoading(float newTimeLeftInLoading) { m_timeSpentInLoading = newTimeLeftInLoading; }
-    void SetGameReset(bool newIsGameReset) { isGameReset = newIsGameReset; }
-    bool GetGameReset() const { return isGameReset; }
+    void SetGameReset(bool newIsGameReset) { m_isGameReset = newIsGameReset; }
+    void SetIsFirstEnemyInit(bool newIsFirstEnemyInit) { m_isFirstEnemyInit = newIsFirstEnemyInit; }
 
 private:
     GameManager() = default;
@@ -33,7 +35,8 @@ private:
     GameState m_currentGameState = GameState::MainMenu;
     float m_timeSpentInLoading = 0.0f;
     float m_loadingDuration = 1.5f;
-    bool isGameReset = false;
+    bool m_isGameReset = false;
+    bool m_isFirstEnemyInit = false;
 
     void UpdateLoadingState(float deltaTime);
 };

@@ -9,7 +9,7 @@ public:
     void operator=(EntityHandler const&) = delete;
 
     void HandleEvent(const Event& event, float deltaTime) override;
-    void InitializeEnemy(EntityManager& entityManager, EntityId enemyEntityId);
+    void InitEnemy();
 
 private:
     EntityHandler() {

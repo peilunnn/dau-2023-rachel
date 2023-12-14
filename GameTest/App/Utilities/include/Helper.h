@@ -1,6 +1,7 @@
 #pragma once
 #include "Components/include/EntityId.h"
 #include "Components/include/Renderable.h"
+#include "Components/include/Screen.h"
 #include "Components/include/Tag.h"
 #include "Components/include/Transform.h"
 #include "Managers/include/EntityManager.h"

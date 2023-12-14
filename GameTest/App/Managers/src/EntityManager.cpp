@@ -533,9 +533,6 @@ void EntityManager::ResetEnemies()
 		if (tag->GetEntityType() == EntityType::Enemy)
 			ReturnEnemyToPool(entityId);
 	}
-
-	EntityId newEnemyEntityId = GetEnemyFromPool();
-	EntityHandler::GetInstance().InitializeEnemy(*this, newEnemyEntityId);
 }
 
 void EntityManager::InitBulletPool(size_t bulletPoolSize)

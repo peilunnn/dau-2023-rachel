@@ -14,6 +14,7 @@
 #include "Systems/include/CooldownHandler.h"
 #include "Systems/include/InputHandler.h"
 #include "Systems/include/MovementHandler.h"
+#include "Systems/include/EntityHandler.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Systems/include/TitleHandler.h"
@@ -75,6 +76,9 @@ void Update(float deltaTime)
 		SystemManager::GetInstance().ProcessEvents(deltaTimeInSeconds);
 		EntityManager::GetInstance().ProcessDeletions();
 		RenderingHandler::GetInstance().UpdateScreenShakeTimer(deltaTime);
+
+		if (!GameManager::GetInstance().GetIsFirstEnemyInit())
+			EntityHandler::GetInstance().InitEnemy();
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::GameOver)
 	{

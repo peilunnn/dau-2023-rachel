@@ -129,6 +129,8 @@ void GameManager::TransitionToLoadingState()
 
 void GameManager::ResetGame()
 {
+    m_isFirstEnemyInit = false;
+    EntityManager::GetInstance().ResetEnemies();
     SoundManager::GetInstance().ResetSounds();
     HealthHandler::GetInstance().ResetPlayerHealth();
     AnimationHandler::GetInstance().ResetHealthBarAnimation();
@@ -136,7 +138,6 @@ void GameManager::ResetGame()
     TimerHandler::GetInstance().ResetTimers();
     ScoreHandler::GetInstance().ResetScore();
     ShootingHandler::GetInstance().ResetBullets();
-    EntityManager::GetInstance().ResetEnemies();
     RenderingHandler::GetInstance().ResetFade();
 }
 
