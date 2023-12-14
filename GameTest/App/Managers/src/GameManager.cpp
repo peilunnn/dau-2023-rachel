@@ -147,6 +147,7 @@ void GameManager::TogglePause()
     if (m_currentGameState == GameState::Paused)
     {
         m_currentGameState = m_previousGameState;
+        m_previousGameState = GameState::MainMenu;
         soundManager.ResumeSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
     }
     else

@@ -26,10 +26,7 @@ using namespace std;
 // Called before first update. Do any initial setup here.
 //------------------------------------------------------------------------
 void Init()
-{
-	// Seed the random number generator
-	srand(static_cast<unsigned int>(time(nullptr)));
-	
+{	
 	// Set up entities
 	EntityManager &entityManager = EntityManager::GetInstance();
 	entityManager.Init();
@@ -68,6 +65,9 @@ void Update(float deltaTime)
 	else if (gameManager.GetCurrentGameState() == GameState::Gameplay)
 	{
 		glutSetCursor(GLUT_CURSOR_NONE);
+
+		srand(static_cast<unsigned int>(time(nullptr)));
+
 		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
 		CollisionHandler::GetInstance().Update(deltaTimeInSeconds);

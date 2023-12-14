@@ -38,10 +38,6 @@ void EntityManager::Init()
 	const float ammoStartingX = screen.SCREEN_WIDTH - ammoXOffset;
 	const float ammoYPos = screen.SCREEN_HEIGHT - ammoYOffset;
 
-	m_playerEntityId = CreatePlayerEntity(spriteManager);
-	m_reloadingCircleEntityId = CreateReloadingCircleEntity(spriteManager);
-	m_healthBarEntityId = CreateHealthBarEntity(spriteManager);
-
 	for (int i = 0; i < shootingHandler.MAX_BULLETS; ++i)
 	{
 		const float xPos = ammoStartingX - i * ammoSpriteSpacing;
@@ -52,6 +48,9 @@ void EntityManager::Init()
 		m_ammoFilledEntityIds.push_back(m_ammoFilledEntityId);
 	}
 
+	m_playerEntityId = CreatePlayerEntity(spriteManager);
+	m_reloadingCircleEntityId = CreateReloadingCircleEntity(spriteManager);
+	m_healthBarEntityId = CreateHealthBarEntity(spriteManager);
 	m_scoreEntityId = CreateScoreEntity();
 	m_countdownTimerEntityId = CreateCountdownTimerEntity();
 	m_starfieldEntityId = CreateStarfieldEntity(spriteManager);
