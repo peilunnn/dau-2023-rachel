@@ -61,11 +61,6 @@ enum PlayerAnimationState
     PLAYER_ANIM_IDLE_BACKWARDS
 };
 
-enum AmmoBoxAnimationState
-{
-    AMMO_BOX_ANIM_SPIN
-};
-
 enum HealthBarAnimationState
 {
     HEALTH_100,

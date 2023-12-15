@@ -222,7 +222,7 @@ void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entit
         return;
 
     sprite->SetPosition(transform->GetPosition().x, transform->GetPosition().y);
-    sprite->SetScale(transform->GetScale().x);
+    sprite->SetScale(transform->GetScale().y);
 
     if (entityId == entityManager.GetTitleEntityId())
         sprite->SetAngle(transform->GetRotation().z);
@@ -262,7 +262,7 @@ void RenderingHandler::RenderStarfield(EntityManager &entityManager)
     CSimpleSprite *starfieldSprite = entityManager.GetComponent<Renderable>(starfieldEntityId)->GetSprite();
     Transform *starfieldTransform = entityManager.GetComponent<Transform>(starfieldEntityId);
     starfieldSprite->SetPosition(starfieldTransform->GetPosition().x, starfieldTransform->GetPosition().y);
-    starfieldSprite->SetScale(starfieldTransform->GetScale().x);
+    starfieldSprite->SetScale(starfieldTransform->GetScale().y);
     starfieldSprite->Draw();
 }
 

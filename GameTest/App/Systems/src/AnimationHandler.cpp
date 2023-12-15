@@ -26,7 +26,6 @@ void AnimationHandler::Init()
 	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
 	InitPlayerAnimation(entityManager, spriteManager);
-	InitAmmoBoxAnimation(entityManager, spriteManager);
 	InitHealthBarAnimation(entityManager, spriteManager);
 	InitLoadingScreenCharacterAnimation(entityManager, spriteManager);
 }
@@ -45,15 +44,6 @@ void AnimationHandler::InitPlayerAnimation(EntityManager &entityManager, SpriteM
 	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_LEFT, speed, {7});
 	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_RIGHT, speed, {8});
 	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, speed, {12});
-}
-
-void AnimationHandler::InitAmmoBoxAnimation(EntityManager &entityManager, SpriteManager &spriteManager)
-{
-	EntityId ammoBoxEntityId = entityManager.GetAmmoBoxEntityId();
-	CSimpleSprite *ammoBoxSprite = spriteManager.GetSprite(ammoBoxEntityId);
-
-	constexpr float speed = 1.0f / 15.0f;
-	ammoBoxSprite->CreateAnimation(AMMO_BOX_ANIM_SPIN, speed, {1, 2, 3, 4, 5, 6});
 }
 
 void AnimationHandler::InitHealthBarAnimation(EntityManager &entityManager, SpriteManager &spriteManager)
@@ -97,7 +87,7 @@ void AnimationHandler::Update(float deltaTime)
 			UpdatePlayerAnimation(entityManager, entityId, deltaTime);
 			break;
 		case EntityType::AmmoBox:
-			UpdateAmmoBoxAnimation(entityManager, entityId, deltaTime);
+			SpinAmmoBox(deltaTime);
 			break;
 		case EntityType::HealthBar:
 			UpdateHealthBarAnimation(entityManager, entityId, deltaTime);
@@ -150,15 +140,6 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
 	sprite->Update(deltaTime);
 }
 
-void AnimationHandler::UpdateAmmoBoxAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
-{
-	CSimpleSprite *ammoBoxSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	Animation *ammoBoxAnimation = entityManager.GetComponent<Animation>(entityId);
-	ammoBoxAnimation->SetCurrentAnimation(AMMO_BOX_ANIM_SPIN);
-	ammoBoxSprite->SetAnimation(ammoBoxAnimation->GetCurrentAnimation());
-	ammoBoxSprite->Update(deltaTime);
-}
-
 void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
@@ -187,11 +168,48 @@ void AnimationHandler::RotatePlayer(float deltaTime)
 	EntityManager &entityManager = EntityManager::GetInstance();
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	CSimpleSprite *playerSprite = entityManager.GetComponent<Renderable>(playerEntityId)->GetSprite();
+	
 	constexpr float targetAngle = 67.5f;
 	float currentAngle = playerSprite->GetAngle();
 	const float rotationSpeed = 0.8f;
 	float newAngle = currentAngle + rotationSpeed * deltaTime;
 	playerSprite->SetAngle(newAngle);
+}
+
+void AnimationHandler::SpinAmmoBox(float deltaTime)
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityId ammoBoxEntityId = entityManager.GetAmmoBoxEntityId();
+	Transform* ammoBoxTransform = entityManager.GetComponent<Transform>(ammoBoxEntityId);
+
+	const float scaleSpeed = 0.2f;
+	const float minScale = 0.15f;
+	const float maxScale = 0.2f;
+	const float scaleX = ammoBoxTransform->GetScale().x;
+
+	vec3 currentScale = ammoBoxTransform->GetScale();
+	static bool scalingDown = true;
+
+	if (scalingDown)
+	{
+		currentScale.y -= scaleSpeed * deltaTime;
+		if (currentScale.y <= minScale)
+		{
+			currentScale.y = minScale;
+			scalingDown = false;
+		}
+	}
+	else
+	{
+		currentScale.y += scaleSpeed * deltaTime;
+		if (currentScale.y >= maxScale)
+		{
+			currentScale.y = maxScale;
+			scalingDown = true;
+		}
+	}
+
+	ammoBoxTransform->SetScale(vec3(scaleX, currentScale.y, 1.0f));
 }
 
 void AnimationHandler::ResetHealthBarAnimation()

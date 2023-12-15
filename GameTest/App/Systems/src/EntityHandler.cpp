@@ -57,9 +57,6 @@ void EntityHandler::InitEnemy()
 	CSimpleSprite* enemySprite = entityManager.GetComponent<Renderable>(enemyEntityId)->GetSprite();
 	enemySprite->SetIsVisible(true);
 
-	Helper::Log("enemyPos x: ", enemyPos.x);
-	Helper::Log("enemyPos y: ", enemyPos.y);
-
 	constexpr float minVx = -100.0f;
 	constexpr float maxVx = 300.0f;
 	constexpr float minVy = -100.0f;

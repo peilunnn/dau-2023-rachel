@@ -17,6 +17,7 @@ public:
     void Update(float deltaTime);
     void HandleEvent(const Event &event, float deltaTime) override;
     void RotatePlayer(float deltaTime);
+    void SpinAmmoBox(float deltaTime);
     void ResetHealthBarAnimation();
     void ResetPlayerAnimation();
 
@@ -29,11 +30,9 @@ private:
     int m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 
     void InitPlayerAnimation(EntityManager &entityManager, SpriteManager &spriteManager);
-    void InitAmmoBoxAnimation(EntityManager &entityManager, SpriteManager &spriteManager);
     void InitHealthBarAnimation(EntityManager &entityManager, SpriteManager &spriteManager);
     void InitLoadingScreenCharacterAnimation(EntityManager &entityManager, SpriteManager &spriteManager);
     void UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
-    void UpdateAmmoBoxAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void UpdateLoadingScreenCharacterAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime);
