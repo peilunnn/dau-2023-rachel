@@ -3,7 +3,6 @@ c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\vc143.pdb
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\vc143.idb
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\stdafx.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\gametest.obj
-c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\color.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\gamemanager.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\cooldownhandler.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\cooldown.obj
@@ -22,12 +21,12 @@ c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\main.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\directsound.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\app.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\animation.obj
-c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\system.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\systemmanager.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\tag.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\healthhandler.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\transform.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\stb_image.obj
+c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\quadtreenode.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\soundmanager.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\spritemanager.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\screen.obj
@@ -46,10 +45,11 @@ c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\titlehandler.o
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\velocity.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\timer.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\event.obj
-c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\quadtreenode.obj
+c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\system.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\x64\debug\gametest.exe
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\gametest.ilk
 c:\users\peilu\downloads\repos\dau-2023-rachel\x64\debug\gametest.pdb
+c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\color.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\entitymanager.obj.enc
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\gametest.tlog\cl.command.1.tlog
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\gametest.tlog\cl.items.tlog

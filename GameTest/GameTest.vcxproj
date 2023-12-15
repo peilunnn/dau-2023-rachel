@@ -218,6 +218,7 @@
     <ClInclude Include="App\Components\include\Color.h" />
     <ClInclude Include="App\Managers\include\SoundManager.h" />
     <ClInclude Include="App\Utilities\include\QuadtreeNode.h" />
+    <ClInclude Include="App\Utilities\include\Profiler.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
