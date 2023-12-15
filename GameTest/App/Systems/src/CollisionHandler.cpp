@@ -13,6 +13,12 @@
 using glm::dot;
 using glm::vec2;
 
+map<EntityType, set<EntityType>> CollisionHandler::m_collisionRules =
+{
+	{EntityType::Player, {EntityType::Enemy, EntityType::AmmoBox}},
+	{EntityType::Enemy, {EntityType::Player, EntityType::Bullet}},
+};
+
 CollisionHandler &CollisionHandler::GetInstance()
 {
 	static CollisionHandler instance;
@@ -29,6 +35,13 @@ void CollisionHandler::Update(float deltaTime)
 	if (gameManager.GetCurrentGameState() == GameState::Paused)
 		return;
 
+	for (EntityId& entityId : allEntityIds) 
+	{
+		Collider* collider = entityManager.GetComponent<Collider>(entityId);
+		if (collider)
+			collider->SetCheckedForCollisions(false);
+	}
+
 	m_rootQuadtree.Clear();
 	PopulateQuadtree(entityManager, allEntityIds);
 
@@ -36,6 +49,7 @@ void CollisionHandler::Update(float deltaTime)
 	{
 		Collider *collider = entityManager.GetComponent<Collider>(entityId);
 		Transform *transform = entityManager.GetComponent<Transform>(entityId);
+		EntityType entityType = entityManager.GetComponent<Tag>(entityId)->GetEntityType();
 
 		if (!collider || !transform)
 			continue;
@@ -48,19 +62,24 @@ void CollisionHandler::Update(float deltaTime)
 			if (entityId == element.entityId)
 				continue;
 
+			EntityType potentialEntityType = entityManager.GetComponent<Tag>(element.entityId)->GetEntityType();
+			
+			// If the two entities are not even supposed to collide, we skip collision check
+			if (m_collisionRules[entityType].find(potentialEntityType) == m_collisionRules[entityType].end())
+				continue;
+
 			Collider *potentialElementCollider = entityManager.GetComponent<Collider>(element.entityId);
 
 			if (!potentialElementCollider)
 				continue;
 
-			// Only proceed with detailed collision check if collision masks allow the two entities to collide
-			int bitwiseAndResult = (static_cast<int>(collider->GetCollisionMask())) & (static_cast<int>(potentialElementCollider->GetCollisionType()));
-			if (bitwiseAndResult == 0)
-				continue;
-
 			// Check if the entities are colliding
 			if (IsColliding(transform, collider, element.transform, potentialElementCollider))
+			{
 				HandleCollisionEvent(entityId, element.entityId);
+				collider->SetCheckedForCollisions(true);
+				potentialElementCollider->SetCheckedForCollisions(true);
+			}
 		}
 	}
 }

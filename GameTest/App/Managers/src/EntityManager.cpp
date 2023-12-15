@@ -99,8 +99,6 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager &spriteManager)
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(playerSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
-	collider->SetCollisionType(CollisionType::Player);
-	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy) | static_cast<int>(CollisionType::AmmoBox));
 	collider->SetRadius(playerSprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>();
 	unique_ptr<Health> health = make_unique<Health>();
@@ -138,8 +136,6 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(enemySprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
-	collider->SetCollisionType(CollisionType::Enemy);
-	collider->SetCollisionMask(static_cast<int>(CollisionType::Player) | static_cast<int>(CollisionType::Bullet));
 	collider->SetRadius(enemySprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>(zeroVelocity);
 	unique_ptr<BounceDirection> bounceDirection = make_unique<BounceDirection>();
@@ -174,8 +170,6 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager &spriteManager, const v
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(bulletSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
-	collider->SetCollisionType(CollisionType::Bullet);
-	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy));
 	collider->SetRadius(bulletSprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>(targetVelocity);
 
@@ -206,8 +200,6 @@ EntityId EntityManager::CreateAmmoBoxEntity(SpriteManager &spriteManager)
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(ammoBoxSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
-	collider->SetCollisionType(CollisionType::AmmoBox);
-	collider->SetCollisionMask(static_cast<int>(CollisionType::Player));
 	collider->SetRadius(ammoBoxSprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Animation> animation = make_unique<Animation>();
 

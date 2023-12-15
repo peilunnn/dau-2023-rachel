@@ -20,6 +20,7 @@ private:
         : m_rootQuadtree(QuadtreeNode(0, 0, 0, Screen::GetInstance().SCREEN_WIDTH, Screen::GetInstance().SCREEN_HEIGHT)) {}
 
     QuadtreeNode m_rootQuadtree;
+    static map<EntityType, set<EntityType>> m_collisionRules;
 
     void PopulateQuadtree(EntityManager &entityManager, vector<EntityId> allEntityIds);
     bool IsColliding(Transform *firstTransform, Collider *firstCollider, Transform *secondTransform, Collider *secondCollider);

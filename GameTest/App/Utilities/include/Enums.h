@@ -5,15 +5,6 @@ enum class CollisionShape
     Sphere,
 };
 
-enum class CollisionType
-{
-    None = 0,
-    Player = 1 << 0, // 0001
-    Enemy = 1 << 1,  // 0010
-    Bullet = 1 << 2, // 0100
-    AmmoBox = 1 << 3 // 1000
-};
-
 enum class EntityType
 {
     None,
