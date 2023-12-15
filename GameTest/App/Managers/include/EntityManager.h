@@ -22,9 +22,9 @@ public:
     vector<EntityId> GetAllEntityIds();
     void MoveEntityToRandomPos(EntityId entityId);
     void ResetEnemies();
-    void InitBulletPool(size_t bulletPoolSize);
+    void InitBulletPool();
     void ReturnBulletToPool(EntityId bulletEntityId);
-    void InitEnemyPool(size_t enemyPoolSize);
+    void InitEnemyPool();
     void ReturnEnemyToPool(EntityId enemyEntityId);
     void SetEntityStateAndVisibility(EntityId entityId, EntityState state, bool isVisible);
 
@@ -107,6 +107,7 @@ private:
 
     vector<EntityId> m_bulletPool = vector<EntityId>();
     size_t m_BulletPoolIndex = 0;
+    const int m_bulletPoolSize = 30;
     vector<EntityId> m_enemyPool = vector<EntityId>();
     size_t m_enemyPoolIndex = 0;
     const int m_enemyPoolSize = 30;

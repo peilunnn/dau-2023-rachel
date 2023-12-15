@@ -62,8 +62,8 @@ void EntityManager::Init()
 	m_loadingScreenCharacterEntityId = CreateLoadingScreenCharacterEntity(spriteManager);
 	m_crosshairEntityId = CreateCrosshairEntity(spriteManager);
 
-	InitBulletPool(ShootingHandler::GetInstance().MAX_BULLETS);
-	InitEnemyPool(m_enemyPoolSize);
+	InitBulletPool();
+	InitEnemyPool();
 }
 
 vector<EntityId> EntityManager::GetAllEntityIds()
@@ -510,11 +510,11 @@ void EntityManager::ResetEnemies()
 	}
 }
 
-void EntityManager::InitBulletPool(size_t bulletPoolSize)
+void EntityManager::InitBulletPool()
 {
 	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
-	for (size_t i = 0; i < bulletPoolSize; ++i)
+	for (size_t i = 0; i < m_bulletPoolSize; ++i)
 	{
 		constexpr vec3 bulletPos = vec3(0.0f);
 		constexpr vec2 bulletVelocity = vec2(0.0f);
@@ -530,11 +530,11 @@ void EntityManager::ReturnBulletToPool(EntityId bulletEntityId)
 	SetEntityStateAndVisibility(bulletEntityId, EntityState::Dead, false);
 }
 
-void EntityManager::InitEnemyPool(size_t enemyPoolSize)
+void EntityManager::InitEnemyPool()
 {
 	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
-	for (size_t i = 0; i < enemyPoolSize; ++i)
+	for (size_t i = 0; i < m_enemyPoolSize; ++i)
 	{
 		EntityId enemyEntityId = CreateEnemyEntity(spriteManager);
 		SetEntityStateAndVisibility(enemyEntityId, EntityState::Dead, false);
