@@ -1,10 +1,12 @@
 #include "stdafx.h"
+#include "Components/include/Animation.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Screen.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
+#include "Systems/include/AnimationHandler.h"
 #include "Systems/include/EntityHandler.h"
 #include "Utilities/include/Helper.h"
 
@@ -65,22 +67,18 @@ void EntityHandler::InitEnemy()
 	Velocity* enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntityId);
 	enemyVelocity->SetVelocity(randomVelocity);
 
+	Animation* enemyAnimation = entityManager.GetComponent<Animation>(enemyEntityId);
+	enemyAnimation->SetCurrentAnimation(ENEMY_ANIM_IDLE);
+	enemySprite->SetAnimation(enemyAnimation->GetCurrentAnimation());
+
 	GameManager::GetInstance().SetIsFirstEnemyInit(true);
 }
 
 void EntityHandler::HandleBulletHitEnemy(EntityManager &entityManager, EntityId bulletEntityId, EntityId enemyEntityId)
 {
-	SpawnTwoEnemies();
+	InitEnemy();
+	InitEnemy();
 	entityManager.ReturnBulletToPool(bulletEntityId);
-	entityManager.ReturnEnemyToPool(enemyEntityId);
-}
-
-void EntityHandler::SpawnTwoEnemies()
-{
-	EntityManager &entityManager = EntityManager::GetInstance();
-
-	InitEnemy();
-	InitEnemy();
 }
 
 void EntityHandler::HandleEnemyHitPlayer(EntityManager &entityManager, EntityId enemyEntityId)

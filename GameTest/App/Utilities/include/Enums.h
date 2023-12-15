@@ -37,6 +37,7 @@ enum class EntityState
 {
     Alive,
     HitByEnemy,
+    HitByBullet,
     Dead
 };
 
@@ -59,6 +60,12 @@ enum PlayerAnimationState
     PLAYER_ANIM_IDLE_RIGHT,
     PLAYER_ANIM_IDLE_FORWARDS,
     PLAYER_ANIM_IDLE_BACKWARDS
+};
+
+enum EnemyAnimationState
+{
+    ENEMY_ANIM_IDLE,
+    ENEMY_ANIM_MELT,
 };
 
 enum HealthBarAnimationState
@@ -85,5 +92,6 @@ enum class TimerType
 {
     None,
     Countdown,
-    PlayerDeath
+    PlayerDeath,
+    EnemyMelt
 };

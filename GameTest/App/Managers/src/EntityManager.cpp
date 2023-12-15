@@ -14,6 +14,7 @@
 #include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
+#include "Systems/include/AnimationHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Systems/include/EntityHandler.h"
 #include "Utilities/include/Helper.h"
@@ -133,7 +134,6 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	constexpr float radiusMultiplier = 0.25f;
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, GameState::Gameplay);
-	tag->SetEntityState(EntityState::Dead);
 	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(enemySprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
@@ -144,6 +144,7 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	unique_ptr<Velocity> velocity = make_unique<Velocity>(zeroVelocity);
 	unique_ptr<BounceDirection> bounceDirection = make_unique<BounceDirection>();
 	unique_ptr<Animation> animation = make_unique<Animation>();
+	unique_ptr<Timer> enemyMeltTimer = make_unique<Timer>(TimerType::EnemyMelt, 0.3f);
 
 	AddComponent(enemyEntityId, move(tag));
 	AddComponent(enemyEntityId, move(transform));
@@ -152,6 +153,9 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	AddComponent(enemyEntityId, move(velocity));
 	AddComponent(enemyEntityId, move(bounceDirection));
 	AddComponent(enemyEntityId, move(animation));
+	AddComponent(enemyEntityId, move(enemyMeltTimer));
+
+	AnimationHandler::GetInstance().InitEnemyAnimation(*this, spriteManager, enemyEntityId);
 
 	return enemyEntityId;
 }
@@ -547,7 +551,7 @@ void EntityManager::InitEnemyPool(size_t enemyPoolSize)
 }
 
 void EntityManager::ReturnEnemyToPool(EntityId enemyEntityId)
-{
+{	
 	SetEntityStateAndVisibility(enemyEntityId, EntityState::Dead, false);
 }
 

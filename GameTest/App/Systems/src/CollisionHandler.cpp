@@ -133,11 +133,13 @@ void CollisionHandler::HandleBulletEnemyCollision(EntityManager &entityManager, 
 
 	if (bulletTag->GetEntityState() == EntityState::Dead)
 		return;
-	if (enemyTag->GetEntityState() == EntityState::Dead)
+	
+	// If enemy is inactive (in pool) or was just hit in the same frame, we don't process the collision
+	if (enemyTag->GetEntityState() == EntityState::Dead || enemyTag->GetEntityState() == EntityState::HitByBullet)
 		return;
 
 	bulletTag->SetEntityState(EntityState::Dead);
-	enemyTag->SetEntityState(EntityState::Dead);
+	enemyTag->SetEntityState(EntityState::HitByBullet);
 
 	Event bulletHitEnemyEvent(EventType::BulletHitEnemy, {bulletEntityId, enemyEntityId});
 	systemManager.SendEvent(bulletHitEnemyEvent);

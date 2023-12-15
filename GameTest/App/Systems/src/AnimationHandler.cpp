@@ -46,6 +46,15 @@ void AnimationHandler::InitPlayerAnimation(EntityManager &entityManager, SpriteM
 	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, speed, {12});
 }
 
+void AnimationHandler::InitEnemyAnimation(EntityManager& entityManager, SpriteManager& spriteManager, EntityId enemyEntityId)
+{
+	CSimpleSprite* enemySprite = spriteManager.GetSprite(enemyEntityId);
+
+	constexpr float speed = 1.0f / 20.0f;
+	enemySprite->CreateAnimation(ENEMY_ANIM_IDLE, speed, { 0 });
+	enemySprite->CreateAnimation(ENEMY_ANIM_MELT, speed, { 1,2,3,4,5,6,7 });
+}
+
 void AnimationHandler::InitHealthBarAnimation(EntityManager &entityManager, SpriteManager &spriteManager)
 {
 	EntityId healtBarEntityId = entityManager.GetHealthBarEntityId();
@@ -85,6 +94,9 @@ void AnimationHandler::Update(float deltaTime)
 		{
 		case EntityType::Player:
 			UpdatePlayerAnimation(entityManager, entityId, deltaTime);
+			break;
+		case EntityType::Enemy:
+			UpdateEnemyAnimation(entityManager, entityId, deltaTime);
 			break;
 		case EntityType::AmmoBox:
 			SpinAmmoBox(deltaTime);
@@ -138,6 +150,21 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
 
 	sprite->SetAnimation(animation->GetCurrentAnimation());
 	sprite->Update(deltaTime);
+}
+
+void AnimationHandler::UpdateEnemyAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime)
+{
+	CSimpleSprite* enemySprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	enemySprite->Update(deltaTime);
+}
+
+void AnimationHandler::PlayMeltAnimation(EntityId entityId, float deltaTime)
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+
+	CSimpleSprite* enemySprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	enemySprite->SetAnimation(ENEMY_ANIM_MELT);
+	enemySprite->Update(deltaTime);
 }
 
 void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)

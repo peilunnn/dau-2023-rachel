@@ -20,18 +20,18 @@ void TimerHandler::Update(float deltaTime) {
     AnimationHandler& animationHandler = AnimationHandler::GetInstance();
     RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
 
-    if (gameManager.GetCurrentGameState() == GameState::Paused)
+    if (gameManager.GetCurrentGameState() == GameState::MainMenu || gameManager.GetCurrentGameState() == GameState::Paused)
         return;
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>())
     {
         Timer* timer = entityManager.GetComponent<Timer>(entityId);
 
-        // We only start decrementing remaining time if the player is dead
-        if (timer->GetType() == TimerType::PlayerDeath) {
-            Health* health = entityManager.GetComponent<Health>(entityId);
-            int currentHealth = health->GetCurrentHealth();
-            if (health->GetCurrentHealth() <= 0) 
+        // For player, we only start decrementing remaining time if player is dead
+        if (timer->GetType() == TimerType::PlayerDeath)
+        {
+            Tag* playerTag = entityManager.GetComponent<Tag>(entityId);
+            if (playerTag->GetEntityState() == EntityState::Dead)
             {
                 float newRemainingTime = timer->GetRemainingTime() - deltaTime;
                 timer->SetRemainingTime(newRemainingTime);
@@ -43,6 +43,28 @@ void TimerHandler::Update(float deltaTime) {
                 }
                 else
                     gameManager.TransitionToLoadingState();
+            }
+        }
+
+        // For enemy, we only start decrementing remaining time if enemy is hit by bullet
+        else if (timer->GetType() == TimerType::EnemyMelt)
+        {
+            Tag* enemyTag = entityManager.GetComponent<Tag>(entityId);
+            if (enemyTag->GetEntityState() == EntityState::HitByBullet)
+            {
+                float newRemainingTime = timer->GetRemainingTime() - deltaTime;
+                timer->SetRemainingTime(newRemainingTime);
+
+                if (newRemainingTime > 0)
+                {
+                    animationHandler.PlayMeltAnimation(entityId, deltaTime);
+                }
+                else
+                {
+                    timer->SetRemainingTime(timer->GetInitialDuration());
+                    entityManager.ReturnEnemyToPool(entityId);
+                }
+
             }
         }
 

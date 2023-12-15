@@ -19,7 +19,6 @@ private:
     }
 
     void HandleBulletHitEnemy(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId);
-    void SpawnTwoEnemies();
     void HandleEnemyHitPlayer(EntityManager& entityManager, EntityId enemyEntityId);
     void HandleBulletOutOfBounds(EntityManager& entityManager, EntityId bulletEntityId);
 };
