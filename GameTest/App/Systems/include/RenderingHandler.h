@@ -29,9 +29,9 @@ private:
     float m_shakeIntensity = 0.0f;
     float m_shakeTimer = 0.0f;
     const float MIN_SHAKE_DURATION = 1.0f;
-    const float MAX_SHAKE_DURATION = 2.0f;
-    const float MIN_SHAKE_INTENSITY = 5.0f;
-    const float MAX_SHAKE_INTENSITY = 10.0f;
+    const float MAX_SHAKE_DURATION = 1.5f;
+    const float MIN_SHAKE_INTENSITY = 20.0f;
+    const float MAX_SHAKE_INTENSITY = 30.0f;
 
     void RenderMainMenuScene(EntityManager& entityManager, Screen& screen);
     void RenderGameplayScene(EntityManager& entityManager, Screen& screen);
