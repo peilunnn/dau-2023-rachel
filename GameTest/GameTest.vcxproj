@@ -291,7 +291,7 @@
     <Image Include="Data\SpriteSheets\PlayButton.png" />
     <Image Include="Data\SpriteSheets\Player.bmp" />
     <Image Include="Data\SpriteSheets\Player.png" />
-    <Image Include="Data\SpriteSheets\ReloadingCircle.png" />
+    <Image Include="Data\SpriteSheets\AmmoBox.png" />
     <Image Include="Data\Sprites\AmmoEmpty.png" />
     <Image Include="Data\Sprites\AmmoFilled.png" />
     <Image Include="Data\Sprites\BackButton.png" />

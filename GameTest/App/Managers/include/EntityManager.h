@@ -21,8 +21,6 @@ public:
     void Init();
     vector<EntityId> GetAllEntityIds();
     void MoveEntityToRandomPos(EntityId entityId);
-    void MarkEntityForDeletion(EntityId entityId);
-    void ProcessDeletions();
     void ResetEnemies();
     void InitBulletPool(size_t bulletPoolSize);
     void ReturnBulletToPool(EntityId bulletEntityId);
@@ -31,7 +29,7 @@ public:
     void SetEntityStateAndVisibility(EntityId entityId, EntityState state, bool isVisible);
 
     EntityId GetPlayerEntityId() const { return m_playerEntityId; }
-    EntityId GetReloadingCircleEntityId() const { return m_reloadingCircleEntityId; }
+    EntityId GetAmmoBoxEntityId() const { return m_AmmoBoxEntityId; }
     EntityId GetHealthBarEntityId() const { return m_healthBarEntityId; }
     EntityId GetScoreEntityId() const { return m_scoreEntityId; }
     EntityId GetCountdownTimerEntityId() const { return m_countdownTimerEntityId; }
@@ -89,7 +87,7 @@ private:
     EntityId m_nextEntityId = -1;
     EntityId m_playerEntityId = -1;
     EntityId m_enemyEntityId = -1;
-    EntityId m_reloadingCircleEntityId = -1;
+    EntityId m_AmmoBoxEntityId = -1;
     EntityId m_ammoEmptyEntityId = -1;
     EntityId m_ammoFilledEntityId = -1;
     EntityId m_healthBarEntityId = -1;
@@ -117,7 +115,7 @@ private:
     EntityId CreatePlayerEntity(SpriteManager &spriteManager);
     EntityId CreateEnemyEntity(SpriteManager &spriteManager);
     EntityId CreateBulletEntity(SpriteManager &spriteManager, const vec3 &pos, const vec2 &targetVelocity);
-    EntityId CreateReloadingCircleEntity(SpriteManager &spriteManager);
+    EntityId CreateAmmoBoxEntity(SpriteManager &spriteManager);
     EntityId CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos);
     EntityId CreateHealthBarEntity(SpriteManager &spriteManager);
     EntityId CreateScoreEntity();
@@ -127,6 +125,6 @@ private:
     EntityId CreateBackButtonEntity(SpriteManager &spriteManager);
     EntityId CreateQuitButtonEntity(SpriteManager &spriteManager);
     EntityId CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager);
-    EntityId CreateStarfieldEntity(SpriteManager& spriteManager);
+    EntityId CreateStarfieldEntity(SpriteManager &spriteManager);
     EntityId CreateCrosshairEntity(SpriteManager &spriteManager);
 };

@@ -49,7 +49,7 @@ void EntityManager::Init()
 	}
 
 	m_playerEntityId = CreatePlayerEntity(spriteManager);
-	m_reloadingCircleEntityId = CreateReloadingCircleEntity(spriteManager);
+	m_AmmoBoxEntityId = CreateAmmoBoxEntity(spriteManager);
 	m_healthBarEntityId = CreateHealthBarEntity(spriteManager);
 	m_scoreEntityId = CreateScoreEntity();
 	m_countdownTimerEntityId = CreateCountdownTimerEntity();
@@ -99,7 +99,7 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager &spriteManager)
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
 	collider->SetCollisionType(CollisionType::Player);
-	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy) | static_cast<int>(CollisionType::ReloadingCircle));
+	collider->SetCollisionMask(static_cast<int>(CollisionType::Enemy) | static_cast<int>(CollisionType::AmmoBox));
 	collider->SetRadius(playerSprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>();
 	unique_ptr<Health> health = make_unique<Health>();
@@ -184,36 +184,36 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager &spriteManager, const v
 	return bulletEntityId;
 }
 
-EntityId EntityManager::CreateReloadingCircleEntity(SpriteManager &spriteManager)
+EntityId EntityManager::CreateAmmoBoxEntity(SpriteManager &spriteManager)
 {
-	EntityId reloadingCircleEntityId = CreateEntityId();
-	CSimpleSprite *reloadingCircleSprite = spriteManager.CreateSprite(reloadingCircleEntityId, Helper::PATH_TO_RELOADING_CIRCLE, 5, 2);
+	EntityId ammoBoxEntityId = CreateEntityId();
+	CSimpleSprite *ammoBoxSprite = spriteManager.CreateSprite(ammoBoxEntityId, Helper::PATH_TO_AMMO_BOX, 1, 1);
 
 	Screen &screen = screen.GetInstance();
 	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD, screen.BORDER_RIGHT_SCREEN_COORD);
 	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD, screen.BORDER_BOTTOM_SCREEN_COORD);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.4f);
-	constexpr float radiusMultiplier = 0.25f;
+	constexpr vec3 scale = vec3(0.15f);
+	constexpr float radiusMultiplier = 0.05f;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::ReloadingCircle, GameState::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::AmmoBox, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Renderable> renderable = make_unique<Renderable>(reloadingCircleSprite);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(ammoBoxSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
-	collider->SetCollisionType(CollisionType::ReloadingCircle);
+	collider->SetCollisionType(CollisionType::AmmoBox);
 	collider->SetCollisionMask(static_cast<int>(CollisionType::Player));
-	collider->SetRadius(reloadingCircleSprite->GetWidth() * radiusMultiplier);
+	collider->SetRadius(ammoBoxSprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Animation> animation = make_unique<Animation>();
 
-	AddComponent(reloadingCircleEntityId, move(tag));
-	AddComponent(reloadingCircleEntityId, move(transform));
-	AddComponent(reloadingCircleEntityId, move(renderable));
-	AddComponent(reloadingCircleEntityId, move(collider));
-	AddComponent(reloadingCircleEntityId, move(animation));
+	AddComponent(ammoBoxEntityId, move(tag));
+	AddComponent(ammoBoxEntityId, move(transform));
+	AddComponent(ammoBoxEntityId, move(renderable));
+	AddComponent(ammoBoxEntityId, move(collider));
+	AddComponent(ammoBoxEntityId, move(animation));
 
-	return reloadingCircleEntityId;
+	return ammoBoxEntityId;
 }
 
 EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos)
@@ -464,12 +464,12 @@ EntityId EntityManager::CreateStarfieldEntity(SpriteManager &spriteManager)
 	return starfieldEntityId;
 }
 
-EntityId EntityManager::CreateCrosshairEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateCrosshairEntity(SpriteManager &spriteManager)
 {
 	EntityId crosshairEntityId = CreateEntityId();
-	CSimpleSprite* crosshairSprite = spriteManager.CreateSprite(crosshairEntityId, Helper::PATH_TO_CROSSHAIR, 1, 1);
+	CSimpleSprite *crosshairSprite = spriteManager.CreateSprite(crosshairEntityId, Helper::PATH_TO_CROSSHAIR, 1, 1);
 
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	const float xPos = 0.0f;
 	const float yPos = 0.0f;
 	constexpr float zPos = 0.0f;
@@ -497,29 +497,6 @@ void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 	vec3 newPos = vec3(xPos, yPos, zPos);
 	Transform *transform = GetComponent<Transform>(entityId);
 	transform->SetPosition(newPos);
-}
-
-void EntityManager::MarkEntityForDeletion(EntityId entityId)
-{
-	// Check if already marked for deletion
-	if (find(m_entitiesToDelete.begin(), m_entitiesToDelete.end(), entityId) == m_entitiesToDelete.end())
-	{
-		m_entitiesToDelete.push_back(entityId);
-	}
-}
-
-void EntityManager::ProcessDeletions()
-{
-	GameManager &gameManager = GameManager::GetInstance();
-
-	if (gameManager.GetCurrentGameState() == GameState::Paused)
-		return;
-
-	for (EntityId entityId : m_entitiesToDelete)
-	{
-		m_entityComponents.erase(entityId);
-	}
-	m_entitiesToDelete.clear();
 }
 
 void EntityManager::ResetEnemies()

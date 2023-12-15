@@ -8,10 +8,10 @@ enum class CollisionShape
 enum class CollisionType
 {
     None = 0,
-    Player = 1 << 0,         // 0001
-    Enemy = 1 << 1,          // 0010
-    Bullet = 1 << 2,         // 0100
-    ReloadingCircle = 1 << 3 // 1000
+    Player = 1 << 0, // 0001
+    Enemy = 1 << 1,  // 0010
+    Bullet = 1 << 2, // 0100
+    AmmoBox = 1 << 3 // 1000
 };
 
 enum class EntityType
@@ -20,7 +20,7 @@ enum class EntityType
     Player,
     Enemy,
     Bullet,
-    ReloadingCircle,
+    AmmoBox,
     AmmoEmpty,
     AmmoFilled,
     HealthBar,
@@ -43,7 +43,7 @@ enum class EntityState
 enum class EventType
 {
     None,
-    PlayerHitReloadingCircle,
+    PlayerHitAmmoBox,
     EnemyHitPlayer,
     BulletHitEnemy,
     BulletOutOfBounds
@@ -61,9 +61,9 @@ enum PlayerAnimationState
     PLAYER_ANIM_IDLE_BACKWARDS
 };
 
-enum ReloadingCircleAnimationState
+enum AmmoBoxAnimationState
 {
-    RELOADING_CIRCLE_ANIM_SPIN
+    AMMO_BOX_ANIM_SPIN
 };
 
 enum HealthBarAnimationState
@@ -86,7 +86,8 @@ enum class GameState
     Paused
 };
 
-enum class TimerType {
+enum class TimerType
+{
     None,
     Countdown,
     PlayerDeath

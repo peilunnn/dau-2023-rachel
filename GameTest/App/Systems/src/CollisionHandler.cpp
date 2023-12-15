@@ -65,11 +65,11 @@ void CollisionHandler::Update(float deltaTime)
 	}
 }
 
-void CollisionHandler::PopulateQuadtree(EntityManager& entityManager, vector<EntityId> allEntityIds)
+void CollisionHandler::PopulateQuadtree(EntityManager &entityManager, vector<EntityId> allEntityIds)
 {
-	for (EntityId& entityId : allEntityIds)
+	for (EntityId &entityId : allEntityIds)
 	{
-		Transform* transform = entityManager.GetComponent<Transform>(entityId);
+		Transform *transform = entityManager.GetComponent<Transform>(entityId);
 		if (transform)
 			m_rootQuadtree.Insert(transform, entityId);
 	}
@@ -93,8 +93,8 @@ bool CollisionHandler::IsColliding(Transform *firstTransform, Collider *firstCol
 
 void CollisionHandler::HandleCollisionEvent(EntityId firstEntityId, EntityId secondEntityId)
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
-	SystemManager& systemManager = SystemManager::GetInstance();
+	EntityManager &entityManager = EntityManager::GetInstance();
+	SystemManager &systemManager = SystemManager::GetInstance();
 	EntityType firstEntityType = entityManager.GetComponent<Tag>(firstEntityId)->GetEntityType();
 	EntityType secondEntityType = entityManager.GetComponent<Tag>(secondEntityId)->GetEntityType();
 
@@ -116,20 +116,20 @@ void CollisionHandler::HandleCollisionEvent(EntityId firstEntityId, EntityId sec
 		HandlePlayerEnemyCollision(entityManager, systemManager, playerEntityId, enemyEntityId);
 	}
 
-	// Case 3: player-reloadingCircle
-	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::ReloadingCircle) ||
-			 (firstEntityType == EntityType::ReloadingCircle && secondEntityType == EntityType::Player))
+	// Case 3: player-ammoBox
+	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::AmmoBox) ||
+			 (firstEntityType == EntityType::AmmoBox && secondEntityType == EntityType::Player))
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
-		EntityId reloadingCircleEntityId = (firstEntityType == EntityType::ReloadingCircle) ? firstEntityId : secondEntityId;
-		HandlePlayerReloadingCircleCollision(systemManager, playerEntityId, reloadingCircleEntityId);
+		EntityId ammoBoxEntityId = (firstEntityType == EntityType::AmmoBox) ? firstEntityId : secondEntityId;
+		HandlePlayerAmmoBoxCollision(systemManager, playerEntityId, ammoBoxEntityId);
 	}
 }
 
-void CollisionHandler::HandleBulletEnemyCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId bulletEntityId, EntityId enemyEntityId)
+void CollisionHandler::HandleBulletEnemyCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId bulletEntityId, EntityId enemyEntityId)
 {
-	Tag* bulletTag = entityManager.GetComponent<Tag>(bulletEntityId);
-	Tag* enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
+	Tag *bulletTag = entityManager.GetComponent<Tag>(bulletEntityId);
+	Tag *enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
 
 	if (bulletTag->GetEntityState() == EntityState::Dead)
 		return;
@@ -139,14 +139,14 @@ void CollisionHandler::HandleBulletEnemyCollision(EntityManager& entityManager, 
 	bulletTag->SetEntityState(EntityState::Dead);
 	enemyTag->SetEntityState(EntityState::Dead);
 
-	Event bulletHitEnemyEvent(EventType::BulletHitEnemy, { bulletEntityId, enemyEntityId });
+	Event bulletHitEnemyEvent(EventType::BulletHitEnemy, {bulletEntityId, enemyEntityId});
 	systemManager.SendEvent(bulletHitEnemyEvent);
 }
 
-void CollisionHandler::HandlePlayerEnemyCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId enemyEntityId)
+void CollisionHandler::HandlePlayerEnemyCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId playerEntityId, EntityId enemyEntityId)
 {
-	Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
-	Tag* enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
+	Tag *playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+	Tag *enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
 
 	if (playerTag->GetEntityState() != EntityState::Alive)
 		return;
@@ -158,14 +158,12 @@ void CollisionHandler::HandlePlayerEnemyCollision(EntityManager& entityManager, 
 
 	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_HURT);
 
-	Event enemyHitPlayerEvent(EventType::EnemyHitPlayer, { enemyEntityId, playerEntityId });
+	Event enemyHitPlayerEvent(EventType::EnemyHitPlayer, {enemyEntityId, playerEntityId});
 	systemManager.SendEvent(enemyHitPlayerEvent);
 }
 
-void CollisionHandler::HandlePlayerReloadingCircleCollision(SystemManager& systemManager, EntityId playerEntityId, EntityId reloadingCircleEntityId)
+void CollisionHandler::HandlePlayerAmmoBoxCollision(SystemManager &systemManager, EntityId playerEntityId, EntityId ammoBoxEntityId)
 {
 	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_RELOAD);
-	ShootingHandler::GetInstance().HandlePlayerHitReloadingCircle();
+	ShootingHandler::GetInstance().HandlePlayerHitAmmoBox();
 }
-
-

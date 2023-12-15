@@ -74,7 +74,6 @@ void Update(float deltaTime)
 		TimerHandler::GetInstance().Update(deltaTimeInSeconds);
 		CooldownHandler::GetInstance().Update(deltaTimeInSeconds);
 		SystemManager::GetInstance().ProcessEvents(deltaTimeInSeconds);
-		EntityManager::GetInstance().ProcessDeletions();
 		RenderingHandler::GetInstance().UpdateScreenShakeTimer(deltaTime);
 
 		if (!GameManager::GetInstance().GetIsFirstEnemyInit())

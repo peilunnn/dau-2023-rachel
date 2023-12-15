@@ -14,7 +14,7 @@
 #include "Utilities/include/SimpleSprite.h"
 using glm::vec2;
 
-AnimationHandler& AnimationHandler::GetInstance()
+AnimationHandler &AnimationHandler::GetInstance()
 {
 	static AnimationHandler instance;
 	return instance;
@@ -22,19 +22,19 @@ AnimationHandler& AnimationHandler::GetInstance()
 
 void AnimationHandler::Init()
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
-	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	EntityManager &entityManager = EntityManager::GetInstance();
+	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
 	InitPlayerAnimation(entityManager, spriteManager);
-	InitReloadingCircleAnimation(entityManager, spriteManager);
+	InitAmmoBoxAnimation(entityManager, spriteManager);
 	InitHealthBarAnimation(entityManager, spriteManager);
 	InitLoadingScreenCharacterAnimation(entityManager, spriteManager);
 }
 
-void AnimationHandler::InitPlayerAnimation(EntityManager& entityManager, SpriteManager& spriteManager)
+void AnimationHandler::InitPlayerAnimation(EntityManager &entityManager, SpriteManager &spriteManager)
 {
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
-	CSimpleSprite* playerSprite = spriteManager.GetSprite(playerEntityId);
+	CSimpleSprite *playerSprite = spriteManager.GetSprite(playerEntityId);
 
 	constexpr float speed = 1.0f / 5.0f;
 	playerSprite->CreateAnimation(PLAYER_ANIM_FORWARDS, speed, {12, 13, 14, 15});
@@ -47,19 +47,19 @@ void AnimationHandler::InitPlayerAnimation(EntityManager& entityManager, SpriteM
 	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, speed, {12});
 }
 
-void AnimationHandler::InitReloadingCircleAnimation(EntityManager& entityManager, SpriteManager& spriteManager)
+void AnimationHandler::InitAmmoBoxAnimation(EntityManager &entityManager, SpriteManager &spriteManager)
 {
-	EntityId reloadingCircleEntityId = entityManager.GetReloadingCircleEntityId();
-	CSimpleSprite* reloadingCircleSprite = spriteManager.GetSprite(reloadingCircleEntityId);
+	EntityId ammoBoxEntityId = entityManager.GetAmmoBoxEntityId();
+	CSimpleSprite *ammoBoxSprite = spriteManager.GetSprite(ammoBoxEntityId);
 
 	constexpr float speed = 1.0f / 15.0f;
-	reloadingCircleSprite->CreateAnimation(RELOADING_CIRCLE_ANIM_SPIN, speed, {1, 2, 3, 4, 5, 6});
+	ammoBoxSprite->CreateAnimation(AMMO_BOX_ANIM_SPIN, speed, {1, 2, 3, 4, 5, 6});
 }
 
-void AnimationHandler::InitHealthBarAnimation(EntityManager& entityManager, SpriteManager& spriteManager)
+void AnimationHandler::InitHealthBarAnimation(EntityManager &entityManager, SpriteManager &spriteManager)
 {
 	EntityId healtBarEntityId = entityManager.GetHealthBarEntityId();
-	CSimpleSprite* healthBarSprite = spriteManager.GetSprite(healtBarEntityId);
+	CSimpleSprite *healthBarSprite = spriteManager.GetSprite(healtBarEntityId);
 
 	constexpr float speed = 1.0f / 15.0f;
 	healthBarSprite->CreateAnimation(HEALTH_100, speed, {0});
@@ -70,18 +70,18 @@ void AnimationHandler::InitHealthBarAnimation(EntityManager& entityManager, Spri
 	healthBarSprite->CreateAnimation(HEALTH_0, speed, {5});
 }
 
-void AnimationHandler::InitLoadingScreenCharacterAnimation(EntityManager& entityManager, SpriteManager& spriteManager)
+void AnimationHandler::InitLoadingScreenCharacterAnimation(EntityManager &entityManager, SpriteManager &spriteManager)
 {
 	EntityId loadingScreenCharacterEntityId = entityManager.GetLoadingScreenCharacterEntityId();
-	CSimpleSprite* loadingScreenCharacterSprite = spriteManager.GetSprite(loadingScreenCharacterEntityId);
-	
+	CSimpleSprite *loadingScreenCharacterSprite = spriteManager.GetSprite(loadingScreenCharacterEntityId);
+
 	constexpr float speed = 1.0f / 5.0f;
-	loadingScreenCharacterSprite->CreateAnimation(PLAYER_ANIM_RIGHT, speed, { 8, 9, 10, 11 });
+	loadingScreenCharacterSprite->CreateAnimation(PLAYER_ANIM_RIGHT, speed, {8, 9, 10, 11});
 }
 
 void AnimationHandler::Update(float deltaTime)
 {
-	GameManager& gameManager = GameManager::GetInstance();
+	GameManager &gameManager = GameManager::GetInstance();
 	EntityManager &entityManager = EntityManager::GetInstance();
 
 	if (gameManager.GetCurrentGameState() == GameState::Paused)
@@ -96,8 +96,8 @@ void AnimationHandler::Update(float deltaTime)
 		case EntityType::Player:
 			UpdatePlayerAnimation(entityManager, entityId, deltaTime);
 			break;
-		case EntityType::ReloadingCircle:
-			UpdateReloadingCircleAnimation(entityManager, entityId, deltaTime);
+		case EntityType::AmmoBox:
+			UpdateAmmoBoxAnimation(entityManager, entityId, deltaTime);
 			break;
 		case EntityType::HealthBar:
 			UpdateHealthBarAnimation(entityManager, entityId, deltaTime);
@@ -150,33 +150,33 @@ void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, Entit
 	sprite->Update(deltaTime);
 }
 
-void AnimationHandler::UpdateReloadingCircleAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
+void AnimationHandler::UpdateAmmoBoxAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	CSimpleSprite *reloadingCircleSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	Animation *reloadingCircleAnimation = entityManager.GetComponent<Animation>(entityId);
-	reloadingCircleAnimation->SetCurrentAnimation(RELOADING_CIRCLE_ANIM_SPIN);
-	reloadingCircleSprite->SetAnimation(reloadingCircleAnimation->GetCurrentAnimation());
-	reloadingCircleSprite->Update(deltaTime);
+	CSimpleSprite *ammoBoxSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	Animation *ammoBoxAnimation = entityManager.GetComponent<Animation>(entityId);
+	ammoBoxAnimation->SetCurrentAnimation(AMMO_BOX_ANIM_SPIN);
+	ammoBoxSprite->SetAnimation(ammoBoxAnimation->GetCurrentAnimation());
+	ammoBoxSprite->Update(deltaTime);
 }
 
 void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	CSimpleSprite* healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	healthBarSprite->Update(deltaTime);
 }
 
-void AnimationHandler::UpdateLoadingScreenCharacterAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime)
+void AnimationHandler::UpdateLoadingScreenCharacterAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	CSimpleSprite* loadingScreenCharacterSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	Animation* loadingScreenCharacterAnimation = entityManager.GetComponent<Animation>(entityId);
+	CSimpleSprite *loadingScreenCharacterSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	Animation *loadingScreenCharacterAnimation = entityManager.GetComponent<Animation>(entityId);
 	loadingScreenCharacterAnimation->SetCurrentAnimation(PLAYER_ANIM_RIGHT);
 	loadingScreenCharacterSprite->SetAnimation(loadingScreenCharacterAnimation->GetCurrentAnimation());
 	loadingScreenCharacterSprite->Update(deltaTime);
 }
 
-void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
+void AnimationHandler::HandleEvent(const Event &event, float deltaTime)
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityManager &entityManager = EntityManager::GetInstance();
 
 	if (event.GetEventType() == EventType::EnemyHitPlayer)
 		HandleEnemyHitPlayer(entityManager, deltaTime);
@@ -184,9 +184,9 @@ void AnimationHandler::HandleEvent(const Event& event, float deltaTime)
 
 void AnimationHandler::RotatePlayer(float deltaTime)
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityManager &entityManager = EntityManager::GetInstance();
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
-	CSimpleSprite* playerSprite = entityManager.GetComponent<Renderable>(playerEntityId)->GetSprite();
+	CSimpleSprite *playerSprite = entityManager.GetComponent<Renderable>(playerEntityId)->GetSprite();
 	constexpr float targetAngle = 67.5f;
 	float currentAngle = playerSprite->GetAngle();
 	const float rotationSpeed = 0.8f;
@@ -196,19 +196,19 @@ void AnimationHandler::RotatePlayer(float deltaTime)
 
 void AnimationHandler::ResetHealthBarAnimation()
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityManager &entityManager = EntityManager::GetInstance();
 	EntityId healthBarEntityId = entityManager.GetHealthBarEntityId();
-	CSimpleSprite* healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
-	Animation* healthBarAnimation = entityManager.GetComponent<Animation>(healthBarEntityId);
+	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
+	Animation *healthBarAnimation = entityManager.GetComponent<Animation>(healthBarEntityId);
 	healthBarAnimation->SetCurrentAnimation(HEALTH_100);
 	healthBarSprite->SetAnimation(healthBarAnimation->GetCurrentAnimation());
 }
 
 void AnimationHandler::ResetPlayerAnimation()
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityManager &entityManager = EntityManager::GetInstance();
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
-	CSimpleSprite* playerSprite = entityManager.GetComponent<Renderable>(playerEntityId)->GetSprite();
+	CSimpleSprite *playerSprite = entityManager.GetComponent<Renderable>(playerEntityId)->GetSprite();
 	playerSprite->SetAngle(0.0f);
 }
 

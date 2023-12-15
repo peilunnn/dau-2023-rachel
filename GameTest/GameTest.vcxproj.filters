@@ -136,7 +136,7 @@
     <Image Include="Data\SpriteSheets\HealthBar.png" />
     <Image Include="Data\SpriteSheets\PlayButton.png" />
     <Image Include="Data\SpriteSheets\Player.png" />
-    <Image Include="Data\SpriteSheets\ReloadingCircle.png" />
+    <Image Include="Data\SpriteSheets\AmmoBox.png" />
     <Image Include="Data\SpriteSheets\Buttons.png" />
     <Image Include="Data\Sprites\PlayButton.png" />
     <Image Include="Data\Sprites\BackButton.png" />

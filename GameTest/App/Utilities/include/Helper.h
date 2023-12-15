@@ -22,7 +22,7 @@ namespace Helper
 	inline const char* PATH_TO_PLAYER = ".\\Data\\SpriteSheets\\Player.png";
 	inline const char* PATH_TO_ENEMY = ".\\Data\\SpriteSheets\\Enemy.png";
 	inline const char* PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
-	inline const char* PATH_TO_RELOADING_CIRCLE = ".\\Data\\SpriteSheets\\ReloadingCircle.png";
+	inline const char* PATH_TO_AMMO_BOX = ".\\Data\\Sprites\\AmmoBox.png";
 	inline const char* PATH_TO_AMMO_EMPTY = ".\\Data\\Sprites\\AmmoEmpty.png";
 	inline const char* PATH_TO_AMMO_FILLED = ".\\Data\\Sprites\\AmmoFilled.png";
 	inline const char* PATH_TO_HEALTH_BAR = ".\\Data\\SpriteSheets\\HealthBar.png";

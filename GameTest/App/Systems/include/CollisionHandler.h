@@ -6,11 +6,12 @@
 #include "Utilities/include/QuadtreeNode.h"
 using namespace std;
 
-class CollisionHandler : public System {
+class CollisionHandler : public System
+{
 public:
-    static CollisionHandler& GetInstance();
-    CollisionHandler(CollisionHandler const&) = delete;
-    void operator=(CollisionHandler const&) = delete;
+    static CollisionHandler &GetInstance();
+    CollisionHandler(CollisionHandler const &) = delete;
+    void operator=(CollisionHandler const &) = delete;
 
     void Update(float deltaTime);
 
@@ -20,10 +21,10 @@ private:
 
     QuadtreeNode m_rootQuadtree;
 
-    void PopulateQuadtree(EntityManager& entityManager, vector<EntityId> allEntityIds);
-    bool IsColliding(Transform* firstTransform, Collider* firstCollider, Transform* secondTransform, Collider* secondCollider);
+    void PopulateQuadtree(EntityManager &entityManager, vector<EntityId> allEntityIds);
+    bool IsColliding(Transform *firstTransform, Collider *firstCollider, Transform *secondTransform, Collider *secondCollider);
     void HandleCollisionEvent(EntityId firstEntityId, EntityId secondEntityId);
-    void HandleBulletEnemyCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId bulletEntityId, EntityId enemyEntityId);
-    void HandlePlayerEnemyCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId enemyEntityId);
-    void HandlePlayerReloadingCircleCollision(SystemManager& systemManager, EntityId playerEntityId, EntityId reloadingCircleEntityId);
+    void HandleBulletEnemyCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId bulletEntityId, EntityId enemyEntityId);
+    void HandlePlayerEnemyCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId playerEntityId, EntityId enemyEntityId);
+    void HandlePlayerAmmoBoxCollision(SystemManager &systemManager, EntityId playerEntityId, EntityId ammoBoxEntityId);
 };
