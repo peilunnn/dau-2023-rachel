@@ -490,8 +490,10 @@ EntityId EntityManager::CreateCrosshairEntity(SpriteManager &spriteManager)
 void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 {
 	Screen &screen = screen.GetInstance();
-	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD, screen.BORDER_RIGHT_SCREEN_COORD);
-	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD, screen.BORDER_BOTTOM_SCREEN_COORD);
+
+	constexpr float offset = 5.0f;
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD + offset, screen.BORDER_RIGHT_SCREEN_COORD - offset);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD + offset, screen.BORDER_BOTTOM_SCREEN_COORD - offset);
 	constexpr float zPos = 0.0f;
 
 	vec3 newPos = vec3(xPos, yPos, zPos);
