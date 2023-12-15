@@ -8,23 +8,23 @@ QuadtreeNode::QuadtreeNode(int level, float x, float y, float width, float heigh
         nodes[i] = nullptr;
 }
 
-QuadtreeNode::~QuadtreeNode() {
+QuadtreeNode::~QuadtreeNode() 
+{
     Clear();
 }
 
-void QuadtreeNode::Clear() {
+void QuadtreeNode::Clear() 
+{
     elements.clear();
     for (int i = 0; i < 4; i++) 
     {
         if (nodes[i] != nullptr) 
-        {
             nodes[i]->Clear();
-            nodes[i] = nullptr;
-        }
     }
 }
 
-void QuadtreeNode::Split() {
+void QuadtreeNode::Split() 
+{
     float widthHalved = width / 2.0f;
     float heightHalved = height / 2.0f;
     float xMidpoint = x + widthHalved;
@@ -104,8 +104,8 @@ void QuadtreeNode::Insert(Transform* transform, EntityId entityId)
         {
             int index = GetIndex(elements[i].transform);
 
-            // If we get a valid index, move object into child node
-            if (index != -1) 
+            // If we get a valid index and node exists, move object into child node
+            if (index != -1 && nodes[index] != nullptr)
             {
                 nodes[index]->Insert(elements[i].transform, elements[i].entityId);
                 elements.erase(elements.begin() + i);

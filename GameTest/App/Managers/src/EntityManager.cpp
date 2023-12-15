@@ -495,7 +495,7 @@ void EntityManager::MoveEntityToRandomPos(EntityId entityId)
 {
 	Screen &screen = screen.GetInstance();
 
-	constexpr float offset = 5.0f;
+	constexpr float offset = 20.0f;
 	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD + offset, screen.BORDER_RIGHT_SCREEN_COORD - offset);
 	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD + offset, screen.BORDER_BOTTOM_SCREEN_COORD - offset);
 	constexpr float zPos = 0.0f;

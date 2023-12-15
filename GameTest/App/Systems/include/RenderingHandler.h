@@ -2,7 +2,7 @@
 #include "Components/include/Screen.h"
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
-#include "Utilities/include/Color.h"
+#include "Components/include/Color.h"
 
 class RenderingHandler : public System {
 public:

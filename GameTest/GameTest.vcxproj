@@ -215,7 +215,7 @@
     <ClInclude Include="App\Systems\include\CooldownHandler.h" />
     <ClInclude Include="App\Components\include\Screen.h" />
     <ClInclude Include="App\Managers\include\GameManager.h" />
-    <ClInclude Include="App\Utilities\include\Color.h" />
+    <ClInclude Include="App\Components\include\Color.h" />
     <ClInclude Include="App\Managers\include\SoundManager.h" />
     <ClInclude Include="App\Utilities\include\QuadtreeNode.h" />
     <ClInclude Include="stb_image\stb_image.h" />
@@ -250,7 +250,7 @@
     <ClCompile Include="App\Components\src\Cooldown.cpp" />
     <ClCompile Include="App\Systems\src\CooldownHandler.cpp" />
     <ClCompile Include="App\Managers\src\GameManager.cpp" />
-    <ClCompile Include="App\Utilities\src\Color.cpp" />
+    <ClCompile Include="App\Components\src\Color.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Systems\src\CollisionHandler.cpp" />
@@ -292,11 +292,15 @@
     <Image Include="Data\SpriteSheets\Player.bmp" />
     <Image Include="Data\SpriteSheets\Player.png" />
     <Image Include="Data\SpriteSheets\AmmoBox.png" />
+    <Image Include="Data\Sprites\AmmoBox.png" />
     <Image Include="Data\Sprites\AmmoEmpty.png" />
     <Image Include="Data\Sprites\AmmoFilled.png" />
     <Image Include="Data\Sprites\BackButton.png" />
     <Image Include="Data\Sprites\Bullet.bmp" />
+    <Image Include="Data\Sprites\Crosshair.png" />
     <Image Include="Data\Sprites\PlayButton.png" />
+    <Image Include="Data\Sprites\QuitButton.png" />
+    <Image Include="Data\Sprites\Starfield.png" />
     <Image Include="Data\Sprites\Title.png" />
   </ItemGroup>
   <ItemGroup>
