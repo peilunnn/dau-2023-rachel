@@ -9,7 +9,9 @@
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/EntityHandler.h"
 #include "Utilities/include/Helper.h"
-
+#include <algorithm>
+#include <random>
+using namespace std;
 using glm::vec3;
 
 EntityHandler& EntityHandler::GetInstance()
@@ -42,6 +44,9 @@ void EntityHandler::HandleEvent(const Event &event, float deltaTime)
 	{
 		EntityId pickupEntityId = event.GetEntities()[1];
 		MoveEntityToRandomPos(pickupEntityId);
+
+		if (event.GetEventType() == EventType::PlayerHitLightningPickup)
+			InitLightningStrikes(entityManager);
 	}
 }
 
@@ -108,4 +113,40 @@ void EntityHandler::HandleEnemyHitPlayer(EntityManager &entityManager, EntityId 
 void EntityHandler::HandleBulletOutOfBounds(EntityManager &entityManager, EntityId bulletEntityId)
 {
 	entityManager.ReturnBulletToPool(bulletEntityId);
+}
+
+void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
+{
+	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	vector<EntityId> allEntityIds = entityManager.GetAllEntityIds();
+
+	vector<EntityId> activeEnemies;
+	for (EntityId entityId : allEntityIds)
+	{
+		Tag* tag = entityManager.GetComponent<Tag>(entityId);
+		if (tag && tag->GetEntityType() == EntityType::Enemy && tag->GetEntityState() == EntityState::Alive)
+			activeEnemies.push_back(entityId);
+	}
+
+	random_device rd;
+	default_random_engine rng(rd());
+
+	// Randomly select up to 5 enemies
+	shuffle(activeEnemies.begin(), activeEnemies.end(), rng);
+	int enemiesToStrike = min(static_cast<int>(activeEnemies.size()), 5);
+
+	for (int i = 0; i < enemiesToStrike; ++i)
+	{
+		EntityId enemyEntityId = activeEnemies[i];
+		Tag* enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
+		Transform* enemyTransform = entityManager.GetComponent<Transform>(enemyEntityId);
+		Velocity* enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntityId);
+		constexpr vec2 zeroVelocity = vec2(0.0f);
+		enemyVelocity->SetVelocity(zeroVelocity);
+		enemyTag->SetEntityState(EntityState::HitByBullet);
+		
+		EntityId lightningStrikeEntityId = entityManager.CreateLightningStrikeEntity(spriteManager);
+		Transform* lightningStrikeTransform = entityManager.GetComponent<Transform>(lightningStrikeEntityId);
+		lightningStrikeTransform->SetPosition(enemyTransform->GetPosition());
+	}
 }

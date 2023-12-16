@@ -23,7 +23,8 @@ enum class EntityType
     Button,
     LoadingScreenCharacter,
     Starfield,
-    Crosshair
+    Crosshair,
+    LightningStrike
 };
 
 enum class EntityState
@@ -71,6 +72,11 @@ enum HealthBarAnimationState
     HEALTH_40,
     HEALTH_20,
     HEALTH_0,
+};
+
+enum LightningStrikeAnimationState
+{
+    LIGHTNING_STRIKE_FLASH,
 };
 
 enum class GameState

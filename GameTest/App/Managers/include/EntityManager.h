@@ -26,6 +26,7 @@ public:
     void InitEnemyPool();
     void ReturnEnemyToPool(EntityId enemyEntityId);
     void SetEntityStateAndVisibility(EntityId entityId, EntityState state, bool isVisible);
+    EntityId CreateLightningStrikeEntity(SpriteManager& spriteManager);
 
     EntityId GetPlayerEntityId() const { return m_playerEntityId; }
     EntityId GetAmmoPickupEntityId() const { return m_ammoPickupEntityId; }
@@ -41,6 +42,7 @@ public:
     EntityId GetLoadingScreenCharacterEntityId() const { return m_loadingScreenCharacterEntityId; }
     EntityId GetStarfieldEntityId() const { return m_starfieldEntityId; }
     EntityId GetCrosshairEntityId() const { return m_crosshairEntityId; }
+    EntityId GetLightningStrikeEntityId() const { return m_lightningStrikeEntityId; }
     vector<EntityId> GetAmmoEmptyEntityIds() const { return m_ammoEmptyEntityIds; }
     vector<EntityId> GetAmmoFilledEntityIds() const { return m_ammoFilledEntityIds; }
     EntityId GetBulletFromPool();
@@ -103,6 +105,7 @@ private:
     EntityId m_loadingScreenCharacterEntityId = -1;
     EntityId m_starfieldEntityId = -1;
     EntityId m_crosshairEntityId = -1;
+    EntityId m_lightningStrikeEntityId = -1;
     unordered_map<EntityId, vector<unique_ptr<Component>>> m_entityComponents = {};
     vector<EntityId> m_entitiesToDelete = vector<EntityId>();
     vector<EntityId> m_ammoEmptyEntityIds = vector<EntityId>();
@@ -134,5 +137,5 @@ private:
     EntityId CreateQuitButtonEntity(SpriteManager &spriteManager);
     EntityId CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager);
     EntityId CreateStarfieldEntity(SpriteManager &spriteManager);
-    EntityId CreateCrosshairEntity(SpriteManager &spriteManager);
+    EntityId CreateCrosshairEntity(SpriteManager& spriteManager);
 };

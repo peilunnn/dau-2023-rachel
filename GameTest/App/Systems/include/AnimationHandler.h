@@ -22,8 +22,9 @@ public:
     void SpinLightningPickup(float deltaTime);
     void ResetHealthBarAnimation();
     void ResetPlayerAnimation();
-    void InitEnemyAnimation(EntityManager& entityManager, SpriteManager& spriteManager, EntityId enemyEntityId);
+    void InitEnemyAnimation(SpriteManager& spriteManager, EntityId enemyEntityId);
     void PlayMeltAnimation(EntityId entityId, float deltaTime);
+    void InitLightningStrikeAnimation(SpriteManager& spriteManager, EntityId enemyEntityId);
 
 private:
     AnimationHandler()
@@ -43,7 +44,8 @@ private:
     void UpdatePlayerAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
     void UpdateEnemyAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
     void UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
-    void UpdateLoadingScreenCharacterAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
+    void UpdateLoadingScreenCharacterAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
+    void UpdateLightningStrikeAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime);
     void HandlePlayerHitHealthPickup();
     void SpinPickup(float deltaTime, EntityId pickupEntityId, float minScale, float maxScale, float scaleSpeed, bool& isScalingDown);

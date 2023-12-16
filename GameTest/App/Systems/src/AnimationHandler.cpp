@@ -46,7 +46,7 @@ void AnimationHandler::InitPlayerAnimation(EntityManager &entityManager, SpriteM
 	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, speed, {12});
 }
 
-void AnimationHandler::InitEnemyAnimation(EntityManager& entityManager, SpriteManager& spriteManager, EntityId enemyEntityId)
+void AnimationHandler::InitEnemyAnimation(SpriteManager& spriteManager, EntityId enemyEntityId)
 {
 	CSimpleSprite* enemySprite = spriteManager.GetSprite(enemyEntityId);
 
@@ -113,6 +113,9 @@ void AnimationHandler::Update(float deltaTime)
 		case EntityType::LoadingScreenCharacter:
 			UpdateLoadingScreenCharacterAnimation(entityManager, entityId, deltaTime);
 			break;
+		case EntityType::LightningStrike:
+			UpdateLightningStrikeAnimation(entityManager, entityId, deltaTime);
+			break;
 		}
 	}
 }
@@ -173,6 +176,14 @@ void AnimationHandler::PlayMeltAnimation(EntityId entityId, float deltaTime)
 	enemySprite->Update(deltaTime);
 }
 
+void AnimationHandler::InitLightningStrikeAnimation(SpriteManager& spriteManager, EntityId lightningStrikeEntityId)
+{
+	CSimpleSprite* lightningStrikeSprite = spriteManager.GetSprite(lightningStrikeEntityId);
+
+	constexpr float speed = 1.0f / 20.0f;
+	lightningStrikeSprite->CreateAnimation(LIGHTNING_STRIKE_FLASH, speed, { 0, 1, 2, 3 });
+}
+
 void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
 	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
@@ -186,6 +197,15 @@ void AnimationHandler::UpdateLoadingScreenCharacterAnimation(EntityManager &enti
 	loadingScreenCharacterAnimation->SetCurrentAnimation(PLAYER_ANIM_RIGHT);
 	loadingScreenCharacterSprite->SetAnimation(loadingScreenCharacterAnimation->GetCurrentAnimation());
 	loadingScreenCharacterSprite->Update(deltaTime);
+}
+
+void AnimationHandler::UpdateLightningStrikeAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime)
+{
+	CSimpleSprite* lightningStrikeSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	Animation* lightningStrikeAnimation = entityManager.GetComponent<Animation>(entityId);
+	lightningStrikeAnimation->SetCurrentAnimation(LIGHTNING_STRIKE_FLASH);
+	lightningStrikeSprite->SetAnimation(lightningStrikeAnimation->GetCurrentAnimation());
+	lightningStrikeSprite->Update(deltaTime);
 }
 
 void AnimationHandler::HandleEvent(const Event &event, float deltaTime)

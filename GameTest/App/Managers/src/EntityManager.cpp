@@ -153,7 +153,7 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	AddComponent(enemyEntityId, move(animation));
 	AddComponent(enemyEntityId, move(enemyMeltTimer));
 
-	AnimationHandler::GetInstance().InitEnemyAnimation(*this, spriteManager, enemyEntityId);
+	AnimationHandler::GetInstance().InitEnemyAnimation(spriteManager, enemyEntityId);
 
 	return enemyEntityId;
 }
@@ -536,6 +536,31 @@ void EntityManager::SetEntityStateAndVisibility(EntityId entityId, EntityState s
 	tag->SetEntityState(state);
 	CSimpleSprite *sprite = GetComponent<Renderable>(entityId)->GetSprite();
 	sprite->SetIsVisible(isVisible);
+}
+
+EntityId EntityManager::CreateLightningStrikeEntity(SpriteManager& spriteManager)
+{
+	EntityId lightningStrikeEntityId = CreateEntityId();
+	CSimpleSprite* lightningStrikeSprite = spriteManager.CreateSprite(lightningStrikeEntityId, Helper::PATH_TO_LIGHTNING_STRIKE, 4, 1);
+
+	Screen& screen = screen.GetInstance();
+	constexpr vec3 pos = vec3(0.0f);
+	constexpr vec3 rot = vec3(0.0f);
+	constexpr vec3 scale = vec3(1.0f);
+
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::LightningStrike, GameState::Gameplay);
+	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(lightningStrikeSprite);
+	unique_ptr<Animation> animation = make_unique<Animation>();
+
+	AddComponent(lightningStrikeEntityId, move(tag));
+	AddComponent(lightningStrikeEntityId, move(transform));
+	AddComponent(lightningStrikeEntityId, move(renderable));
+	AddComponent(lightningStrikeEntityId, move(animation));
+
+	AnimationHandler::GetInstance().InitLightningStrikeAnimation(spriteManager, lightningStrikeEntityId);
+
+	return lightningStrikeEntityId;
 }
 
 EntityId EntityManager::GetBulletFromPool()
