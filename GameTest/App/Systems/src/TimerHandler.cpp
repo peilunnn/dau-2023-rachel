@@ -68,7 +68,7 @@ void TimerHandler::Update(float deltaTime) {
             }
         }
 
-        // For enemy, we only start decrementing remaining time if enemy is hit by bullet
+        // For lightning strike, we only start decrementing remaining time if we just got it from the pool and started striking enemies
         else if (timer->GetType() == TimerType::LightningFlash) 
         {
             Tag* lightningStrikeTag = entityManager.GetComponent<Tag>(entityId);

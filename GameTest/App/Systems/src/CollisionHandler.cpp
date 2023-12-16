@@ -17,9 +17,9 @@ using glm::dot;
 using glm::vec2;
 
 map<EntityType, set<EntityType>> CollisionHandler::m_collisionRules =
-{
-	{EntityType::Player, {EntityType::Enemy, EntityType::AmmoPickup, EntityType::HealthPickup, EntityType::LightningPickup}},
-	{EntityType::Enemy, {EntityType::Player, EntityType::Bullet}},
+	{
+		{EntityType::Player, {EntityType::Enemy, EntityType::AmmoPickup, EntityType::HealthPickup, EntityType::LightningPickup}},
+		{EntityType::Enemy, {EntityType::Player, EntityType::Bullet}},
 };
 
 CollisionHandler &CollisionHandler::GetInstance()
@@ -38,9 +38,9 @@ void CollisionHandler::Update(float deltaTime)
 	if (gameManager.GetCurrentGameState() == GameState::Paused)
 		return;
 
-	for (EntityId& entityId : allEntityIds) 
+	for (EntityId &entityId : allEntityIds)
 	{
-		Collider* collider = entityManager.GetComponent<Collider>(entityId);
+		Collider *collider = entityManager.GetComponent<Collider>(entityId);
 		if (collider)
 			collider->SetCheckedForCollisions(false);
 	}
@@ -66,7 +66,7 @@ void CollisionHandler::Update(float deltaTime)
 				continue;
 
 			EntityType potentialEntityType = entityManager.GetComponent<Tag>(element.entityId)->GetEntityType();
-			
+
 			// If the two entities are not even supposed to collide, we skip collision check
 			if (m_collisionRules[entityType].find(potentialEntityType) == m_collisionRules[entityType].end())
 				continue;
@@ -149,7 +149,7 @@ void CollisionHandler::HandleCollisionEvent(EntityId firstEntityId, EntityId sec
 
 	// Case 4: player-healthPickup
 	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::HealthPickup) ||
-		(firstEntityType == EntityType::HealthPickup && secondEntityType == EntityType::Player))
+			 (firstEntityType == EntityType::HealthPickup && secondEntityType == EntityType::Player))
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
 		EntityId healthPickupEntityId = (firstEntityType == EntityType::HealthPickup) ? firstEntityId : secondEntityId;
@@ -158,7 +158,7 @@ void CollisionHandler::HandleCollisionEvent(EntityId firstEntityId, EntityId sec
 
 	// Case 5: player-lightningPickup
 	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::LightningPickup) ||
-		(firstEntityType == EntityType::LightningPickup && secondEntityType == EntityType::Player))
+			 (firstEntityType == EntityType::LightningPickup && secondEntityType == EntityType::Player))
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
 		EntityId lightningPickupEntityId = (firstEntityType == EntityType::LightningPickup) ? firstEntityId : secondEntityId;
@@ -173,7 +173,7 @@ void CollisionHandler::HandleBulletEnemyCollision(EntityManager &entityManager, 
 
 	if (bulletTag->GetEntityState() == EntityState::Dead)
 		return;
-	
+
 	// If enemy is inactive (in pool) or was just hit in the same frame, we don't process the collision
 	if (enemyTag->GetEntityState() == EntityState::Dead || enemyTag->GetEntityState() == EntityState::HitByBullet)
 		return;
@@ -204,26 +204,26 @@ void CollisionHandler::HandlePlayerEnemyCollision(EntityManager &entityManager, 
 	systemManager.SendEvent(enemyHitPlayerEvent);
 }
 
-void CollisionHandler::HandlePlayerAmmoPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId ammoPickupEntityId)
+void CollisionHandler::HandlePlayerAmmoPickupCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId playerEntityId, EntityId ammoPickupEntityId)
 {
-	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_PICKUP);
-	
+	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_RELOAD);
+
 	Event playerHitAmmoPickup(EventType::PlayerHitAmmoPickup, {playerEntityId, ammoPickupEntityId});
 	systemManager.SendEvent(playerHitAmmoPickup);
 }
 
-void CollisionHandler::HandlePlayerHealthPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId healthPickupEntityId)
+void CollisionHandler::HandlePlayerHealthPickupCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId playerEntityId, EntityId healthPickupEntityId)
 {
-	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_PICKUP);
+	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_HEALTH_BOOST);
 
-	Event playerHitHealthPickup(EventType::PlayerHitHealthPickup, { playerEntityId, healthPickupEntityId });
+	Event playerHitHealthPickup(EventType::PlayerHitHealthPickup, {playerEntityId, healthPickupEntityId});
 	systemManager.SendEvent(playerHitHealthPickup);
 }
 
-void CollisionHandler::HandlePlayerLightningPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId lightningPickupEntityId)
+void CollisionHandler::HandlePlayerLightningPickupCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId playerEntityId, EntityId lightningPickupEntityId)
 {
-	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_PICKUP);
+	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_THUNDER);
 
-	Event playerHitLightningPickup(EventType::PlayerHitLightningPickup, { playerEntityId, lightningPickupEntityId });
+	Event playerHitLightningPickup(EventType::PlayerHitLightningPickup, {playerEntityId, lightningPickupEntityId});
 	systemManager.SendEvent(playerHitLightningPickup);
 }

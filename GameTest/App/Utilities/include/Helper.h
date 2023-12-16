@@ -19,31 +19,33 @@ using namespace std;
 namespace Helper
 {
 	// Sprites
-	inline const char* PATH_TO_PLAYER = ".\\Data\\SpriteSheets\\Player.png";
-	inline const char* PATH_TO_ENEMY = ".\\Data\\SpriteSheets\\Enemy.png";
-	inline const char* PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
-	inline const char* PATH_TO_AMMO_PICKUP = ".\\Data\\Sprites\\AmmoPickup.png";
-	inline const char* PATH_TO_HEALTH_PICKUP = ".\\Data\\Sprites\\HealthPickup.png";
-	inline const char* PATH_TO_LIGHTNING_PICKUP = ".\\Data\\Sprites\\LightningPickup.png";
-	inline const char* PATH_TO_AMMO_EMPTY = ".\\Data\\Sprites\\AmmoEmpty.png";
-	inline const char* PATH_TO_AMMO_FILLED = ".\\Data\\Sprites\\AmmoFilled.png";
-	inline const char* PATH_TO_HEALTH_BAR = ".\\Data\\SpriteSheets\\HealthBar.png";
-	inline const char* PATH_TO_TITLE = ".\\Data\\Sprites\\Title.png";
-	inline const char* PATH_TO_PLAY_BUTTON = ".\\Data\\Sprites\\PlayButton.png";
-	inline const char* PATH_TO_BACK_BUTTON = ".\\Data\\Sprites\\BackButton.png";
-	inline const char* PATH_TO_QUIT_BUTTON = ".\\Data\\Sprites\\QuitButton.png";
-	inline const char* PATH_TO_STARFIELD = ".\\Data\\Sprites\\Starfield.png";
-	inline const char* PATH_TO_CROSSHAIR = ".\\Data\\Sprites\\Crosshair.png";
-	inline const char* PATH_TO_LIGHTNING_STRIKE = ".\\Data\\SpriteSheets\\LightningStrike.png";
+	inline const char *PATH_TO_PLAYER = ".\\Data\\SpriteSheets\\Player.png";
+	inline const char *PATH_TO_ENEMY = ".\\Data\\SpriteSheets\\Enemy.png";
+	inline const char *PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
+	inline const char *PATH_TO_AMMO_PICKUP = ".\\Data\\Sprites\\AmmoPickup.png";
+	inline const char *PATH_TO_HEALTH_PICKUP = ".\\Data\\Sprites\\HealthPickup.png";
+	inline const char *PATH_TO_LIGHTNING_PICKUP = ".\\Data\\Sprites\\LightningPickup.png";
+	inline const char *PATH_TO_AMMO_EMPTY = ".\\Data\\Sprites\\AmmoEmpty.png";
+	inline const char *PATH_TO_AMMO_FILLED = ".\\Data\\Sprites\\AmmoFilled.png";
+	inline const char *PATH_TO_HEALTH_BAR = ".\\Data\\SpriteSheets\\HealthBar.png";
+	inline const char *PATH_TO_TITLE = ".\\Data\\Sprites\\Title.png";
+	inline const char *PATH_TO_PLAY_BUTTON = ".\\Data\\Sprites\\PlayButton.png";
+	inline const char *PATH_TO_BACK_BUTTON = ".\\Data\\Sprites\\BackButton.png";
+	inline const char *PATH_TO_QUIT_BUTTON = ".\\Data\\Sprites\\QuitButton.png";
+	inline const char *PATH_TO_STARFIELD = ".\\Data\\Sprites\\Starfield.png";
+	inline const char *PATH_TO_CROSSHAIR = ".\\Data\\Sprites\\Crosshair.png";
+	inline const char *PATH_TO_LIGHTNING_STRIKE = ".\\Data\\SpriteSheets\\LightningStrike.png";
 
 	// Sounds
-	inline const char* PATH_TO_TEST = ".\\Data\\Sounds\\Test.wav";
-	inline const char* PATH_TO_GUNFIRE = ".\\Data\\Sounds\\Gunfire.wav";
-	inline const char* PATH_TO_PICKUP = ".\\Data\\Sounds\\Pickup.wav";
-	inline const char* PATH_TO_HURT = ".\\Data\\Sounds\\Hurt.wav";
-	inline const char* PATH_TO_BUTTON_CLICK = ".\\Data\\Sounds\\ButtonClick.wav";
-	inline const char* PATH_TO_GAMEPLAY_MUSIC = ".\\Data\\Sounds\\GameplayMusic.wav";
-	inline const char* PATH_TO_NON_GAMEPLAY_MUSIC = ".\\Data\\Sounds\\NonGameplayMusic.wav";
+	inline const char *PATH_TO_TEST = ".\\Data\\Sounds\\Test.wav";
+	inline const char *PATH_TO_GUNFIRE = ".\\Data\\Sounds\\Gunfire.wav";
+	inline const char* PATH_TO_RELOAD = ".\\Data\\Sounds\\Reload.wav";
+	inline const char* PATH_TO_HEALTH_BOOST = ".\\Data\\Sounds\\HealthBoost.wav";
+	inline const char *PATH_TO_THUNDER = ".\\Data\\Sounds\\Thunder.wav";
+	inline const char *PATH_TO_HURT = ".\\Data\\Sounds\\Hurt.wav";
+	inline const char *PATH_TO_BUTTON_CLICK = ".\\Data\\Sounds\\ButtonClick.wav";
+	inline const char *PATH_TO_GAMEPLAY_MUSIC = ".\\Data\\Sounds\\GameplayMusic.wav";
+	inline const char *PATH_TO_NON_GAMEPLAY_MUSIC = ".\\Data\\Sounds\\NonGameplayMusic.wav";
 
 	template <typename T>
 	inline void Log(const string &message, T value)
