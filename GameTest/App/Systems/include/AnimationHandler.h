@@ -19,6 +19,7 @@ public:
     void RotatePlayer(float deltaTime);
     void SpinAmmoPickup(float deltaTime);
     void SpinHealthPickup(float deltaTime);
+    void SpinLightningPickup(float deltaTime);
     void ResetHealthBarAnimation();
     void ResetPlayerAnimation();
     void InitEnemyAnimation(EntityManager& entityManager, SpriteManager& spriteManager, EntityId enemyEntityId);
@@ -32,8 +33,9 @@ private:
     }
 
     int m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
-    bool m_ammoPickupScalingDown;
-    bool m_healthPickupScalingDown;
+    bool m_ammoPickupScalingDown = true;
+    bool m_healthPickupScalingDown = true;
+    bool m_lightningPickupScalingDown = true;
 
     void InitPlayerAnimation(EntityManager& entityManager, SpriteManager& spriteManager);
     void InitHealthBarAnimation(EntityManager &entityManager, SpriteManager &spriteManager);

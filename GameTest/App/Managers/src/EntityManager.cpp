@@ -38,9 +38,6 @@ void EntityManager::Init()
 	const float ammoYOffset = 720.0f;
 	const float ammoStartingX = screen.SCREEN_WIDTH - ammoXOffset;
 	const float ammoYPos = screen.SCREEN_HEIGHT - ammoYOffset;
-	const vec3 ammoPickupScale = vec3(0.15f);
-	const vec3 healthPickupScale = vec3(2.0f);
-	const float ammoPickupRadiusMultiplier = 0.05f;
 
 	for (int i = 0; i < shootingHandler.MAX_BULLETS; ++i)
 	{
@@ -53,8 +50,9 @@ void EntityManager::Init()
 	}
 
 	m_playerEntityId = CreatePlayerEntity(spriteManager);
-	m_ammoPickupEntityId = CreatePickupEntity(spriteManager, Helper::PATH_TO_AMMO_PICKUP, EntityType::AmmoPickup, ammoPickupScale, ammoPickupRadiusMultiplier);
-	m_healthPickupEntityId = CreatePickupEntity(spriteManager, Helper::PATH_TO_HEALTH_PICKUP, EntityType::HealthPickup, healthPickupScale);
+	m_ammoPickupEntityId = CreateAmmoPickupEntity(spriteManager);
+	m_healthPickupEntityId = CreateHealthPickupEntity(spriteManager);
+	m_lightningPickupEntityId = CreateLightningPickupEntity(spriteManager);
 	m_healthBarEntityId = CreateHealthBarEntity(spriteManager);
 	m_scoreEntityId = CreateScoreEntity();
 	m_countdownTimerEntityId = CreateCountdownTimerEntity();
@@ -212,6 +210,29 @@ EntityId EntityManager::CreatePickupEntity(SpriteManager& spriteManager, const c
 	AddComponent(pickupEntityId, move(animation));
 
 	return pickupEntityId;
+}
+
+EntityId EntityManager::CreateAmmoPickupEntity(SpriteManager& spriteManager)
+{
+	const vec3 scale = vec3(0.15f);
+	const float radiusMultiplier = 0.15f;
+
+	return CreatePickupEntity(spriteManager, Helper::PATH_TO_AMMO_PICKUP, EntityType::AmmoPickup, scale, radiusMultiplier);
+}
+
+EntityId EntityManager::CreateHealthPickupEntity(SpriteManager& spriteManager)
+{
+	const vec3 scale = vec3(2.0f);
+
+	return CreatePickupEntity(spriteManager, Helper::PATH_TO_HEALTH_PICKUP, EntityType::HealthPickup, scale);
+}
+
+EntityId EntityManager::CreateLightningPickupEntity(SpriteManager& spriteManager)
+{
+	const vec3 scale = vec3(0.15f);
+	const float radiusMultiplier = 0.15f;
+
+	return CreatePickupEntity(spriteManager, Helper::PATH_TO_LIGHTNING_PICKUP, EntityType::LightningPickup, scale, radiusMultiplier);
 }
 
 EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos)

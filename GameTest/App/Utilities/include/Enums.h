@@ -13,6 +13,7 @@ enum class EntityType
     Bullet,
     AmmoPickup,
     HealthPickup,
+    LightningPickup,
     AmmoEmpty,
     AmmoFilled,
     HealthBar,
@@ -38,6 +39,7 @@ enum class EventType
     None,
     PlayerHitAmmoPickup,
     PlayerHitHealthPickup,
+    PlayerHitLightningPickup,
     EnemyHitPlayer,
     BulletHitEnemy,
     BulletOutOfBounds

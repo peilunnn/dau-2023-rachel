@@ -23,7 +23,8 @@ namespace Helper
 	inline const char *PATH_TO_ENEMY = ".\\Data\\SpriteSheets\\Enemy.png";
 	inline const char *PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
 	inline const char* PATH_TO_AMMO_PICKUP = ".\\Data\\Sprites\\AmmoPickup.png";
-	inline const char *PATH_TO_HEALTH_PICKUP = ".\\Data\\Sprites\\HealthPickup.png";
+	inline const char* PATH_TO_HEALTH_PICKUP = ".\\Data\\Sprites\\HealthPickup.png";
+	inline const char *PATH_TO_LIGHTNING_PICKUP = ".\\Data\\Sprites\\LightningPickup.png";
 	inline const char *PATH_TO_AMMO_EMPTY = ".\\Data\\Sprites\\AmmoEmpty.png";
 	inline const char *PATH_TO_AMMO_FILLED = ".\\Data\\Sprites\\AmmoFilled.png";
 	inline const char *PATH_TO_HEALTH_BAR = ".\\Data\\SpriteSheets\\HealthBar.png";

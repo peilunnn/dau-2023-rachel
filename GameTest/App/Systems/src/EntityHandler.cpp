@@ -38,7 +38,7 @@ void EntityHandler::HandleEvent(const Event &event, float deltaTime)
 		EntityId bulletEntityId = event.GetEntities()[0];
 		HandleBulletOutOfBounds(entityManager, bulletEntityId);
 	}
-	else if (event.GetEventType() == EventType::PlayerHitAmmoPickup || event.GetEventType() == EventType::PlayerHitHealthPickup)
+	else if (event.GetEventType() == EventType::PlayerHitAmmoPickup || event.GetEventType() == EventType::PlayerHitHealthPickup || event.GetEventType() == EventType::PlayerHitLightningPickup)
 	{
 		EntityId pickupEntityId = event.GetEntities()[1];
 		MoveEntityToRandomPos(pickupEntityId);

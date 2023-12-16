@@ -18,7 +18,7 @@ using glm::vec2;
 
 map<EntityType, set<EntityType>> CollisionHandler::m_collisionRules =
 {
-	{EntityType::Player, {EntityType::Enemy, EntityType::AmmoPickup, EntityType::HealthPickup}},
+	{EntityType::Player, {EntityType::Enemy, EntityType::AmmoPickup, EntityType::HealthPickup, EntityType::LightningPickup}},
 	{EntityType::Enemy, {EntityType::Player, EntityType::Bullet}},
 };
 
@@ -155,6 +155,15 @@ void CollisionHandler::HandleCollisionEvent(EntityId firstEntityId, EntityId sec
 		EntityId healthPickupEntityId = (firstEntityType == EntityType::HealthPickup) ? firstEntityId : secondEntityId;
 		HandlePlayerHealthPickupCollision(entityManager, systemManager, playerEntityId, healthPickupEntityId);
 	}
+
+	// Case 5: player-lightningPickup
+	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::LightningPickup) ||
+		(firstEntityType == EntityType::LightningPickup && secondEntityType == EntityType::Player))
+	{
+		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
+		EntityId lightningPickupEntityId = (firstEntityType == EntityType::LightningPickup) ? firstEntityId : secondEntityId;
+		HandlePlayerLightningPickupCollision(entityManager, systemManager, playerEntityId, lightningPickupEntityId);
+	}
 }
 
 void CollisionHandler::HandleBulletEnemyCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId bulletEntityId, EntityId enemyEntityId)
@@ -209,4 +218,12 @@ void CollisionHandler::HandlePlayerHealthPickupCollision(EntityManager& entityMa
 
 	Event playerHitHealthPickup(EventType::PlayerHitHealthPickup, { playerEntityId, healthPickupEntityId });
 	systemManager.SendEvent(playerHitHealthPickup);
+}
+
+void CollisionHandler::HandlePlayerLightningPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId lightningPickupEntityId)
+{
+	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_PICKUP);
+
+	Event playerHitLightningPickup(EventType::PlayerHitLightningPickup, { playerEntityId, lightningPickupEntityId });
+	systemManager.SendEvent(playerHitLightningPickup);
 }

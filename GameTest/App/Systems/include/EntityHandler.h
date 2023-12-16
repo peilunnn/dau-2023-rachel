@@ -19,6 +19,7 @@ private:
         m_subscribedEvents.insert(EventType::BulletOutOfBounds);
         m_subscribedEvents.insert(EventType::PlayerHitAmmoPickup);
         m_subscribedEvents.insert(EventType::PlayerHitHealthPickup);
+        m_subscribedEvents.insert(EventType::PlayerHitLightningPickup);
     }
 
     void HandleBulletHitEnemy(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId);

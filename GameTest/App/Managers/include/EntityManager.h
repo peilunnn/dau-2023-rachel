@@ -30,6 +30,7 @@ public:
     EntityId GetPlayerEntityId() const { return m_playerEntityId; }
     EntityId GetAmmoPickupEntityId() const { return m_ammoPickupEntityId; }
     EntityId GetHealthPickupEntityId() const { return m_healthPickupEntityId; }
+    EntityId GetLightningPickupEntityId() const { return m_lightningPickupEntityId; }
     EntityId GetHealthBarEntityId() const { return m_healthBarEntityId; }
     EntityId GetScoreEntityId() const { return m_scoreEntityId; }
     EntityId GetCountdownTimerEntityId() const { return m_countdownTimerEntityId; }
@@ -89,6 +90,7 @@ private:
     EntityId m_enemyEntityId = -1;
     EntityId m_ammoPickupEntityId = -1;
     EntityId m_healthPickupEntityId = -1;
+    EntityId m_lightningPickupEntityId = -1;
     EntityId m_ammoEmptyEntityId = -1;
     EntityId m_ammoFilledEntityId = -1;
     EntityId m_healthBarEntityId = -1;
@@ -118,6 +120,9 @@ private:
     EntityId CreateEnemyEntity(SpriteManager &spriteManager);
     EntityId CreateBulletEntity(SpriteManager &spriteManager, const vec3 &pos, const vec2 &targetVelocity);
     EntityId CreatePickupEntity(SpriteManager& spriteManager, const char* spritePath, EntityType entityType, vec3 scale, float radiusMultiplier = 1.0f);
+    EntityId CreateAmmoPickupEntity(SpriteManager& spriteManager);
+    EntityId CreateHealthPickupEntity(SpriteManager& spriteManager);
+    EntityId CreateLightningPickupEntity(SpriteManager& spriteManager);
     EntityId CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos);
     EntityId CreateHealthBarEntity(SpriteManager &spriteManager);
     EntityId CreateScoreEntity();

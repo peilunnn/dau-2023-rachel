@@ -29,4 +29,5 @@ private:
     void HandlePlayerEnemyCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId playerEntityId, EntityId enemyEntityId);
     void HandlePlayerAmmoPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId ammoPickupEntityId);
     void HandlePlayerHealthPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId healthPickupEntityId);
+    void HandlePlayerLightningPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId lightningPickupEntityId);
 };

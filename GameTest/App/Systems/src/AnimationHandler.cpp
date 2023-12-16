@@ -104,6 +104,9 @@ void AnimationHandler::Update(float deltaTime)
 		case EntityType::HealthPickup:
 			SpinHealthPickup(deltaTime);
 			break;
+		case EntityType::LightningPickup:
+			SpinLightningPickup(deltaTime);
+			break;
 		case EntityType::HealthBar:
 			UpdateHealthBarAnimation(entityManager, entityId, deltaTime);
 			break;
@@ -212,9 +215,9 @@ void AnimationHandler::SpinAmmoPickup(float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
 	EntityId ammoPickupEntityId = entityManager.GetAmmoPickupEntityId();
-	const float minScale = 0.15f;
-	const float maxScale = 0.2f;
-	const float scaleSpeed = 0.2f;
+	constexpr float minScale = 0.15f;
+	constexpr float maxScale = 0.2f;
+	constexpr float scaleSpeed = 0.2f;
 
 	SpinPickup(deltaTime, ammoPickupEntityId, minScale, maxScale, scaleSpeed, m_ammoPickupScalingDown);
 }
@@ -223,11 +226,22 @@ void AnimationHandler::SpinHealthPickup(float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
 	EntityId healthPickupEntityId = entityManager.GetHealthPickupEntityId();
-	const float minScale = 2.0f;
-	const float maxScale = 2.5f;
-	const float scaleSpeed = 2.0f;
+	constexpr float minScale = 2.5f;
+	constexpr float maxScale = 2.75f;
+	constexpr float scaleSpeed = 2.0f;
 
 	SpinPickup(deltaTime, healthPickupEntityId, minScale, maxScale, scaleSpeed, m_healthPickupScalingDown);
+}
+
+void AnimationHandler::SpinLightningPickup(float deltaTime)
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityId lightningPickupEntityId = entityManager.GetLightningPickupEntityId();
+	constexpr float minScale = 0.15f;
+	constexpr float maxScale = 0.175f;
+	constexpr float scaleSpeed = 0.2f;
+
+	SpinPickup(deltaTime, lightningPickupEntityId, minScale, maxScale, scaleSpeed, m_lightningPickupScalingDown);
 }
 
 void AnimationHandler::ResetHealthBarAnimation()
