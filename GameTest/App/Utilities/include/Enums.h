@@ -11,7 +11,7 @@ enum class EntityType
     Player,
     Enemy,
     Bullet,
-    AmmoBox,
+    AmmoPickup,
     AmmoEmpty,
     AmmoFilled,
     HealthBar,
@@ -35,7 +35,7 @@ enum class EntityState
 enum class EventType
 {
     None,
-    PlayerHitAmmoBox,
+    PlayerHitAmmoPickup,
     EnemyHitPlayer,
     BulletHitEnemy,
     BulletOutOfBounds

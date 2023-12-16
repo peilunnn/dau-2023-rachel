@@ -19,38 +19,38 @@ using namespace std;
 namespace Helper
 {
 	// Sprites
-	inline const char* PATH_TO_PLAYER = ".\\Data\\SpriteSheets\\Player.png";
-	inline const char* PATH_TO_ENEMY = ".\\Data\\SpriteSheets\\Enemy.png";
-	inline const char* PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
-	inline const char* PATH_TO_AMMO_BOX = ".\\Data\\Sprites\\AmmoBox.png";
-	inline const char* PATH_TO_AMMO_EMPTY = ".\\Data\\Sprites\\AmmoEmpty.png";
-	inline const char* PATH_TO_AMMO_FILLED = ".\\Data\\Sprites\\AmmoFilled.png";
-	inline const char* PATH_TO_HEALTH_BAR = ".\\Data\\SpriteSheets\\HealthBar.png";
-	inline const char* PATH_TO_TITLE = ".\\Data\\Sprites\\Title.png";
-	inline const char* PATH_TO_PLAY_BUTTON = ".\\Data\\Sprites\\PlayButton.png";
-	inline const char* PATH_TO_BACK_BUTTON = ".\\Data\\Sprites\\BackButton.png";
-	inline const char* PATH_TO_QUIT_BUTTON = ".\\Data\\Sprites\\QuitButton.png";
-	inline const char* PATH_TO_STARFIELD = ".\\Data\\Sprites\\Starfield.png";
-	inline const char* PATH_TO_CROSSHAIR = ".\\Data\\Sprites\\Crosshair.png";
+	inline const char *PATH_TO_PLAYER = ".\\Data\\SpriteSheets\\Player.png";
+	inline const char *PATH_TO_ENEMY = ".\\Data\\SpriteSheets\\Enemy.png";
+	inline const char *PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
+	inline const char *PATH_TO_AMMO_PICKUP = ".\\Data\\Sprites\\AmmoPickup.png";
+	inline const char *PATH_TO_AMMO_EMPTY = ".\\Data\\Sprites\\AmmoEmpty.png";
+	inline const char *PATH_TO_AMMO_FILLED = ".\\Data\\Sprites\\AmmoFilled.png";
+	inline const char *PATH_TO_HEALTH_BAR = ".\\Data\\SpriteSheets\\HealthBar.png";
+	inline const char *PATH_TO_TITLE = ".\\Data\\Sprites\\Title.png";
+	inline const char *PATH_TO_PLAY_BUTTON = ".\\Data\\Sprites\\PlayButton.png";
+	inline const char *PATH_TO_BACK_BUTTON = ".\\Data\\Sprites\\BackButton.png";
+	inline const char *PATH_TO_QUIT_BUTTON = ".\\Data\\Sprites\\QuitButton.png";
+	inline const char *PATH_TO_STARFIELD = ".\\Data\\Sprites\\Starfield.png";
+	inline const char *PATH_TO_CROSSHAIR = ".\\Data\\Sprites\\Crosshair.png";
 
 	// Sounds
-	inline const char* PATH_TO_TEST = ".\\Data\\Sounds\\Test.wav";
-	inline const char* PATH_TO_GUNFIRE = ".\\Data\\Sounds\\Gunfire.wav";
-	inline const char* PATH_TO_RELOAD = ".\\Data\\Sounds\\Reload.wav";
-	inline const char* PATH_TO_HURT = ".\\Data\\Sounds\\Hurt.wav";
-	inline const char* PATH_TO_BUTTON_CLICK = ".\\Data\\Sounds\\ButtonClick.wav";
-	inline const char* PATH_TO_GAMEPLAY_MUSIC = ".\\Data\\Sounds\\GameplayMusic.wav";
-	inline const char* PATH_TO_NON_GAMEPLAY_MUSIC = ".\\Data\\Sounds\\NonGameplayMusic.wav";
+	inline const char *PATH_TO_TEST = ".\\Data\\Sounds\\Test.wav";
+	inline const char *PATH_TO_GUNFIRE = ".\\Data\\Sounds\\Gunfire.wav";
+	inline const char *PATH_TO_RELOAD = ".\\Data\\Sounds\\Reload.wav";
+	inline const char *PATH_TO_HURT = ".\\Data\\Sounds\\Hurt.wav";
+	inline const char *PATH_TO_BUTTON_CLICK = ".\\Data\\Sounds\\ButtonClick.wav";
+	inline const char *PATH_TO_GAMEPLAY_MUSIC = ".\\Data\\Sounds\\GameplayMusic.wav";
+	inline const char *PATH_TO_NON_GAMEPLAY_MUSIC = ".\\Data\\Sounds\\NonGameplayMusic.wav";
 
 	template <typename T>
-	inline void Log(const string& message, T value)
+	inline void Log(const string &message, T value)
 	{
 		stringstream ss;
 		ss << message << value << "\n";
 		OutputDebugStringA(ss.str().c_str());
 	}
 
-	inline void Log(const string& message)
+	inline void Log(const string &message)
 	{
 		OutputDebugStringA((message + "\n").c_str());
 	}
@@ -70,7 +70,7 @@ namespace Helper
 		return vec2(GenerateFloat(minX, maxX), GenerateFloat(minY, maxY));
 	}
 
-	inline vec3 GetOppositeQuadrantPosition(const vec3& playerPos, float borderWidth, float borderHeight)
+	inline vec3 GetOppositeQuadrantPosition(const vec3 &playerPos, float borderWidth, float borderHeight)
 	{
 		vec3 enemyPos;
 		float spawnOffsetMajor = 0.7f;
@@ -82,7 +82,7 @@ namespace Helper
 			enemyPos.x = borderWidth * spawnOffsetMajor; // Spawn in the right half
 		else
 			enemyPos.x = borderWidth * spawnOffsetMinor; // Spawn in the left half
-		
+
 		if (playerPos.y < yMidpoint)
 			enemyPos.y = borderHeight * spawnOffsetMajor; // Spawn in the lower half
 		else
@@ -95,10 +95,10 @@ namespace Helper
 
 	inline bool IsButtonClicked(EntityId entityId)
 	{
-		EntityManager& entityManager = EntityManager::GetInstance();
-		Transform* transform = entityManager.GetComponent<Transform>(entityId);
-		Renderable* renderable = entityManager.GetComponent<Renderable>(entityId);
-		CSimpleSprite* sprite = renderable->GetSprite();
+		EntityManager &entityManager = EntityManager::GetInstance();
+		Transform *transform = entityManager.GetComponent<Transform>(entityId);
+		Renderable *renderable = entityManager.GetComponent<Renderable>(entityId);
+		CSimpleSprite *sprite = renderable->GetSprite();
 
 		float scale = sprite->GetScale();
 		const float actualWidth = sprite->GetWidth() * scale;

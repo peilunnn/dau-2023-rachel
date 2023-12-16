@@ -12,7 +12,7 @@ public:
     const int MAX_BULLETS = 10;
 
     void HandlePlayerShoot();
-    void HandlePlayerHitAmmoBox();
+    void HandlePlayerHitAmmoPickup();
     void ResetBullets();
 
 private:

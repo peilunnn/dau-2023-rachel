@@ -136,14 +136,14 @@
     <Image Include="Data\SpriteSheets\HealthBar.png" />
     <Image Include="Data\SpriteSheets\PlayButton.png" />
     <Image Include="Data\SpriteSheets\Player.png" />
-    <Image Include="Data\SpriteSheets\AmmoBox.png" />
+    <Image Include="Data\SpriteSheets\AmmoPickup.png" />
     <Image Include="Data\SpriteSheets\Buttons.png" />
     <Image Include="Data\Sprites\PlayButton.png" />
     <Image Include="Data\Sprites\BackButton.png" />
     <Image Include="Data\Sprites\QuitButton.png" />
     <Image Include="Data\Sprites\Starfield.png" />
     <Image Include="Data\Sprites\Crosshair.png" />
-    <Image Include="Data\Sprites\AmmoBox.png" />
+    <Image Include="Data\Sprites\AmmoPickup.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Data\Sounds\Test.wav" />

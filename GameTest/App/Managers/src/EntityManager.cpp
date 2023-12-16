@@ -50,7 +50,7 @@ void EntityManager::Init()
 	}
 
 	m_playerEntityId = CreatePlayerEntity(spriteManager);
-	m_AmmoBoxEntityId = CreateAmmoBoxEntity(spriteManager);
+	m_AmmoPickupEntityId = CreateAmmoPickupEntity(spriteManager);
 	m_healthBarEntityId = CreateHealthBarEntity(spriteManager);
 	m_scoreEntityId = CreateScoreEntity();
 	m_countdownTimerEntityId = CreateCountdownTimerEntity();
@@ -182,10 +182,10 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager &spriteManager, const v
 	return bulletEntityId;
 }
 
-EntityId EntityManager::CreateAmmoBoxEntity(SpriteManager &spriteManager)
+EntityId EntityManager::CreateAmmoPickupEntity(SpriteManager &spriteManager)
 {
-	EntityId ammoBoxEntityId = CreateEntityId();
-	CSimpleSprite *ammoBoxSprite = spriteManager.CreateSprite(ammoBoxEntityId, Helper::PATH_TO_AMMO_BOX, 1, 1);
+	EntityId ammoPickupEntityId = CreateEntityId();
+	CSimpleSprite *ammoPickupSprite = spriteManager.CreateSprite(ammoPickupEntityId, Helper::PATH_TO_AMMO_PICKUP, 1, 1);
 
 	Screen &screen = screen.GetInstance();
 	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD, screen.BORDER_RIGHT_SCREEN_COORD);
@@ -195,21 +195,21 @@ EntityId EntityManager::CreateAmmoBoxEntity(SpriteManager &spriteManager)
 	constexpr vec3 scale = vec3(0.15f);
 	constexpr float radiusMultiplier = 0.05f;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::AmmoBox, GameState::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::AmmoPickup, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Renderable> renderable = make_unique<Renderable>(ammoBoxSprite);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(ammoPickupSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
-	collider->SetRadius(ammoBoxSprite->GetWidth() * radiusMultiplier);
+	collider->SetRadius(ammoPickupSprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Animation> animation = make_unique<Animation>();
 
-	AddComponent(ammoBoxEntityId, move(tag));
-	AddComponent(ammoBoxEntityId, move(transform));
-	AddComponent(ammoBoxEntityId, move(renderable));
-	AddComponent(ammoBoxEntityId, move(collider));
-	AddComponent(ammoBoxEntityId, move(animation));
+	AddComponent(ammoPickupEntityId, move(tag));
+	AddComponent(ammoPickupEntityId, move(transform));
+	AddComponent(ammoPickupEntityId, move(renderable));
+	AddComponent(ammoPickupEntityId, move(collider));
+	AddComponent(ammoPickupEntityId, move(animation));
 
-	return ammoBoxEntityId;
+	return ammoPickupEntityId;
 }
 
 EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos)
@@ -543,7 +543,7 @@ void EntityManager::InitEnemyPool()
 }
 
 void EntityManager::ReturnEnemyToPool(EntityId enemyEntityId)
-{	
+{
 	SetEntityStateAndVisibility(enemyEntityId, EntityState::Dead, false);
 }
 

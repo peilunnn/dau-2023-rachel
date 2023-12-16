@@ -15,7 +15,7 @@ using glm::vec2;
 
 map<EntityType, set<EntityType>> CollisionHandler::m_collisionRules =
 {
-	{EntityType::Player, {EntityType::Enemy, EntityType::AmmoBox}},
+	{EntityType::Player, {EntityType::Enemy, EntityType::AmmoPickup}},
 	{EntityType::Enemy, {EntityType::Player, EntityType::Bullet}},
 };
 
@@ -135,13 +135,13 @@ void CollisionHandler::HandleCollisionEvent(EntityId firstEntityId, EntityId sec
 		HandlePlayerEnemyCollision(entityManager, systemManager, playerEntityId, enemyEntityId);
 	}
 
-	// Case 3: player-ammoBox
-	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::AmmoBox) ||
-			 (firstEntityType == EntityType::AmmoBox && secondEntityType == EntityType::Player))
+	// Case 3: player-ammoPickup
+	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::AmmoPickup) ||
+			 (firstEntityType == EntityType::AmmoPickup && secondEntityType == EntityType::Player))
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
-		EntityId ammoBoxEntityId = (firstEntityType == EntityType::AmmoBox) ? firstEntityId : secondEntityId;
-		HandlePlayerAmmoBoxCollision(systemManager, playerEntityId, ammoBoxEntityId);
+		EntityId ammoPickupEntityId = (firstEntityType == EntityType::AmmoPickup) ? firstEntityId : secondEntityId;
+		HandlePlayerAmmoPickupCollision(systemManager, playerEntityId, ammoPickupEntityId);
 	}
 }
 
@@ -183,8 +183,8 @@ void CollisionHandler::HandlePlayerEnemyCollision(EntityManager &entityManager, 
 	systemManager.SendEvent(enemyHitPlayerEvent);
 }
 
-void CollisionHandler::HandlePlayerAmmoBoxCollision(SystemManager &systemManager, EntityId playerEntityId, EntityId ammoBoxEntityId)
+void CollisionHandler::HandlePlayerAmmoPickupCollision(SystemManager &systemManager, EntityId playerEntityId, EntityId ammoPickupEntityId)
 {
 	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_RELOAD);
-	ShootingHandler::GetInstance().HandlePlayerHitAmmoBox();
+	ShootingHandler::GetInstance().HandlePlayerHitAmmoPickup();
 }

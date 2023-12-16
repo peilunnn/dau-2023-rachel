@@ -63,13 +63,13 @@ void ShootingHandler::ResetBullets()
 	renderingHandler.ShowAllAmmoFilledEntities();
 }
 
-void ShootingHandler::HandlePlayerHitAmmoBox()
+void ShootingHandler::HandlePlayerHitAmmoPickup()
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
 	RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
-	EntityId ammoBoxEntityId = entityManager.GetAmmoBoxEntityId();
+	EntityId ammoPickupEntityId = entityManager.GetAmmoPickupEntityId();
 
-	entityManager.MoveEntityToRandomPos(ammoBoxEntityId);
+	entityManager.MoveEntityToRandomPos(ammoPickupEntityId);
 	m_bulletsShotSoFar = 0;
 	renderingHandler.ShowAllAmmoFilledEntities();
 }

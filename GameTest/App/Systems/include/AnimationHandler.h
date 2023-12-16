@@ -17,7 +17,7 @@ public:
     void Update(float deltaTime);
     void HandleEvent(const Event &event, float deltaTime) override;
     void RotatePlayer(float deltaTime);
-    void SpinAmmoBox(float deltaTime);
+    void SpinAmmoPickup(float deltaTime);
     void ResetHealthBarAnimation();
     void ResetPlayerAnimation();
     void InitEnemyAnimation(EntityManager& entityManager, SpriteManager& spriteManager, EntityId enemyEntityId);

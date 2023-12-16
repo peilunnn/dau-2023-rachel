@@ -98,8 +98,8 @@ void AnimationHandler::Update(float deltaTime)
 		case EntityType::Enemy:
 			UpdateEnemyAnimation(entityManager, entityId, deltaTime);
 			break;
-		case EntityType::AmmoBox:
-			SpinAmmoBox(deltaTime);
+		case EntityType::AmmoPickup:
+			SpinAmmoPickup(deltaTime);
 			break;
 		case EntityType::HealthBar:
 			UpdateHealthBarAnimation(entityManager, entityId, deltaTime);
@@ -203,18 +203,18 @@ void AnimationHandler::RotatePlayer(float deltaTime)
 	playerSprite->SetAngle(newAngle);
 }
 
-void AnimationHandler::SpinAmmoBox(float deltaTime)
+void AnimationHandler::SpinAmmoPickup(float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
-	EntityId ammoBoxEntityId = entityManager.GetAmmoBoxEntityId();
-	Transform* ammoBoxTransform = entityManager.GetComponent<Transform>(ammoBoxEntityId);
+	EntityId ammoPickupEntityId = entityManager.GetAmmoPickupEntityId();
+	Transform* ammoPickupTransform = entityManager.GetComponent<Transform>(ammoPickupEntityId);
 
 	const float scaleSpeed = 0.2f;
 	const float minScale = 0.15f;
 	const float maxScale = 0.2f;
-	const float scaleX = ammoBoxTransform->GetScale().x;
+	const float scaleX = ammoPickupTransform->GetScale().x;
 
-	vec3 currentScale = ammoBoxTransform->GetScale();
+	vec3 currentScale = ammoPickupTransform->GetScale();
 	static bool scalingDown = true;
 
 	if (scalingDown)
@@ -236,7 +236,7 @@ void AnimationHandler::SpinAmmoBox(float deltaTime)
 		}
 	}
 
-	ammoBoxTransform->SetScale(vec3(scaleX, currentScale.y, 1.0f));
+	ammoPickupTransform->SetScale(vec3(scaleX, currentScale.y, 1.0f));
 }
 
 void AnimationHandler::ResetHealthBarAnimation()
