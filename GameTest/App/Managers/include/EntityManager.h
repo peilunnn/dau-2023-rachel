@@ -29,7 +29,8 @@ public:
     void SetEntityStateAndVisibility(EntityId entityId, EntityState state, bool isVisible);
 
     EntityId GetPlayerEntityId() const { return m_playerEntityId; }
-    EntityId GetAmmoPickupEntityId() const { return m_AmmoPickupEntityId; }
+    EntityId GetAmmoPickupEntityId() const { return m_ammoPickupEntityId; }
+    EntityId GetHealthPickupEntityId() const { return m_healthPickupEntityId; }
     EntityId GetHealthBarEntityId() const { return m_healthBarEntityId; }
     EntityId GetScoreEntityId() const { return m_scoreEntityId; }
     EntityId GetCountdownTimerEntityId() const { return m_countdownTimerEntityId; }
@@ -87,7 +88,8 @@ private:
     EntityId m_nextEntityId = -1;
     EntityId m_playerEntityId = -1;
     EntityId m_enemyEntityId = -1;
-    EntityId m_AmmoPickupEntityId = -1;
+    EntityId m_ammoPickupEntityId = -1;
+    EntityId m_healthPickupEntityId = -1;
     EntityId m_ammoEmptyEntityId = -1;
     EntityId m_ammoFilledEntityId = -1;
     EntityId m_healthBarEntityId = -1;
@@ -116,7 +118,8 @@ private:
     EntityId CreatePlayerEntity(SpriteManager &spriteManager);
     EntityId CreateEnemyEntity(SpriteManager &spriteManager);
     EntityId CreateBulletEntity(SpriteManager &spriteManager, const vec3 &pos, const vec2 &targetVelocity);
-    EntityId CreateAmmoPickupEntity(SpriteManager &spriteManager);
+    EntityId CreateAmmoPickupEntity(SpriteManager& spriteManager);
+    EntityId CreateHealthPickupEntity(SpriteManager &spriteManager);
     EntityId CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos);
     EntityId CreateHealthBarEntity(SpriteManager &spriteManager);
     EntityId CreateScoreEntity();

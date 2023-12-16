@@ -22,7 +22,8 @@ namespace Helper
 	inline const char *PATH_TO_PLAYER = ".\\Data\\SpriteSheets\\Player.png";
 	inline const char *PATH_TO_ENEMY = ".\\Data\\SpriteSheets\\Enemy.png";
 	inline const char *PATH_TO_BULLET_SPRITE = ".\\Data\\Sprites\\Bullet.bmp";
-	inline const char *PATH_TO_AMMO_PICKUP = ".\\Data\\Sprites\\AmmoPickup.png";
+	inline const char* PATH_TO_AMMO_PICKUP = ".\\Data\\Sprites\\AmmoPickup.png";
+	inline const char *PATH_TO_HEALTH_PICKUP = ".\\Data\\Sprites\\HealthPickup.png";
 	inline const char *PATH_TO_AMMO_EMPTY = ".\\Data\\Sprites\\AmmoEmpty.png";
 	inline const char *PATH_TO_AMMO_FILLED = ".\\Data\\Sprites\\AmmoFilled.png";
 	inline const char *PATH_TO_HEALTH_BAR = ".\\Data\\SpriteSheets\\HealthBar.png";
@@ -36,7 +37,7 @@ namespace Helper
 	// Sounds
 	inline const char *PATH_TO_TEST = ".\\Data\\Sounds\\Test.wav";
 	inline const char *PATH_TO_GUNFIRE = ".\\Data\\Sounds\\Gunfire.wav";
-	inline const char *PATH_TO_RELOAD = ".\\Data\\Sounds\\Reload.wav";
+	inline const char *PATH_TO_PICKUP = ".\\Data\\Sounds\\Pickup.wav";
 	inline const char *PATH_TO_HURT = ".\\Data\\Sounds\\Hurt.wav";
 	inline const char *PATH_TO_BUTTON_CLICK = ".\\Data\\Sounds\\ButtonClick.wav";
 	inline const char *PATH_TO_GAMEPLAY_MUSIC = ".\\Data\\Sounds\\GameplayMusic.wav";

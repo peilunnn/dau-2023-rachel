@@ -12,6 +12,7 @@ enum class EntityType
     Enemy,
     Bullet,
     AmmoPickup,
+    HealthPickup,
     AmmoEmpty,
     AmmoFilled,
     HealthBar,

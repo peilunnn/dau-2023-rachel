@@ -50,7 +50,8 @@ void EntityManager::Init()
 	}
 
 	m_playerEntityId = CreatePlayerEntity(spriteManager);
-	m_AmmoPickupEntityId = CreateAmmoPickupEntity(spriteManager);
+	m_ammoPickupEntityId = CreateAmmoPickupEntity(spriteManager);
+	m_healthPickupEntityId = CreateHealthPickupEntity(spriteManager);
 	m_healthBarEntityId = CreateHealthBarEntity(spriteManager);
 	m_scoreEntityId = CreateScoreEntity();
 	m_countdownTimerEntityId = CreateCountdownTimerEntity();
@@ -210,6 +211,35 @@ EntityId EntityManager::CreateAmmoPickupEntity(SpriteManager &spriteManager)
 	AddComponent(ammoPickupEntityId, move(animation));
 
 	return ammoPickupEntityId;
+}
+
+EntityId EntityManager::CreateHealthPickupEntity(SpriteManager& spriteManager)
+{
+	EntityId healthPickupEntityId = CreateEntityId();
+	CSimpleSprite* healthPickupSprite = spriteManager.CreateSprite(healthPickupEntityId, Helper::PATH_TO_HEALTH_PICKUP, 1, 1);
+
+	Screen& screen = screen.GetInstance();
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD, screen.BORDER_RIGHT_SCREEN_COORD);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD, screen.BORDER_BOTTOM_SCREEN_COORD);
+	constexpr float zPos = 0.0f;
+	constexpr vec3 rot = vec3(0.0f);
+	constexpr vec3 scale = vec3(2.0f);
+
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::HealthPickup, GameState::Gameplay);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(healthPickupSprite);
+	unique_ptr<Collider> collider = make_unique<Collider>();
+	collider->SetCollisionShape(CollisionShape::Sphere);
+	collider->SetRadius(healthPickupSprite->GetWidth());
+	unique_ptr<Animation> animation = make_unique<Animation>();
+
+	AddComponent(healthPickupEntityId, move(tag));
+	AddComponent(healthPickupEntityId, move(transform));
+	AddComponent(healthPickupEntityId, move(renderable));
+	AddComponent(healthPickupEntityId, move(collider));
+	AddComponent(healthPickupEntityId, move(animation));
+
+	return healthPickupEntityId;
 }
 
 EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos)

@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "Components/include/Collider.h"
-#include "Components/include/Screen.h"
 #include "Components/include/Tag.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SoundManager.h"
 #include "Managers/include/SystemManager.h"
+#include "Systems/include/AnimationHandler.h"
 #include "Systems/include/CollisionHandler.h"
 #include "Systems/include/Event.h"
+#include "Systems/include/HealthHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/Helper.h"
 using glm::dot;
@@ -15,7 +16,7 @@ using glm::vec2;
 
 map<EntityType, set<EntityType>> CollisionHandler::m_collisionRules =
 {
-	{EntityType::Player, {EntityType::Enemy, EntityType::AmmoPickup}},
+	{EntityType::Player, {EntityType::Enemy, EntityType::AmmoPickup, EntityType::HealthPickup}},
 	{EntityType::Enemy, {EntityType::Player, EntityType::Bullet}},
 };
 
@@ -141,7 +142,16 @@ void CollisionHandler::HandleCollisionEvent(EntityId firstEntityId, EntityId sec
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
 		EntityId ammoPickupEntityId = (firstEntityType == EntityType::AmmoPickup) ? firstEntityId : secondEntityId;
-		HandlePlayerAmmoPickupCollision(systemManager, playerEntityId, ammoPickupEntityId);
+		HandlePlayerAmmoPickupCollision();
+	}
+
+	// Case 4: player-healthPickup
+	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::HealthPickup) ||
+		(firstEntityType == EntityType::HealthPickup && secondEntityType == EntityType::Player))
+	{
+		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
+		EntityId healthPickupEntityId = (firstEntityType == EntityType::HealthPickup) ? firstEntityId : secondEntityId;
+		HandlePlayerHealthPickupCollision();
 	}
 }
 
@@ -183,8 +193,18 @@ void CollisionHandler::HandlePlayerEnemyCollision(EntityManager &entityManager, 
 	systemManager.SendEvent(enemyHitPlayerEvent);
 }
 
-void CollisionHandler::HandlePlayerAmmoPickupCollision(SystemManager &systemManager, EntityId playerEntityId, EntityId ammoPickupEntityId)
+void CollisionHandler::HandlePlayerAmmoPickupCollision()
 {
-	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_RELOAD);
+	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_PICKUP);
 	ShootingHandler::GetInstance().HandlePlayerHitAmmoPickup();
+}
+
+void CollisionHandler::HandlePlayerHealthPickupCollision()
+{
+	EntityId healthPickupEntityId = EntityManager::GetInstance().GetHealthPickupEntityId();
+
+	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_PICKUP);
+	HealthHandler::GetInstance().ResetPlayerHealth();
+	AnimationHandler::GetInstance().ResetHealthBarAnimation();
+	EntityManager::GetInstance().MoveEntityToRandomPos(healthPickupEntityId);
 }
