@@ -22,6 +22,7 @@ c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\main.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\directsound.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\app.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\animation.obj
+c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\systemmanager.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\tag.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\healthhandler.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\transform.obj
@@ -46,7 +47,6 @@ c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\velocity.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\timer.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\event.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\system.obj
-c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\systemmanager.obj
 c:\users\peilu\downloads\repos\dau-2023-rachel\x64\debug\gametest.exe
 c:\users\peilu\downloads\repos\dau-2023-rachel\gametest\x64\debug\gametest.ilk
 c:\users\peilu\downloads\repos\dau-2023-rachel\x64\debug\gametest.pdb

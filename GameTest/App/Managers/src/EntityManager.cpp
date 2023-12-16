@@ -38,6 +38,9 @@ void EntityManager::Init()
 	const float ammoYOffset = 720.0f;
 	const float ammoStartingX = screen.SCREEN_WIDTH - ammoXOffset;
 	const float ammoYPos = screen.SCREEN_HEIGHT - ammoYOffset;
+	const vec3 ammoPickupScale = vec3(0.15f);
+	const vec3 healthPickupScale = vec3(2.0f);
+	const float ammoPickupRadiusMultiplier = 0.05f;
 
 	for (int i = 0; i < shootingHandler.MAX_BULLETS; ++i)
 	{
@@ -50,8 +53,8 @@ void EntityManager::Init()
 	}
 
 	m_playerEntityId = CreatePlayerEntity(spriteManager);
-	m_ammoPickupEntityId = CreateAmmoPickupEntity(spriteManager);
-	m_healthPickupEntityId = CreateHealthPickupEntity(spriteManager);
+	m_ammoPickupEntityId = CreatePickupEntity(spriteManager, Helper::PATH_TO_AMMO_PICKUP, EntityType::AmmoPickup, ammoPickupScale, ammoPickupRadiusMultiplier);
+	m_healthPickupEntityId = CreatePickupEntity(spriteManager, Helper::PATH_TO_HEALTH_PICKUP, EntityType::HealthPickup, healthPickupScale);
 	m_healthBarEntityId = CreateHealthBarEntity(spriteManager);
 	m_scoreEntityId = CreateScoreEntity();
 	m_countdownTimerEntityId = CreateCountdownTimerEntity();
@@ -183,63 +186,32 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager &spriteManager, const v
 	return bulletEntityId;
 }
 
-EntityId EntityManager::CreateAmmoPickupEntity(SpriteManager &spriteManager)
+EntityId EntityManager::CreatePickupEntity(SpriteManager& spriteManager, const char* spritePath, EntityType entityType, vec3 scale, float radiusMultiplier)
 {
-	EntityId ammoPickupEntityId = CreateEntityId();
-	CSimpleSprite *ammoPickupSprite = spriteManager.CreateSprite(ammoPickupEntityId, Helper::PATH_TO_AMMO_PICKUP, 1, 1);
-
-	Screen &screen = screen.GetInstance();
-	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD, screen.BORDER_RIGHT_SCREEN_COORD);
-	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD, screen.BORDER_BOTTOM_SCREEN_COORD);
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.15f);
-	constexpr float radiusMultiplier = 0.05f;
-
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::AmmoPickup, GameState::Gameplay);
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Renderable> renderable = make_unique<Renderable>(ammoPickupSprite);
-	unique_ptr<Collider> collider = make_unique<Collider>();
-	collider->SetCollisionShape(CollisionShape::Sphere);
-	collider->SetRadius(ammoPickupSprite->GetWidth() * radiusMultiplier);
-	unique_ptr<Animation> animation = make_unique<Animation>();
-
-	AddComponent(ammoPickupEntityId, move(tag));
-	AddComponent(ammoPickupEntityId, move(transform));
-	AddComponent(ammoPickupEntityId, move(renderable));
-	AddComponent(ammoPickupEntityId, move(collider));
-	AddComponent(ammoPickupEntityId, move(animation));
-
-	return ammoPickupEntityId;
-}
-
-EntityId EntityManager::CreateHealthPickupEntity(SpriteManager& spriteManager)
-{
-	EntityId healthPickupEntityId = CreateEntityId();
-	CSimpleSprite* healthPickupSprite = spriteManager.CreateSprite(healthPickupEntityId, Helper::PATH_TO_HEALTH_PICKUP, 1, 1);
+	EntityId pickupEntityId = CreateEntityId();
+	CSimpleSprite* pickupSprite = spriteManager.CreateSprite(pickupEntityId, spritePath, 1, 1);
 
 	Screen& screen = screen.GetInstance();
 	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD, screen.BORDER_RIGHT_SCREEN_COORD);
 	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD, screen.BORDER_BOTTOM_SCREEN_COORD);
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(2.0f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::HealthPickup, GameState::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(entityType, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Renderable> renderable = make_unique<Renderable>(healthPickupSprite);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(pickupSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
-	collider->SetRadius(healthPickupSprite->GetWidth());
+	collider->SetRadius(pickupSprite->GetWidth() * radiusMultiplier);
 	unique_ptr<Animation> animation = make_unique<Animation>();
 
-	AddComponent(healthPickupEntityId, move(tag));
-	AddComponent(healthPickupEntityId, move(transform));
-	AddComponent(healthPickupEntityId, move(renderable));
-	AddComponent(healthPickupEntityId, move(collider));
-	AddComponent(healthPickupEntityId, move(animation));
+	AddComponent(pickupEntityId, move(tag));
+	AddComponent(pickupEntityId, move(transform));
+	AddComponent(pickupEntityId, move(renderable));
+	AddComponent(pickupEntityId, move(collider));
+	AddComponent(pickupEntityId, move(animation));
 
-	return healthPickupEntityId;
+	return pickupEntityId;
 }
 
 EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos)

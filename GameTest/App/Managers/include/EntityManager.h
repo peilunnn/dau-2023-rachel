@@ -118,8 +118,7 @@ private:
     EntityId CreatePlayerEntity(SpriteManager &spriteManager);
     EntityId CreateEnemyEntity(SpriteManager &spriteManager);
     EntityId CreateBulletEntity(SpriteManager &spriteManager, const vec3 &pos, const vec2 &targetVelocity);
-    EntityId CreateAmmoPickupEntity(SpriteManager& spriteManager);
-    EntityId CreateHealthPickupEntity(SpriteManager &spriteManager);
+    EntityId CreatePickupEntity(SpriteManager& spriteManager, const char* spritePath, EntityType entityType, vec3 scale, float radiusMultiplier = 1.0f);
     EntityId CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos);
     EntityId CreateHealthBarEntity(SpriteManager &spriteManager);
     EntityId CreateScoreEntity();
