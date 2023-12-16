@@ -337,79 +337,53 @@ EntityId EntityManager::CreateTitleEntity(SpriteManager &spriteManager)
 	return titleEntityId;
 }
 
-EntityId EntityManager::CreatePlayButtonEntity(SpriteManager &spriteManager)
+EntityId EntityManager::CreateButtonEntity(SpriteManager& spriteManager, const char* spritePath, EntityType entityType, GameState gameState, float xOffset, float yOffset, vec3 scale)
 {
-	EntityId playButtonEntityId = CreateEntityId();
-	CSimpleSprite *playButtonSprite = spriteManager.CreateSprite(playButtonEntityId, Helper::PATH_TO_PLAY_BUTTON, 1, 1);
+	EntityId buttonEntityId = CreateEntityId();
+	CSimpleSprite* buttonSprite = spriteManager.CreateSprite(buttonEntityId, spritePath, 1, 1);
 
-	Screen &screen = screen.GetInstance();
-	const float playButtonXOffset = 520.0f;
-	const float playButtonYOffset = 400.0f;
-	const float xPos = screen.SCREEN_WIDTH - playButtonXOffset;
-	const float yPos = screen.SCREEN_HEIGHT - playButtonYOffset;
+	Screen& screen = screen.GetInstance();
+	const float xPos = screen.SCREEN_WIDTH - xOffset;
+	const float yPos = screen.SCREEN_HEIGHT - yOffset;
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.2f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Button, GameState::MainMenu);
+	unique_ptr<Tag> tag = make_unique<Tag>(entityType, gameState);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Renderable> renderable = make_unique<Renderable>(playButtonSprite);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(buttonSprite);
 
-	AddComponent(playButtonEntityId, move(tag));
-	AddComponent(playButtonEntityId, move(transform));
-	AddComponent(playButtonEntityId, move(renderable));
+	AddComponent(buttonEntityId, move(tag));
+	AddComponent(buttonEntityId, move(transform));
+	AddComponent(buttonEntityId, move(renderable));
 
-	return playButtonEntityId;
+	return buttonEntityId;
 }
 
-EntityId EntityManager::CreateBackButtonEntity(SpriteManager &spriteManager)
+EntityId EntityManager::CreatePlayButtonEntity(SpriteManager& spriteManager)
 {
-	EntityId backButtonEntityId = CreateEntityId();
-	CSimpleSprite *backButtonSprite = spriteManager.CreateSprite(backButtonEntityId, Helper::PATH_TO_BACK_BUTTON, 1, 1);
+	const float xOffset = 520.0f;
+	const float yOffset = 400.0f;
+	const vec3 scale = vec3(0.2f);
 
-	Screen &screen = screen.GetInstance();
-	const float backButtonXOffset = 520.0f;
-	const float backButtonYOffset = 400.0f;
-	const float xPos = screen.SCREEN_WIDTH - backButtonXOffset;
-	const float yPos = screen.SCREEN_HEIGHT - backButtonYOffset;
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.2f);
-
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Button, GameState::GameOver);
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Renderable> renderable = make_unique<Renderable>(backButtonSprite);
-
-	AddComponent(backButtonEntityId, move(tag));
-	AddComponent(backButtonEntityId, move(transform));
-	AddComponent(backButtonEntityId, move(renderable));
-
-	return backButtonEntityId;
+	return CreateButtonEntity(spriteManager, Helper::PATH_TO_PLAY_BUTTON, EntityType::Button, GameState::MainMenu, xOffset, yOffset, scale);
 }
 
-EntityId EntityManager::CreateQuitButtonEntity(SpriteManager &spriteManager)
+EntityId EntityManager::CreateBackButtonEntity(SpriteManager& spriteManager)
 {
-	EntityId quitButtonEntityId = CreateEntityId();
-	CSimpleSprite *quitButtonSprite = spriteManager.CreateSprite(quitButtonEntityId, Helper::PATH_TO_QUIT_BUTTON, 1, 1);
+	const float xOffset = 520.0f;
+	const float yOffset = 400.0f;
+	const vec3 scale = vec3(0.2f);
 
-	Screen &screen = screen.GetInstance();
-	const float quitButtonXOffset = 520.0f;
-	const float quitButtonYOffset = 400.0f;
-	const float xPos = screen.SCREEN_WIDTH - quitButtonXOffset;
-	const float yPos = screen.SCREEN_HEIGHT - quitButtonYOffset;
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.2f);
+	return CreateButtonEntity(spriteManager, Helper::PATH_TO_BACK_BUTTON, EntityType::Button, GameState::GameOver, xOffset, yOffset, scale);
+}
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Button, GameState::Paused);
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Renderable> renderable = make_unique<Renderable>(quitButtonSprite);
+EntityId EntityManager::CreateQuitButtonEntity(SpriteManager& spriteManager)
+{
+	const float xOffset = 520.0f;
+	const float yOffset = 400.0f;
+	const vec3 scale = vec3(0.2f);
 
-	AddComponent(quitButtonEntityId, move(tag));
-	AddComponent(quitButtonEntityId, move(transform));
-	AddComponent(quitButtonEntityId, move(renderable));
-
-	return quitButtonEntityId;
+	return CreateButtonEntity(spriteManager, Helper::PATH_TO_QUIT_BUTTON, EntityType::Button, GameState::Paused, xOffset, yOffset, scale);
 }
 
 EntityId EntityManager::CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager)

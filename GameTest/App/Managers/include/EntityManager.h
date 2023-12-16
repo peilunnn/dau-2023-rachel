@@ -124,6 +124,7 @@ private:
     EntityId CreateScoreEntity();
     EntityId CreateCountdownTimerEntity();
     EntityId CreateTitleEntity(SpriteManager &spriteManager);
+    EntityId CreateButtonEntity(SpriteManager& spriteManager, const char* spritePath, EntityType entityType, GameState gameState, float xOffset, float yOffset, vec3 scale);
     EntityId CreatePlayButtonEntity(SpriteManager &spriteManager);
     EntityId CreateBackButtonEntity(SpriteManager &spriteManager);
     EntityId CreateQuitButtonEntity(SpriteManager &spriteManager);
