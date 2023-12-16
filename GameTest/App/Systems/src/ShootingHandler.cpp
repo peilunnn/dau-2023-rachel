@@ -16,6 +16,15 @@ ShootingHandler& ShootingHandler::GetInstance()
 	return instance;
 }
 
+void ShootingHandler::HandleEvent(const Event& event, float deltaTime)
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+
+	if (event.GetEventType() == EventType::PlayerHitAmmoPickup)
+		HandlePlayerHitAmmoPickup();
+
+}
+
 void ShootingHandler::HandlePlayerShoot()
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
@@ -58,18 +67,10 @@ void ShootingHandler::HandlePlayerShoot()
 
 void ShootingHandler::ResetBullets()
 {
-	RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
 	m_bulletsShotSoFar = 0;
-	renderingHandler.ShowAllAmmoFilledEntities();
 }
 
 void ShootingHandler::HandlePlayerHitAmmoPickup()
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
-	RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
-	EntityId ammoPickupEntityId = entityManager.GetAmmoPickupEntityId();
-
-	entityManager.MoveEntityToRandomPos(ammoPickupEntityId);
-	m_bulletsShotSoFar = 0;
-	renderingHandler.ShowAllAmmoFilledEntities();
+	ResetBullets();
 }

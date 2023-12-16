@@ -102,6 +102,7 @@ void GameManager::ResetGame()
     TimerHandler::GetInstance().ResetTimers();
     ScoreHandler::GetInstance().ResetScore();
     ShootingHandler::GetInstance().ResetBullets();
+    RenderingHandler::GetInstance().ShowAllAmmoFilledEntities();
     RenderingHandler::GetInstance().ResetFade();
 }
 

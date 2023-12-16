@@ -3,6 +3,7 @@
 #include "Components/include/Tag.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/HealthHandler.h"
+#include "Utilities/include/Helper.h"
 
 HealthHandler& HealthHandler::GetInstance()
 {
@@ -16,6 +17,8 @@ void HealthHandler::HandleEvent(const Event &event, float deltaTime)
 
 	if (event.GetEventType() == EventType::EnemyHitPlayer)
 		HandleEnemyHitPlayer(entityManager);
+	else if (event.GetEventType() == EventType::PlayerHitHealthPickup)
+		HandlePlayerHitHealthPickup();
 }
 
 void HealthHandler::ResetPlayerHealth()
@@ -46,4 +49,9 @@ void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 		tag->SetEntityState(EntityState::Alive);
 	else
 		tag->SetEntityState(EntityState::Dead);
+}
+
+void HealthHandler::HandlePlayerHitHealthPickup()
+{
+	ResetPlayerHealth();
 }

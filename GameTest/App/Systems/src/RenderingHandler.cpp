@@ -19,9 +19,9 @@ void RenderingHandler::HandleEvent(const Event& event, float deltaTime)
     EntityManager& entityManager = EntityManager::GetInstance();
 
     if (event.GetEventType() == EventType::EnemyHitPlayer)
-    {
         HandleEnemyHitPlayer(entityManager, deltaTime);
-    }
+    else if (event.GetEventType() == EventType::PlayerHitAmmoPickup)
+        HandlePlayerHitAmmoPickup();
 }
 
 void RenderingHandler::Render()
@@ -50,6 +50,18 @@ void RenderingHandler::Render()
     }
 }
 
+void RenderingHandler::ShowAllAmmoFilledEntities()
+{
+    EntityManager& entityManager = EntityManager::GetInstance();
+    vector<EntityId> ammoFilledEntityIds = entityManager.GetAmmoFilledEntityIds();
+
+    for (int i = 0; i < ammoFilledEntityIds.size(); i++)
+    {
+        CSimpleSprite* ammoFilledSprite = entityManager.GetComponent<Renderable>(ammoFilledEntityIds[i])->GetSprite();
+        ammoFilledSprite->SetIsVisible(true);
+    }
+}
+
 void RenderingHandler::HideAmmoFilledEntity(int index)
 {
     EntityManager& entityManager = EntityManager::GetInstance();
@@ -63,18 +75,6 @@ void RenderingHandler::HideAmmoFilledEntity(int index)
             return;
 
         ammoFilledSprite->SetIsVisible(false);
-    }
-}
-
-void RenderingHandler::ShowAllAmmoFilledEntities()
-{
-    EntityManager& entityManager = EntityManager::GetInstance();
-    vector<EntityId> ammoFilledEntityIds = entityManager.GetAmmoFilledEntityIds();
-
-    for (int i = 0; i < ammoFilledEntityIds.size(); i++)
-    {
-        CSimpleSprite* ammoFilledSprite = entityManager.GetComponent<Renderable>(ammoFilledEntityIds[i])->GetSprite();
-        ammoFilledSprite->SetIsVisible(true);
     }
 }
 
@@ -359,4 +359,9 @@ void RenderingHandler::ApplyScreenShake() {
 void RenderingHandler::HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime)
 {
     SetUpScreenShake();
+}
+
+void RenderingHandler::HandlePlayerHitAmmoPickup()
+{
+    ShowAllAmmoFilledEntities();
 }

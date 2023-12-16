@@ -37,6 +37,7 @@ enum class EventType
 {
     None,
     PlayerHitAmmoPickup,
+    PlayerHitHealthPickup,
     EnemyHitPlayer,
     BulletHitEnemy,
     BulletOutOfBounds

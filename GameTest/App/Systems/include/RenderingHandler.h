@@ -12,15 +12,17 @@ public:
 
     void HandleEvent(const Event& event, float deltaTime) override;
     void Render();
-    void HideAmmoFilledEntity(int index);
     void ShowAllAmmoFilledEntities();
+    void HideAmmoFilledEntity(int index);
     void UpdateFade(float deltaTime);
     void ResetFade();
     void UpdateScreenShakeTimer(float deltaTime);
 
 private:
-    RenderingHandler() {
+    RenderingHandler()
+    {
         m_subscribedEvents.insert(EventType::EnemyHitPlayer);
+        m_subscribedEvents.insert(EventType::PlayerHitAmmoPickup);
     }
 
     const float FADE_RATE = 0.5f;
@@ -57,4 +59,5 @@ private:
     void SetUpScreenShake();
     void ApplyScreenShake();
     void HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime);
+    void HandlePlayerHitAmmoPickup();
 };

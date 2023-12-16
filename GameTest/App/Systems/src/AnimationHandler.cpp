@@ -191,6 +191,8 @@ void AnimationHandler::HandleEvent(const Event &event, float deltaTime)
 
 	if (event.GetEventType() == EventType::EnemyHitPlayer)
 		HandleEnemyHitPlayer(entityManager, deltaTime);
+	else if (event.GetEventType() == EventType::PlayerHitHealthPickup)
+		HandlePlayerHitHealthPickup();
 }
 
 void AnimationHandler::RotatePlayer(float deltaTime)
@@ -262,6 +264,11 @@ void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float 
 	frameIndex = min(frameIndex, maxFrames);
 	animation->SetCurrentAnimation(frameIndex);
 	healthBarSprite->SetAnimation(animation->GetCurrentAnimation());
+}
+
+void AnimationHandler::HandlePlayerHitHealthPickup()
+{
+	ResetHealthBarAnimation();
 }
 
 void AnimationHandler::SpinPickup(float deltaTime, EntityId pickupEntityId, float minScale, float maxScale, float scaleSpeed, bool& isScalingDown)

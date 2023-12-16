@@ -28,6 +28,7 @@ private:
     AnimationHandler()
     {
         m_subscribedEvents.insert(EventType::EnemyHitPlayer);
+        m_subscribedEvents.insert(EventType::PlayerHitHealthPickup);
     }
 
     int m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
@@ -41,6 +42,7 @@ private:
     void UpdateEnemyAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
     void UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void UpdateLoadingScreenCharacterAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
-    void HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime);
+    void HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime);
+    void HandlePlayerHitHealthPickup();
     void SpinPickup(float deltaTime, EntityId pickupEntityId, float minScale, float maxScale, float scaleSpeed, bool& isScalingDown);
 };

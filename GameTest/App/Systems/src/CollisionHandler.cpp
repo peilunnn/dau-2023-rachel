@@ -10,6 +10,7 @@
 #include "Systems/include/Event.h"
 #include "Systems/include/HealthHandler.h"
 #include "Systems/include/ShootingHandler.h"
+#include "Systems/include/RenderingHandler.h"
 #include "Utilities/include/Helper.h"
 using glm::dot;
 using glm::vec2;
@@ -142,7 +143,7 @@ void CollisionHandler::HandleCollisionEvent(EntityId firstEntityId, EntityId sec
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
 		EntityId ammoPickupEntityId = (firstEntityType == EntityType::AmmoPickup) ? firstEntityId : secondEntityId;
-		HandlePlayerAmmoPickupCollision();
+		HandlePlayerAmmoPickupCollision(entityManager, systemManager, playerEntityId, ammoPickupEntityId);
 	}
 
 	// Case 4: player-healthPickup
@@ -151,7 +152,7 @@ void CollisionHandler::HandleCollisionEvent(EntityId firstEntityId, EntityId sec
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
 		EntityId healthPickupEntityId = (firstEntityType == EntityType::HealthPickup) ? firstEntityId : secondEntityId;
-		HandlePlayerHealthPickupCollision();
+		HandlePlayerHealthPickupCollision(entityManager, systemManager, playerEntityId, healthPickupEntityId);
 	}
 }
 
@@ -193,18 +194,20 @@ void CollisionHandler::HandlePlayerEnemyCollision(EntityManager &entityManager, 
 	systemManager.SendEvent(enemyHitPlayerEvent);
 }
 
-void CollisionHandler::HandlePlayerAmmoPickupCollision()
+void CollisionHandler::HandlePlayerAmmoPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId ammoPickupEntityId)
 {
 	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_PICKUP);
-	ShootingHandler::GetInstance().HandlePlayerHitAmmoPickup();
+	EntityManager::GetInstance().MoveEntityToRandomPos(ammoPickupEntityId);
+	
+	Event playerHitAmmoPickup(EventType::PlayerHitAmmoPickup, {playerEntityId, ammoPickupEntityId});
+	systemManager.SendEvent(playerHitAmmoPickup);
 }
 
-void CollisionHandler::HandlePlayerHealthPickupCollision()
+void CollisionHandler::HandlePlayerHealthPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId healthPickupEntityId)
 {
-	EntityId healthPickupEntityId = EntityManager::GetInstance().GetHealthPickupEntityId();
-
 	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_PICKUP);
-	HealthHandler::GetInstance().ResetPlayerHealth();
-	AnimationHandler::GetInstance().ResetHealthBarAnimation();
 	EntityManager::GetInstance().MoveEntityToRandomPos(healthPickupEntityId);
+
+	Event playerHitHealthPickup(EventType::PlayerHitHealthPickup, { playerEntityId, healthPickupEntityId });
+	systemManager.SendEvent(playerHitHealthPickup);
 }

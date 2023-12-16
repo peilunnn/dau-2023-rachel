@@ -27,6 +27,6 @@ private:
     void HandleCollisionEvent(EntityId firstEntityId, EntityId secondEntityId);
     void HandleBulletEnemyCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId bulletEntityId, EntityId enemyEntityId);
     void HandlePlayerEnemyCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId playerEntityId, EntityId enemyEntityId);
-    void HandlePlayerAmmoPickupCollision();
-    void HandlePlayerHealthPickupCollision();
+    void HandlePlayerAmmoPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId ammoPickupEntityId);
+    void HandlePlayerHealthPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId healthPickupEntityId);
 };

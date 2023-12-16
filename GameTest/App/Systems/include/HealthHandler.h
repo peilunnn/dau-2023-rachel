@@ -16,11 +16,14 @@ public:
     void ResetPlayerHealth();
 
 private:
-    HealthHandler() {
+    HealthHandler() 
+    {
         m_subscribedEvents.insert(EventType::EnemyHitPlayer);
+        m_subscribedEvents.insert(EventType::PlayerHitHealthPickup);
     }
     
     const int m_healthReduction = 20;
 
     void HandleEnemyHitPlayer(EntityManager& entityManager);
+    void HandlePlayerHitHealthPickup();
 };
