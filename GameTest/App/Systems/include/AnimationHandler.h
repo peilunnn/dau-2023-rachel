@@ -17,7 +17,6 @@ public:
     void Update(float deltaTime);
     void HandleEvent(const Event &event, float deltaTime) override;
     void RotatePlayer(float deltaTime);
-    void SpinPickup(float deltaTime, EntityId pickupEntityId, float minScale, float maxScale, float scaleSpeed, bool& isScalingDown);
     void SpinAmmoPickup(float deltaTime);
     void SpinHealthPickup(float deltaTime);
     void ResetHealthBarAnimation();
@@ -43,4 +42,5 @@ private:
     void UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void UpdateLoadingScreenCharacterAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime);
+    void SpinPickup(float deltaTime, EntityId pickupEntityId, float minScale, float maxScale, float scaleSpeed, bool& isScalingDown);
 };

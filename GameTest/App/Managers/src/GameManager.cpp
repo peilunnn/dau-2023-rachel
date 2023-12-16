@@ -2,7 +2,6 @@
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SoundManager.h"
 #include "Systems/include/AnimationHandler.h"
-#include "Systems/include/CollisionHandler.h"
 #include "Systems/include/HealthHandler.h"
 #include "Systems/include/InputHandler.h"
 #include "Systems/include/RenderingHandler.h"
@@ -43,57 +42,22 @@ void GameManager::UpdateCrosshairPosition()
     crosshairTransform->SetPosition(newPos);
 }
 
-void GameManager::UpdateLoadingState(float deltaTime)
-{
-    m_timeSpentInLoading += deltaTime;
-    if (m_timeSpentInLoading >= m_loadingDuration)
-    {
-        if (m_previousGameState == GameState::MainMenu)
-            m_currentGameState = GameState::Gameplay;
-        else if (m_previousGameState == GameState::Gameplay)
-            m_currentGameState = GameState::GameOver;
-        else if (m_previousGameState == GameState::GameOver || m_previousGameState == GameState::Paused)
-            m_currentGameState = GameState::MainMenu;
-    }
-}
-
 void GameManager::HandlePlayButtonClick()
 {
-    InputHandler& inputHandler = InputHandler::GetInstance();
-
-    if (!inputHandler.GetIsPlayButtonClicked())
-        return;
-
-    SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
-
-    TransitionToLoadingState();
-    inputHandler.ResetPlayButtonClick();
+    EntityId playButtonEntityId = EntityManager::GetInstance().GetPlayButtonEntityId();
+    HandleButtonClick(playButtonEntityId);
 }
 
 void GameManager::HandleBackButtonClick()
 {
-    InputHandler& inputHandler = InputHandler::GetInstance();
-
-    if (!inputHandler.GetIsBackButtonClicked())
-        return;
-
-    SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
-
-    TransitionToLoadingState();
-    inputHandler.ResetBackButtonClick();
+    EntityId backButtonEntityId = EntityManager::GetInstance().GetBackButtonEntityId();
+    HandleButtonClick(backButtonEntityId);
 }
 
 void GameManager::HandleQuitButtonClick()
 {
-    InputHandler& inputHandler = InputHandler::GetInstance();
-
-    if (!inputHandler.GetIsQuitButtonClicked())
-        return;
-
-    SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
-
-    TransitionToLoadingState();
-    inputHandler.ResetQuitButtonClick();
+    EntityId quitButtonEntityId = EntityManager::GetInstance().GetQuitButtonEntityId();
+    HandleButtonClick(quitButtonEntityId);
 }
 
 void GameManager::TransitionToLoadingState()
@@ -157,4 +121,29 @@ void GameManager::TogglePause()
         m_currentGameState = GameState::Paused;
         soundManager.PauseSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
     }
+}
+
+void GameManager::UpdateLoadingState(float deltaTime)
+{
+    m_timeSpentInLoading += deltaTime;
+    if (m_timeSpentInLoading >= m_loadingDuration)
+    {
+        if (m_previousGameState == GameState::MainMenu)
+            m_currentGameState = GameState::Gameplay;
+        else if (m_previousGameState == GameState::Gameplay)
+            m_currentGameState = GameState::GameOver;
+        else if (m_previousGameState == GameState::GameOver || m_previousGameState == GameState::Paused)
+            m_currentGameState = GameState::MainMenu;
+    }
+}
+
+void GameManager::HandleButtonClick(EntityId buttonEntityId)
+{
+    InputHandler& inputHandler = InputHandler::GetInstance();
+
+    if (!inputHandler.IsButtonClicked(buttonEntityId))
+        return;
+
+    SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
+    TransitionToLoadingState();
 }

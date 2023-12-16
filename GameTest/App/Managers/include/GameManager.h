@@ -1,4 +1,5 @@
 #pragma once
+#include "Components/include/EntityId.h"
 #include "Utilities/include/Enums.h"
 
 class GameManager
@@ -39,5 +40,6 @@ private:
     bool m_isFirstEnemyInit = false;
 
     void UpdateLoadingState(float deltaTime);
+    void HandleButtonClick(EntityId buttonEntityId);
 };
 

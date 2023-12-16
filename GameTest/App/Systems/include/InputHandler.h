@@ -13,12 +13,7 @@ public:
     const float VELOCITY_MULTIPLIER = 10000.0f;
 
     void Update(float deltaTime);
-    bool GetIsPlayButtonClicked() const { return m_isPlayButtonClicked; }
-    bool GetIsBackButtonClicked() const { return m_isBackButtonClicked; }
-    bool GetIsQuitButtonClicked() const { return m_isQuitButtonClicked; }
-    void SetIsPlayButtonClicked();
-    void SetIsBackButtonClicked();
-    void SetIsQuitButtonClicked();
+    bool IsButtonClicked(EntityId entityId);
     void ResetPlayButtonClick() { m_isPlayButtonClicked = false; }
     void ResetBackButtonClick() { m_isBackButtonClicked = false; }
     void ResetQuitButtonClick() { m_isQuitButtonClicked = false; }

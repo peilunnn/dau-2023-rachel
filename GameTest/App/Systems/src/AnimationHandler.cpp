@@ -206,36 +206,6 @@ void AnimationHandler::RotatePlayer(float deltaTime)
 	playerSprite->SetAngle(newAngle);
 }
 
-void AnimationHandler::SpinPickup(float deltaTime, EntityId pickupEntityId, float minScale, float maxScale, float scaleSpeed, bool& isScalingDown)
-{
-	EntityManager& entityManager = EntityManager::GetInstance();
-	
-	Transform* pickupTransform = entityManager.GetComponent<Transform>(pickupEntityId);
-	vec3 currentScale = pickupTransform->GetScale();
-
-	if (isScalingDown)
-	{
-		currentScale.y -= scaleSpeed * deltaTime;
-		if (currentScale.y <= minScale)
-		{
-			currentScale.y = minScale;
-			isScalingDown = false;
-		}
-	}
-	else
-	{
-		currentScale.y += scaleSpeed * deltaTime;
-		if (currentScale.y >= maxScale)
-		{
-			currentScale.y = maxScale;
-			isScalingDown = true;
-		}
-	}
-
-	pickupTransform->SetScale(vec3(currentScale.x, currentScale.y, 1.0f));
-}
-
-
 void AnimationHandler::SpinAmmoPickup(float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
@@ -292,4 +262,33 @@ void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float 
 	frameIndex = min(frameIndex, maxFrames);
 	animation->SetCurrentAnimation(frameIndex);
 	healthBarSprite->SetAnimation(animation->GetCurrentAnimation());
+}
+
+void AnimationHandler::SpinPickup(float deltaTime, EntityId pickupEntityId, float minScale, float maxScale, float scaleSpeed, bool& isScalingDown)
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+
+	Transform* pickupTransform = entityManager.GetComponent<Transform>(pickupEntityId);
+	vec3 currentScale = pickupTransform->GetScale();
+
+	if (isScalingDown)
+	{
+		currentScale.y -= scaleSpeed * deltaTime;
+		if (currentScale.y <= minScale)
+		{
+			currentScale.y = minScale;
+			isScalingDown = false;
+		}
+	}
+	else
+	{
+		currentScale.y += scaleSpeed * deltaTime;
+		if (currentScale.y >= maxScale)
+		{
+			currentScale.y = maxScale;
+			isScalingDown = true;
+		}
+	}
+
+	pickupTransform->SetScale(vec3(currentScale.x, currentScale.y, 1.0f));
 }

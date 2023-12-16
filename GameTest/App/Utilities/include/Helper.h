@@ -93,29 +93,4 @@ namespace Helper
 
 		return enemyPos;
 	}
-
-	inline bool IsButtonClicked(EntityId entityId)
-	{
-		EntityManager &entityManager = EntityManager::GetInstance();
-		Transform *transform = entityManager.GetComponent<Transform>(entityId);
-		Renderable *renderable = entityManager.GetComponent<Renderable>(entityId);
-		CSimpleSprite *sprite = renderable->GetSprite();
-
-		float scale = sprite->GetScale();
-		const float actualWidth = sprite->GetWidth() * scale;
-		const float actualHeight = sprite->GetHeight() * scale;
-
-		float mouseX, mouseY;
-		App::GetMousePos(mouseX, mouseY);
-
-		float left = transform->GetPosition().x - actualWidth / 2.0f;
-		float right = transform->GetPosition().x + actualWidth / 2.0f;
-		float top = transform->GetPosition().y - actualHeight / 2.0f;
-		float bottom = transform->GetPosition().y + actualHeight / 2.0f;
-
-		bool isWithinX = mouseX >= left && mouseX <= right;
-		bool isWithinY = mouseY >= top && mouseY <= bottom;
-
-		return isWithinX && isWithinY && App::IsKeyPressed(VK_LBUTTON);
-	}
 };

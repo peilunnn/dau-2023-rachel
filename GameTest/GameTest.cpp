@@ -68,7 +68,6 @@ void Update(float deltaTime)
 			gameManager.SetGameReset(true);
 		}
 		TitleHandler::GetInstance().OscillateTitle(deltaTimeInSeconds);
-		InputHandler::GetInstance().SetIsPlayButtonClicked();
 		gameManager.HandlePlayButtonClick();
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::Gameplay)
@@ -112,7 +111,6 @@ void Update(float deltaTime)
 	{
 		glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
 		gameManager.SetGameReset(false);
-		InputHandler::GetInstance().SetIsBackButtonClicked();
 		gameManager.HandleBackButtonClick();
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::Loading)
@@ -125,7 +123,6 @@ void Update(float deltaTime)
 		glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
 		gameManager.SetGameReset(false);
 		InputHandler::GetInstance().Update(deltaTimeInSeconds);
-		InputHandler::GetInstance().SetIsQuitButtonClicked();
 		gameManager.HandleQuitButtonClick();
 	}
 

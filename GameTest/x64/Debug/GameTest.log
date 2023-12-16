@@ -5,16 +5,10 @@
   CollisionHandler.cpp
   CooldownHandler.cpp
   EntityHandler.cpp
-  HealthHandler.cpp
   InputHandler.cpp
   MovementHandler.cpp
   RenderingHandler.cpp
-  ScoreHandler.cpp
-  ShootingHandler.cpp
   TimerHandler.cpp
-  TitleHandler.cpp
-  Helper.cpp
-  SimpleSound.cpp
   GameTest.cpp
   Generating Code...
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe
