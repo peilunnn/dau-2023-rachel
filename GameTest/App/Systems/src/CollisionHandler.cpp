@@ -9,6 +9,7 @@
 #include "Systems/include/CollisionHandler.h"
 #include "Systems/include/Event.h"
 #include "Systems/include/HealthHandler.h"
+#include "Systems/include/EntityHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Utilities/include/Helper.h"
@@ -197,7 +198,6 @@ void CollisionHandler::HandlePlayerEnemyCollision(EntityManager &entityManager, 
 void CollisionHandler::HandlePlayerAmmoPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId ammoPickupEntityId)
 {
 	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_PICKUP);
-	EntityManager::GetInstance().MoveEntityToRandomPos(ammoPickupEntityId);
 	
 	Event playerHitAmmoPickup(EventType::PlayerHitAmmoPickup, {playerEntityId, ammoPickupEntityId});
 	systemManager.SendEvent(playerHitAmmoPickup);
@@ -206,7 +206,6 @@ void CollisionHandler::HandlePlayerAmmoPickupCollision(EntityManager& entityMana
 void CollisionHandler::HandlePlayerHealthPickupCollision(EntityManager& entityManager, SystemManager& systemManager, EntityId playerEntityId, EntityId healthPickupEntityId)
 {
 	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_PICKUP);
-	EntityManager::GetInstance().MoveEntityToRandomPos(healthPickupEntityId);
 
 	Event playerHitHealthPickup(EventType::PlayerHitHealthPickup, { playerEntityId, healthPickupEntityId });
 	systemManager.SendEvent(playerHitHealthPickup);

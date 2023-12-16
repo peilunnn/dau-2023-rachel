@@ -38,6 +38,11 @@ void EntityHandler::HandleEvent(const Event &event, float deltaTime)
 		EntityId bulletEntityId = event.GetEntities()[0];
 		HandleBulletOutOfBounds(entityManager, bulletEntityId);
 	}
+	else if (event.GetEventType() == EventType::PlayerHitAmmoPickup || event.GetEventType() == EventType::PlayerHitHealthPickup)
+	{
+		EntityId pickupEntityId = event.GetEntities()[1];
+		MoveEntityToRandomPos(pickupEntityId);
+	}
 }
 
 void EntityHandler::InitEnemy()
@@ -72,6 +77,20 @@ void EntityHandler::InitEnemy()
 	enemySprite->SetAnimation(enemyAnimation->GetCurrentAnimation());
 
 	GameManager::GetInstance().SetIsFirstEnemyInit(true);
+}
+
+void EntityHandler::MoveEntityToRandomPos(EntityId entityId)
+{
+	Screen& screen = screen.GetInstance();
+
+	constexpr float offset = 20.0f;
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD + offset, screen.BORDER_RIGHT_SCREEN_COORD - offset);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD + offset, screen.BORDER_BOTTOM_SCREEN_COORD - offset);
+	constexpr float zPos = 0.0f;
+
+	vec3 newPos = vec3(xPos, yPos, zPos);
+	Transform* transform = EntityManager::GetInstance().GetComponent<Transform>(entityId);
+	transform->SetPosition(newPos);
 }
 
 void EntityHandler::HandleBulletHitEnemy(EntityManager &entityManager, EntityId bulletEntityId, EntityId enemyEntityId)

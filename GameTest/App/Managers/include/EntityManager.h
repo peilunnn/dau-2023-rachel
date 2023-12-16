@@ -20,7 +20,6 @@ public:
 
     void Init();
     vector<EntityId> GetAllEntityIds();
-    void MoveEntityToRandomPos(EntityId entityId);
     void ResetEnemies();
     void InitBulletPool();
     void ReturnBulletToPool(EntityId bulletEntityId);

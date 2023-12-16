@@ -10,12 +10,15 @@ public:
 
     void HandleEvent(const Event& event, float deltaTime) override;
     void InitEnemy();
+    void MoveEntityToRandomPos(EntityId entityId);
 
 private:
     EntityHandler() {
         m_subscribedEvents.insert(EventType::BulletHitEnemy);
         m_subscribedEvents.insert(EventType::EnemyHitPlayer);
         m_subscribedEvents.insert(EventType::BulletOutOfBounds);
+        m_subscribedEvents.insert(EventType::PlayerHitAmmoPickup);
+        m_subscribedEvents.insert(EventType::PlayerHitHealthPickup);
     }
 
     void HandleBulletHitEnemy(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId);
