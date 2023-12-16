@@ -74,10 +74,10 @@ void TimerHandler::Update(float deltaTime) {
             Tag* lightningStrikeTag = entityManager.GetComponent<Tag>(entityId);
             if (lightningStrikeTag->GetEntityState() == EntityState::Alive)
             {
-                float remainingTime = timer->GetRemainingTime();
-                timer->SetRemainingTime(remainingTime - deltaTime);
+                float newRemainingTime = timer->GetRemainingTime() - deltaTime;
+                timer->SetRemainingTime(newRemainingTime);
 
-                if (remainingTime <= 0)
+                if (newRemainingTime <= 0)
                 {
                     timer->SetRemainingTime(timer->GetInitialDuration());
                     entityManager.ReturnLightningStrikeToPool(entityId);
@@ -88,11 +88,14 @@ void TimerHandler::Update(float deltaTime) {
         // For all other normal timers, we decrement remaining time every frame
         else
         {
-            float remainingTime = timer->GetRemainingTime();
-            timer->SetRemainingTime(remainingTime - deltaTime);
+            EntityId playerEntityId = entityManager.GetPlayerEntityId();
+            Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 
-            if (remainingTime <= 0)
-                gameManager.TransitionToLoadingState();
+            float newRemainingTime = timer->GetRemainingTime() - deltaTime;
+            timer->SetRemainingTime(newRemainingTime);
+
+            if (newRemainingTime <= 0)
+                playerTag->SetEntityState(EntityState::Dead);
         }
     }
 }
