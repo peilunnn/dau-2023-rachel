@@ -14,6 +14,7 @@ public:
     void MoveEntityToRandomPos(EntityId entityId);
 
     int GetEnemiesToStrike() const { return m_enemiesToStrike; }
+    void SetEnemiesToStrike(int newEnemiesToStrike) {m_enemiesToStrike = newEnemiesToStrike; }
 
 private:
     EntityHandler() {

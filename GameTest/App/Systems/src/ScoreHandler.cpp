@@ -37,9 +37,13 @@ void ScoreHandler::HandleBulletHitEnemy(EntityManager &entityManager, float delt
 
 void ScoreHandler::HandlePlayerHitLightningPickup(EntityManager& entityManager, float deltaTime)
 {
+	EntityHandler& entityHandler = EntityHandler::GetInstance();
+
 	EntityId scoreEntityId = entityManager.GetScoreEntityId();
 	Score* score = entityManager.GetComponent<Score>(scoreEntityId);
 	int currentScore = score->GetScore();
-	int enemiesToStrike = EntityHandler::GetInstance().GetEnemiesToStrike();
+	int enemiesToStrike = entityHandler.GetEnemiesToStrike();
+	
 	score->SetScore(currentScore + enemiesToStrike);
+	entityHandler.SetEnemiesToStrike(0);
 }

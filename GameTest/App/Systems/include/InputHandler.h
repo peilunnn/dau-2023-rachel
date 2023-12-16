@@ -14,16 +14,10 @@ public:
 
     void Update(float deltaTime);
     bool IsButtonClicked(EntityId entityId);
-    void ResetPlayButtonClick() { m_isPlayButtonClicked = false; }
-    void ResetBackButtonClick() { m_isBackButtonClicked = false; }
-    void ResetQuitButtonClick() { m_isQuitButtonClicked = false; }
 
 private:
     InputHandler() = default;
 
-    bool m_isPlayButtonClicked = false;
-    bool m_isBackButtonClicked = false;
-    bool m_isQuitButtonClicked = false;
     bool m_wasPPressedLastFrame = false;
 
     void HandlePositionInput(EntityManager& entityManager, EntityId playerEntityId, float deltaTime);
