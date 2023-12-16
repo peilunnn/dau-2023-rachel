@@ -32,7 +32,7 @@ enum class EntityState
     Alive,
     HitByEnemy,
     HitByBullet,
-    Dead
+    Dead,
 };
 
 enum class EventType
@@ -94,5 +94,6 @@ enum class TimerType
     None,
     Countdown,
     PlayerDeath,
-    EnemyMelt
+    EnemyMelt,
+    LightningFlash
 };

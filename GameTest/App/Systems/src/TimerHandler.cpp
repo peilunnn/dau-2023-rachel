@@ -68,6 +68,23 @@ void TimerHandler::Update(float deltaTime) {
             }
         }
 
+        // For enemy, we only start decrementing remaining time if enemy is hit by bullet
+        else if (timer->GetType() == TimerType::LightningFlash) 
+        {
+            Tag* lightningStrikeTag = entityManager.GetComponent<Tag>(entityId);
+            if (lightningStrikeTag->GetEntityState() == EntityState::Alive)
+            {
+                float remainingTime = timer->GetRemainingTime();
+                timer->SetRemainingTime(remainingTime - deltaTime);
+
+                if (remainingTime <= 0)
+                {
+                    timer->SetRemainingTime(timer->GetInitialDuration());
+                    entityManager.ReturnLightningStrikeToPool(entityId);
+                }
+            }
+        }
+
         // For all other normal timers, we decrement remaining time every frame
         else
         {

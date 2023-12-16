@@ -145,7 +145,8 @@ void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
 		enemyVelocity->SetVelocity(zeroVelocity);
 		enemyTag->SetEntityState(EntityState::HitByBullet);
 		
-		EntityId lightningStrikeEntityId = entityManager.CreateLightningStrikeEntity(spriteManager);
+		EntityId lightningStrikeEntityId = entityManager.GetLightningStrikeFromPool();
+		Tag* lightningStrikeTag = entityManager.GetComponent<Tag>(lightningStrikeEntityId);
 		Transform* lightningStrikeTransform = entityManager.GetComponent<Transform>(lightningStrikeEntityId);
 		lightningStrikeTransform->SetPosition(enemyTransform->GetPosition());
 	}

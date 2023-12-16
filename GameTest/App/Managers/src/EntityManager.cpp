@@ -66,6 +66,7 @@ void EntityManager::Init()
 
 	InitBulletPool();
 	InitEnemyPool();
+	InitLightningStrikePool();
 }
 
 vector<EntityId> EntityManager::GetAllEntityIds()
@@ -530,6 +531,34 @@ void EntityManager::ReturnEnemyToPool(EntityId enemyEntityId)
 	SetEntityStateAndVisibility(enemyEntityId, EntityState::Dead, false);
 }
 
+void EntityManager::InitLightningStrikePool()
+{
+	SpriteManager& spriteManager = SpriteManager::GetInstance();
+
+	for (size_t i = 0; i < m_lightningStrikePoolSize; ++i) 
+	{
+		EntityId lightningStrikeEntityId = CreateLightningStrikeEntity(spriteManager);
+		SetEntityStateAndVisibility(lightningStrikeEntityId, EntityState::Dead, false);
+		m_lightningStrikePool.push_back(lightningStrikeEntityId);
+	}
+}
+
+EntityId EntityManager::GetLightningStrikeFromPool()
+{
+	if (m_lightningStrikePoolIndex >= m_lightningStrikePool.size())
+		m_lightningStrikePoolIndex = 0;
+
+	EntityId lightningStrikeEntityId = m_lightningStrikePool[m_lightningStrikePoolIndex++];
+	SetEntityStateAndVisibility(lightningStrikeEntityId, EntityState::Alive, true);
+
+	return lightningStrikeEntityId;
+}
+
+void EntityManager::ReturnLightningStrikeToPool(EntityId lightningStrikeEntityId)
+{
+	SetEntityStateAndVisibility(lightningStrikeEntityId, EntityState::Dead, false);
+}
+
 void EntityManager::SetEntityStateAndVisibility(EntityId entityId, EntityState state, bool isVisible)
 {
 	Tag *tag = GetComponent<Tag>(entityId);
@@ -552,11 +581,13 @@ EntityId EntityManager::CreateLightningStrikeEntity(SpriteManager& spriteManager
 	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(lightningStrikeSprite);
 	unique_ptr<Animation> animation = make_unique<Animation>();
+	unique_ptr<Timer> lightningFlashTimer = make_unique<Timer>(TimerType::LightningFlash, 0.1f);
 
 	AddComponent(lightningStrikeEntityId, move(tag));
 	AddComponent(lightningStrikeEntityId, move(transform));
 	AddComponent(lightningStrikeEntityId, move(renderable));
 	AddComponent(lightningStrikeEntityId, move(animation));
+	AddComponent(lightningStrikeEntityId, move(lightningFlashTimer));
 
 	AnimationHandler::GetInstance().InitLightningStrikeAnimation(spriteManager, lightningStrikeEntityId);
 

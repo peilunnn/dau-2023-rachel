@@ -21,12 +21,18 @@ public:
     void Init();
     vector<EntityId> GetAllEntityIds();
     void ResetEnemies();
-    void InitBulletPool();
-    void ReturnBulletToPool(EntityId bulletEntityId);
-    void InitEnemyPool();
-    void ReturnEnemyToPool(EntityId enemyEntityId);
     void SetEntityStateAndVisibility(EntityId entityId, EntityState state, bool isVisible);
     EntityId CreateLightningStrikeEntity(SpriteManager& spriteManager);
+
+    void InitBulletPool();
+    EntityId GetBulletFromPool();
+    void ReturnBulletToPool(EntityId bulletEntityId);
+    void InitEnemyPool();
+    EntityId GetEnemyFromPool();
+    void ReturnEnemyToPool(EntityId enemyEntityId);
+    void InitLightningStrikePool();
+    EntityId GetLightningStrikeFromPool();
+    void ReturnLightningStrikeToPool(EntityId lightningStrikeEntityId);
 
     EntityId GetPlayerEntityId() const { return m_playerEntityId; }
     EntityId GetAmmoPickupEntityId() const { return m_ammoPickupEntityId; }
@@ -45,8 +51,6 @@ public:
     EntityId GetLightningStrikeEntityId() const { return m_lightningStrikeEntityId; }
     vector<EntityId> GetAmmoEmptyEntityIds() const { return m_ammoEmptyEntityIds; }
     vector<EntityId> GetAmmoFilledEntityIds() const { return m_ammoFilledEntityIds; }
-    EntityId GetBulletFromPool();
-    EntityId GetEnemyFromPool();
 
     template <typename T>
     void AddComponent(EntityId entityId, unique_ptr<T> component)
@@ -117,6 +121,9 @@ private:
     vector<EntityId> m_enemyPool = vector<EntityId>();
     size_t m_enemyPoolIndex = 0;
     const int m_enemyPoolSize = 30;
+    vector<EntityId> m_lightningStrikePool = vector<EntityId>();
+    size_t m_lightningStrikePoolSize = 10;
+    size_t m_lightningStrikePoolIndex = 0;
 
     EntityId CreateEntityId();
     EntityId CreatePlayerEntity(SpriteManager &spriteManager);
