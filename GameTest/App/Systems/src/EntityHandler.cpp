@@ -124,18 +124,18 @@ void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
 	for (EntityId entityId : allEntityIds)
 	{
 		Tag* tag = entityManager.GetComponent<Tag>(entityId);
-		if (tag && tag->GetEntityType() == EntityType::Enemy && tag->GetEntityState() == EntityState::Alive)
+		if (tag->GetEntityType() == EntityType::Enemy && tag->GetEntityState() == EntityState::Alive)
 			activeEnemies.push_back(entityId);
 	}
 
 	random_device rd;
 	default_random_engine rng(rd());
 
-	// Randomly select up to 5 enemies
+	// Randomly select up to max enemies to strike
 	shuffle(activeEnemies.begin(), activeEnemies.end(), rng);
-	int enemiesToStrike = min(static_cast<int>(activeEnemies.size()), 5);
+	m_enemiesToStrike = min(static_cast<int>(activeEnemies.size()), m_maxEnemiesToStrike);
 
-	for (int i = 0; i < enemiesToStrike; ++i)
+	for (int i = 0; i < m_enemiesToStrike; ++i)
 	{
 		EntityId enemyEntityId = activeEnemies[i];
 		Tag* enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);

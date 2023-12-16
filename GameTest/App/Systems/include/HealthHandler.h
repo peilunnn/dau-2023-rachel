@@ -10,9 +10,7 @@ public:
     void operator=(HealthHandler const&) = delete;
 
     void HandleEvent(const Event& event, float deltaTime) override;
-    int GetHealthReduction() const {
-        return m_healthReduction;
-    }
+    int GetHealthReduction() const { return m_healthReduction; }
     void ResetPlayerHealth();
 
 private:

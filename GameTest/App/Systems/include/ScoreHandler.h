@@ -13,9 +13,12 @@ public:
     void ResetScore();
 
 private:
-    ScoreHandler() {
+    ScoreHandler() 
+    {
         m_subscribedEvents.insert(EventType::BulletHitEnemy);
+        m_subscribedEvents.insert(EventType::PlayerHitLightningPickup);
     }
 
     void HandleBulletHitEnemy(EntityManager& entityManager, float deltaTime);
+    void HandlePlayerHitLightningPickup(EntityManager& entityManager, float deltaTime);
 };

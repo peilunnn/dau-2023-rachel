@@ -1,8 +1,9 @@
 #pragma once
+#include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
-#include <set>
 
-class EntityHandler : public System {
+class EntityHandler : public System 
+{
 public:
     static EntityHandler& GetInstance();
     EntityHandler(EntityHandler const&) = delete;
@@ -11,6 +12,8 @@ public:
     void HandleEvent(const Event& event, float deltaTime) override;
     void InitEnemy();
     void MoveEntityToRandomPos(EntityId entityId);
+
+    int GetEnemiesToStrike() const { return m_enemiesToStrike; }
 
 private:
     EntityHandler() {
@@ -21,6 +24,9 @@ private:
         m_subscribedEvents.insert(EventType::PlayerHitHealthPickup);
         m_subscribedEvents.insert(EventType::PlayerHitLightningPickup);
     }
+
+    int m_enemiesToStrike = 0;
+    const int m_maxEnemiesToStrike = 5;
 
     void HandleBulletHitEnemy(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId);
     void HandleEnemyHitPlayer(EntityManager& entityManager, EntityId enemyEntityId);
