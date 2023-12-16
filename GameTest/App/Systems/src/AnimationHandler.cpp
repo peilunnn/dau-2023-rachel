@@ -206,27 +206,20 @@ void AnimationHandler::RotatePlayer(float deltaTime)
 	playerSprite->SetAngle(newAngle);
 }
 
-void AnimationHandler::SpinAmmoPickup(float deltaTime)
+void AnimationHandler::SpinPickup(float deltaTime, EntityId pickupEntityId, float minScale, float maxScale, float scaleSpeed, bool& isScalingDown)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
-	EntityId ammoPickupEntityId = entityManager.GetAmmoPickupEntityId();
-	Transform* ammoPickupTransform = entityManager.GetComponent<Transform>(ammoPickupEntityId);
+	
+	Transform* pickupTransform = entityManager.GetComponent<Transform>(pickupEntityId);
+	vec3 currentScale = pickupTransform->GetScale();
 
-	const float scaleSpeed = 0.2f;
-	const float minScale = 0.15f;
-	const float maxScale = 0.2f;
-	const float scaleX = ammoPickupTransform->GetScale().x;
-
-	vec3 currentScale = ammoPickupTransform->GetScale();
-	static bool scalingDown = true;
-
-	if (scalingDown)
+	if (isScalingDown)
 	{
 		currentScale.y -= scaleSpeed * deltaTime;
 		if (currentScale.y <= minScale)
 		{
 			currentScale.y = minScale;
-			scalingDown = false;
+			isScalingDown = false;
 		}
 	}
 	else
@@ -235,47 +228,34 @@ void AnimationHandler::SpinAmmoPickup(float deltaTime)
 		if (currentScale.y >= maxScale)
 		{
 			currentScale.y = maxScale;
-			scalingDown = true;
+			isScalingDown = true;
 		}
 	}
 
-	ammoPickupTransform->SetScale(vec3(scaleX, currentScale.y, 1.0f));
+	pickupTransform->SetScale(vec3(currentScale.x, currentScale.y, 1.0f));
+}
+
+
+void AnimationHandler::SpinAmmoPickup(float deltaTime)
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+	EntityId ammoPickupEntityId = entityManager.GetAmmoPickupEntityId();
+	const float minScale = 0.15f;
+	const float maxScale = 0.2f;
+	const float scaleSpeed = 0.2f;
+
+	SpinPickup(deltaTime, ammoPickupEntityId, minScale, maxScale, scaleSpeed, m_ammoPickupScalingDown);
 }
 
 void AnimationHandler::SpinHealthPickup(float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
 	EntityId healthPickupEntityId = entityManager.GetHealthPickupEntityId();
-	Transform* healthPickupTransform = entityManager.GetComponent<Transform>(healthPickupEntityId);
-
-	const float scaleSpeed = 2.0f;
 	const float minScale = 2.0f;
 	const float maxScale = 2.5f;
-	const float scaleX = healthPickupTransform->GetScale().x;
+	const float scaleSpeed = 2.0f;
 
-	vec3 currentScale = healthPickupTransform->GetScale();
-	static bool scalingDown = true;
-
-	if (scalingDown)
-	{
-		currentScale.y -= scaleSpeed * deltaTime;
-		if (currentScale.y <= minScale)
-		{
-			currentScale.y = minScale;
-			scalingDown = false;
-		}
-	}
-	else
-	{
-		currentScale.y += scaleSpeed * deltaTime;
-		if (currentScale.y >= maxScale)
-		{
-			currentScale.y = maxScale;
-			scalingDown = true;
-		}
-	}
-
-	healthPickupTransform->SetScale(vec3(scaleX, currentScale.y, 1.0f));
+	SpinPickup(deltaTime, healthPickupEntityId, minScale, maxScale, scaleSpeed, m_healthPickupScalingDown);
 }
 
 void AnimationHandler::ResetHealthBarAnimation()

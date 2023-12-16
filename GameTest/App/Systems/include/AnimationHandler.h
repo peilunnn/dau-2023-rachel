@@ -17,6 +17,7 @@ public:
     void Update(float deltaTime);
     void HandleEvent(const Event &event, float deltaTime) override;
     void RotatePlayer(float deltaTime);
+    void SpinPickup(float deltaTime, EntityId pickupEntityId, float minScale, float maxScale, float scaleSpeed, bool& isScalingDown);
     void SpinAmmoPickup(float deltaTime);
     void SpinHealthPickup(float deltaTime);
     void ResetHealthBarAnimation();
@@ -31,6 +32,8 @@ private:
     }
 
     int m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
+    bool m_ammoPickupScalingDown;
+    bool m_healthPickupScalingDown;
 
     void InitPlayerAnimation(EntityManager& entityManager, SpriteManager& spriteManager);
     void InitHealthBarAnimation(EntityManager &entityManager, SpriteManager &spriteManager);
