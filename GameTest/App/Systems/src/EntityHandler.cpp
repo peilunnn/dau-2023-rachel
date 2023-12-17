@@ -6,7 +6,6 @@
 #include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
-#include "Systems/include/AnimationHandler.h"
 #include "Systems/include/EntityHandler.h"
 #include "Utilities/include/Helper.h"
 #include <algorithm>
@@ -117,6 +116,8 @@ void EntityHandler::HandleBulletOutOfBounds(EntityManager &entityManager, Entity
 
 void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
 {
+	random_device rd;
+	default_random_engine rng(rd());
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
 	vector<EntityId> allEntityIds = entityManager.GetAllEntityIds();
 
@@ -128,10 +129,6 @@ void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
 			activeEnemies.push_back(entityId);
 	}
 
-	random_device rd;
-	default_random_engine rng(rd());
-
-	// Randomly select up to max enemies to strike
 	shuffle(activeEnemies.begin(), activeEnemies.end(), rng);
 	m_enemiesToStrike = min(static_cast<int>(activeEnemies.size()), m_maxEnemiesToStrike);
 

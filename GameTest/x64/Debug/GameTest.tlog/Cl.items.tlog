@@ -33,6 +33,7 @@ C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Scree
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Managers\src\SpriteManager.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\SpriteManager.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Managers\src\SoundManager.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\SoundManager.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Utilities\src\QuadtreeNode.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\QuadtreeNode.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Pickup.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Pickup.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\stb_image\stb_image.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\stb_image.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\stdafx.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\stdafx.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Transform.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Transform.obj

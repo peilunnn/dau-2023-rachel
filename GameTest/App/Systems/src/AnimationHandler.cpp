@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Components/include/Animation.h"
 #include "Components/include/Health.h"
+#include "Components/include/Pickup.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Tag.h"
 #include "Components/include/Velocity.h"
@@ -98,14 +99,8 @@ void AnimationHandler::Update(float deltaTime)
 		case EntityType::Enemy:
 			UpdateEnemyAnimation(entityManager, entityId, deltaTime);
 			break;
-		case EntityType::AmmoPickup:
-			SpinAmmoPickup(deltaTime);
-			break;
-		case EntityType::HealthPickup:
-			SpinHealthPickup(deltaTime);
-			break;
-		case EntityType::LightningPickup:
-			SpinLightningPickup(deltaTime);
+		case EntityType::Pickup:
+			SpinPickup(entityId, deltaTime);
 			break;
 		case EntityType::HealthBar:
 			UpdateHealthBarAnimation(entityManager, entityId, deltaTime);
@@ -231,37 +226,50 @@ void AnimationHandler::RotatePlayer(float deltaTime)
 	playerSprite->SetAngle(newAngle);
 }
 
-void AnimationHandler::SpinAmmoPickup(float deltaTime)
+void AnimationHandler::SpinPickup(EntityId entityId, float deltaTime)
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
-	EntityId ammoPickupEntityId = entityManager.GetAmmoPickupEntityId();
+	Pickup* pickupComponent = entityManager.GetComponent<Pickup>(entityId);
+
+	switch (pickupComponent->GetPickupType())
+	{
+		case PickupType::AmmoPickup:
+			SpinAmmoPickup(entityId, deltaTime);
+			break;
+		case PickupType::HealthPickup:
+			SpinHealthPickup(entityId, deltaTime);
+			break;
+		case PickupType::LightningPickup:
+			SpinLightningPickup(entityId, deltaTime);
+			break;
+	}
+}
+
+void AnimationHandler::SpinAmmoPickup(EntityId entityId, float deltaTime)
+{
 	constexpr float minScale = 0.15f;
 	constexpr float maxScale = 0.2f;
 	constexpr float scaleSpeed = 0.2f;
 
-	SpinPickup(deltaTime, ammoPickupEntityId, minScale, maxScale, scaleSpeed, m_ammoPickupScalingDown);
+	SpinPickup(deltaTime, entityId, minScale, maxScale, scaleSpeed, m_ammoPickupScalingDown);
 }
 
-void AnimationHandler::SpinHealthPickup(float deltaTime)
+void AnimationHandler::SpinHealthPickup(EntityId entityId, float deltaTime)
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
-	EntityId healthPickupEntityId = entityManager.GetHealthPickupEntityId();
 	constexpr float minScale = 2.5f;
 	constexpr float maxScale = 2.75f;
 	constexpr float scaleSpeed = 2.0f;
 
-	SpinPickup(deltaTime, healthPickupEntityId, minScale, maxScale, scaleSpeed, m_healthPickupScalingDown);
+	SpinPickup(deltaTime, entityId, minScale, maxScale, scaleSpeed, m_healthPickupScalingDown);
 }
 
-void AnimationHandler::SpinLightningPickup(float deltaTime)
+void AnimationHandler::SpinLightningPickup(EntityId entityId, float deltaTime)
 {
-	EntityManager& entityManager = EntityManager::GetInstance();
-	EntityId lightningPickupEntityId = entityManager.GetLightningPickupEntityId();
 	constexpr float minScale = 0.15f;
 	constexpr float maxScale = 0.175f;
 	constexpr float scaleSpeed = 0.2f;
 
-	SpinPickup(deltaTime, lightningPickupEntityId, minScale, maxScale, scaleSpeed, m_lightningPickupScalingDown);
+	SpinPickup(deltaTime, entityId, minScale, maxScale, scaleSpeed, m_lightningPickupScalingDown);
 }
 
 void AnimationHandler::ResetHealthBarAnimation()

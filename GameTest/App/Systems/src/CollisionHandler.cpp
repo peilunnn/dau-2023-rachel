@@ -1,24 +1,20 @@
 #include "stdafx.h"
 #include "Components/include/Collider.h"
+#include "Components/include/Pickup.h"
 #include "Components/include/Tag.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SoundManager.h"
 #include "Managers/include/SystemManager.h"
-#include "Systems/include/AnimationHandler.h"
 #include "Systems/include/CollisionHandler.h"
 #include "Systems/include/Event.h"
-#include "Systems/include/HealthHandler.h"
-#include "Systems/include/EntityHandler.h"
-#include "Systems/include/ShootingHandler.h"
-#include "Systems/include/RenderingHandler.h"
 #include "Utilities/include/Helper.h"
 using glm::dot;
 using glm::vec2;
 
 map<EntityType, set<EntityType>> CollisionHandler::m_collisionRules =
 	{
-		{EntityType::Player, {EntityType::Enemy, EntityType::AmmoPickup, EntityType::HealthPickup, EntityType::LightningPickup}},
+		{EntityType::Player, {EntityType::Enemy, EntityType::Pickup}},
 		{EntityType::Enemy, {EntityType::Player, EntityType::Bullet}},
 };
 
@@ -138,31 +134,26 @@ void CollisionHandler::HandleCollisionEvent(EntityId firstEntityId, EntityId sec
 		HandlePlayerEnemyCollision(entityManager, systemManager, playerEntityId, enemyEntityId);
 	}
 
-	// Case 3: player-ammoPickup
-	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::AmmoPickup) ||
-			 (firstEntityType == EntityType::AmmoPickup && secondEntityType == EntityType::Player))
+	// Case 3: player-pickup
+	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::Pickup) ||
+		(firstEntityType == EntityType::Pickup && secondEntityType == EntityType::Player))
 	{
 		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
-		EntityId ammoPickupEntityId = (firstEntityType == EntityType::AmmoPickup) ? firstEntityId : secondEntityId;
-		HandlePlayerAmmoPickupCollision(entityManager, systemManager, playerEntityId, ammoPickupEntityId);
-	}
+		EntityId pickupEntityId = (firstEntityType == EntityType::Player) ? secondEntityId : firstEntityId;
+		Pickup* pickupComponent = entityManager.GetComponent<Pickup>(pickupEntityId);
 
-	// Case 4: player-healthPickup
-	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::HealthPickup) ||
-			 (firstEntityType == EntityType::HealthPickup && secondEntityType == EntityType::Player))
-	{
-		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
-		EntityId healthPickupEntityId = (firstEntityType == EntityType::HealthPickup) ? firstEntityId : secondEntityId;
-		HandlePlayerHealthPickupCollision(entityManager, systemManager, playerEntityId, healthPickupEntityId);
-	}
-
-	// Case 5: player-lightningPickup
-	else if ((firstEntityType == EntityType::Player && secondEntityType == EntityType::LightningPickup) ||
-			 (firstEntityType == EntityType::LightningPickup && secondEntityType == EntityType::Player))
-	{
-		EntityId playerEntityId = (firstEntityType == EntityType::Player) ? firstEntityId : secondEntityId;
-		EntityId lightningPickupEntityId = (firstEntityType == EntityType::LightningPickup) ? firstEntityId : secondEntityId;
-		HandlePlayerLightningPickupCollision(entityManager, systemManager, playerEntityId, lightningPickupEntityId);
+		switch (pickupComponent->GetPickupType())
+		{
+		case PickupType::AmmoPickup:
+			HandlePlayerAmmoPickupCollision(entityManager, systemManager, playerEntityId, pickupEntityId);
+			break;
+		case PickupType::HealthPickup:
+			HandlePlayerHealthPickupCollision(entityManager, systemManager, playerEntityId, pickupEntityId);
+			break;
+		case PickupType::LightningPickup:
+			HandlePlayerLightningPickupCollision(entityManager, systemManager, playerEntityId, pickupEntityId);
+			break;
+		}
 	}
 }
 

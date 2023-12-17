@@ -4,6 +4,7 @@
 #include "Components/include/Collider.h"
 #include "Components/include/Cooldown.h"
 #include "Components/include/EntityId.h"
+#include "Components/include/Pickup.h"
 #include "Components/include/Health.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Score.h"
@@ -13,10 +14,8 @@
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
-#include "Managers/include/GameManager.h"
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/ShootingHandler.h"
-#include "Systems/include/EntityHandler.h"
 #include "Utilities/include/Helper.h"
 using glm::vec2;
 using glm::vec3;
@@ -186,7 +185,7 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager &spriteManager, const v
 	return bulletEntityId;
 }
 
-EntityId EntityManager::CreatePickupEntity(SpriteManager& spriteManager, const char* spritePath, EntityType entityType, vec3 scale, float radiusMultiplier)
+EntityId EntityManager::CreatePickupEntity(SpriteManager& spriteManager, const char* spritePath, PickupType pickupType, vec3 scale, float radiusMultiplier)
 {
 	EntityId pickupEntityId = CreateEntityId();
 	CSimpleSprite* pickupSprite = spriteManager.CreateSprite(pickupEntityId, spritePath, 1, 1);
@@ -197,7 +196,8 @@ EntityId EntityManager::CreatePickupEntity(SpriteManager& spriteManager, const c
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(entityType, GameState::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Pickup, GameState::Gameplay);
+	unique_ptr<Pickup> pickup = make_unique<Pickup>(pickupType);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(pickupSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
@@ -206,6 +206,7 @@ EntityId EntityManager::CreatePickupEntity(SpriteManager& spriteManager, const c
 	unique_ptr<Animation> animation = make_unique<Animation>();
 
 	AddComponent(pickupEntityId, move(tag));
+	AddComponent(pickupEntityId, move(pickup));
 	AddComponent(pickupEntityId, move(transform));
 	AddComponent(pickupEntityId, move(renderable));
 	AddComponent(pickupEntityId, move(collider));
@@ -219,14 +220,14 @@ EntityId EntityManager::CreateAmmoPickupEntity(SpriteManager& spriteManager)
 	const vec3 scale = vec3(0.15f);
 	const float radiusMultiplier = 0.15f;
 
-	return CreatePickupEntity(spriteManager, Helper::PATH_TO_AMMO_PICKUP, EntityType::AmmoPickup, scale, radiusMultiplier);
+	return CreatePickupEntity(spriteManager, Helper::PATH_TO_AMMO_PICKUP, PickupType::AmmoPickup, scale, radiusMultiplier);
 }
 
 EntityId EntityManager::CreateHealthPickupEntity(SpriteManager& spriteManager)
 {
 	const vec3 scale = vec3(2.0f);
 
-	return CreatePickupEntity(spriteManager, Helper::PATH_TO_HEALTH_PICKUP, EntityType::HealthPickup, scale);
+	return CreatePickupEntity(spriteManager, Helper::PATH_TO_HEALTH_PICKUP, PickupType::HealthPickup, scale);
 }
 
 EntityId EntityManager::CreateLightningPickupEntity(SpriteManager& spriteManager)
@@ -234,7 +235,7 @@ EntityId EntityManager::CreateLightningPickupEntity(SpriteManager& spriteManager
 	const vec3 scale = vec3(0.15f);
 	const float radiusMultiplier = 0.15f;
 
-	return CreatePickupEntity(spriteManager, Helper::PATH_TO_LIGHTNING_PICKUP, EntityType::LightningPickup, scale, radiusMultiplier);
+	return CreatePickupEntity(spriteManager, Helper::PATH_TO_LIGHTNING_PICKUP, PickupType::LightningPickup, scale, radiusMultiplier);
 }
 
 EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos)
@@ -301,7 +302,7 @@ EntityId EntityManager::CreateScoreEntity()
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Score, GameState::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Score> score = make_unique<Score>();
 
@@ -349,7 +350,7 @@ EntityId EntityManager::CreateTitleEntity(SpriteManager &spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.5f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Title, GameState::MainMenu);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, GameState::MainMenu);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(titleSprite);
 
@@ -360,7 +361,7 @@ EntityId EntityManager::CreateTitleEntity(SpriteManager &spriteManager)
 	return titleEntityId;
 }
 
-EntityId EntityManager::CreateButtonEntity(SpriteManager& spriteManager, const char* spritePath, EntityType entityType, GameState gameState, float xOffset, float yOffset, vec3 scale)
+EntityId EntityManager::CreateButtonEntity(SpriteManager& spriteManager, const char* spritePath, GameState gameState, float xOffset, float yOffset, vec3 scale)
 {
 	EntityId buttonEntityId = CreateEntityId();
 	CSimpleSprite* buttonSprite = spriteManager.CreateSprite(buttonEntityId, spritePath, 1, 1);
@@ -371,7 +372,7 @@ EntityId EntityManager::CreateButtonEntity(SpriteManager& spriteManager, const c
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(entityType, gameState);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, gameState);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(buttonSprite);
 
@@ -388,7 +389,7 @@ EntityId EntityManager::CreatePlayButtonEntity(SpriteManager& spriteManager)
 	const float yOffset = 400.0f;
 	const vec3 scale = vec3(0.2f);
 
-	return CreateButtonEntity(spriteManager, Helper::PATH_TO_PLAY_BUTTON, EntityType::Button, GameState::MainMenu, xOffset, yOffset, scale);
+	return CreateButtonEntity(spriteManager, Helper::PATH_TO_PLAY_BUTTON, GameState::MainMenu, xOffset, yOffset, scale);
 }
 
 EntityId EntityManager::CreateBackButtonEntity(SpriteManager& spriteManager)
@@ -397,7 +398,7 @@ EntityId EntityManager::CreateBackButtonEntity(SpriteManager& spriteManager)
 	const float yOffset = 400.0f;
 	const vec3 scale = vec3(0.2f);
 
-	return CreateButtonEntity(spriteManager, Helper::PATH_TO_BACK_BUTTON, EntityType::Button, GameState::GameOver, xOffset, yOffset, scale);
+	return CreateButtonEntity(spriteManager, Helper::PATH_TO_BACK_BUTTON, GameState::GameOver, xOffset, yOffset, scale);
 }
 
 EntityId EntityManager::CreateQuitButtonEntity(SpriteManager& spriteManager)
@@ -406,7 +407,7 @@ EntityId EntityManager::CreateQuitButtonEntity(SpriteManager& spriteManager)
 	const float yOffset = 400.0f;
 	const vec3 scale = vec3(0.2f);
 
-	return CreateButtonEntity(spriteManager, Helper::PATH_TO_QUIT_BUTTON, EntityType::Button, GameState::Paused, xOffset, yOffset, scale);
+	return CreateButtonEntity(spriteManager, Helper::PATH_TO_QUIT_BUTTON, GameState::Paused, xOffset, yOffset, scale);
 }
 
 EntityId EntityManager::CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager)
@@ -448,7 +449,7 @@ EntityId EntityManager::CreateStarfieldEntity(SpriteManager &spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(2.0f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Starfield, GameState::GameOver);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, GameState::GameOver);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(starfieldSprite);
 
@@ -471,7 +472,7 @@ EntityId EntityManager::CreateCrosshairEntity(SpriteManager &spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.5f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Crosshair, GameState::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(crosshairSprite);
 

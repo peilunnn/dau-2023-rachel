@@ -53,6 +53,7 @@
     <ClCompile Include="App\Utilities\src\main.cpp" />
     <ClCompile Include="App\Managers\src\SoundManager.cpp" />
     <ClCompile Include="App\Utilities\src\QuadtreeNode.cpp" />
+    <ClCompile Include="App\Components\src\Pickup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -112,6 +113,8 @@
     <ClInclude Include="App\Utilities\include\app.h" />
     <ClInclude Include="App\Managers\include\SoundManager.h" />
     <ClInclude Include="App\Utilities\include\QuadtreeNode.h" />
+    <ClInclude Include="App\Utilities\include\Profiler.h" />
+    <ClInclude Include="App\Components\include\Pickup.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

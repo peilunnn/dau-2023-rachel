@@ -129,7 +129,7 @@ private:
     EntityId CreatePlayerEntity(SpriteManager &spriteManager);
     EntityId CreateEnemyEntity(SpriteManager &spriteManager);
     EntityId CreateBulletEntity(SpriteManager &spriteManager, const vec3 &pos, const vec2 &targetVelocity);
-    EntityId CreatePickupEntity(SpriteManager& spriteManager, const char* spritePath, EntityType entityType, vec3 scale, float radiusMultiplier = 1.0f);
+    EntityId CreatePickupEntity(SpriteManager& spriteManager, const char* spritePath, PickupType pickupType, vec3 scale, float radiusMultiplier = 1.0f);
     EntityId CreateAmmoPickupEntity(SpriteManager& spriteManager);
     EntityId CreateHealthPickupEntity(SpriteManager& spriteManager);
     EntityId CreateLightningPickupEntity(SpriteManager& spriteManager);
@@ -138,7 +138,7 @@ private:
     EntityId CreateScoreEntity();
     EntityId CreateCountdownTimerEntity();
     EntityId CreateTitleEntity(SpriteManager &spriteManager);
-    EntityId CreateButtonEntity(SpriteManager& spriteManager, const char* spritePath, EntityType entityType, GameState gameState, float xOffset, float yOffset, vec3 scale);
+    EntityId CreateButtonEntity(SpriteManager& spriteManager, const char* spritePath, GameState gameState, float xOffset, float yOffset, vec3 scale);
     EntityId CreatePlayButtonEntity(SpriteManager &spriteManager);
     EntityId CreateBackButtonEntity(SpriteManager &spriteManager);
     EntityId CreateQuitButtonEntity(SpriteManager &spriteManager);

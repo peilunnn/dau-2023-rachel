@@ -11,20 +11,14 @@ enum class EntityType
     Player,
     Enemy,
     Bullet,
-    AmmoPickup,
-    HealthPickup,
-    LightningPickup,
+    Pickup,
+    Timer,
     AmmoEmpty,
     AmmoFilled,
     HealthBar,
-    Score,
-    Timer,
-    Title,
-    Button,
     LoadingScreenCharacter,
-    Starfield,
-    Crosshair,
-    LightningStrike
+    LightningStrike,
+    UI
 };
 
 enum class EntityState
@@ -96,4 +90,11 @@ enum class TimerType
     PlayerDeath,
     EnemyMelt,
     LightningFlash
+};
+
+enum class PickupType
+{
+    AmmoPickup,
+    HealthPickup,
+    LightningPickup,
 };
