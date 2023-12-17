@@ -4,7 +4,7 @@
 #include "Components/include/Transform.h"
 #include "Managers/include/SystemManager.h"
 #include "Utilities/include/QuadtreeNode.h"
-using namespace std;
+using std::map;
 
 class CollisionHandler : public System
 {

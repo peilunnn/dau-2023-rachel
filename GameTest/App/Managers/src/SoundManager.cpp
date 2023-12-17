@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Managers/include/SoundManager.h"
+using std::move;
 
 SoundManager& SoundManager::GetInstance()
 {

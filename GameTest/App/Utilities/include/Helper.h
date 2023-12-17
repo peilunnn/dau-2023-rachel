@@ -14,7 +14,10 @@
 #include <sstream>
 using glm::vec2;
 using glm::vec3;
-using namespace std;
+using std::string;
+using std::random_device;
+using std::mt19937;
+using std::uniform_real_distribution;
 
 namespace Helper
 {

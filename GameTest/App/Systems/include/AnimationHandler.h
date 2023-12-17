@@ -4,7 +4,6 @@
 #include "Utilities/include/SimpleSprite.h"
 #include <set>
 #include <string>
-using namespace std;
 
 class AnimationHandler : public System
 {
@@ -45,7 +44,6 @@ private:
     void UpdatePlayerAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
     void UpdateEnemyAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
     void UpdateUIAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
-    void UpdateLoadingScreenCharacterAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
     void UpdateLightningStrikeAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime);
     void HandlePlayerHitHealthPickup();

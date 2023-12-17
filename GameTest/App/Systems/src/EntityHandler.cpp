@@ -10,8 +10,9 @@
 #include "Utilities/include/Helper.h"
 #include <algorithm>
 #include <random>
-using namespace std;
 using glm::vec3;
+using std::min;
+using std::default_random_engine;
 
 EntityHandler& EntityHandler::GetInstance()
 {

@@ -1,8 +1,6 @@
 #pragma once
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
-using namespace std;
-
 class InputHandler : public System {
 public:
     static InputHandler& GetInstance();

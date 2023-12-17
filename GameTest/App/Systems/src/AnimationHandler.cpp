@@ -14,6 +14,7 @@
 #include "Utilities/include/Helper.h"
 #include "Utilities/include/SimpleSprite.h"
 using glm::vec2;
+using std::min;
 
 AnimationHandler &AnimationHandler::GetInstance()
 {

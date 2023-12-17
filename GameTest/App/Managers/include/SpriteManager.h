@@ -3,9 +3,11 @@
 #include "Utilities/include/SimpleSprite.h"
 #include <memory>
 #include <unordered_map>
-using namespace std;
+using std::unordered_map;
+using std::unique_ptr;
 
-class SpriteManager {
+class SpriteManager 
+{
 public:
     static SpriteManager& GetInstance();
     SpriteManager(const SpriteManager&) = delete;
@@ -16,6 +18,6 @@ public:
     void DestroyAllSprites();
 
 private:
-    std::unordered_map<EntityId, unique_ptr<CSimpleSprite>> m_entitySprites;
+    unordered_map<EntityId, unique_ptr<CSimpleSprite>> m_entitySprites;
     SpriteManager() = default;
 };

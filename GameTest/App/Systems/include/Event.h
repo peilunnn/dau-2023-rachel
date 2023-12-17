@@ -1,9 +1,9 @@
 #pragma once
 #include "Components/include/EntityId.h"
 #include "Utilities/include/Enums.h"
-#include <string>
 #include <vector>
-using namespace std;
+using std::vector;
+using std::initializer_list;
 
 class Event {
 public:

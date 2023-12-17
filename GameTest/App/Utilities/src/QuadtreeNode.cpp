@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Utilities/include/QuadtreeNode.h"
+using std::make_unique;
 
 QuadtreeNode::QuadtreeNode(int level, float x, float y, float width, float height)
     : level(level), x(x), y(y), width(width), height(height) 

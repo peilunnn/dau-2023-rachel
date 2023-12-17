@@ -9,6 +9,8 @@
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/MovementHandler.h"
 using glm::vec3;
+using std::min;
+using std::max;
 
 MovementHandler& MovementHandler::GetInstance()
 {

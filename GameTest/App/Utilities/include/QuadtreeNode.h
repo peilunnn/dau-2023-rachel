@@ -3,7 +3,8 @@
 #include "Components/include/EntityId.h"
 #include <vector>
 #include <memory>
-using namespace std;
+using std::unique_ptr;
+using std::vector;
 
 struct QuadtreeElement 
 {

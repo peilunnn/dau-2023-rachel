@@ -20,6 +20,7 @@
 #include "Utilities/include/Helper.h"
 using glm::vec2;
 using glm::vec3;
+using std::make_unique;
 
 EntityManager &EntityManager::GetInstance()
 {

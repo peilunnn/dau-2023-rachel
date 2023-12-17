@@ -20,7 +20,6 @@
 #include "Systems/include/TitleHandler.h"
 #include "Utilities/include/Helper.h"
 #include "Utilities/include/main.h"
-using namespace std;
 
 //------------------------------------------------------------------------
 CProfiler gInputHandlerProfiler;

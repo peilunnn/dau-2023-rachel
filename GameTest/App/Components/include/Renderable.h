@@ -1,7 +1,6 @@
 #pragma once
 #include "Components/include/Component.h"
 #include "Utilities/include/SimpleSprite.h"
-using namespace std;
 
 class Renderable: public Component
 {

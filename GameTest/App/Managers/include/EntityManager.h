@@ -7,9 +7,11 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
-using namespace std;
 using glm::vec2;
 using glm::vec3;
+using std::vector;
+using std::move;
+using std::unique_ptr;
 
 class EntityManager
 {

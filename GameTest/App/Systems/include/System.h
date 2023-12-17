@@ -1,6 +1,7 @@
 #pragma once
 #include "Systems/include/Event.h"
 #include <set>
+using std::set;
 
 class System
 {

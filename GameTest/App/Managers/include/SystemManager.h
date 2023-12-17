@@ -3,7 +3,8 @@
 #include "Systems/include/System.h"
 #include <queue>
 #include <vector>
-using namespace std;
+using std::queue;
+using std::vector;
 
 class SystemManager {
 public:
