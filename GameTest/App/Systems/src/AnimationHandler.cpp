@@ -72,11 +72,12 @@ void AnimationHandler::InitHealthBarAnimation(EntityManager &entityManager, Spri
 
 void AnimationHandler::InitLoadingScreenCharacterAnimation(EntityManager &entityManager, SpriteManager &spriteManager)
 {
-	EntityId loadingScreenCharacterEntityId = entityManager.GetLoadingScreenCharacterEntityId();
-	CSimpleSprite *loadingScreenCharacterSprite = spriteManager.GetSprite(loadingScreenCharacterEntityId);
+	EntityId entityId = entityManager.GetLoadingScreenCharacterEntityId();
+	CSimpleSprite *sprite = spriteManager.GetSprite(entityId);
 
 	constexpr float speed = 1.0f / 5.0f;
-	loadingScreenCharacterSprite->CreateAnimation(PLAYER_ANIM_RIGHT, speed, {8, 9, 10, 11});
+	sprite->CreateAnimation(PLAYER_ANIM_RIGHT, speed, {8, 9, 10, 11});
+	sprite->SetAnimation(PLAYER_ANIM_RIGHT);
 }
 
 void AnimationHandler::Update(float deltaTime)
@@ -87,7 +88,7 @@ void AnimationHandler::Update(float deltaTime)
 	if (gameManager.GetCurrentGameState() == GameState::Paused)
 		return;
 
-	for (auto entityId : entityManager.GetEntitiesWithComponents<Tag, Animation>())
+	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Animation>())
 	{
 		Tag *tag = entityManager.GetComponent<Tag>(entityId);
 
@@ -102,11 +103,8 @@ void AnimationHandler::Update(float deltaTime)
 		case EntityType::Pickup:
 			SpinPickup(entityId, deltaTime);
 			break;
-		case EntityType::HealthBar:
-			UpdateHealthBarAnimation(entityManager, entityId, deltaTime);
-			break;
-		case EntityType::LoadingScreenCharacter:
-			UpdateLoadingScreenCharacterAnimation(entityManager, entityId, deltaTime);
+		case EntityType::UI:
+			UpdateUIAnimation(entityManager, entityId, deltaTime);
 			break;
 		case EntityType::LightningStrike:
 			UpdateLightningStrikeAnimation(entityManager, entityId, deltaTime);
@@ -117,42 +115,37 @@ void AnimationHandler::Update(float deltaTime)
 
 void AnimationHandler::UpdatePlayerAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	Animation *animation = entityManager.GetComponent<Animation>(entityId);
 	Velocity *velocity = entityManager.GetComponent<Velocity>(entityId);
 	CSimpleSprite *sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 	Tag *tag = entityManager.GetComponent<Tag>(entityId);
-
-	if (!animation)
-		return;
 
 	vec2 currentVelocity = velocity->GetVelocity();
 	if (dot(currentVelocity, currentVelocity) > 0)
 	{
 		if (currentVelocity.x > 0)
 		{
-			animation->SetCurrentAnimation(PLAYER_ANIM_RIGHT);
+			sprite->SetAnimation(PLAYER_ANIM_RIGHT);
 			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_RIGHT;
 		}
 		else if (currentVelocity.x < 0)
 		{
-			animation->SetCurrentAnimation(PLAYER_ANIM_LEFT);
+			sprite->SetAnimation(PLAYER_ANIM_LEFT);
 			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_LEFT;
 		}
 		else if (currentVelocity.y > 0)
 		{
-			animation->SetCurrentAnimation(PLAYER_ANIM_FORWARDS);
+			sprite->SetAnimation(PLAYER_ANIM_FORWARDS);
 			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_FORWARDS;
 		}
 		else if (currentVelocity.y < 0)
 		{
-			animation->SetCurrentAnimation(PLAYER_ANIM_BACKWARDS);
+			sprite->SetAnimation(PLAYER_ANIM_BACKWARDS);
 			m_lastPlayerNonIdleAnimState = PLAYER_ANIM_IDLE_BACKWARDS;
 		}
 	}
 	else
-		animation->SetCurrentAnimation(m_lastPlayerNonIdleAnimState);
+		sprite->SetAnimation(m_lastPlayerNonIdleAnimState);
 
-	sprite->SetAnimation(animation->GetCurrentAnimation());
 	sprite->Update(deltaTime);
 }
 
@@ -179,27 +172,16 @@ void AnimationHandler::InitLightningStrikeAnimation(SpriteManager& spriteManager
 	lightningStrikeSprite->CreateAnimation(LIGHTNING_STRIKE_FLASH, speed, { 0, 1, 2, 3 });
 }
 
-void AnimationHandler::UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
+void AnimationHandler::UpdateUIAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
 {
-	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	healthBarSprite->Update(deltaTime);
-}
-
-void AnimationHandler::UpdateLoadingScreenCharacterAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
-{
-	CSimpleSprite *loadingScreenCharacterSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	Animation *loadingScreenCharacterAnimation = entityManager.GetComponent<Animation>(entityId);
-	loadingScreenCharacterAnimation->SetCurrentAnimation(PLAYER_ANIM_RIGHT);
-	loadingScreenCharacterSprite->SetAnimation(loadingScreenCharacterAnimation->GetCurrentAnimation());
-	loadingScreenCharacterSprite->Update(deltaTime);
+	CSimpleSprite *sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+	sprite->Update(deltaTime);
 }
 
 void AnimationHandler::UpdateLightningStrikeAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime)
 {
 	CSimpleSprite* lightningStrikeSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	Animation* lightningStrikeAnimation = entityManager.GetComponent<Animation>(entityId);
-	lightningStrikeAnimation->SetCurrentAnimation(LIGHTNING_STRIKE_FLASH);
-	lightningStrikeSprite->SetAnimation(lightningStrikeAnimation->GetCurrentAnimation());
+	lightningStrikeSprite->SetAnimation(LIGHTNING_STRIKE_FLASH);
 	lightningStrikeSprite->Update(deltaTime);
 }
 
@@ -277,9 +259,7 @@ void AnimationHandler::ResetHealthBarAnimation()
 	EntityManager &entityManager = EntityManager::GetInstance();
 	EntityId healthBarEntityId = entityManager.GetHealthBarEntityId();
 	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
-	Animation *healthBarAnimation = entityManager.GetComponent<Animation>(healthBarEntityId);
-	healthBarAnimation->SetCurrentAnimation(HEALTH_100);
-	healthBarSprite->SetAnimation(healthBarAnimation->GetCurrentAnimation());
+	healthBarSprite->SetAnimation(HEALTH_100);
 }
 
 void AnimationHandler::ResetPlayerAnimation()
@@ -295,7 +275,6 @@ void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float 
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	EntityId healthBarEntityId = entityManager.GetHealthBarEntityId();
 	Health *health = entityManager.GetComponent<Health>(playerEntityId);
-	Animation *animation = entityManager.GetComponent<Animation>(healthBarEntityId);
 	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
 	constexpr int maxFrames = 5;
 
@@ -304,8 +283,7 @@ void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float 
 
 	int frameIndex = static_cast<int>((health->GetMaxHealth() - health->GetCurrentHealth()) / HealthHandler::GetInstance().GetHealthReduction());
 	frameIndex = min(frameIndex, maxFrames);
-	animation->SetCurrentAnimation(frameIndex);
-	healthBarSprite->SetAnimation(animation->GetCurrentAnimation());
+	healthBarSprite->SetAnimation(frameIndex);
 }
 
 void AnimationHandler::HandlePlayerHitHealthPickup()

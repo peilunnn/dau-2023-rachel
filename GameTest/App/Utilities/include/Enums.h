@@ -13,8 +13,6 @@ enum class EntityType
     Bullet,
     Pickup,
     Timer,
-    HealthBar,
-    LoadingScreenCharacter,
     LightningStrike,
     UI
 };

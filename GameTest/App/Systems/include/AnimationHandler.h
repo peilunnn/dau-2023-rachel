@@ -44,7 +44,7 @@ private:
     void InitLoadingScreenCharacterAnimation(EntityManager &entityManager, SpriteManager &spriteManager);
     void UpdatePlayerAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
     void UpdateEnemyAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
-    void UpdateHealthBarAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
+    void UpdateUIAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void UpdateLoadingScreenCharacterAnimation(EntityManager& entityManager, EntityId entityId, float deltaTime);
     void UpdateLightningStrikeAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime);
     void HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime);

@@ -76,9 +76,7 @@ void EntityHandler::InitEnemy()
 	Velocity* enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntityId);
 	enemyVelocity->SetVelocity(randomVelocity);
 
-	Animation* enemyAnimation = entityManager.GetComponent<Animation>(enemyEntityId);
-	enemyAnimation->SetCurrentAnimation(ENEMY_ANIM_IDLE);
-	enemySprite->SetAnimation(enemyAnimation->GetCurrentAnimation());
+	enemySprite->SetAnimation(ENEMY_ANIM_IDLE);
 
 	GameManager::GetInstance().SetIsFirstEnemyInit(true);
 }

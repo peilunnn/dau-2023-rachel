@@ -282,7 +282,7 @@ EntityId EntityManager::CreateHealthBarEntity(SpriteManager &spriteManager)
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::HealthBar, GameState::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(healthBarSprite);
 	unique_ptr<Animation> animation = make_unique<Animation>();
@@ -429,7 +429,7 @@ EntityId EntityManager::CreateLoadingScreenCharacterEntity(SpriteManager &sprite
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.5f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::LoadingScreenCharacter, GameState::Loading);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, GameState::Loading);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(loadingScreenCharacterSprite);
 	unique_ptr<Animation> animation = make_unique<Animation>();
