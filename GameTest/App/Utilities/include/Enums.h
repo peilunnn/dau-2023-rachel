@@ -13,8 +13,6 @@ enum class EntityType
     Bullet,
     Pickup,
     Timer,
-    AmmoEmpty,
-    AmmoFilled,
     HealthBar,
     LoadingScreenCharacter,
     LightningStrike,
@@ -83,13 +81,10 @@ enum class GameState
     Paused
 };
 
-enum class TimerType
+enum class AmmoType
 {
-    None,
-    Countdown,
-    PlayerDeath,
-    EnemyMelt,
-    LightningFlash
+    AmmoEmpty,
+    AmmoFilled,
 };
 
 enum class PickupType
@@ -97,4 +92,13 @@ enum class PickupType
     AmmoPickup,
     HealthPickup,
     LightningPickup,
+};
+
+enum class TimerType
+{
+    None,
+    Countdown,
+    PlayerDeath,
+    EnemyMelt,
+    LightningFlash
 };

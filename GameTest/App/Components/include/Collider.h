@@ -2,7 +2,8 @@
 #include "Components/include/Component.h"
 #include "Utilities/include/Enums.h"
 
-class Collider : public Component {
+class Collider : public Component 
+{
 public:
     Collider() = default;
 

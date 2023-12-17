@@ -3,7 +3,8 @@
 #include <glm/glm.hpp>
 using glm::vec2;
 
-class Velocity : public Component {
+class Velocity : public Component 
+{
 public:
     Velocity(const vec2& newVelocity = vec2(0.0f))
         : m_velocity(newVelocity) {}

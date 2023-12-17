@@ -181,6 +181,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App\Components\include\Ammo.h" />
     <ClInclude Include="App\Components\include\Animation.h" />
     <ClInclude Include="App\Managers\include\SpriteManager.h" />
     <ClInclude Include="App\Utilities\include\app.h" />
@@ -234,6 +235,7 @@
     <ClInclude Include="App\Systems\include\TitleHandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="App\Components\src\Ammo.cpp" />
     <ClCompile Include="App\Components\src\Animation.cpp" />
     <ClCompile Include="App\Utilities\src\app.cpp" />
     <ClCompile Include="App\Utilities\src\DirectSound.cpp" />

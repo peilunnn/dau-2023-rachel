@@ -1,10 +1,10 @@
 #pragma once
 #include "Components/include/Component.h"
 #include "Utilities/include/SimpleSprite.h"
-#include <memory>
 using namespace std;
 
-class Renderable: public Component{
+class Renderable: public Component
+{
 public:
     Renderable(CSimpleSprite* newSprite = nullptr) : m_sprite(newSprite) {}
 

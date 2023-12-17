@@ -1,7 +1,8 @@
 #pragma once
 #include "Components/include/Component.h"
 
-class Screen : public Component {
+class Screen : public Component 
+{
 public:
     static Screen& GetInstance();
     Screen(Screen const&) = delete;

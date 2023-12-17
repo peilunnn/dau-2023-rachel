@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Components/include/Ammo.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Score.h"
 #include "Components/include/Timer.h"
@@ -149,11 +150,12 @@ void RenderingHandler::RenderObjects(EntityManager& entityManager, GameState gam
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
     {
         Tag* tag = entityManager.GetComponent<Tag>(entityId);
+        Ammo* ammoComponent = entityManager.GetComponent<Ammo>(entityId);
 
         if (tag->GetCurrentGameState() != gameState)
             continue;
 
-        if (tag->GetEntityType() == EntityType::AmmoEmpty || tag->GetEntityType() == EntityType::AmmoFilled)
+        if (ammoComponent)
             continue;
 
         RenderSprite(entityManager, entityId);
@@ -217,6 +219,7 @@ void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entit
     Transform *transform = entityManager.GetComponent<Transform>(entityId);
     Renderable *renderable = entityManager.GetComponent<Renderable>(entityId);
     CSimpleSprite *sprite = renderable->GetSprite();
+    Ammo* ammoComponent = entityManager.GetComponent<Ammo>(entityId);
 
     if (!sprite->GetIsVisible())
         return;
@@ -227,7 +230,7 @@ void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entit
     if (entityId == entityManager.GetTitleEntityId())
         sprite->SetAngle(transform->GetRotation().z);
 
-    if (tag->GetEntityType() == EntityType::AmmoFilled && !(sprite->GetIsVisible()))
+    if (ammoComponent && ammoComponent->GetAmmoType() == AmmoType::AmmoFilled && !(sprite->GetIsVisible()))
         return;
 
     sprite->Draw();

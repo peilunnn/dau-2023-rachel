@@ -1,7 +1,8 @@
 #pragma once
 #include "Components/include/Component.h"
 
-class Score : public Component {
+class Score : public Component 
+{
 public:
     Score() = default;
 

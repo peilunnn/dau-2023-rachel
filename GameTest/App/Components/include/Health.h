@@ -1,7 +1,8 @@
 #pragma once
 #include "Components/include/Component.h"
 
-class Health : public Component {
+class Health : public Component 
+{
 public:
     Health() = default;
 

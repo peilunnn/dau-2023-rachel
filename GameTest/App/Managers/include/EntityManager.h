@@ -133,7 +133,7 @@ private:
     EntityId CreateAmmoPickupEntity(SpriteManager& spriteManager);
     EntityId CreateHealthPickupEntity(SpriteManager& spriteManager);
     EntityId CreateLightningPickupEntity(SpriteManager& spriteManager);
-    EntityId CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos);
+    EntityId CreateAmmoEntity(SpriteManager &spriteManager, AmmoType ammoType, float xPos, float yPos);
     EntityId CreateHealthBarEntity(SpriteManager &spriteManager);
     EntityId CreateScoreEntity();
     EntityId CreateCountdownTimerEntity();

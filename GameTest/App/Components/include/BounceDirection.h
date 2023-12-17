@@ -1,7 +1,8 @@
 #pragma once
 #include "Components/include/Component.h"
 
-class BounceDirection : public Component {
+class BounceDirection : public Component 
+{
 public:
     BounceDirection() = default;
 

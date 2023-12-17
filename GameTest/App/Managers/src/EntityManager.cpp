@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Components/include/Ammo.h"
 #include "Components/include/Animation.h"
 #include "Components/include/BounceDirection.h"
 #include "Components/include/Collider.h"
@@ -42,9 +43,9 @@ void EntityManager::Init()
 	{
 		const float xPos = ammoStartingX - i * ammoSpriteSpacing;
 
-		m_ammoEmptyEntityId = CreateAmmoEntity(spriteManager, EntityType::AmmoEmpty, xPos, ammoYPos);
+		m_ammoEmptyEntityId = CreateAmmoEntity(spriteManager, AmmoType::AmmoEmpty, xPos, ammoYPos);
 		m_ammoEmptyEntityIds.push_back(m_ammoEmptyEntityId);
-		m_ammoFilledEntityId = CreateAmmoEntity(spriteManager, EntityType::AmmoFilled, xPos, ammoYPos);
+		m_ammoFilledEntityId = CreateAmmoEntity(spriteManager, AmmoType::AmmoFilled, xPos, ammoYPos);
 		m_ammoFilledEntityIds.push_back(m_ammoFilledEntityId);
 	}
 
@@ -238,25 +239,29 @@ EntityId EntityManager::CreateLightningPickupEntity(SpriteManager& spriteManager
 	return CreatePickupEntity(spriteManager, Helper::PATH_TO_LIGHTNING_PICKUP, PickupType::LightningPickup, scale, radiusMultiplier);
 }
 
-EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, EntityType entityType, float xPos, float yPos)
+EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, AmmoType ammoType, float xPos, float yPos)
 {
 	EntityId ammoEntityId = CreateEntityId();
 	const char *pathToSprite = nullptr;
-	if (entityType == EntityType::AmmoEmpty)
+
+	if (ammoType == AmmoType::AmmoEmpty)
 		pathToSprite = Helper::PATH_TO_AMMO_EMPTY;
-	else if (entityType == EntityType::AmmoFilled)
+	else if (ammoType == AmmoType::AmmoFilled)
 		pathToSprite = Helper::PATH_TO_AMMO_FILLED;
+
 	CSimpleSprite *ammoSprite = spriteManager.CreateSprite(ammoEntityId, pathToSprite, 1, 1);
 
 	constexpr float zPos = 0.0f;
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(0.5f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(entityType, GameState::Gameplay);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, GameState::Gameplay);
+	unique_ptr<Ammo> ammo = make_unique<Ammo>(ammoType);
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(ammoSprite);
 
 	AddComponent(ammoEntityId, move(tag));
+	AddComponent(ammoEntityId, move(ammo));
 	AddComponent(ammoEntityId, move(transform));
 	AddComponent(ammoEntityId, move(renderable));
 

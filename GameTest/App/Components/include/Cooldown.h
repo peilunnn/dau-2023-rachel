@@ -1,7 +1,8 @@
 #pragma once
 #include "Components/include/Component.h"
 
-class Cooldown : public Component {
+class Cooldown : public Component 
+{
 public:
     Cooldown(float initialCooldown = 0.0f)
         : m_totalCooldownTime(initialCooldown), m_TimeLeftInCooldown(0.0f), m_IsActive(false) {}

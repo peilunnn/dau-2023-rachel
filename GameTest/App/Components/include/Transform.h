@@ -3,7 +3,8 @@
 #include <glm/glm.hpp>
 using glm::vec3;
 
-class Transform : public Component {
+class Transform : public Component 
+{
 public:
     Transform(const vec3& newPos = vec3(0.0f), const vec3& newRot = vec3(0.0f), const vec3& newScl = vec3(1.0f))
         : m_position(newPos), m_rotation(newRot), m_scale(newScl) {}

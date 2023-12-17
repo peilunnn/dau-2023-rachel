@@ -2,7 +2,8 @@
 #include "Components/include/Component.h"
 #include "Utilities/include/Enums.h"
 
-class Timer : public Component {
+class Timer : public Component 
+{
 public:
     Timer::Timer(TimerType type, float initialDuration)
         : m_type(type), m_initialDuration(initialDuration), m_remainingTime(initialDuration) {}

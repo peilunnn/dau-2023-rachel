@@ -5,11 +5,11 @@
 class Pickup : public Component
 {
 public:
-    Pickup(PickupType type) : pickupType(type) {}
+    Pickup(PickupType type) : m_pickupType(type) {}
 
-    PickupType GetPickupType() const { return pickupType; }
+    PickupType GetPickupType() const { return m_pickupType; }
 
 private:
-    PickupType pickupType;
+    PickupType m_pickupType;
 };
 
