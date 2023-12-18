@@ -4,7 +4,7 @@
 #include "Components/include/BounceDirection.h"
 #include "Components/include/Collider.h"
 #include "Components/include/Cooldown.h"
-#include "Components/include/EntityId.h"
+#include "Utilities/include/EntityId.h"
 #include "Components/include/EnemyBehavior.h"
 #include "Components/include/Pickup.h"
 #include "Components/include/Health.h"

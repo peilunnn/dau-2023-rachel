@@ -1,9 +1,6 @@
 #pragma once
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
-#include "Utilities/include/SimpleSprite.h"
-#include <set>
-#include <string>
 
 class AnimationHandler : public System
 {

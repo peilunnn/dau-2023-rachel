@@ -1,7 +1,8 @@
 #pragma once
 #include "System.h"
 
-class TimerHandler : public System {
+class TimerHandler : public System 
+{
 public:
     static TimerHandler& GetInstance();
     TimerHandler(TimerHandler const&) = delete;

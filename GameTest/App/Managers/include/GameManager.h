@@ -1,5 +1,5 @@
 #pragma once
-#include "Components/include/EntityId.h"
+#include "Utilities/include/EntityId.h"
 #include "Utilities/include/Enums.h"
 
 class GameManager

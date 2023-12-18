@@ -4,7 +4,8 @@
 #include "Systems/include/System.h"
 #include "Components/include/Color.h"
 
-class RenderingHandler : public System {
+class RenderingHandler : public System 
+{
 public:
     static RenderingHandler& GetInstance();
     RenderingHandler(RenderingHandler const&) = delete;

@@ -7,7 +7,7 @@
 #include "Managers/include/SoundManager.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/CollisionHandler.h"
-#include "Systems/include/Event.h"
+#include "Utilities/include/Event.h"
 #include "Utilities/include/Helper.h"
 using glm::dot;
 using glm::vec2;

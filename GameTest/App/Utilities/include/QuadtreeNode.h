@@ -1,6 +1,6 @@
 #pragma once
 #include "Components/include/Transform.h"
-#include "Components/include/EntityId.h"
+#include "Utilities/include/EntityId.h"
 #include <vector>
 #include <memory>
 using std::unique_ptr;

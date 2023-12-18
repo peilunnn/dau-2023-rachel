@@ -4,7 +4,8 @@
 #include "Systems/include/System.h"
 using glm::vec2;
 
-class MovementHandler : public System {
+class MovementHandler : public System 
+{
 public:
     static MovementHandler& GetInstance();
     MovementHandler(MovementHandler const&) = delete;

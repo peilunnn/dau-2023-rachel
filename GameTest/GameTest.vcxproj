@@ -210,7 +210,7 @@
     <ClInclude Include="App\Components\include\Score.h" />
     <ClInclude Include="App\Systems\include\TimerHandler.h" />
     <ClInclude Include="App\Utilities\include\Enums.h" />
-    <ClInclude Include="App\Components\include\EntityId.h" />
+    <ClInclude Include="App\Utilities\include\EntityId.h" />
     <ClInclude Include="App\Systems\include\EntityHandler.h" />
     <ClInclude Include="App\Components\include\Cooldown.h" />
     <ClInclude Include="App\Systems\include\CooldownHandler.h" />
@@ -222,12 +222,13 @@
     <ClInclude Include="App\Utilities\include\Profiler.h" />
     <ClInclude Include="App\Components\include\Pickup.h" />
     <ClInclude Include="App\Components\include\EnemyBehavior.h" />
+    <ClInclude Include="App\Systems\include\ParticleHandler.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
     <ClInclude Include="App\Managers\include\SystemManager.h" />
     <ClInclude Include="App\Systems\include\System.h" />
-    <ClInclude Include="App\Systems\include\Event.h" />
+    <ClInclude Include="App\Utilities\include\Event.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="App\Components\include\Transform.h" />
     <ClInclude Include="App\Systems\include\HealthHandler.h" />
@@ -250,7 +251,7 @@
     <ClCompile Include="App\Components\src\Component.cpp" />
     <ClCompile Include="App\Systems\src\TimerHandler.cpp" />
     <ClCompile Include="App\Utilities\src\Enums.cpp" />
-    <ClCompile Include="App\Components\src\EntityId.cpp" />
+    <ClCompile Include="App\Utilities\src\EntityId.cpp" />
     <ClCompile Include="App\Systems\src\EntityHandler.cpp" />
     <ClCompile Include="App\Components\src\Cooldown.cpp" />
     <ClCompile Include="App\Systems\src\CooldownHandler.cpp" />
@@ -274,6 +275,7 @@
     <ClCompile Include="App\Managers\src\SoundManager.cpp" />
     <ClCompile Include="App\Utilities\src\QuadtreeNode.cpp" />
     <ClCompile Include="App\Components\src\Pickup.cpp" />
+    <ClCompile Include="App\Systems\src\ParticleHandler.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -286,7 +288,7 @@
     <ClCompile Include="App\Components\src\Tag.cpp" />
     <ClCompile Include="App\Managers\src\SystemManager.cpp" />
     <ClCompile Include="App\Systems\src\System.cpp" />
-    <ClCompile Include="App\Systems\src\Event.cpp" />
+    <ClCompile Include="App\Utilities\src\Event.cpp" />
     <ClCompile Include="App\Components\src\Timer.cpp" />
     <ClCompile Include="App\Components\src\Velocity.cpp" />
     <ClCompile Include="App\Systems\src\TitleHandler.cpp" />
@@ -295,6 +297,7 @@
     <Image Include="Data\SpriteSheets\Buttons.png" />
     <Image Include="Data\SpriteSheets\Enemy.png" />
     <Image Include="Data\SpriteSheets\HealthBar.png" />
+    <Image Include="Data\SpriteSheets\LightningStrike.png" />
     <Image Include="Data\SpriteSheets\PlayButton.png" />
     <Image Include="Data\SpriteSheets\Player.bmp" />
     <Image Include="Data\SpriteSheets\Player.png" />
@@ -305,6 +308,8 @@
     <Image Include="Data\Sprites\BackButton.png" />
     <Image Include="Data\Sprites\Bullet.bmp" />
     <Image Include="Data\Sprites\Crosshair.png" />
+    <Image Include="Data\Sprites\HealthPickup.png" />
+    <Image Include="Data\Sprites\LightningPickup.png" />
     <Image Include="Data\Sprites\PlayButton.png" />
     <Image Include="Data\Sprites\QuitButton.png" />
     <Image Include="Data\Sprites\Starfield.png" />

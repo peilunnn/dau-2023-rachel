@@ -1,7 +1,8 @@
 #pragma once
 #include "System.h"
 
-class TitleHandler : public System {
+class TitleHandler : public System 
+{
 public:
     static TitleHandler& GetInstance();
     TitleHandler(TitleHandler const&) = delete;

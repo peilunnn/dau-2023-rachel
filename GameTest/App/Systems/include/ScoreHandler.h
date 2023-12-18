@@ -3,7 +3,8 @@
 #include "Systems/include/System.h"
 #include <set>
 
-class ScoreHandler : public System {
+class ScoreHandler : public System 
+{
 public:
     static ScoreHandler& GetInstance();
     ScoreHandler(ScoreHandler const&) = delete;

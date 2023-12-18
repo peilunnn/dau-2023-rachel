@@ -1,6 +1,6 @@
 #pragma once
 #include "Components/include/Component.h"
-#include "Components/include/EntityId.h"
+#include "Utilities/include/EntityId.h"
 #include "Managers/include/SpriteManager.h"
 #include "Utilities/include/Enums.h"
 #include <glm/fwd.hpp>

@@ -1,7 +1,8 @@
 #pragma once
 #include "Systems/include/System.h"
 
-class CooldownHandler : public System {
+class CooldownHandler : public System 
+{
 public:
     static CooldownHandler& GetInstance();
     CooldownHandler(CooldownHandler const&) = delete;

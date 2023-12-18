@@ -1,7 +1,6 @@
 #pragma once
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
-#include <set>
 
 class HealthHandler : public System
 {

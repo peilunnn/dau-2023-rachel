@@ -12,7 +12,7 @@ C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Managers\src\EntityM
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Component.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Component.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\TimerHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\TimerHandler.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Utilities\src\Enums.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Enums.obj
-C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\EntityId.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\EntityId.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Utilities\src\EntityId.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\EntityId.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\EntityHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\EntityHandler.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Cooldown.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Cooldown.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\CooldownHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\CooldownHandler.obj
@@ -36,6 +36,7 @@ C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Managers\src\SpriteM
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Managers\src\SoundManager.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\SoundManager.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Utilities\src\QuadtreeNode.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\QuadtreeNode.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Pickup.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Pickup.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\ParticleHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\ParticleHandler.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\stb_image\stb_image.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\stb_image.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\stdafx.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\stdafx.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Transform.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Transform.obj
@@ -43,7 +44,7 @@ C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\HealthHa
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Tag.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Tag.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Managers\src\SystemManager.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\SystemManager.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\System.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\System.obj
-C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\Event.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Event.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Utilities\src\Event.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Event.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Timer.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Timer.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Velocity.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Velocity.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\TitleHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\TitleHandler.obj
