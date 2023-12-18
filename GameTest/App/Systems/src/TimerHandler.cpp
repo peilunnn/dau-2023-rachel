@@ -95,7 +95,10 @@ void TimerHandler::Update(float deltaTime) {
             timer->SetRemainingTime(newRemainingTime);
 
             if (newRemainingTime <= 0)
+            {
+                timer->SetRemainingTime(0);
                 playerTag->SetEntityState(EntityState::Dead);
+            }
         }
     }
 }

@@ -100,3 +100,9 @@ enum class TimerType
     EnemyMelt,
     LightningFlash
 };
+
+enum class EnemyBehaviorType 
+{
+    Standard,
+    Homing
+};

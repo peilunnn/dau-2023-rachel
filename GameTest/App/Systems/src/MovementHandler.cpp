@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Components/include/BounceDirection.h"
+#include "Components/include/EnemyBehavior.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Screen.h"
 #include "Components/include/Tag.h"
@@ -97,7 +98,17 @@ void MovementHandler::UpdatePlayerMovement(EntityManager &entityManager, Screen&
 	transform->SetPosition(newPos);
 }
 
-void MovementHandler::UpdateEnemyMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
+void MovementHandler::UpdateEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime)
+{
+	EnemyBehavior* enemyBehaviorComponent = entityManager.GetComponent<EnemyBehavior>(entityId);
+
+	if (enemyBehaviorComponent->GetBehaviorType() == EnemyBehaviorType::Standard)
+		UpdateStandardEnemyMovement(entityManager, screen, entityId, deltaTime);
+	else
+		UpdateHomingEnemyMovement(entityManager, screen, entityId, deltaTime);
+}
+
+void MovementHandler::UpdateStandardEnemyMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
 {
 	Transform* transform = entityManager.GetComponent<Transform>(entityId);
 	BounceDirection* bounceDirection = entityManager.GetComponent<BounceDirection>(entityId);
@@ -135,6 +146,22 @@ void MovementHandler::UpdateEnemyMovement(EntityManager &entityManager, Screen& 
 	}
 	else
 		bounceDirection->SetBounced(false);
+}
+
+void MovementHandler::UpdateHomingEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime)
+{
+	Transform* enemyTransform = entityManager.GetComponent<Transform>(entityId);
+	Velocity* enemyVelocity = entityManager.GetComponent<Velocity>(entityId);
+	EntityId playerEntityId = entityManager.GetPlayerEntityId();
+	Transform* playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
+
+	vec3 direction = playerTransform->GetPosition() - enemyTransform->GetPosition();
+	vec2 normalizedDirection = normalize(vec2(direction.x, direction.y));
+	enemyVelocity->SetVelocity(normalizedDirection * HOMING_SPEED);
+
+	vec2 enemyMovement = enemyVelocity->GetVelocity() * deltaTime;
+	vec3 enemyNewPos = enemyTransform->GetPosition() + vec3(enemyMovement, 0.0f);
+	enemyTransform->SetPosition(enemyNewPos);
 }
 
 void MovementHandler::UpdateBulletMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)

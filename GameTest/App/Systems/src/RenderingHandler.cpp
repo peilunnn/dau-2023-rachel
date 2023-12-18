@@ -8,8 +8,11 @@
 #include "Systems/include/RenderingHandler.h"
 #include "Utilities/include/App.h"
 #include "Utilities/include/Helper.h"
+using std::string;
+using std::to_string;
 
-RenderingHandler &RenderingHandler::GetInstance()
+    RenderingHandler &
+    RenderingHandler::GetInstance()
 {
     static RenderingHandler instance;
     return instance;
@@ -81,8 +84,7 @@ void RenderingHandler::HideAmmoFilledEntity(int index)
 
 void RenderingHandler::UpdateFade(float deltaTime)
 {
-    const float fadeRate = 0.5f;
-    m_fadeAmount += deltaTime * fadeRate;
+    m_fadeAmount += deltaTime * FADE_RATE;
 }
 
 void RenderingHandler::ResetFade()

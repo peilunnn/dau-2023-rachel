@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Components/include/Animation.h"
+#include "Components/include/EnemyBehavior.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Screen.h"
 #include "Components/include/Transform.h"
@@ -53,30 +53,28 @@ void EntityHandler::HandleEvent(const Event &event, float deltaTime)
 void EntityHandler::InitEnemy()
 {
 	EntityManager& entityManager = EntityManager::GetInstance();
-	EntityId enemyEntityId = entityManager.GetEnemyFromPool();
-
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
 	Screen& screen = Screen::GetInstance();
-
+	EntityId enemyEntityId = entityManager.GetEnemyFromPool();
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
-	vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->GetPosition();
-	const float borderWidth = (screen.BORDER_RIGHT_SCREEN_COORD - screen.BORDER_LEFT_SCREEN_COORD);
-	const float borderHeight = (screen.BORDER_BOTTOM_SCREEN_COORD - screen.BORDER_TOP_SCREEN_COORD);
-	vec3 enemyPos = Helper::GetOppositeQuadrantPosition(playerPos, borderWidth, borderHeight);
-	Transform* enemyTransform = entityManager.GetComponent<Transform>(enemyEntityId);
-	enemyTransform->SetPosition(enemyPos);
-
-	CSimpleSprite* enemySprite = entityManager.GetComponent<Renderable>(enemyEntityId)->GetSprite();
-	enemySprite->SetIsVisible(true);
 
 	constexpr float minVx = -100.0f;
 	constexpr float maxVx = 300.0f;
 	constexpr float minVy = -100.0f;
 	constexpr float maxVy = 300.0f;
-	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
-	Velocity* enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntityId);
-	enemyVelocity->SetVelocity(randomVelocity);
+	const float borderWidth = (screen.BORDER_RIGHT_SCREEN_COORD - screen.BORDER_LEFT_SCREEN_COORD);
+	const float borderHeight = (screen.BORDER_BOTTOM_SCREEN_COORD - screen.BORDER_TOP_SCREEN_COORD);
 
+	vec3 playerPos = entityManager.GetComponent<Transform>(playerEntityId)->GetPosition();
+	vec3 enemyPos = Helper::GetOppositeQuadrantPosition(playerPos, borderWidth, borderHeight);
+	Transform* enemyTransform = entityManager.GetComponent<Transform>(enemyEntityId);
+	Velocity* enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntityId);
+	CSimpleSprite* enemySprite = entityManager.GetComponent<Renderable>(enemyEntityId)->GetSprite();
+	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
+
+	enemyTransform->SetPosition(enemyPos);
+	enemySprite->SetIsVisible(true);
+	enemyVelocity->SetVelocity(randomVelocity);
 	enemySprite->SetAnimation(ENEMY_ANIM_IDLE);
 
 	GameManager::GetInstance().SetIsFirstEnemyInit(true);

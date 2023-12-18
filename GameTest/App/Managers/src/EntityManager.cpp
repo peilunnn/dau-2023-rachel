@@ -5,6 +5,7 @@
 #include "Components/include/Collider.h"
 #include "Components/include/Cooldown.h"
 #include "Components/include/EntityId.h"
+#include "Components/include/EnemyBehavior.h"
 #include "Components/include/Pickup.h"
 #include "Components/include/Health.h"
 #include "Components/include/Renderable.h"
@@ -18,9 +19,11 @@
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/Helper.h"
+#include <random>
 using glm::vec2;
 using glm::vec3;
 using std::make_unique;
+using std::uniform_int_distribution;
 
 EntityManager &EntityManager::GetInstance()
 {
@@ -125,6 +128,11 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager &spriteManager)
 
 EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 {
+	static random_device rd;
+	static mt19937 rng(rd());
+	static uniform_int_distribution<int> uni(0, 1);
+	EnemyBehaviorType behaviorType = static_cast<EnemyBehaviorType>(uni(rng));
+
 	EntityId enemyEntityId = CreateEntityId();
 	CSimpleSprite *enemySprite = spriteManager.CreateSprite(enemyEntityId, Helper::PATH_TO_ENEMY, 4, 2);
 
@@ -137,6 +145,7 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	constexpr float enemyMeltDuration = 0.3f;
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, GameState::Gameplay);
+	unique_ptr<EnemyBehavior> enemyBehavior = make_unique<EnemyBehavior>(behaviorType);
 	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(enemySprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
@@ -148,6 +157,7 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	unique_ptr<Timer> enemyMeltTimer = make_unique<Timer>(TimerType::EnemyMelt, enemyMeltDuration);
 
 	AddComponent(enemyEntityId, move(tag));
+	AddComponent(enemyEntityId, move(enemyBehavior));
 	AddComponent(enemyEntityId, move(transform));
 	AddComponent(enemyEntityId, move(renderable));
 	AddComponent(enemyEntityId, move(collider));

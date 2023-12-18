@@ -55,6 +55,7 @@
     <ClCompile Include="App\Utilities\src\QuadtreeNode.cpp" />
     <ClCompile Include="App\Components\src\Pickup.cpp" />
     <ClCompile Include="App\Components\src\Ammo.cpp" />
+    <ClCompile Include="App\Components\src\EnemyBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -117,6 +118,7 @@
     <ClInclude Include="App\Utilities\include\Profiler.h" />
     <ClInclude Include="App\Components\include\Pickup.h" />
     <ClInclude Include="App\Components\include\Ammo.h" />
+    <ClInclude Include="App\Components\include\EnemyBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">
