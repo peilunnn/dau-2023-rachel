@@ -33,26 +33,8 @@ EntityManager &EntityManager::GetInstance()
 
 void EntityManager::Init()
 {
-	Screen &screen = screen.GetInstance();
-	ShootingHandler &shootingHandler = ShootingHandler::GetInstance();
 	SpriteManager &spriteManager = SpriteManager::GetInstance();
-
-	const int ammoSpriteSpacing = 30;
-	const float ammoXOffset = 20.0f;
-	const float ammoYOffset = 720.0f;
-	const float ammoStartingX = screen.SCREEN_WIDTH - ammoXOffset;
-	const float ammoYPos = screen.SCREEN_HEIGHT - ammoYOffset;
-
-	for (int i = 0; i < shootingHandler.MAX_BULLETS; ++i)
-	{
-		const float xPos = ammoStartingX - i * ammoSpriteSpacing;
-
-		m_ammoEmptyEntityId = CreateAmmoEntity(spriteManager, AmmoType::AmmoEmpty, xPos, ammoYPos);
-		m_ammoEmptyEntityIds.push_back(m_ammoEmptyEntityId);
-		m_ammoFilledEntityId = CreateAmmoEntity(spriteManager, AmmoType::AmmoFilled, xPos, ammoYPos);
-		m_ammoFilledEntityIds.push_back(m_ammoFilledEntityId);
-	}
-
+	
 	m_playerEntityId = CreatePlayerEntity(spriteManager);
 	m_ammoPickupEntityId = CreateAmmoPickupEntity(spriteManager);
 	m_healthPickupEntityId = CreateHealthPickupEntity(spriteManager);
@@ -67,7 +49,8 @@ void EntityManager::Init()
 	m_quitButtonEntityId = CreateQuitButtonEntity(spriteManager);
 	m_loadingScreenCharacterEntityId = CreateLoadingScreenCharacterEntity(spriteManager);
 	m_crosshairEntityId = CreateCrosshairEntity(spriteManager);
-
+	
+	InitAmmoEntities();
 	InitBulletPool();
 	InitEnemyPool();
 	InitLightningStrikePool();
@@ -511,9 +494,37 @@ void EntityManager::ResetEnemies()
 	}
 }
 
+void EntityManager::ReturnBulletToPool(EntityId bulletEntityId)
+{
+	SetEntityStateAndVisibility(bulletEntityId, EntityState::Dead, false);
+}
+
+void EntityManager::InitAmmoEntities()
+{
+	Screen& screen = screen.GetInstance();
+	ShootingHandler& shootingHandler = ShootingHandler::GetInstance();
+	SpriteManager& spriteManager = SpriteManager::GetInstance();
+
+	const int ammoSpriteSpacing = 30;
+	const float ammoXOffset = 20.0f;
+	const float ammoYOffset = 720.0f;
+	const float ammoStartingX = screen.SCREEN_WIDTH - ammoXOffset;
+	const float ammoYPos = screen.SCREEN_HEIGHT - ammoYOffset;
+
+	for (int i = 0; i < shootingHandler.MAX_BULLETS; ++i)
+	{
+		const float xPos = ammoStartingX - i * ammoSpriteSpacing;
+
+		m_ammoEmptyEntityId = CreateAmmoEntity(spriteManager, AmmoType::AmmoEmpty, xPos, ammoYPos);
+		m_ammoEmptyEntityIds.push_back(m_ammoEmptyEntityId);
+		m_ammoFilledEntityId = CreateAmmoEntity(spriteManager, AmmoType::AmmoFilled, xPos, ammoYPos);
+		m_ammoFilledEntityIds.push_back(m_ammoFilledEntityId);
+	}
+}
+
 void EntityManager::InitBulletPool()
 {
-	SpriteManager &spriteManager = SpriteManager::GetInstance();
+	SpriteManager& spriteManager = SpriteManager::GetInstance();
 	constexpr vec3 zeroPos = vec3(0.0f);
 	constexpr vec2 zeroVelocity = vec2(0.0f);
 
@@ -525,14 +536,9 @@ void EntityManager::InitBulletPool()
 	}
 }
 
-void EntityManager::ReturnBulletToPool(EntityId bulletEntityId)
-{
-	SetEntityStateAndVisibility(bulletEntityId, EntityState::Dead, false);
-}
-
 void EntityManager::InitEnemyPool()
 {
-	SpriteManager &spriteManager = SpriteManager::GetInstance();
+	SpriteManager& spriteManager = SpriteManager::GetInstance();
 
 	for (size_t i = 0; i < m_enemyPoolSize; ++i)
 	{
@@ -542,21 +548,21 @@ void EntityManager::InitEnemyPool()
 	}
 }
 
-void EntityManager::ReturnEnemyToPool(EntityId enemyEntityId)
-{
-	SetEntityStateAndVisibility(enemyEntityId, EntityState::Dead, false);
-}
-
 void EntityManager::InitLightningStrikePool()
 {
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
 
-	for (size_t i = 0; i < m_lightningStrikePoolSize; ++i) 
+	for (size_t i = 0; i < m_lightningStrikePoolSize; ++i)
 	{
 		EntityId lightningStrikeEntityId = CreateLightningStrikeEntity(spriteManager);
 		SetEntityStateAndVisibility(lightningStrikeEntityId, EntityState::Dead, false);
 		m_lightningStrikePool.push_back(lightningStrikeEntityId);
 	}
+}
+
+void EntityManager::ReturnEnemyToPool(EntityId enemyEntityId)
+{
+	SetEntityStateAndVisibility(enemyEntityId, EntityState::Dead, false);
 }
 
 EntityId EntityManager::GetLightningStrikeFromPool()

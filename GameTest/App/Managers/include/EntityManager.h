@@ -26,13 +26,10 @@ public:
     void SetEntityStateAndVisibility(EntityId entityId, EntityState state, bool isVisible);
     EntityId CreateLightningStrikeEntity(SpriteManager& spriteManager);
 
-    void InitBulletPool();
     EntityId GetBulletFromPool();
     void ReturnBulletToPool(EntityId bulletEntityId);
-    void InitEnemyPool();
     EntityId GetEnemyFromPool();
     void ReturnEnemyToPool(EntityId enemyEntityId);
-    void InitLightningStrikePool();
     EntityId GetLightningStrikeFromPool();
     void ReturnLightningStrikeToPool(EntityId lightningStrikeEntityId);
 
@@ -124,9 +121,14 @@ private:
     size_t m_enemyPoolIndex = 0;
     const int m_enemyPoolSize = 30;
     vector<EntityId> m_lightningStrikePool = vector<EntityId>();
-    size_t m_lightningStrikePoolSize = 10;
+    const size_t m_lightningStrikePoolSize = 10;
     size_t m_lightningStrikePoolIndex = 0;
 
+    void InitAmmoEntities();
+    void InitBulletPool();
+    void InitEnemyPool();
+    void InitLightningStrikePool();
+    
     EntityId CreateEntityId();
     EntityId CreatePlayerEntity(SpriteManager &spriteManager);
     EntityId CreateEnemyEntity(SpriteManager &spriteManager);
