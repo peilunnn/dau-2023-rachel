@@ -12,6 +12,9 @@ public:
     AnimationHandler(AnimationHandler const &) = delete;
     void operator=(AnimationHandler const &) = delete;
 
+    const float ENEMY_MELT_DURATION = 0.3f;
+    const float LIGHTNING_FLASH_DURATION = 0.3f;
+
     void Init();
     void Update(float deltaTime);
     void HandleEvent(const Event &event, float deltaTime) override;

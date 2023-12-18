@@ -27,6 +27,7 @@ void HealthHandler::ResetPlayerHealth()
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 	Health* playerHealth = entityManager.GetComponent<Health>(playerEntityId);
+
 	playerHealth->SetCurrentHealth(playerHealth->GetMaxHealth());
 	playerTag->SetEntityState(EntityState::Alive);
 }
@@ -42,7 +43,7 @@ void HealthHandler::HandleEnemyHitPlayer(EntityManager &entityManager)
 	if (!health)
 		return;
 
-	int newHealth = health->GetCurrentHealth() - m_healthReduction;
+	int newHealth = health->GetCurrentHealth() - HEALTH_REDUCTION;
 	health->SetCurrentHealth(newHealth);
 
 	if (newHealth > 0)

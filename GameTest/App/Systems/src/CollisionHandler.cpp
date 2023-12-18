@@ -178,6 +178,7 @@ void CollisionHandler::HandleBulletEnemyCollision(EntityManager &entityManager, 
 
 void CollisionHandler::HandlePlayerEnemyCollision(EntityManager &entityManager, SystemManager &systemManager, EntityId playerEntityId, EntityId enemyEntityId)
 {
+	
 	Tag *playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 	Tag *enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
 

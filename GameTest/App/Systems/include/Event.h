@@ -10,12 +10,8 @@ public:
 	Event(const EventType type, initializer_list<EntityId> ents)
 		: m_eventType(type), m_entityIds(ents) {}
 	
-	EventType GetEventType() const {
-		return m_eventType;
-	}
-	vector<EntityId> GetEntities() const {
-		return m_entityIds;
-	}
+	EventType GetEventType() const { return m_eventType; }
+	vector<EntityId> GetEntities() const { return m_entityIds; }
 
 private:
 	EventType m_eventType = EventType::None;

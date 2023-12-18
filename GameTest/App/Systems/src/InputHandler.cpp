@@ -36,19 +36,16 @@ bool InputHandler::IsButtonClicked(EntityId entityId)
     Transform* transform = entityManager.GetComponent<Transform>(entityId);
     Renderable* renderable = entityManager.GetComponent<Renderable>(entityId);
     CSimpleSprite* sprite = renderable->GetSprite();
-
     float scale = sprite->GetScale();
     const float actualWidth = sprite->GetWidth() * scale;
     const float actualHeight = sprite->GetHeight() * scale;
-
-    float mouseX, mouseY;
-    App::GetMousePos(mouseX, mouseY);
-
     float left = transform->GetPosition().x - actualWidth / 2.0f;
     float right = transform->GetPosition().x + actualWidth / 2.0f;
     float top = transform->GetPosition().y - actualHeight / 2.0f;
     float bottom = transform->GetPosition().y + actualHeight / 2.0f;
+    float mouseX, mouseY;
 
+    App::GetMousePos(mouseX, mouseY);
     bool isWithinX = mouseX >= left && mouseX <= right;
     bool isWithinY = mouseY >= top && mouseY <= bottom;
 
@@ -57,10 +54,10 @@ bool InputHandler::IsButtonClicked(EntityId entityId)
 
 void InputHandler::HandlePositionInput(EntityManager &entityManager, EntityId playerEntityId, float deltaTime)
 {
+    Velocity *velocity = entityManager.GetComponent<Velocity>(playerEntityId);
     float thumbStickX = App::GetController().GetLeftThumbStickX();
     float thumbStickY = App::GetController().GetLeftThumbStickY();
 
-    Velocity *velocity = entityManager.GetComponent<Velocity>(playerEntityId);
     vec2 currentVelocity = velocity->GetVelocity();
     currentVelocity.x = (fabs(thumbStickX) > THUMB_STICK_THRESHOLD) ? thumbStickX * VELOCITY_MULTIPLIER * deltaTime : 0.0f;
     currentVelocity.y = (fabs(thumbStickY) > THUMB_STICK_THRESHOLD) ? -thumbStickY * VELOCITY_MULTIPLIER * deltaTime : 0.0f;

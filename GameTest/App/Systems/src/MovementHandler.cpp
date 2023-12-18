@@ -67,9 +67,9 @@ void MovementHandler::HandleEvent(const Event& event, float deltaTime)
 
 void MovementHandler::HandleBulletHitEnemy(EntityManager& entityManager, EntityId enemyEntityId, float deltaTime)
 {
-	constexpr vec2 zeroVector = vec2(0.0f, 0.0f);
 	Velocity* velocity = entityManager.GetComponent<Velocity>(enemyEntityId);
-	velocity->SetVelocity(zeroVector);
+	constexpr vec2 zeroVelocity = vec2(0.0f, 0.0f);
+	velocity->SetVelocity(zeroVelocity);
 }
 
 void MovementHandler::UpdatePlayerMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
@@ -90,10 +90,8 @@ void MovementHandler::UpdatePlayerMovement(EntityManager &entityManager, Screen&
 
 	float newXPos = max(screen.BORDER_LEFT_SCREEN_COORD + widthBuffer,
 						min(newX, screen.BORDER_RIGHT_SCREEN_COORD - widthBuffer));
-
 	float newYPos = max(screen.BORDER_TOP_SCREEN_COORD + heightBuffer + bottomOffset,
 						min(newY, screen.BORDER_BOTTOM_SCREEN_COORD + heightBuffer + topOffset));
-
 	vec3 newPos = vec3(newXPos, newYPos, transform->GetPosition().z);
 	transform->SetPosition(newPos);
 }

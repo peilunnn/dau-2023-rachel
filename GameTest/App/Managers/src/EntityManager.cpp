@@ -142,7 +142,6 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	constexpr vec3 scale = vec3(0.4f);
 	constexpr vec2 zeroVelocity = vec2(0.4f);
 	constexpr float radiusMultiplier = 0.25f;
-	constexpr float enemyMeltDuration = 0.3f;
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, GameState::Gameplay);
 	unique_ptr<EnemyBehavior> enemyBehavior = make_unique<EnemyBehavior>(behaviorType);
@@ -154,7 +153,7 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	unique_ptr<Velocity> velocity = make_unique<Velocity>(zeroVelocity);
 	unique_ptr<BounceDirection> bounceDirection = make_unique<BounceDirection>();
 	unique_ptr<Animation> animation = make_unique<Animation>();
-	unique_ptr<Timer> enemyMeltTimer = make_unique<Timer>(TimerType::EnemyMelt, enemyMeltDuration);
+	unique_ptr<Timer> enemyMeltTimer = make_unique<Timer>(TimerType::EnemyMelt, AnimationHandler::GetInstance().ENEMY_MELT_DURATION);
 
 	AddComponent(enemyEntityId, move(tag));
 	AddComponent(enemyEntityId, move(enemyBehavior));
@@ -515,14 +514,13 @@ void EntityManager::ResetEnemies()
 void EntityManager::InitBulletPool()
 {
 	SpriteManager &spriteManager = SpriteManager::GetInstance();
+	constexpr vec3 zeroPos = vec3(0.0f);
+	constexpr vec2 zeroVelocity = vec2(0.0f);
 
 	for (size_t i = 0; i < m_bulletPoolSize; ++i)
 	{
-		constexpr vec3 bulletPos = vec3(0.0f);
-		constexpr vec2 bulletVelocity = vec2(0.0f);
-		EntityId bulletEntityId = CreateBulletEntity(spriteManager, bulletPos, bulletVelocity);
+		EntityId bulletEntityId = CreateBulletEntity(spriteManager, zeroPos, zeroVelocity);
 		SetEntityStateAndVisibility(bulletEntityId, EntityState::Dead, false);
-
 		m_bulletPool.push_back(bulletEntityId);
 	}
 }
@@ -594,13 +592,12 @@ EntityId EntityManager::CreateLightningStrikeEntity(SpriteManager& spriteManager
 	constexpr vec3 pos = vec3(0.0f);
 	constexpr vec3 rot = vec3(0.0f);
 	constexpr vec3 scale = vec3(1.0f);
-	constexpr float lightningFlashDuration = 0.3f;
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::LightningStrike, GameState::Gameplay);
 	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(lightningStrikeSprite);
 	unique_ptr<Animation> animation = make_unique<Animation>();
-	unique_ptr<Timer> lightningFlashTimer = make_unique<Timer>(TimerType::LightningFlash, lightningFlashDuration);
+	unique_ptr<Timer> lightningFlashTimer = make_unique<Timer>(TimerType::LightningFlash, AnimationHandler::GetInstance().LIGHTNING_FLASH_DURATION);
 
 	AddComponent(lightningStrikeEntityId, move(tag));
 	AddComponent(lightningStrikeEntityId, move(transform));

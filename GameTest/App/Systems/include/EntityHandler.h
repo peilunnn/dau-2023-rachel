@@ -2,22 +2,23 @@
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/System.h"
 
-class EntityHandler : public System 
+class EntityHandler : public System
 {
 public:
-    static EntityHandler& GetInstance();
-    EntityHandler(EntityHandler const&) = delete;
-    void operator=(EntityHandler const&) = delete;
+    static EntityHandler &GetInstance();
+    EntityHandler(EntityHandler const &) = delete;
+    void operator=(EntityHandler const &) = delete;
 
-    void HandleEvent(const Event& event, float deltaTime) override;
+    void HandleEvent(const Event &event, float deltaTime) override;
     void InitEnemy();
     void MoveEntityToRandomPos(EntityId entityId);
 
     int GetEnemiesToStrike() const { return m_enemiesToStrike; }
-    void SetEnemiesToStrike(int newEnemiesToStrike) {m_enemiesToStrike = newEnemiesToStrike; }
+    void SetEnemiesToStrike(int newEnemiesToStrike) { m_enemiesToStrike = newEnemiesToStrike; }
 
 private:
-    EntityHandler() {
+    EntityHandler()
+    {
         m_subscribedEvents.insert(EventType::BulletHitEnemy);
         m_subscribedEvents.insert(EventType::EnemyHitPlayer);
         m_subscribedEvents.insert(EventType::BulletOutOfBounds);
@@ -27,10 +28,10 @@ private:
     }
 
     int m_enemiesToStrike = 0;
-    const int m_maxEnemiesToStrike = 5;
+    const int MAX_ENEMIES_TO_STRIKE = 5;
 
-    void HandleBulletHitEnemy(EntityManager& entityManager, EntityId bulletEntityId, EntityId enemyEntityId);
-    void HandleEnemyHitPlayer(EntityManager& entityManager, EntityId enemyEntityId);
-    void HandleBulletOutOfBounds(EntityManager& entityManager, EntityId bulletEntityId);
-    void InitLightningStrikes(EntityManager& entityManager);
+    void HandleBulletHitEnemy(EntityManager &entityManager, EntityId bulletEntityId, EntityId enemyEntityId);
+    void HandleEnemyHitPlayer(EntityManager &entityManager, EntityId enemyEntityId);
+    void HandleBulletOutOfBounds(EntityManager &entityManager, EntityId bulletEntityId);
+    void InitLightningStrikes(EntityManager &entityManager);
 };

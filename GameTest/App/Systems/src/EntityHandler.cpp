@@ -127,7 +127,7 @@ void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
 	}
 
 	shuffle(activeEnemies.begin(), activeEnemies.end(), rng);
-	m_enemiesToStrike = min(static_cast<int>(activeEnemies.size()), m_maxEnemiesToStrike);
+	m_enemiesToStrike = min(static_cast<int>(activeEnemies.size()), MAX_ENEMIES_TO_STRIKE);
 
 	for (int i = 0; i < m_enemiesToStrike; ++i)
 	{
@@ -135,13 +135,13 @@ void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
 		Tag* enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
 		Transform* enemyTransform = entityManager.GetComponent<Transform>(enemyEntityId);
 		Velocity* enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntityId);
-		constexpr vec2 zeroVelocity = vec2(0.0f);
-		enemyVelocity->SetVelocity(zeroVelocity);
-		enemyTag->SetEntityState(EntityState::HitByBullet);
-		
 		EntityId lightningStrikeEntityId = entityManager.GetLightningStrikeFromPool();
 		Tag* lightningStrikeTag = entityManager.GetComponent<Tag>(lightningStrikeEntityId);
 		Transform* lightningStrikeTransform = entityManager.GetComponent<Transform>(lightningStrikeEntityId);
+		constexpr vec2 zeroVelocity = vec2(0.0f);
+
+		enemyVelocity->SetVelocity(zeroVelocity);
+		enemyTag->SetEntityState(EntityState::HitByBullet);
 		lightningStrikeTransform->SetPosition(enemyTransform->GetPosition());
 	}
 }

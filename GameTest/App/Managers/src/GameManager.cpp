@@ -34,11 +34,10 @@ void GameManager::UpdateCrosshairPosition()
     EntityManager& entityManager = EntityManager::GetInstance();
     EntityId crosshairEntityId = entityManager.GetCrosshairEntityId();
     Transform* crosshairTransform = entityManager.GetComponent<Transform>(crosshairEntityId);
-
     float mouseX, mouseY;
+
     App::GetMousePos(mouseX, mouseY);
     vec3 newPos = vec3(mouseX, mouseY, 0.0f);
-    
     crosshairTransform->SetPosition(newPos);
 }
 

@@ -18,12 +18,14 @@ CSimpleSprite* SpriteManager::CreateSprite(EntityId entityId, const char* path, 
 CSimpleSprite* SpriteManager::GetSprite(EntityId entityId)
 {
     auto it = m_entitySprites.find(entityId);
-    if (it != m_entitySprites.end()) {
+
+    if (it != m_entitySprites.end())
         return it->second.get();
-    }
+
     return nullptr;
 }
 
-void SpriteManager::DestroyAllSprites() {
+void SpriteManager::DestroyAllSprites() 
+{
     m_entitySprites.clear();
 }
