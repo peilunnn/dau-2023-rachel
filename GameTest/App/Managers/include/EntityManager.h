@@ -7,6 +7,7 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
+#include <glm/glm.hpp>
 using glm::vec2;
 using glm::vec3;
 using std::vector;
@@ -91,6 +92,53 @@ public:
 private:
     EntityManager() = default;
 
+    const int AMMO_SPRITE_SPACING = 30;
+    const float PLAYER_SHOOTING_COOLDOWN = 0.5f;
+
+    const float AMMO_PICKUP_RADIUS_MULTIPLIER = 0.15f;
+    const float BULLET_RADIUS_MULTIPLIER = 0.25f;
+    const float ENEMY_RADIUS_MULTIPLIER = 0.25f;
+    const float LIGHTNING_PICKUP_RADIUS_MULTIPLIER = 0.15f;
+    const float PLAYER_RADIUS_MULTIPLIER = 0.25f;
+    
+    const float ZERO_POS_FLOAT = 0.0f;
+    const vec2 ZERO_VELOCITY = vec2(0.0f);
+    const vec3 ZERO_POS_VEC3 = vec3(0.0f);
+    const vec3 ZERO_ROT = vec3(0.0f);
+    
+    const vec3 AMMO_PICKUP_SCALE = vec3(0.15f);
+    const vec3 AMMO_SCALE = vec3(0.5f);
+    const vec3 BULLET_SCALE = vec3(1.0f);
+    const vec3 BUTTON_SCALE = vec3(0.2f);
+    const vec3 COUNTDOWN_TIMER_SCALE = vec3(1.0f);
+    const vec3 CROSSHAIR_SCALE = vec3(1.5f);
+    const vec3 DUST_PARTICLE_SCALE = vec3(1.0f);
+    const vec3 ENEMY_SCALE = vec3(0.4f);
+    const vec3 HEALTH_BAR_SCALE = vec3(1.0f);
+    const vec3 HEALTH_PICKUP_SCALE = vec3(2.0f);
+    const vec3 LIGHTNING_PICKUP_SCALE = vec3(0.15f);
+    const vec3 LIGHTNING_STRIKE_SCALE = vec3(1.0f);
+    const vec3 LOADING_SCREEN_CHARACTER_SCALE = vec3(0.5f);
+    const vec3 PLAYER_SCALE = vec3(0.6f);
+    const vec3 SCORE_SCALE = vec3(1.0f);
+    const vec3 STARFIELD_SCALE = vec3(2.0f);
+    const vec3 TITLE_SCALE = vec3(0.5f);
+
+    const float AMMO_X_OFFSET = 20.0f;
+    const float AMMO_Y_OFFSET = 720.0f;
+    const float BUTTON_X_OFFSET = 520.0f;
+    const float BUTTON_Y_OFFSET = 400.0f;
+    const float COUNTDOWN_TIMER_X_OFFSET = 1000.0f;
+    const float COUNTDOWN_TIMER_Y_OFFSET = 50.0f;
+    const float HEALTH_BAR_X_OFFSET = 880.0f;
+    const float HEALTH_BAR_Y_OFFSET = 720.0f;
+    const float LOADING_SCREEN_CHARACTER_X_OFFSET = 520.0f;
+    const float LOADING_SCREEN_CHARACTER_Y_OFFSET = 340.0f;
+    const float SCORE_X_OFFSET = 100.0f;
+    const float SCORE_Y_OFFSET = 50.0f;
+    const float TITLE_X_OFFSET = 520.0f;
+    const float TITLE_Y_OFFSET = 200.0f;
+
     EntityId m_nextEntityId = -1;
     EntityId m_playerEntityId = -1;
     EntityId m_enemyEntityId = -1;
@@ -143,7 +191,7 @@ private:
     EntityId CreateScoreEntity();
     EntityId CreateCountdownTimerEntity();
     EntityId CreateTitleEntity(SpriteManager &spriteManager);
-    EntityId CreateButtonEntity(SpriteManager& spriteManager, const char* spritePath, GameState gameState, float xOffset, float yOffset, vec3 scale);
+    EntityId CreateButtonEntity(SpriteManager& spriteManager, const char* spritePath, GameState gameState);
     EntityId CreatePlayButtonEntity(SpriteManager &spriteManager);
     EntityId CreateBackButtonEntity(SpriteManager &spriteManager);
     EntityId CreateQuitButtonEntity(SpriteManager &spriteManager);

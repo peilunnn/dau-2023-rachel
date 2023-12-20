@@ -27,14 +27,28 @@ private:
     }
 
     const float FADE_RATE = 0.5f;
+    const float MAX_SHAKE_DURATION = 1.5f;
+    const float MAX_SHAKE_INTENSITY = 30.0f;
+    const float MIN_SHAKE_DURATION = 1.0f;
+    const float MIN_SHAKE_INTENSITY = 20.0f;
     float m_fadeAmount = 0.0f;
     float m_shakeDuration = 0.0f;
     float m_shakeIntensity = 0.0f;
     float m_shakeTimer = 0.0f;
-    const float MIN_SHAKE_DURATION = 1.0f;
-    const float MAX_SHAKE_DURATION = 1.5f;
-    const float MIN_SHAKE_INTENSITY = 20.0f;
-    const float MAX_SHAKE_INTENSITY = 30.0f;
+
+    const float DESCRIPTION_X_OFFSET = 600.0f;
+    const float DESCRIPTION_Y_OFFSET = 350.0f;
+    const float GAME_OVER_TEXT_X_OFFSET = 545.0f;
+    const float GAME_OVER_TEXT_Y_OFFSET = 300.0f;
+    const float LOADING_TEXT_X_OFFSET = 540.0f;
+    const float LOADING_TEXT_Y_OFFSET = 400.0f;
+    const float SCORE_TEXT_X_OFFSET = 570.0f;
+    const float SCORE_TEXT_Y_OFFSET = 350.0f;
+
+    const char* DESCRIPTION_TEXT = "Get the highest score in 60 seconds!";
+    const char* GAME_OVER_TEXT = "Game Over";
+    const char* LOADING_TEXT = "Loading...";
+    const char* SCORE_TEXT_PREFIX = "You got a score of : ";
 
     void RenderMainMenuScene(EntityManager& entityManager, Screen& screen);
     void RenderGameplayScene(EntityManager& entityManager, Screen& screen);

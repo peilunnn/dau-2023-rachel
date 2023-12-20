@@ -20,7 +20,13 @@ private:
         m_subscribedEvents.insert(EventType::BulletHitEnemy);
     }
 
+    const float ENEMY_BOTTOM_OFFSET = -30.0f;
+    const float ENEMY_TOP_OFFSET = 20.0f;
     const float HOMING_SPEED = 80.0f;
+    const float PLAYER_BOTTOM_OFFSET = 30.0f;
+    const float PLAYER_TOP_OFFSET = -30.0f;
+    const float ZERO_POS = 0.0f;
+    const vec2 ZERO_VELOCITY = vec2(0.0f, 0.0f);
 
     void UpdatePlayerMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
     void UpdateEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);

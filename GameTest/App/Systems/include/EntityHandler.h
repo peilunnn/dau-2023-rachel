@@ -28,7 +28,14 @@ private:
     }
 
     int m_enemiesToStrike = 0;
+    const float MAX_VX = 300.0f;
+    const float MAX_VY = 300.0f;
+    const float MIN_VX = -100.0f;
+    const float MIN_VY = -100.0f;
+    const float OFFSET = 20.0f;
+    const float ZERO_POS_FLOAT = 0.0f;
     const int MAX_ENEMIES_TO_STRIKE = 5;
+    const vec2 ZERO_VELOCITY = vec2(0.0f);
 
     void HandleBulletHitEnemy(EntityManager &entityManager, EntityId bulletEntityId, EntityId enemyEntityId);
     void HandleEnemyHitPlayer(EntityManager &entityManager, EntityId enemyEntityId);

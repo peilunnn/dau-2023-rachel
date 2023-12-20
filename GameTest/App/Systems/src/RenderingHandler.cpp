@@ -176,41 +176,30 @@ void RenderingHandler::RenderAmmo()
 
 void RenderingHandler::RenderDescriptionText(Screen& screen)
 {
-    const float descriptionXOffset = 600.0f;
-    const float descriptionYOffset = 350.0f;
-    constexpr char* descriptionText = "Get the highest score in 60 seconds!";
-    App::Print(screen.SCREEN_WIDTH - descriptionXOffset, screen.SCREEN_HEIGHT - descriptionYOffset, descriptionText, WHITE.r, WHITE.g, WHITE.b);
+    App::Print(screen.SCREEN_WIDTH - DESCRIPTION_X_OFFSET, screen.SCREEN_HEIGHT - DESCRIPTION_Y_OFFSET, DESCRIPTION_TEXT, WHITE.r, WHITE.g, WHITE.b);
 }
 
 void RenderingHandler::RenderLoadingText(Screen& screen)
 {
-    const float loadingTextXOffset = 540.0f;
-    const float loadingTextYOffset = 400.0f;
-    const float loadingTextX = screen.SCREEN_WIDTH - loadingTextXOffset;
-    const float loadingTextY = screen.SCREEN_HEIGHT - loadingTextYOffset;
-    constexpr char* loadingText = "Loading...";
-    App::Print(loadingTextX, loadingTextY, loadingText, WHITE.r, WHITE.g, WHITE.b);
+    const float loadingTextX = screen.SCREEN_WIDTH - LOADING_TEXT_X_OFFSET;
+    const float loadingTextY = screen.SCREEN_HEIGHT - LOADING_TEXT_Y_OFFSET;
+    App::Print(loadingTextX, loadingTextY, LOADING_TEXT, WHITE.r, WHITE.g, WHITE.b);
 }
 
 void RenderingHandler::RenderGameOverText(Screen& screen)
 {
-    const float gameOverTextXOffset = 545.0f;
-    const float gameOverTextYOffset = 300.0f;
-    const float gameOverTextX = screen.SCREEN_WIDTH - gameOverTextXOffset;
-    const float gameOverTextY = screen.SCREEN_HEIGHT - gameOverTextYOffset;
-    constexpr char* gameOverText = "Game Over";
-    App::Print(gameOverTextX, gameOverTextY, gameOverText, WHITE.r, WHITE.g, WHITE.b);
+    const float gameOverTextX = screen.SCREEN_WIDTH - GAME_OVER_TEXT_X_OFFSET;
+    const float gameOverTextY = screen.SCREEN_HEIGHT - GAME_OVER_TEXT_Y_OFFSET;
+    App::Print(gameOverTextX, gameOverTextY, GAME_OVER_TEXT, WHITE.r, WHITE.g, WHITE.b);
 }
 
 void RenderingHandler::RenderGameOverScoreText(EntityManager& entityManager, Screen& screen)
 {
     EntityId scoreEntityId = entityManager.GetScoreEntityId();
     Score* score = entityManager.GetComponent<Score>(scoreEntityId);
-    const float scoreTextXOffset = 570.0f;
-    const float scoreTextYOffset = 350.0f;
-    const float scoreTextX = screen.SCREEN_WIDTH - scoreTextXOffset;
-    const float scoreTextY = screen.SCREEN_HEIGHT - scoreTextYOffset;
-    string scoreMessage = "You got a score of : " + to_string(score->GetScore());
+    const float scoreTextX = screen.SCREEN_WIDTH - SCORE_TEXT_X_OFFSET;
+    const float scoreTextY = screen.SCREEN_HEIGHT - SCORE_TEXT_Y_OFFSET;
+    string scoreMessage = SCORE_TEXT_PREFIX + to_string(score->GetScore());
     App::Print(scoreTextX, scoreTextY, scoreMessage.c_str(), WHITE.r, WHITE.g, WHITE.b);
 }
 

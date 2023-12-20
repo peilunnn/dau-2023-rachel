@@ -58,10 +58,6 @@ void EntityHandler::InitEnemy()
 	EntityId enemyEntityId = entityManager.GetEnemyFromPool();
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 
-	constexpr float minVx = -100.0f;
-	constexpr float maxVx = 300.0f;
-	constexpr float minVy = -100.0f;
-	constexpr float maxVy = 300.0f;
 	const float borderWidth = (screen.BORDER_RIGHT_SCREEN_COORD - screen.BORDER_LEFT_SCREEN_COORD);
 	const float borderHeight = (screen.BORDER_BOTTOM_SCREEN_COORD - screen.BORDER_TOP_SCREEN_COORD);
 
@@ -70,7 +66,7 @@ void EntityHandler::InitEnemy()
 	Transform* enemyTransform = entityManager.GetComponent<Transform>(enemyEntityId);
 	Velocity* enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntityId);
 	CSimpleSprite* enemySprite = entityManager.GetComponent<Renderable>(enemyEntityId)->GetSprite();
-	vec2 randomVelocity = Helper::GenerateVec2(minVx, maxVx, minVy, maxVy);
+	vec2 randomVelocity = Helper::GenerateVec2(MIN_VX, MAX_VX, MIN_VY, MAX_VY);
 
 	enemyTransform->SetPosition(enemyPos);
 	enemySprite->SetIsVisible(true);
@@ -84,12 +80,10 @@ void EntityHandler::MoveEntityToRandomPos(EntityId entityId)
 {
 	Screen& screen = screen.GetInstance();
 
-	constexpr float offset = 20.0f;
-	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD + offset, screen.BORDER_RIGHT_SCREEN_COORD - offset);
-	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD + offset, screen.BORDER_BOTTOM_SCREEN_COORD - offset);
-	constexpr float zPos = 0.0f;
+	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD + OFFSET, screen.BORDER_RIGHT_SCREEN_COORD - OFFSET);
+	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD + OFFSET, screen.BORDER_BOTTOM_SCREEN_COORD - OFFSET);
 
-	vec3 newPos = vec3(xPos, yPos, zPos);
+	vec3 newPos = vec3(xPos, yPos, ZERO_POS_FLOAT);
 	Transform* transform = EntityManager::GetInstance().GetComponent<Transform>(entityId);
 	transform->SetPosition(newPos);
 }
@@ -138,9 +132,8 @@ void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
 		EntityId lightningStrikeEntityId = entityManager.GetLightningStrikeFromPool();
 		Tag* lightningStrikeTag = entityManager.GetComponent<Tag>(lightningStrikeEntityId);
 		Transform* lightningStrikeTransform = entityManager.GetComponent<Transform>(lightningStrikeEntityId);
-		constexpr vec2 zeroVelocity = vec2(0.0f);
 
-		enemyVelocity->SetVelocity(zeroVelocity);
+		enemyVelocity->SetVelocity(ZERO_VELOCITY);
 		enemyTag->SetEntityState(EntityState::HitByBullet);
 		lightningStrikeTransform->SetPosition(enemyTransform->GetPosition());
 	}

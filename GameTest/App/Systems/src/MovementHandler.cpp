@@ -71,8 +71,7 @@ void MovementHandler::HandleEvent(const Event& event, float deltaTime)
 void MovementHandler::HandleBulletHitEnemy(EntityManager& entityManager, EntityId enemyEntityId, float deltaTime)
 {
 	Velocity* velocity = entityManager.GetComponent<Velocity>(enemyEntityId);
-	constexpr vec2 zeroVelocity = vec2(0.0f, 0.0f);
-	velocity->SetVelocity(zeroVelocity);
+	velocity->SetVelocity(ZERO_VELOCITY);
 }
 
 void MovementHandler::UpdatePlayerMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
@@ -80,8 +79,6 @@ void MovementHandler::UpdatePlayerMovement(EntityManager &entityManager, Screen&
 	Transform* transform = entityManager.GetComponent<Transform>(entityId);
 	Velocity* velocity = entityManager.GetComponent<Velocity>(entityId);
 	CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	constexpr float topOffset = -30.0f;
-	constexpr float bottomOffset = 30.0f;
 	const float widthBuffer = sprite->GetWidth() / 4.0f;
 	const float heightBuffer = sprite->GetHeight() / 4.0f;
 
@@ -93,8 +90,8 @@ void MovementHandler::UpdatePlayerMovement(EntityManager &entityManager, Screen&
 
 	float newXPos = max(screen.BORDER_LEFT_SCREEN_COORD + widthBuffer,
 						min(newX, screen.BORDER_RIGHT_SCREEN_COORD - widthBuffer));
-	float newYPos = max(screen.BORDER_TOP_SCREEN_COORD + heightBuffer + bottomOffset,
-						min(newY, screen.BORDER_BOTTOM_SCREEN_COORD + heightBuffer + topOffset));
+	float newYPos = max(screen.BORDER_TOP_SCREEN_COORD + heightBuffer + PLAYER_BOTTOM_OFFSET,
+						min(newY, screen.BORDER_BOTTOM_SCREEN_COORD + heightBuffer + PLAYER_TOP_OFFSET));
 	vec3 newPos = vec3(newXPos, newYPos, transform->GetPosition().z);
 	transform->SetPosition(newPos);
 }
@@ -115,12 +112,10 @@ void MovementHandler::UpdateStandardEnemyMovement(EntityManager &entityManager, 
 	BounceDirection* bounceDirection = entityManager.GetComponent<BounceDirection>(entityId);
 	Velocity* velocity = entityManager.GetComponent<Velocity>(entityId);
 	CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-	constexpr float topOffset = 20.0f;
-	constexpr float bottomOffset = -30.0f;
 
 	vec2 currentVelocity = velocity->GetVelocity();
 	vec2 movement = currentVelocity * deltaTime;
-	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
+	vec3 newPos = transform->GetPosition() + vec3(movement, ZERO_POS);
 	transform->SetPosition(newPos);
 
 	if (!(bounceDirection->GetBounced()))
@@ -137,8 +132,8 @@ void MovementHandler::UpdateStandardEnemyMovement(EntityManager &entityManager, 
 			velocity->SetVelocity(currentVelocity);
 			bounceDirection->SetBounced(true);
 		}
-		if (yPos <= screen.BORDER_TOP_SCREEN_COORD + heightBuffer + topOffset ||
-			yPos >= screen.BORDER_BOTTOM_SCREEN_COORD + heightBuffer + bottomOffset)
+		if (yPos <= screen.BORDER_TOP_SCREEN_COORD + heightBuffer + ENEMY_TOP_OFFSET ||
+			yPos >= screen.BORDER_BOTTOM_SCREEN_COORD + heightBuffer + ENEMY_BOTTOM_OFFSET)
 		{
 			currentVelocity.y *= -1;
 			velocity->SetVelocity(currentVelocity);
@@ -161,7 +156,7 @@ void MovementHandler::UpdateHomingEnemyMovement(EntityManager& entityManager, Sc
 	enemyVelocity->SetVelocity(normalizedDirection * HOMING_SPEED);
 
 	vec2 enemyMovement = enemyVelocity->GetVelocity() * deltaTime;
-	vec3 enemyNewPos = enemyTransform->GetPosition() + vec3(enemyMovement, 0.0f);
+	vec3 enemyNewPos = enemyTransform->GetPosition() + vec3(enemyMovement, ZERO_POS);
 	enemyTransform->SetPosition(enemyNewPos);
 }
 
@@ -179,7 +174,7 @@ void MovementHandler::UpdateParticleMovement(float deltaTime)
 			Transform* particleTransform = entityManager.GetComponent<Transform>(particleEntityId);
 			Velocity* particleVelocity = entityManager.GetComponent<Velocity>(particleEntityId);
 
-			vec3 newPosition = particleTransform->GetPosition() + vec3(particleVelocity->GetVelocity(), 0.0f) * deltaTime;
+			vec3 newPosition = particleTransform->GetPosition() + vec3(particleVelocity->GetVelocity(), ZERO_POS) * deltaTime;
 			particleTransform->SetPosition(newPosition);
 		}
 	}
@@ -193,7 +188,7 @@ void MovementHandler::UpdateBulletMovement(EntityManager &entityManager, Screen&
 
 	vec2 currentVelocity = velocity->GetVelocity();
 	vec2 movement = currentVelocity * deltaTime;
-	vec3 newPos = transform->GetPosition() + vec3(movement, 0.0f);
+	vec3 newPos = transform->GetPosition() + vec3(movement, ZERO_POS);
 	transform->SetPosition(newPos);
 
 	if (transform->GetPosition().x < screen.BORDER_LEFT_SCREEN_COORD || transform->GetPosition().x > screen.BORDER_RIGHT_SCREEN_COORD ||

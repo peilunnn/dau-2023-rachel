@@ -10,8 +10,27 @@ public:
     void operator=(AnimationHandler const &) = delete;
 
     const float ENEMY_MELT_DURATION = 0.3f;
-    const float PLAYER_DEATH_DURATION = 2.0f;
     const float LIGHTNING_FLASH_DURATION = 0.3f;
+    const float PLAYER_DEATH_DURATION = 2.0f;
+
+    const float ENEMY_ANIMATION_SPEED = 1.0f / 20.0f;
+    const float HEALTH_BAR_ANIMATION_SPEED = 1.0f / 15.0f;
+    const float LIGHTNING_STRIKE_ANIMATION_SPEED = 1.0f / 20.0f;
+    const float LOADING_SCREEN_CHARACTER_ANIMATION_SPEED = 1.0f / 5.0f;
+    const float PLAYER_ANIMATION_SPEED = 1.0f / 5.0f;
+    const float ROTATION_SPEED = 0.8f;
+
+    const float AMMO_PICKUP_MAX_SCALE = 0.2f;
+    const float AMMO_PICKUP_MIN_SCALE = 0.15f;
+    const float AMMO_PICKUP_SCALING_SPEED = 0.2f;
+    const float HEALTH_PICKUP_MAX_SCALE = 2.75f;
+    const float HEALTH_PICKUP_MIN_SCALE = 2.5f;
+    const float HEALTH_PICKUP_SCALING_SPEED = 2.0f;
+    const float LIGHTNING_PICKUP_MAX_SCALE = 0.175f;
+    const float LIGHTNING_PICKUP_MIN_SCALE = 0.15f;
+    const float LIGHTNING_PICKUP_SCALING_SPEED = 0.2f;
+
+    const int HEALTH_BAR_MAX_FRAMES = 5;
 
     void Init();
     void Update(float deltaTime);

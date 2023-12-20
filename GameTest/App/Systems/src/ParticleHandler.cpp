@@ -28,9 +28,8 @@ void ParticleHandler::Update(float deltaTime)
     if (length(playerVelocityComponent->GetVelocity()) > 0.0f && m_emissionTimer <= 0.0f)
     {
         vec2 playerVelocity = playerVelocityComponent->GetVelocity();
-        constexpr float velocityMultiplier = 0.25f;
-        float particleVelocityX = -playerVelocity.x * velocityMultiplier;
-        float particleVelocityY = -playerVelocity.y * velocityMultiplier;
+        float particleVelocityX = -playerVelocity.x * VELOCITY_MULTIPLIER;
+        float particleVelocityY = -playerVelocity.y * VELOCITY_MULTIPLIER;
         vec2 particleVelocity = vec2(particleVelocityX, particleVelocityY);
         
         vec3 emissionPos = GetEmissionPos();
@@ -94,27 +93,26 @@ vec3 ParticleHandler::GetEmissionPos()
     float playerWidth = playerSprite->GetWidth() * playerTransform->GetScale().x;
     float playerHeight = playerSprite->GetHeight() * playerTransform->GetScale().y;
     float emissionXPos = playerTransform->GetPosition().x;
-    float emissionYPos = playerTransform->GetPosition().y - playerHeight / 4.0f;
+    float emissionYPos = playerTransform->GetPosition().y - playerHeight * EMISSION_POS_Y_MULTIPLIER;
 
     // Adjust emission pos based on player movement direction
     // Horizontal movement
-    if (abs(playerVelocity.x) > abs(playerVelocity.y))
+    if (abs(playerVelocity.x) > abs(playerVelocity.y)) 
     {
-        emissionXPos += (playerVelocity.x > 0) ? playerWidth / 10.0f : -playerWidth / 10.0f;
-        emissionYPos -= playerHeight / 8.0f;
+        emissionXPos += (playerVelocity.x > 0) ? playerWidth * EMISSION_POS_HORIZONTAL_OFFSET_MULTIPLIER : -playerWidth * EMISSION_POS_HORIZONTAL_OFFSET_MULTIPLIER;
+        emissionYPos -= playerHeight * EMISSION_POS_VERTICAL_OFFSET_DOWN_MULTIPLIER;
     }
-    // Vertical movement
-    else
+    // Horizontal movement
+    else 
     {
         // If moving up
         if (playerVelocity.y > 0)
-            emissionYPos -= playerHeight / 5.0f;
+            emissionYPos -= playerHeight * EMISSION_POS_VERTICAL_OFFSET_UP_MULTIPLIER;
         else
             emissionYPos += playerHeight;
     }
-    constexpr float emissionZPos = 0.0f;
-    
-    return vec3(emissionXPos, emissionYPos, emissionZPos);
+
+    return vec3(emissionXPos, emissionYPos, EMISSION_Z_POS);
 }
 
 void ParticleHandler::EmitParticle(ParticleType type, const vec3& position, const vec2& velocity)

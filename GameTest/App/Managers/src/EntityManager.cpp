@@ -24,10 +24,11 @@
 #include "Utilities/include/Helper.h"
 #include <random>
 #include <set>
+#include <glm/glm.hpp>
 using glm::vec2;
 using glm::vec3;
-using std::set;
 using std::make_unique;
+using std::set;
 using std::uniform_int_distribution;
 
 EntityManager &EntityManager::GetInstance()
@@ -39,7 +40,7 @@ EntityManager &EntityManager::GetInstance()
 void EntityManager::Init()
 {
 	SpriteManager &spriteManager = SpriteManager::GetInstance();
-	
+
 	m_playerEntityId = CreatePlayerEntity(spriteManager);
 	m_ammoPickupEntityId = CreateAmmoPickupEntity(spriteManager);
 	m_healthPickupEntityId = CreateHealthPickupEntity(spriteManager);
@@ -54,7 +55,7 @@ void EntityManager::Init()
 	m_quitButtonEntityId = CreateQuitButtonEntity(spriteManager);
 	m_loadingScreenCharacterEntityId = CreateLoadingScreenCharacterEntity(spriteManager);
 	m_crosshairEntityId = CreateCrosshairEntity(spriteManager);
-	
+
 	InitAmmoEntities();
 	InitBulletPool();
 	InitEnemyPool();
@@ -82,23 +83,17 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager &spriteManager)
 	Screen &screen = screen.GetInstance();
 	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD, screen.BORDER_RIGHT_SCREEN_COORD);
 	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD, screen.BORDER_BOTTOM_SCREEN_COORD);
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.6f);
-	vec2 vel = vec2(0.0f);
-	constexpr float radiusMultiplier = 0.25f;
-	constexpr float playerShootingCooldown = 0.5f;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Player, set{ GameState::Gameplay });
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Player, set{GameState::Gameplay});
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, ZERO_POS_FLOAT), ZERO_ROT, PLAYER_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(playerSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
-	collider->SetRadius(playerSprite->GetWidth() * radiusMultiplier);
+	collider->SetRadius(playerSprite->GetWidth() * PLAYER_RADIUS_MULTIPLIER);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>();
 	unique_ptr<Health> health = make_unique<Health>();
 	unique_ptr<Animation> animation = make_unique<Animation>();
-	unique_ptr<Cooldown> cooldown = make_unique<Cooldown>(playerShootingCooldown);
+	unique_ptr<Cooldown> cooldown = make_unique<Cooldown>(PLAYER_SHOOTING_COOLDOWN);
 	unique_ptr<Timer> playerDeathTimer = make_unique<Timer>(TimerType::PlayerDeath, AnimationHandler::GetInstance().PLAYER_DEATH_DURATION);
 
 	AddComponent(playerEntityId, move(tag));
@@ -124,21 +119,14 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	EntityId enemyEntityId = CreateEntityId();
 	CSimpleSprite *enemySprite = spriteManager.CreateSprite(enemyEntityId, Helper::PATH_TO_ENEMY, 4, 2);
 
-	Screen &screen = screen.GetInstance();
-	constexpr vec3 pos = vec3(0.0f);
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.4f);
-	constexpr vec2 zeroVelocity = vec2(0.4f);
-	constexpr float radiusMultiplier = 0.25f;
-
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, set{ GameState::Gameplay });
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, set{GameState::Gameplay});
 	unique_ptr<EnemyBehavior> enemyBehavior = make_unique<EnemyBehavior>(behaviorType);
-	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
+	unique_ptr<Transform> transform = make_unique<Transform>(ZERO_POS_VEC3, ZERO_ROT, ENEMY_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(enemySprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
-	collider->SetRadius(enemySprite->GetWidth() * radiusMultiplier);
-	unique_ptr<Velocity> velocity = make_unique<Velocity>(zeroVelocity);
+	collider->SetRadius(enemySprite->GetWidth() * ENEMY_RADIUS_MULTIPLIER);
+	unique_ptr<Velocity> velocity = make_unique<Velocity>(ZERO_VELOCITY);
 	unique_ptr<BounceDirection> bounceDirection = make_unique<BounceDirection>();
 	unique_ptr<Animation> animation = make_unique<Animation>();
 	unique_ptr<Timer> enemyMeltTimer = make_unique<Timer>(TimerType::EnemyMelt, AnimationHandler::GetInstance().ENEMY_MELT_DURATION);
@@ -163,16 +151,12 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager &spriteManager, const v
 	EntityId bulletEntityId = CreateEntityId();
 	CSimpleSprite *bulletSprite = spriteManager.CreateSprite(bulletEntityId, Helper::PATH_TO_BULLET_SPRITE, 1, 1);
 
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(1.0f);
-	constexpr float radiusMultiplier = 0.25f;
-
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Bullet, set{ GameState::Gameplay });
-	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Bullet, set{GameState::Gameplay});
+	unique_ptr<Transform> transform = make_unique<Transform>(pos, ZERO_ROT, BULLET_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(bulletSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
-	collider->SetRadius(bulletSprite->GetWidth() * radiusMultiplier);
+	collider->SetRadius(bulletSprite->GetWidth() * BULLET_RADIUS_MULTIPLIER);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>(targetVelocity);
 
 	AddComponent(bulletEntityId, move(tag));
@@ -184,20 +168,18 @@ EntityId EntityManager::CreateBulletEntity(SpriteManager &spriteManager, const v
 	return bulletEntityId;
 }
 
-EntityId EntityManager::CreatePickupEntity(SpriteManager& spriteManager, const char* spritePath, PickupType pickupType, vec3 scale, float radiusMultiplier)
+EntityId EntityManager::CreatePickupEntity(SpriteManager &spriteManager, const char *spritePath, PickupType pickupType, vec3 scale, float radiusMultiplier)
 {
 	EntityId pickupEntityId = CreateEntityId();
-	CSimpleSprite* pickupSprite = spriteManager.CreateSprite(pickupEntityId, spritePath, 1, 1);
+	CSimpleSprite *pickupSprite = spriteManager.CreateSprite(pickupEntityId, spritePath, 1, 1);
 
-	Screen& screen = screen.GetInstance();
+	Screen &screen = screen.GetInstance();
 	const float xPos = Helper::GenerateFloat(screen.BORDER_LEFT_SCREEN_COORD, screen.BORDER_RIGHT_SCREEN_COORD);
 	const float yPos = Helper::GenerateFloat(screen.BORDER_TOP_SCREEN_COORD, screen.BORDER_BOTTOM_SCREEN_COORD);
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Pickup, set{ GameState::Gameplay });
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Pickup, set{GameState::Gameplay});
 	unique_ptr<Pickup> pickup = make_unique<Pickup>(pickupType);
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, ZERO_POS_FLOAT), ZERO_ROT, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(pickupSprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();
 	collider->SetCollisionShape(CollisionShape::Sphere);
@@ -214,27 +196,19 @@ EntityId EntityManager::CreatePickupEntity(SpriteManager& spriteManager, const c
 	return pickupEntityId;
 }
 
-EntityId EntityManager::CreateAmmoPickupEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateAmmoPickupEntity(SpriteManager &spriteManager)
 {
-	const vec3 scale = vec3(0.15f);
-	const float radiusMultiplier = 0.15f;
-
-	return CreatePickupEntity(spriteManager, Helper::PATH_TO_AMMO_PICKUP, PickupType::AmmoPickup, scale, radiusMultiplier);
+	return CreatePickupEntity(spriteManager, Helper::PATH_TO_AMMO_PICKUP, PickupType::AmmoPickup, AMMO_PICKUP_SCALE, AMMO_PICKUP_RADIUS_MULTIPLIER);
 }
 
-EntityId EntityManager::CreateHealthPickupEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateHealthPickupEntity(SpriteManager &spriteManager)
 {
-	const vec3 scale = vec3(2.0f);
-
-	return CreatePickupEntity(spriteManager, Helper::PATH_TO_HEALTH_PICKUP, PickupType::HealthPickup, scale);
+	return CreatePickupEntity(spriteManager, Helper::PATH_TO_HEALTH_PICKUP, PickupType::HealthPickup, HEALTH_PICKUP_SCALE);
 }
 
-EntityId EntityManager::CreateLightningPickupEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateLightningPickupEntity(SpriteManager &spriteManager)
 {
-	const vec3 scale = vec3(0.15f);
-	const float radiusMultiplier = 0.15f;
-
-	return CreatePickupEntity(spriteManager, Helper::PATH_TO_LIGHTNING_PICKUP, PickupType::LightningPickup, scale, radiusMultiplier);
+	return CreatePickupEntity(spriteManager, Helper::PATH_TO_LIGHTNING_PICKUP, PickupType::LightningPickup, LIGHTNING_PICKUP_SCALE, LIGHTNING_PICKUP_RADIUS_MULTIPLIER);
 }
 
 EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, AmmoType ammoType, float xPos, float yPos)
@@ -249,13 +223,9 @@ EntityId EntityManager::CreateAmmoEntity(SpriteManager &spriteManager, AmmoType 
 
 	CSimpleSprite *ammoSprite = spriteManager.CreateSprite(ammoEntityId, pathToSprite, 1, 1);
 
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.5f);
-
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{ GameState::Gameplay });
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{GameState::Gameplay});
 	unique_ptr<Ammo> ammo = make_unique<Ammo>(ammoType);
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, ZERO_POS_FLOAT), ZERO_ROT, AMMO_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(ammoSprite);
 
 	AddComponent(ammoEntityId, move(tag));
@@ -272,16 +242,11 @@ EntityId EntityManager::CreateHealthBarEntity(SpriteManager &spriteManager)
 	CSimpleSprite *healthBarSprite = spriteManager.CreateSprite(healthBarEntityId, Helper::PATH_TO_HEALTH_BAR, 2, 3);
 
 	Screen &screen = screen.GetInstance();
-	const float xOffset = 880.0f;
-	const float yOffset = 720.0f;
-	const float xPos = screen.SCREEN_WIDTH - xOffset;
-	const float yPos = screen.SCREEN_HEIGHT - yOffset;
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(1.0f);
+	const float xPos = screen.SCREEN_WIDTH - HEALTH_BAR_X_OFFSET;
+	const float yPos = screen.SCREEN_HEIGHT - HEALTH_BAR_Y_OFFSET;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{ GameState::Gameplay });
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{GameState::Gameplay});
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, ZERO_POS_FLOAT), ZERO_ROT, HEALTH_BAR_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(healthBarSprite);
 	unique_ptr<Animation> animation = make_unique<Animation>();
 
@@ -297,16 +262,11 @@ EntityId EntityManager::CreateScoreEntity()
 {
 	EntityId scoreEntityId = CreateEntityId();
 	Screen &screen = screen.GetInstance();
-	constexpr float xOffset = 100.0f;
-	constexpr float yOffset = 50.0f;
-	const float xPos = screen.SCREEN_WIDTH - xOffset;
-	const float yPos = screen.SCREEN_HEIGHT - yOffset;
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(1.0f);
+	const float xPos = screen.SCREEN_WIDTH - SCORE_X_OFFSET;
+	const float yPos = screen.SCREEN_HEIGHT - SCORE_Y_OFFSET;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{ GameState::Gameplay });
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{GameState::Gameplay});
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, ZERO_POS_FLOAT), ZERO_ROT, SCORE_SCALE);
 	unique_ptr<Score> score = make_unique<Score>();
 
 	AddComponent(scoreEntityId, move(tag));
@@ -320,16 +280,11 @@ EntityId EntityManager::CreateCountdownTimerEntity()
 {
 	EntityId countdownTimerEntityId = CreateEntityId();
 	Screen &screen = screen.GetInstance();
-	constexpr float xOffset = 1000.0f;
-	constexpr float yOffset = 50.0f;
-	const float xPos = screen.SCREEN_WIDTH - xOffset;
-	const float yPos = screen.SCREEN_HEIGHT - yOffset;
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(1.0f);
+	const float xPos = screen.SCREEN_WIDTH - COUNTDOWN_TIMER_X_OFFSET;
+	const float yPos = screen.SCREEN_HEIGHT - COUNTDOWN_TIMER_Y_OFFSET;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Timer, set{ GameState::Gameplay });
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Timer, set{GameState::Gameplay});
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, ZERO_POS_FLOAT), ZERO_ROT, COUNTDOWN_TIMER_SCALE);
 	unique_ptr<Timer> timer = make_unique<Timer>(TimerType::Countdown, GameManager::GetInstance().COUNTDOWN_DURATION);
 
 	AddComponent(countdownTimerEntityId, move(tag));
@@ -345,16 +300,11 @@ EntityId EntityManager::CreateTitleEntity(SpriteManager &spriteManager)
 	CSimpleSprite *titleSprite = spriteManager.CreateSprite(titleEntityId, Helper::PATH_TO_TITLE, 1, 1);
 
 	Screen &screen = screen.GetInstance();
-	const float titleXOffset = 520.0f;
-	const float titleYOffset = 200.0f;
-	const float xPos = screen.SCREEN_WIDTH - titleXOffset;
-	const float yPos = screen.SCREEN_HEIGHT - titleYOffset;
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.5f);
+	const float xPos = screen.SCREEN_WIDTH - TITLE_X_OFFSET;
+	const float yPos = screen.SCREEN_HEIGHT - TITLE_Y_OFFSET;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{ GameState::MainMenu });
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{GameState::MainMenu});
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, ZERO_POS_FLOAT), ZERO_ROT, TITLE_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(titleSprite);
 
 	AddComponent(titleEntityId, move(tag));
@@ -364,19 +314,17 @@ EntityId EntityManager::CreateTitleEntity(SpriteManager &spriteManager)
 	return titleEntityId;
 }
 
-EntityId EntityManager::CreateButtonEntity(SpriteManager& spriteManager, const char* spritePath, GameState gameState, float xOffset, float yOffset, vec3 scale)
+EntityId EntityManager::CreateButtonEntity(SpriteManager &spriteManager, const char *spritePath, GameState gameState)
 {
 	EntityId buttonEntityId = CreateEntityId();
-	CSimpleSprite* buttonSprite = spriteManager.CreateSprite(buttonEntityId, spritePath, 1, 1);
+	CSimpleSprite *buttonSprite = spriteManager.CreateSprite(buttonEntityId, spritePath, 1, 1);
 
-	Screen& screen = screen.GetInstance();
-	const float xPos = screen.SCREEN_WIDTH - xOffset;
-	const float yPos = screen.SCREEN_HEIGHT - yOffset;
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
+	Screen &screen = screen.GetInstance();
+	const float xPos = screen.SCREEN_WIDTH - BUTTON_X_OFFSET;
+	const float yPos = screen.SCREEN_HEIGHT - BUTTON_Y_OFFSET;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{ gameState });
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{gameState});
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, ZERO_POS_FLOAT), ZERO_ROT, BUTTON_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(buttonSprite);
 
 	AddComponent(buttonEntityId, move(tag));
@@ -386,31 +334,19 @@ EntityId EntityManager::CreateButtonEntity(SpriteManager& spriteManager, const c
 	return buttonEntityId;
 }
 
-EntityId EntityManager::CreatePlayButtonEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreatePlayButtonEntity(SpriteManager &spriteManager)
 {
-	const float xOffset = 520.0f;
-	const float yOffset = 400.0f;
-	const vec3 scale = vec3(0.2f);
-
-	return CreateButtonEntity(spriteManager, Helper::PATH_TO_PLAY_BUTTON, GameState::MainMenu, xOffset, yOffset, scale);
+	return CreateButtonEntity(spriteManager, Helper::PATH_TO_PLAY_BUTTON, GameState::MainMenu);
 }
 
-EntityId EntityManager::CreateBackButtonEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateBackButtonEntity(SpriteManager &spriteManager)
 {
-	const float xOffset = 520.0f;
-	const float yOffset = 400.0f;
-	const vec3 scale = vec3(0.2f);
-
-	return CreateButtonEntity(spriteManager, Helper::PATH_TO_BACK_BUTTON, GameState::GameOver, xOffset, yOffset, scale);
+	return CreateButtonEntity(spriteManager, Helper::PATH_TO_BACK_BUTTON, GameState::GameOver);
 }
 
-EntityId EntityManager::CreateQuitButtonEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateQuitButtonEntity(SpriteManager &spriteManager)
 {
-	const float xOffset = 520.0f;
-	const float yOffset = 400.0f;
-	const vec3 scale = vec3(0.2f);
-
-	return CreateButtonEntity(spriteManager, Helper::PATH_TO_QUIT_BUTTON, GameState::Paused, xOffset, yOffset, scale);
+	return CreateButtonEntity(spriteManager, Helper::PATH_TO_QUIT_BUTTON, GameState::Paused);
 }
 
 EntityId EntityManager::CreateLoadingScreenCharacterEntity(SpriteManager &spriteManager)
@@ -419,16 +355,11 @@ EntityId EntityManager::CreateLoadingScreenCharacterEntity(SpriteManager &sprite
 	CSimpleSprite *loadingScreenCharacterSprite = spriteManager.CreateSprite(loadingScreenCharacterEntityId, Helper::PATH_TO_PLAYER, 4, 4);
 
 	Screen &screen = screen.GetInstance();
-	const float loadingScreenCharacterXOffset = 520.0f;
-	const float loadingScreenCharacterYOffset = 340.0f;
-	const float xPos = screen.SCREEN_WIDTH - loadingScreenCharacterXOffset;
-	const float yPos = screen.SCREEN_HEIGHT - loadingScreenCharacterYOffset;
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(0.5f);
+	const float xPos = screen.SCREEN_WIDTH - LOADING_SCREEN_CHARACTER_X_OFFSET;
+	const float yPos = screen.SCREEN_HEIGHT - LOADING_SCREEN_CHARACTER_Y_OFFSET;
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{ GameState::Loading });
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{GameState::Loading});
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, ZERO_POS_FLOAT), ZERO_ROT, LOADING_SCREEN_CHARACTER_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(loadingScreenCharacterSprite);
 	unique_ptr<Animation> animation = make_unique<Animation>();
 
@@ -448,13 +379,10 @@ EntityId EntityManager::CreateStarfieldEntity(SpriteManager &spriteManager)
 	Screen &screen = screen.GetInstance();
 	const float xPos = screen.SCREEN_WIDTH / 2.0f;
 	const float yPos = screen.SCREEN_HEIGHT / 2.0f;
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(2.0f);
 
-	set<GameState> starfieldGameStates = { GameState::MainMenu, GameState::GameOver };
+	set<GameState> starfieldGameStates = {GameState::MainMenu, GameState::GameOver};
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, starfieldGameStates);
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, ZERO_POS_FLOAT), ZERO_ROT, STARFIELD_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(starfieldSprite);
 
 	AddComponent(starfieldEntityId, move(tag));
@@ -469,15 +397,8 @@ EntityId EntityManager::CreateCrosshairEntity(SpriteManager &spriteManager)
 	EntityId crosshairEntityId = CreateEntityId();
 	CSimpleSprite *crosshairSprite = spriteManager.CreateSprite(crosshairEntityId, Helper::PATH_TO_CROSSHAIR, 1, 1);
 
-	Screen &screen = screen.GetInstance();
-	const float xPos = 0.0f;
-	const float yPos = 0.0f;
-	constexpr float zPos = 0.0f;
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(1.5f);
-
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{ GameState::Gameplay });
-	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::UI, set{GameState::Gameplay});
+	unique_ptr<Transform> transform = make_unique<Transform>(ZERO_POS_VEC3, ZERO_ROT, CROSSHAIR_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(crosshairSprite);
 
 	AddComponent(crosshairEntityId, move(tag));
@@ -507,19 +428,16 @@ void EntityManager::ReturnBulletToPool(EntityId bulletEntityId)
 
 void EntityManager::InitAmmoEntities()
 {
-	Screen& screen = screen.GetInstance();
-	ShootingHandler& shootingHandler = ShootingHandler::GetInstance();
-	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	Screen &screen = screen.GetInstance();
+	ShootingHandler &shootingHandler = ShootingHandler::GetInstance();
+	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
-	const int ammoSpriteSpacing = 30;
-	const float ammoXOffset = 20.0f;
-	const float ammoYOffset = 720.0f;
-	const float ammoStartingX = screen.SCREEN_WIDTH - ammoXOffset;
-	const float ammoYPos = screen.SCREEN_HEIGHT - ammoYOffset;
+	const float ammoStartingX = screen.SCREEN_WIDTH - AMMO_X_OFFSET;
+	const float ammoYPos = screen.SCREEN_HEIGHT - AMMO_Y_OFFSET;
 
 	for (int i = 0; i < shootingHandler.MAX_BULLETS; ++i)
 	{
-		const float xPos = ammoStartingX - i * ammoSpriteSpacing;
+		const float xPos = ammoStartingX - i * AMMO_SPRITE_SPACING;
 
 		m_ammoEmptyEntityId = CreateAmmoEntity(spriteManager, AmmoType::AmmoEmpty, xPos, ammoYPos);
 		m_ammoEmptyEntityIds.push_back(m_ammoEmptyEntityId);
@@ -530,13 +448,11 @@ void EntityManager::InitAmmoEntities()
 
 void EntityManager::InitBulletPool()
 {
-	SpriteManager& spriteManager = SpriteManager::GetInstance();
-	constexpr vec3 zeroPos = vec3(0.0f);
-	constexpr vec2 zeroVelocity = vec2(0.0f);
+	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
 	for (size_t i = 0; i < m_bulletPoolSize; ++i)
 	{
-		EntityId bulletEntityId = CreateBulletEntity(spriteManager, zeroPos, zeroVelocity);
+		EntityId bulletEntityId = CreateBulletEntity(spriteManager, ZERO_POS_VEC3, ZERO_VELOCITY);
 		SetEntityStateAndVisibility(bulletEntityId, EntityState::Dead, false);
 		m_bulletPool.push_back(bulletEntityId);
 	}
@@ -544,7 +460,7 @@ void EntityManager::InitBulletPool()
 
 void EntityManager::InitEnemyPool()
 {
-	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
 	for (size_t i = 0; i < m_enemyPoolSize; ++i)
 	{
@@ -556,7 +472,7 @@ void EntityManager::InitEnemyPool()
 
 void EntityManager::InitLightningStrikePool()
 {
-	SpriteManager& spriteManager = SpriteManager::GetInstance();
+	SpriteManager &spriteManager = SpriteManager::GetInstance();
 
 	for (size_t i = 0; i < m_lightningStrikePoolSize; ++i)
 	{
@@ -595,18 +511,13 @@ void EntityManager::SetEntityStateAndVisibility(EntityId entityId, EntityState s
 	sprite->SetIsVisible(isVisible);
 }
 
-EntityId EntityManager::CreateLightningStrikeEntity(SpriteManager& spriteManager)
+EntityId EntityManager::CreateLightningStrikeEntity(SpriteManager &spriteManager)
 {
 	EntityId lightningStrikeEntityId = CreateEntityId();
-	CSimpleSprite* lightningStrikeSprite = spriteManager.CreateSprite(lightningStrikeEntityId, Helper::PATH_TO_LIGHTNING_STRIKE, 4, 1);
+	CSimpleSprite *lightningStrikeSprite = spriteManager.CreateSprite(lightningStrikeEntityId, Helper::PATH_TO_LIGHTNING_STRIKE, 4, 1);
 
-	Screen& screen = screen.GetInstance();
-	constexpr vec3 pos = vec3(0.0f);
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(1.0f);
-
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::LightningStrike, set{ GameState::Gameplay });
-	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::LightningStrike, set{GameState::Gameplay});
+	unique_ptr<Transform> transform = make_unique<Transform>(ZERO_POS_VEC3, ZERO_ROT, LIGHTNING_STRIKE_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(lightningStrikeSprite);
 	unique_ptr<Animation> animation = make_unique<Animation>();
 	unique_ptr<Timer> lightningFlashTimer = make_unique<Timer>(TimerType::LightningFlash, AnimationHandler::GetInstance().LIGHTNING_FLASH_DURATION);
@@ -622,27 +533,25 @@ EntityId EntityManager::CreateLightningStrikeEntity(SpriteManager& spriteManager
 	return lightningStrikeEntityId;
 }
 
-EntityId EntityManager::CreateParticleEntity(SpriteManager& spriteManager, ParticleType particleType)
+EntityId EntityManager::CreateParticleEntity(SpriteManager &spriteManager, ParticleType particleType)
 {
 	EntityId particleEntityId = CreateEntityId();
-	const char* pathToSprite = nullptr;
+	const char *pathToSprite = nullptr;
 	set<GameState> gameStates = set<GameState>();
+	vec3 particleScale = vec3(0.0f);
 
 	if (particleType == ParticleType::Dust)
 	{
 		pathToSprite = Helper::PATH_TO_DUST;
-		gameStates = { GameState::Gameplay };
+		gameStates = {GameState::Gameplay};
+		particleScale = DUST_PARTICLE_SCALE;
 	}
 
-	CSimpleSprite* particleSprite = spriteManager.CreateSprite(particleEntityId, pathToSprite, 1, 1);
-
-	constexpr vec3 pos = vec3(0.0f);
-	constexpr vec3 rot = vec3(0.0f);
-	constexpr vec3 scale = vec3(1.0f);
+	CSimpleSprite *particleSprite = spriteManager.CreateSprite(particleEntityId, pathToSprite, 1, 1);
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Particle, gameStates);
 	unique_ptr<Particle> particle = make_unique<Particle>(particleType);
-	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
+	unique_ptr<Transform> transform = make_unique<Transform>(ZERO_POS_VEC3, ZERO_ROT, particleScale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(particleSprite);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>();
 	unique_ptr<Timer> particleLifespanTimer = make_unique<Timer>(TimerType::ParticleLifespan, ParticleHandler::GetInstance().PARTICLE_LIFESPAN_DURATION);

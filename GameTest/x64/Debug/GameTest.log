@@ -1,6 +1,10 @@
-﻿  EntityManager.cpp
-sfml-audio-s-d.lib(InputSoundFile.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(InputSoundFile.obj)' or at ''; linking object as if no debug info
-sfml-audio-s-d.lib(SoundSource.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundSource.obj)' or at ''; linking object as if no debug info
+﻿  GameManager.cpp
+  SystemManager.cpp
+  RenderingHandler.cpp
+  ShootingHandler.cpp
+  TimerHandler.cpp
+  GameTest.cpp
+  Generating Code...
   GameTest.vcxproj -> C:\Users\peilu\Downloads\Repos\dau-2023-rachel\x64\Debug\GameTest.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

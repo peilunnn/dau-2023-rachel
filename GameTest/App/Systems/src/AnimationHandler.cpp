@@ -37,24 +37,22 @@ void AnimationHandler::InitPlayerAnimation(EntityManager &entityManager, SpriteM
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	CSimpleSprite *playerSprite = spriteManager.GetSprite(playerEntityId);
 
-	constexpr float speed = 1.0f / 5.0f;
-	playerSprite->CreateAnimation(PLAYER_ANIM_FORWARDS, speed, {12, 13, 14, 15});
-	playerSprite->CreateAnimation(PLAYER_ANIM_BACKWARDS, speed, {0, 1, 2, 3});
-	playerSprite->CreateAnimation(PLAYER_ANIM_LEFT, speed, {4, 5, 6, 7});
-	playerSprite->CreateAnimation(PLAYER_ANIM_RIGHT, speed, {8, 9, 10, 11});
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_BACKWARDS, speed, {0});
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_LEFT, speed, {7});
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_RIGHT, speed, {8});
-	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, speed, {12});
+	playerSprite->CreateAnimation(PLAYER_ANIM_FORWARDS, PLAYER_ANIMATION_SPEED, {12, 13, 14, 15});
+	playerSprite->CreateAnimation(PLAYER_ANIM_BACKWARDS, PLAYER_ANIMATION_SPEED, {0, 1, 2, 3});
+	playerSprite->CreateAnimation(PLAYER_ANIM_LEFT, PLAYER_ANIMATION_SPEED, {4, 5, 6, 7});
+	playerSprite->CreateAnimation(PLAYER_ANIM_RIGHT, PLAYER_ANIMATION_SPEED, {8, 9, 10, 11});
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_BACKWARDS, PLAYER_ANIMATION_SPEED, {0});
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_LEFT, PLAYER_ANIMATION_SPEED, {7});
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_RIGHT, PLAYER_ANIMATION_SPEED, {8});
+	playerSprite->CreateAnimation(PLAYER_ANIM_IDLE_FORWARDS, PLAYER_ANIMATION_SPEED, {12});
 }
 
 void AnimationHandler::InitEnemyAnimation(SpriteManager& spriteManager, EntityId enemyEntityId)
 {
 	CSimpleSprite* enemySprite = spriteManager.GetSprite(enemyEntityId);
 
-	constexpr float speed = 1.0f / 20.0f;
-	enemySprite->CreateAnimation(ENEMY_ANIM_IDLE, speed, { 0 });
-	enemySprite->CreateAnimation(ENEMY_ANIM_MELT, speed, { 1,2,3,4,5,6,7 });
+	enemySprite->CreateAnimation(ENEMY_ANIM_IDLE, ENEMY_ANIMATION_SPEED, { 0 });
+	enemySprite->CreateAnimation(ENEMY_ANIM_MELT, ENEMY_ANIMATION_SPEED, { 1,2,3,4,5,6,7 });
 }
 
 void AnimationHandler::InitHealthBarAnimation(EntityManager &entityManager, SpriteManager &spriteManager)
@@ -62,13 +60,12 @@ void AnimationHandler::InitHealthBarAnimation(EntityManager &entityManager, Spri
 	EntityId healtBarEntityId = entityManager.GetHealthBarEntityId();
 	CSimpleSprite *healthBarSprite = spriteManager.GetSprite(healtBarEntityId);
 
-	constexpr float speed = 1.0f / 15.0f;
-	healthBarSprite->CreateAnimation(HEALTH_100, speed, {0});
-	healthBarSprite->CreateAnimation(HEALTH_80, speed, {2});
-	healthBarSprite->CreateAnimation(HEALTH_60, speed, {4});
-	healthBarSprite->CreateAnimation(HEALTH_40, speed, {1});
-	healthBarSprite->CreateAnimation(HEALTH_20, speed, {3});
-	healthBarSprite->CreateAnimation(HEALTH_0, speed, {5});
+	healthBarSprite->CreateAnimation(HEALTH_100, HEALTH_BAR_ANIMATION_SPEED, {0});
+	healthBarSprite->CreateAnimation(HEALTH_80, HEALTH_BAR_ANIMATION_SPEED, {2});
+	healthBarSprite->CreateAnimation(HEALTH_60, HEALTH_BAR_ANIMATION_SPEED, {4});
+	healthBarSprite->CreateAnimation(HEALTH_40, HEALTH_BAR_ANIMATION_SPEED, {1});
+	healthBarSprite->CreateAnimation(HEALTH_20, HEALTH_BAR_ANIMATION_SPEED, {3});
+	healthBarSprite->CreateAnimation(HEALTH_0, HEALTH_BAR_ANIMATION_SPEED, {5});
 }
 
 void AnimationHandler::InitLoadingScreenCharacterAnimation(EntityManager &entityManager, SpriteManager &spriteManager)
@@ -76,8 +73,7 @@ void AnimationHandler::InitLoadingScreenCharacterAnimation(EntityManager &entity
 	EntityId entityId = entityManager.GetLoadingScreenCharacterEntityId();
 	CSimpleSprite *sprite = spriteManager.GetSprite(entityId);
 
-	constexpr float speed = 1.0f / 5.0f;
-	sprite->CreateAnimation(PLAYER_ANIM_RIGHT, speed, {8, 9, 10, 11});
+	sprite->CreateAnimation(PLAYER_ANIM_RIGHT, LOADING_SCREEN_CHARACTER_ANIMATION_SPEED, {8, 9, 10, 11});
 	sprite->SetAnimation(PLAYER_ANIM_RIGHT);
 }
 
@@ -169,8 +165,7 @@ void AnimationHandler::InitLightningStrikeAnimation(SpriteManager& spriteManager
 {
 	CSimpleSprite* lightningStrikeSprite = spriteManager.GetSprite(lightningStrikeEntityId);
 
-	constexpr float speed = 1.0f / 20.0f;
-	lightningStrikeSprite->CreateAnimation(LIGHTNING_STRIKE_FLASH, speed, { 0, 1, 2, 3 });
+	lightningStrikeSprite->CreateAnimation(LIGHTNING_STRIKE_FLASH, LIGHTNING_STRIKE_ANIMATION_SPEED, { 0, 1, 2, 3 });
 }
 
 void AnimationHandler::UpdateUIAnimation(EntityManager &entityManager, EntityId entityId, float deltaTime)
@@ -202,10 +197,8 @@ void AnimationHandler::RotatePlayer(float deltaTime)
 	EntityId playerEntityId = entityManager.GetPlayerEntityId();
 	CSimpleSprite *playerSprite = entityManager.GetComponent<Renderable>(playerEntityId)->GetSprite();
 	
-	constexpr float targetAngle = 67.5f;
 	float currentAngle = playerSprite->GetAngle();
-	const float rotationSpeed = 0.8f;
-	float newAngle = currentAngle + rotationSpeed * deltaTime;
+	float newAngle = currentAngle + ROTATION_SPEED * deltaTime;
 	playerSprite->SetAngle(newAngle);
 }
 
@@ -228,31 +221,19 @@ void AnimationHandler::SpinPickup(EntityId entityId, float deltaTime)
 	}
 }
 
-void AnimationHandler::SpinAmmoPickup(EntityId entityId, float deltaTime)
+void AnimationHandler::SpinAmmoPickup(EntityId entityId, float deltaTime) 
 {
-	constexpr float minScale = 0.15f;
-	constexpr float maxScale = 0.2f;
-	constexpr float scaleSpeed = 0.2f;
-
-	SpinPickup(deltaTime, entityId, minScale, maxScale, scaleSpeed, m_ammoPickupScalingDown);
+	SpinPickup(deltaTime, entityId, AMMO_PICKUP_MIN_SCALE, AMMO_PICKUP_MAX_SCALE, AMMO_PICKUP_SCALING_SPEED, m_ammoPickupScalingDown);
 }
 
-void AnimationHandler::SpinHealthPickup(EntityId entityId, float deltaTime)
+void AnimationHandler::SpinHealthPickup(EntityId entityId, float deltaTime) 
 {
-	constexpr float minScale = 2.5f;
-	constexpr float maxScale = 2.75f;
-	constexpr float scaleSpeed = 2.0f;
-
-	SpinPickup(deltaTime, entityId, minScale, maxScale, scaleSpeed, m_healthPickupScalingDown);
+	SpinPickup(deltaTime, entityId, HEALTH_PICKUP_MIN_SCALE, HEALTH_PICKUP_MAX_SCALE, HEALTH_PICKUP_SCALING_SPEED, m_healthPickupScalingDown);
 }
 
-void AnimationHandler::SpinLightningPickup(EntityId entityId, float deltaTime)
+void AnimationHandler::SpinLightningPickup(EntityId entityId, float deltaTime) 
 {
-	constexpr float minScale = 0.15f;
-	constexpr float maxScale = 0.175f;
-	constexpr float scaleSpeed = 0.2f;
-
-	SpinPickup(deltaTime, entityId, minScale, maxScale, scaleSpeed, m_lightningPickupScalingDown);
+	SpinPickup(deltaTime, entityId, LIGHTNING_PICKUP_MIN_SCALE, LIGHTNING_PICKUP_MAX_SCALE, LIGHTNING_PICKUP_SCALING_SPEED, m_lightningPickupScalingDown);
 }
 
 void AnimationHandler::ResetHealthBarAnimation()
@@ -277,13 +258,12 @@ void AnimationHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float 
 	EntityId healthBarEntityId = entityManager.GetHealthBarEntityId();
 	Health *health = entityManager.GetComponent<Health>(playerEntityId);
 	CSimpleSprite *healthBarSprite = entityManager.GetComponent<Renderable>(healthBarEntityId)->GetSprite();
-	constexpr int maxFrames = 5;
 
 	if (!health || !healthBarSprite)
 		return;
 
 	int frameIndex = static_cast<int>((health->GetMaxHealth() - health->GetCurrentHealth()) / HealthHandler::GetInstance().GetHealthReduction());
-	frameIndex = min(frameIndex, maxFrames);
+	frameIndex = min(frameIndex, HEALTH_BAR_MAX_FRAMES);
 	healthBarSprite->SetAnimation(frameIndex);
 }
 
