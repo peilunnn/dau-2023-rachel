@@ -1,9 +1,10 @@
 #include "stdafx.h"
-#include "Components/include/Health.h"
+#include "Components/include/Particle.h"
 #include "Components/include/Timer.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
 #include "Systems/include/AnimationHandler.h"
+#include "Systems/include/ParticleHandler.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Utilities/include/Helper.h"
@@ -27,8 +28,38 @@ void TimerHandler::Update(float deltaTime) {
     {
         Timer* timer = entityManager.GetComponent<Timer>(entityId);
 
+        if (timer->GetType() == TimerType::ParticleLifespan)
+        {
+            CSimpleSprite* particleSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
+            Particle* particleComponent = entityManager.GetComponent<Particle>(entityId);
+
+            float newRemainingTime = timer->GetRemainingTime() - deltaTime;
+            timer->SetRemainingTime(newRemainingTime);
+
+            if (newRemainingTime <= 0)
+            {
+                timer->SetRemainingTime(timer->GetInitialDuration());
+                ParticleHandler::GetInstance().ReturnParticleToPool(particleComponent->GetParticleType(), entityId);
+            }
+        }
+
+        else if (timer->GetType() == TimerType::Countdown)
+        {
+            EntityId playerEntityId = entityManager.GetPlayerEntityId();
+            Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+
+            float newRemainingTime = timer->GetRemainingTime() - deltaTime;
+            timer->SetRemainingTime(newRemainingTime);
+
+            if (newRemainingTime <= 0)
+            {
+                timer->SetRemainingTime(0);
+                playerTag->SetEntityState(EntityState::Dead);
+            }
+        }
+
         // For player, we only start decrementing remaining time if player is dead
-        if (timer->GetType() == TimerType::PlayerDeath)
+        else if (timer->GetType() == TimerType::PlayerDeath)
         {
             Tag* playerTag = entityManager.GetComponent<Tag>(entityId);
             if (playerTag->GetEntityState() == EntityState::Dead)
@@ -82,22 +113,6 @@ void TimerHandler::Update(float deltaTime) {
                     timer->SetRemainingTime(timer->GetInitialDuration());
                     entityManager.ReturnLightningStrikeToPool(entityId);
                 }
-            }
-        }
-
-        // For all other normal timers, we decrement remaining time every frame
-        else
-        {
-            EntityId playerEntityId = entityManager.GetPlayerEntityId();
-            Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
-
-            float newRemainingTime = timer->GetRemainingTime() - deltaTime;
-            timer->SetRemainingTime(newRemainingTime);
-
-            if (newRemainingTime <= 0)
-            {
-                timer->SetRemainingTime(0);
-                playerTag->SetEntityState(EntityState::Dead);
             }
         }
     }

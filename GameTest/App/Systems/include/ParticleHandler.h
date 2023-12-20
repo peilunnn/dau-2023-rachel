@@ -1,7 +1,6 @@
 #pragma once
 #include "Systems/include/System.h"
 #include "Utilities/include/Enums.h"
-#include <glm/glm.hpp>
 #include <unordered_map>
 using glm::vec3;
 using std::vector;
@@ -16,16 +15,24 @@ public:
 
     void Init();
     void Update(float deltaTime);
-    void EmitParticle(ParticleType type, const vec3& position);
+    void ReturnParticleToPool(ParticleType type, EntityId particleEntityId);
+
+    unordered_map<ParticleType, vector<EntityId>> GetActiveParticles() const { return m_activeParticles; }
 
 private:
     ParticleHandler() = default;
-    
-    const int m_poolSize = 100;
+
+    const int m_poolSize = 10;
+    float m_emissionCooldown = 0.2f;
+    float m_emissionTimer = 0.0f;
     unordered_map<ParticleType, vector<EntityId>> m_particlePools;
+    unordered_map<ParticleType, vector<EntityId>> m_activeParticles;
 
     void InitParticlePool(ParticleType type);
     EntityId GetParticleFromPool(ParticleType type);
-    void ReturnParticleToPool(ParticleType type, EntityId particleEntityId);
+    void RemoveActiveParticle(ParticleType type, EntityId particleEntityId);
+    vec3 GetEmissionPos();
+    void EmitParticle(ParticleType type, const glm::vec3& position, const glm::vec2& velocity);
+
 };
 

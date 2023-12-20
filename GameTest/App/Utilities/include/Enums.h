@@ -99,7 +99,8 @@ enum class TimerType
     Countdown,
     PlayerDeath,
     EnemyMelt,
-    LightningFlash
+    LightningFlash,
+    ParticleLifespan
 };
 
 enum class EnemyBehaviorType 

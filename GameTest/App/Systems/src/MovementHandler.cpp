@@ -9,6 +9,7 @@
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/MovementHandler.h"
+#include "Systems/include/ParticleHandler.h"
 using glm::vec3;
 using std::min;
 using std::max;
@@ -54,6 +55,8 @@ void MovementHandler::Update(float deltaTime)
 				break;
 		}
 	}
+
+	UpdateParticleMovement(deltaTime);
 }
 
 void MovementHandler::HandleEvent(const Event& event, float deltaTime)
@@ -160,6 +163,26 @@ void MovementHandler::UpdateHomingEnemyMovement(EntityManager& entityManager, Sc
 	vec2 enemyMovement = enemyVelocity->GetVelocity() * deltaTime;
 	vec3 enemyNewPos = enemyTransform->GetPosition() + vec3(enemyMovement, 0.0f);
 	enemyTransform->SetPosition(enemyNewPos);
+}
+
+void MovementHandler::UpdateParticleMovement(float deltaTime)
+{
+	EntityManager& entityManager = EntityManager::GetInstance();
+	ParticleHandler& particleHandler = ParticleHandler::GetInstance();
+
+	unordered_map<ParticleType, vector<EntityId>>& activeParticles = particleHandler.GetActiveParticles();
+
+	for (auto& pair : activeParticles) {
+		vector<EntityId>& particleEntityIds = pair.second;
+		for (EntityId particleEntityId : particleEntityIds) 
+		{
+			Transform* particleTransform = entityManager.GetComponent<Transform>(particleEntityId);
+			Velocity* particleVelocity = entityManager.GetComponent<Velocity>(particleEntityId);
+
+			vec3 newPosition = particleTransform->GetPosition() + vec3(particleVelocity->GetVelocity(), 0.0f) * deltaTime;
+			particleTransform->SetPosition(newPosition);
+		}
+	}
 }
 
 void MovementHandler::UpdateBulletMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)

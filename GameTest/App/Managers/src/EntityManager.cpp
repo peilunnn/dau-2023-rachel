@@ -635,10 +635,15 @@ EntityId EntityManager::CreateParticleEntity(SpriteManager& spriteManager, Parti
 	unique_ptr<Particle> particle = make_unique<Particle>(ParticleType::Dust);
 	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(particleSprite);
+	unique_ptr<Velocity> velocity = make_unique<Velocity>();
+	unique_ptr<Timer> particleLifespanTimer = make_unique<Timer>(TimerType::ParticleLifespan, 0.4f);
 
 	AddComponent(particleEntityId, move(tag));
+	AddComponent(particleEntityId, move(particle));
 	AddComponent(particleEntityId, move(transform));
 	AddComponent(particleEntityId, move(renderable));
+	AddComponent(particleEntityId, move(velocity));
+	AddComponent(particleEntityId, move(particleLifespanTimer));
 
 	return particleEntityId;
 }
