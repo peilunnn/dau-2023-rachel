@@ -7,6 +7,7 @@
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
 #include "Systems/include/EntityHandler.h"
+#include "Systems/include/ParticleHandler.h"
 #include "Utilities/include/Helper.h"
 #include <algorithm>
 #include <random>
@@ -46,7 +47,11 @@ void EntityHandler::HandleEvent(const Event &event, float deltaTime)
 		MoveEntityToRandomPos(pickupEntityId);
 
 		if (event.GetEventType() == EventType::PlayerHitLightningPickup)
+		{
+			SetEnemiesToStrike(entityManager);
 			InitLightningStrikes(entityManager);
+			EmitSteamParticles();
+		}
 	}
 }
 
@@ -105,27 +110,29 @@ void EntityHandler::HandleBulletOutOfBounds(EntityManager &entityManager, Entity
 	entityManager.ReturnBulletToPool(bulletEntityId);
 }
 
-void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
+void EntityHandler::SetEnemiesToStrike(EntityManager& entityManager)
 {
 	random_device rd;
 	default_random_engine rng(rd());
 	SpriteManager& spriteManager = SpriteManager::GetInstance();
 	vector<EntityId> allEntityIds = entityManager.GetAllEntityIds();
 
-	vector<EntityId> activeEnemies;
 	for (EntityId entityId : allEntityIds)
 	{
 		Tag* tag = entityManager.GetComponent<Tag>(entityId);
 		if (tag->GetEntityType() == EntityType::Enemy && tag->GetEntityState() == EntityState::Alive)
-			activeEnemies.push_back(entityId);
+			m_activeEnemies.push_back(entityId);
 	}
 
-	shuffle(activeEnemies.begin(), activeEnemies.end(), rng);
-	m_enemiesToStrike = min(static_cast<int>(activeEnemies.size()), MAX_ENEMIES_TO_STRIKE);
+	shuffle(m_activeEnemies.begin(), m_activeEnemies.end(), rng);
+	m_enemiesToStrike = min(static_cast<int>(m_activeEnemies.size()), MAX_ENEMIES_TO_STRIKE);
+}
 
+void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
+{
 	for (int i = 0; i < m_enemiesToStrike; ++i)
 	{
-		EntityId enemyEntityId = activeEnemies[i];
+		EntityId enemyEntityId = m_activeEnemies[i];
 		Tag* enemyTag = entityManager.GetComponent<Tag>(enemyEntityId);
 		Transform* enemyTransform = entityManager.GetComponent<Transform>(enemyEntityId);
 		Velocity* enemyVelocity = entityManager.GetComponent<Velocity>(enemyEntityId);
@@ -137,4 +144,28 @@ void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
 		enemyTag->SetEntityState(EntityState::HitByBullet);
 		lightningStrikeTransform->SetPosition(enemyTransform->GetPosition());
 	}
+}
+
+void EntityHandler::EmitSteamParticles()
+{
+	ParticleHandler& particleHandler = ParticleHandler::GetInstance();
+	
+	const float minVelocityX = -10.0f;
+	const float maxVelocityX = 10.0f;
+	const float minVelocityY = 20.0f;
+	const float maxVelocityY = 50.0f;
+
+	for (int i = 0; i < m_enemiesToStrike; ++i)
+	{
+		EntityId enemyEntityId = m_activeEnemies[i];
+		vec3 emissionPos = particleHandler.GetEmissionPos(EntityType::Enemy, enemyEntityId);
+
+		for (int j = 0; j < particleHandler.STEAM_PARTICLES_PER_ENEMY; ++j)
+		{
+			vec2 variedVelocity = Helper::GenerateVec2(minVelocityX, maxVelocityX, minVelocityY, maxVelocityY);
+			particleHandler.EmitParticle(ParticleType::Steam, emissionPos, variedVelocity);
+		}
+	}
+
+	m_activeEnemies.clear();
 }

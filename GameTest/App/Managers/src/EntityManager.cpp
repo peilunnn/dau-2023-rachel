@@ -537,24 +537,30 @@ EntityId EntityManager::CreateParticleEntity(SpriteManager &spriteManager, Parti
 {
 	EntityId particleEntityId = CreateEntityId();
 	const char *pathToSprite = nullptr;
-	set<GameState> gameStates = set<GameState>();
 	vec3 particleScale = vec3(0.0f);
+	float particleLifespanDuration = 0.0f;
 
 	if (particleType == ParticleType::Dust)
 	{
 		pathToSprite = Helper::PATH_TO_DUST;
-		gameStates = {GameState::Gameplay};
 		particleScale = DUST_PARTICLE_SCALE;
+		particleLifespanDuration = ParticleHandler::GetInstance().DUST_PARTICLE_LIFESPAN_DURATION;
+	}
+	else if (particleType == ParticleType::Steam)
+	{
+		pathToSprite = Helper::PATH_TO_STEAM;
+		particleScale = STEAM_PARTICLE_SCALE;
+		particleLifespanDuration = ParticleHandler::GetInstance().STEAM_PARTICLE_LIFESPAN_DURATION;
 	}
 
 	CSimpleSprite *particleSprite = spriteManager.CreateSprite(particleEntityId, pathToSprite, 1, 1);
 
-	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Particle, gameStates);
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Particle, set{ GameState::Gameplay });
 	unique_ptr<Particle> particle = make_unique<Particle>(particleType);
 	unique_ptr<Transform> transform = make_unique<Transform>(ZERO_POS_VEC3, ZERO_ROT, particleScale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(particleSprite);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>();
-	unique_ptr<Timer> particleLifespanTimer = make_unique<Timer>(TimerType::ParticleLifespan, ParticleHandler::GetInstance().PARTICLE_LIFESPAN_DURATION);
+	unique_ptr<Timer> particleLifespanTimer = make_unique<Timer>(TimerType::ParticleLifespan, particleLifespanDuration);
 
 	AddComponent(particleEntityId, move(tag));
 	AddComponent(particleEntityId, move(particle));

@@ -4,14 +4,14 @@
 #include "Systems/include/System.h"
 #include "Components/include/Color.h"
 
-class RenderingHandler : public System 
+class RenderingHandler : public System
 {
 public:
-    static RenderingHandler& GetInstance();
-    RenderingHandler(RenderingHandler const&) = delete;
-    void operator=(RenderingHandler const&) = delete;
+    static RenderingHandler &GetInstance();
+    RenderingHandler(RenderingHandler const &) = delete;
+    void operator=(RenderingHandler const &) = delete;
 
-    void HandleEvent(const Event& event, float deltaTime) override;
+    void HandleEvent(const Event &event, float deltaTime) override;
     void Render();
     void ShowAllAmmoFilledEntities();
     void HideAmmoFilledEntity(int index);
@@ -27,6 +27,7 @@ private:
     }
 
     const float FADE_RATE = 0.5f;
+    const float OVERLAY_ALPHA = 0.5f;
     const float MAX_SHAKE_DURATION = 1.5f;
     const float MAX_SHAKE_INTENSITY = 30.0f;
     const float MIN_SHAKE_DURATION = 1.0f;
@@ -45,33 +46,33 @@ private:
     const float SCORE_TEXT_X_OFFSET = 570.0f;
     const float SCORE_TEXT_Y_OFFSET = 350.0f;
 
-    const char* DESCRIPTION_TEXT = "Get the highest score in 60 seconds!";
-    const char* GAME_OVER_TEXT = "Game Over";
-    const char* LOADING_TEXT = "Loading...";
-    const char* SCORE_TEXT_PREFIX = "You got a score of : ";
+    const char *DESCRIPTION_TEXT = "Get the highest score in 60 seconds!";
+    const char *GAME_OVER_TEXT = "Game Over";
+    const char *LOADING_TEXT = "Loading...";
+    const char *SCORE_TEXT_PREFIX = "You got a score of : ";
 
-    void RenderMainMenuScene(EntityManager& entityManager, Screen& screen);
-    void RenderGameplayScene(EntityManager& entityManager, Screen& screen);
-    void RenderGameOverScene(EntityManager& entityManager, Screen& screen);
-    void RenderLoadingScene(EntityManager& entityManager, Screen& screen);
-    void RenderPauseScene(EntityManager& entityManager, Screen& screen);
-    void RenderObjects(EntityManager& entityManager, GameState gameState);
+    void RenderMainMenuScene(EntityManager &entityManager, Screen &screen);
+    void RenderGameplayScene(EntityManager &entityManager, Screen &screen);
+    void RenderGameOverScene(EntityManager &entityManager, Screen &screen);
+    void RenderLoadingScene(EntityManager &entityManager, Screen &screen);
+    void RenderPauseScene(EntityManager &entityManager, Screen &screen);
+    void RenderObjects(EntityManager &entityManager, GameState gameState);
     void RenderAmmo();
-    void RenderDescriptionText(Screen& screen);
-    void RenderLoadingText(Screen& screen);
-    void RenderGameOverText(Screen& screen);
-    void RenderGameOverScoreText(EntityManager& entityManager, Screen& screen);
-    void RenderSprite(EntityManager& entityManager, EntityId entityId);
-    void RenderScore(EntityManager& entityManager);
-    void RenderCountdownTimer(EntityManager& entityManager);
-    void SetBackground(const Color& color, float alpha = 1.0f);
-    void DrawBorder(Screen& screen, const Color& color);
-    void DrawBackgroundInBorder(Screen& screen, const Color& color);
-    void RenderOverlay(Screen& screen, float alpha);
-    void RenderFadeOverlay(Screen& screen);
-    void RenderTransluscentOverlay(Screen& screen);
+    void RenderDescriptionText(Screen &screen);
+    void RenderLoadingText(Screen &screen);
+    void RenderGameOverText(Screen &screen);
+    void RenderGameOverScoreText(EntityManager &entityManager, Screen &screen);
+    void RenderSprite(EntityManager &entityManager, EntityId entityId);
+    void RenderScore(EntityManager &entityManager);
+    void RenderCountdownTimer(EntityManager &entityManager);
+    void SetBackground(const Color &color, float alpha = 1.0f);
+    void DrawBorder(Screen &screen, const Color &color);
+    void DrawBackgroundInBorder(Screen &screen, const Color &color);
+    void RenderOverlay(Screen &screen, float alpha);
+    void RenderFadeOverlay(Screen &screen);
+    void RenderTransluscentOverlay(Screen &screen);
     void SetUpScreenShake();
     void ApplyScreenShake();
-    void HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime);
+    void HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime);
     void HandlePlayerHitAmmoPickup();
 };

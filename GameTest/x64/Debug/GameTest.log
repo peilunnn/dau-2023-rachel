@@ -1,7 +1,7 @@
-﻿  GameManager.cpp
-  SystemManager.cpp
-  RenderingHandler.cpp
-  ShootingHandler.cpp
+﻿  EntityManager.cpp
+  EntityHandler.cpp
+  MovementHandler.cpp
+  ParticleHandler.cpp
   TimerHandler.cpp
   GameTest.cpp
   Generating Code...

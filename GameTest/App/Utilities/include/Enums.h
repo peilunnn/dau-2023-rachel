@@ -112,4 +112,5 @@ enum class EnemyBehaviorType
 enum class ParticleType
 {
     Dust,
+    Steam
 };

@@ -113,6 +113,7 @@ private:
     const vec3 COUNTDOWN_TIMER_SCALE = vec3(1.0f);
     const vec3 CROSSHAIR_SCALE = vec3(1.5f);
     const vec3 DUST_PARTICLE_SCALE = vec3(1.0f);
+    const vec3 STEAM_PARTICLE_SCALE = vec3(0.1f);
     const vec3 ENEMY_SCALE = vec3(0.4f);
     const vec3 HEALTH_BAR_SCALE = vec3(1.0f);
     const vec3 HEALTH_PICKUP_SCALE = vec3(2.0f);

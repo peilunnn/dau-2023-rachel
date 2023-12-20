@@ -11,16 +11,16 @@
 using std::string;
 using std::to_string;
 
-    RenderingHandler &
-    RenderingHandler::GetInstance()
+RenderingHandler &
+RenderingHandler::GetInstance()
 {
     static RenderingHandler instance;
     return instance;
 }
 
-void RenderingHandler::HandleEvent(const Event& event, float deltaTime)
+void RenderingHandler::HandleEvent(const Event &event, float deltaTime)
 {
-    EntityManager& entityManager = EntityManager::GetInstance();
+    EntityManager &entityManager = EntityManager::GetInstance();
 
     if (event.GetEventType() == EventType::EnemyHitPlayer)
         HandleEnemyHitPlayer(entityManager, deltaTime);
@@ -36,44 +36,44 @@ void RenderingHandler::Render()
 
     switch (currentGameState)
     {
-        case GameState::MainMenu:
-            RenderMainMenuScene(entityManager, screen);
-            break;
-        case GameState::Gameplay:
-            RenderGameplayScene(entityManager, screen);
-            break;
-        case GameState::GameOver:
-            RenderGameOverScene(entityManager, screen);
-            break;
-        case GameState::Loading:
-            RenderLoadingScene(entityManager, screen);
-            break;
-        case GameState::Paused:
-            RenderPauseScene(entityManager, screen);
-            break;
+    case GameState::MainMenu:
+        RenderMainMenuScene(entityManager, screen);
+        break;
+    case GameState::Gameplay:
+        RenderGameplayScene(entityManager, screen);
+        break;
+    case GameState::GameOver:
+        RenderGameOverScene(entityManager, screen);
+        break;
+    case GameState::Loading:
+        RenderLoadingScene(entityManager, screen);
+        break;
+    case GameState::Paused:
+        RenderPauseScene(entityManager, screen);
+        break;
     }
 }
 
 void RenderingHandler::ShowAllAmmoFilledEntities()
 {
-    EntityManager& entityManager = EntityManager::GetInstance();
+    EntityManager &entityManager = EntityManager::GetInstance();
     vector<EntityId> ammoFilledEntityIds = entityManager.GetAmmoFilledEntityIds();
 
     for (int i = 0; i < ammoFilledEntityIds.size(); i++)
     {
-        CSimpleSprite* ammoFilledSprite = entityManager.GetComponent<Renderable>(ammoFilledEntityIds[i])->GetSprite();
+        CSimpleSprite *ammoFilledSprite = entityManager.GetComponent<Renderable>(ammoFilledEntityIds[i])->GetSprite();
         ammoFilledSprite->SetIsVisible(true);
     }
 }
 
 void RenderingHandler::HideAmmoFilledEntity(int index)
 {
-    EntityManager& entityManager = EntityManager::GetInstance();
+    EntityManager &entityManager = EntityManager::GetInstance();
     vector<EntityId> ammoFilledEntityIds = entityManager.GetAmmoFilledEntityIds();
 
     if (index >= 0 && index < ammoFilledEntityIds.size())
     {
-        CSimpleSprite* ammoFilledSprite = entityManager.GetComponent<Renderable>(ammoFilledEntityIds[index])->GetSprite();
+        CSimpleSprite *ammoFilledSprite = entityManager.GetComponent<Renderable>(ammoFilledEntityIds[index])->GetSprite();
 
         if (!ammoFilledSprite)
             return;
@@ -139,19 +139,19 @@ void RenderingHandler::RenderLoadingScene(EntityManager &entityManager, Screen &
     RenderLoadingText(screen);
 }
 
-void RenderingHandler::RenderPauseScene(EntityManager& entityManager, Screen& screen)
+void RenderingHandler::RenderPauseScene(EntityManager &entityManager, Screen &screen)
 {
     RenderGameplayScene(entityManager, screen);
     RenderTransluscentOverlay(screen);
     RenderObjects(entityManager, GameState::Paused);
 }
 
-void RenderingHandler::RenderObjects(EntityManager& entityManager, GameState gameState)
+void RenderingHandler::RenderObjects(EntityManager &entityManager, GameState gameState)
 {
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Renderable>())
     {
-        Tag* tag = entityManager.GetComponent<Tag>(entityId);
-        Ammo* ammoComponent = entityManager.GetComponent<Ammo>(entityId);
+        Tag *tag = entityManager.GetComponent<Tag>(entityId);
+        Ammo *ammoComponent = entityManager.GetComponent<Ammo>(entityId);
 
         if (!tag->ContainsGameState(gameState))
             continue;
@@ -165,38 +165,38 @@ void RenderingHandler::RenderObjects(EntityManager& entityManager, GameState gam
 
 void RenderingHandler::RenderAmmo()
 {
-    EntityManager& entityManager = EntityManager::GetInstance();
+    EntityManager &entityManager = EntityManager::GetInstance();
 
     for (EntityId entityId : entityManager.GetAmmoEmptyEntityIds())
         RenderSprite(entityManager, entityId);
-    
+
     for (EntityId entityId : entityManager.GetAmmoFilledEntityIds())
         RenderSprite(entityManager, entityId);
 }
 
-void RenderingHandler::RenderDescriptionText(Screen& screen)
+void RenderingHandler::RenderDescriptionText(Screen &screen)
 {
     App::Print(screen.SCREEN_WIDTH - DESCRIPTION_X_OFFSET, screen.SCREEN_HEIGHT - DESCRIPTION_Y_OFFSET, DESCRIPTION_TEXT, WHITE.r, WHITE.g, WHITE.b);
 }
 
-void RenderingHandler::RenderLoadingText(Screen& screen)
+void RenderingHandler::RenderLoadingText(Screen &screen)
 {
     const float loadingTextX = screen.SCREEN_WIDTH - LOADING_TEXT_X_OFFSET;
     const float loadingTextY = screen.SCREEN_HEIGHT - LOADING_TEXT_Y_OFFSET;
     App::Print(loadingTextX, loadingTextY, LOADING_TEXT, WHITE.r, WHITE.g, WHITE.b);
 }
 
-void RenderingHandler::RenderGameOverText(Screen& screen)
+void RenderingHandler::RenderGameOverText(Screen &screen)
 {
     const float gameOverTextX = screen.SCREEN_WIDTH - GAME_OVER_TEXT_X_OFFSET;
     const float gameOverTextY = screen.SCREEN_HEIGHT - GAME_OVER_TEXT_Y_OFFSET;
     App::Print(gameOverTextX, gameOverTextY, GAME_OVER_TEXT, WHITE.r, WHITE.g, WHITE.b);
 }
 
-void RenderingHandler::RenderGameOverScoreText(EntityManager& entityManager, Screen& screen)
+void RenderingHandler::RenderGameOverScoreText(EntityManager &entityManager, Screen &screen)
 {
     EntityId scoreEntityId = entityManager.GetScoreEntityId();
-    Score* score = entityManager.GetComponent<Score>(scoreEntityId);
+    Score *score = entityManager.GetComponent<Score>(scoreEntityId);
     const float scoreTextX = screen.SCREEN_WIDTH - SCORE_TEXT_X_OFFSET;
     const float scoreTextY = screen.SCREEN_HEIGHT - SCORE_TEXT_Y_OFFSET;
     string scoreMessage = SCORE_TEXT_PREFIX + to_string(score->GetScore());
@@ -209,7 +209,7 @@ void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entit
     Transform *transform = entityManager.GetComponent<Transform>(entityId);
     Renderable *renderable = entityManager.GetComponent<Renderable>(entityId);
     CSimpleSprite *sprite = renderable->GetSprite();
-    Ammo* ammoComponent = entityManager.GetComponent<Ammo>(entityId);
+    Ammo *ammoComponent = entityManager.GetComponent<Ammo>(entityId);
 
     if (!sprite->GetIsVisible())
         return;
@@ -249,7 +249,7 @@ void RenderingHandler::RenderCountdownTimer(EntityManager &entityManager)
     App::Print(timerTransform->GetPosition().x, timerTransform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
 }
 
-void RenderingHandler::SetBackground(const Color& color, float alpha)
+void RenderingHandler::SetBackground(const Color &color, float alpha)
 {
     glClearColor(color.r, color.g, color.b, alpha);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -290,7 +290,7 @@ void RenderingHandler::DrawBackgroundInBorder(Screen &screen, const Color &color
     glEnd();
 }
 
-void RenderingHandler::RenderOverlay(Screen& screen, float alpha)
+void RenderingHandler::RenderOverlay(Screen &screen, float alpha)
 {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -310,18 +310,18 @@ void RenderingHandler::RenderOverlay(Screen& screen, float alpha)
     glDisable(GL_BLEND);
 }
 
-void RenderingHandler::RenderFadeOverlay(Screen& screen)
+void RenderingHandler::RenderFadeOverlay(Screen &screen)
 {
     RenderOverlay(screen, m_fadeAmount);
 }
 
-void RenderingHandler::RenderTransluscentOverlay(Screen& screen)
+void RenderingHandler::RenderTransluscentOverlay(Screen &screen)
 {
-    const float overlayAlpha = 0.5f;
-    RenderOverlay(screen, overlayAlpha);
+    RenderOverlay(screen, OVERLAY_ALPHA);
 }
 
-void RenderingHandler::SetUpScreenShake() {
+void RenderingHandler::SetUpScreenShake()
+{
     m_shakeDuration = MIN_SHAKE_DURATION + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (MAX_SHAKE_DURATION - MIN_SHAKE_DURATION)));
 
     m_shakeIntensity = MIN_SHAKE_INTENSITY + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (MAX_SHAKE_INTENSITY - MIN_SHAKE_INTENSITY)));
@@ -329,17 +329,18 @@ void RenderingHandler::SetUpScreenShake() {
     m_shakeTimer = m_shakeDuration;
 }
 
-void RenderingHandler::ApplyScreenShake() {
+void RenderingHandler::ApplyScreenShake()
+{
     if (m_shakeTimer <= 0.0f)
         return;
-    
+
     float shakeOffsetX = (rand() / static_cast<float>(RAND_MAX) * 2 - 1) * m_shakeIntensity;
     float shakeOffsetY = (rand() / static_cast<float>(RAND_MAX) * 2 - 1) * m_shakeIntensity;
     glPushMatrix();
     glTranslatef(shakeOffsetX, shakeOffsetY, 0.0f);
 }
 
-void RenderingHandler::HandleEnemyHitPlayer(EntityManager& entityManager, float deltaTime)
+void RenderingHandler::HandleEnemyHitPlayer(EntityManager &entityManager, float deltaTime)
 {
     SetUpScreenShake();
 }

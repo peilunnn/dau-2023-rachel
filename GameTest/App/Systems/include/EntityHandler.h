@@ -27,6 +27,7 @@ private:
         m_subscribedEvents.insert(EventType::PlayerHitLightningPickup);
     }
 
+    vector<EntityId> m_activeEnemies = vector<EntityId>();
     int m_enemiesToStrike = 0;
     const float MAX_VX = 300.0f;
     const float MAX_VY = 300.0f;
@@ -40,5 +41,7 @@ private:
     void HandleBulletHitEnemy(EntityManager &entityManager, EntityId bulletEntityId, EntityId enemyEntityId);
     void HandleEnemyHitPlayer(EntityManager &entityManager, EntityId enemyEntityId);
     void HandleBulletOutOfBounds(EntityManager &entityManager, EntityId bulletEntityId);
-    void InitLightningStrikes(EntityManager &entityManager);
+    void SetEnemiesToStrike(EntityManager& entityManager);
+    void InitLightningStrikes(EntityManager& entityManager);
+    void EmitSteamParticles();
 };

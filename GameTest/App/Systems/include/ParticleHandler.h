@@ -14,11 +14,15 @@ public:
     ParticleHandler(const ParticleHandler&) = delete;
     void operator=(const ParticleHandler&) = delete;
 
-    const float PARTICLE_LIFESPAN_DURATION = 0.4f;
+    const float DUST_PARTICLE_LIFESPAN_DURATION = 0.4f;
+    const float STEAM_PARTICLE_LIFESPAN_DURATION = 2.0f;
+    const int STEAM_PARTICLES_PER_ENEMY = 5;
     
     void Init();
     void Update(float deltaTime);
     void ReturnParticleToPool(ParticleType type, EntityId particleEntityId);
+    vec3 GetEmissionPos(EntityType entityType, EntityId entityId);
+    void EmitParticle(ParticleType type, const vec3& position, const vec2& velocity);
 
     unordered_map<ParticleType, vector<EntityId>> GetActiveParticles() const { return m_activeParticles; }
 
@@ -32,7 +36,9 @@ private:
     const float EMISSION_POS_VERTICAL_OFFSET_DOWN_MULTIPLIER = 0.125f;
     const float EMISSION_Z_POS = 0.0f;
 
-    const int m_poolSize = 100;
+    const int DUST_PARTICLE_POOL_SIZE = 10;
+    const int STEAM_PARTICLE_POOL_SIZE = 30;
+
     float m_emissionCooldown = 0.2f;
     float m_emissionTimer = 0.0f;
     unordered_map<ParticleType, vector<EntityId>> m_particlePools;
@@ -41,8 +47,5 @@ private:
     void InitParticlePool(ParticleType type);
     EntityId GetParticleFromPool(ParticleType type);
     void RemoveActiveParticle(ParticleType type, EntityId particleEntityId);
-    vec3 GetEmissionPos();
-    void EmitParticle(ParticleType type, const vec3& position, const vec2& velocity);
-
 };
 
