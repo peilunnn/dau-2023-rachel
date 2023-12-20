@@ -37,7 +37,8 @@ namespace Helper
 	inline const char *PATH_TO_QUIT_BUTTON = ".\\Data\\Sprites\\QuitButton.png";
 	inline const char *PATH_TO_STARFIELD = ".\\Data\\Sprites\\Starfield.png";
 	inline const char *PATH_TO_CROSSHAIR = ".\\Data\\Sprites\\Crosshair.png";
-	inline const char *PATH_TO_LIGHTNING_STRIKE = ".\\Data\\SpriteSheets\\LightningStrike.png";
+	inline const char* PATH_TO_LIGHTNING_STRIKE = ".\\Data\\SpriteSheets\\LightningStrike.png";
+	inline const char *PATH_TO_DUST = ".\\Data\\Sprites\\Dust.png";
 
 	// Sounds
 	inline const char *PATH_TO_TEST = ".\\Data\\Sounds\\Test.wav";

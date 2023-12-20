@@ -14,7 +14,8 @@ enum class EntityType
     Pickup,
     Timer,
     LightningStrike,
-    UI
+    UI,
+    Particle
 };
 
 enum class EntityState
@@ -105,4 +106,9 @@ enum class EnemyBehaviorType
 {
     Standard,
     Homing
+};
+
+enum class ParticleType
+{
+    Dust,
 };

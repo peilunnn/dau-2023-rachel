@@ -235,7 +235,7 @@ void RenderingHandler::RenderSprite(EntityManager &entityManager, EntityId entit
     if (ammoComponent && ammoComponent->GetAmmoType() == AmmoType::AmmoFilled && !(sprite->GetIsVisible()))
         return;
 
-sprite->Draw();
+    sprite->Draw();
 }
 
 void RenderingHandler::RenderScore(EntityManager &entityManager)

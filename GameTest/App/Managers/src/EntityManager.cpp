@@ -4,10 +4,10 @@
 #include "Components/include/BounceDirection.h"
 #include "Components/include/Collider.h"
 #include "Components/include/Cooldown.h"
-#include "Utilities/include/EntityId.h"
 #include "Components/include/EnemyBehavior.h"
-#include "Components/include/Pickup.h"
 #include "Components/include/Health.h"
+#include "Components/include/Particle.h"
+#include "Components/include/Pickup.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Score.h"
 #include "Components/include/Screen.h"
@@ -18,6 +18,7 @@
 #include "Managers/include/EntityManager.h"
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/ShootingHandler.h"
+#include "Utilities/include/EntityId.h"
 #include "Utilities/include/Helper.h"
 #include <random>
 using glm::vec2;
@@ -614,6 +615,32 @@ EntityId EntityManager::CreateLightningStrikeEntity(SpriteManager& spriteManager
 	AnimationHandler::GetInstance().InitLightningStrikeAnimation(spriteManager, lightningStrikeEntityId);
 
 	return lightningStrikeEntityId;
+}
+
+EntityId EntityManager::CreateParticleEntity(SpriteManager& spriteManager, ParticleType particleType)
+{
+	EntityId particleEntityId = CreateEntityId();
+	const char* pathToSprite = nullptr;
+
+	if (particleType == ParticleType::Dust)
+		pathToSprite = Helper::PATH_TO_DUST;
+
+	CSimpleSprite* particleSprite = spriteManager.CreateSprite(particleEntityId, Helper::PATH_TO_DUST, 1, 1);
+
+	constexpr vec3 pos = vec3(0.0f);
+	constexpr vec3 rot = vec3(0.0f);
+	constexpr vec3 scale = vec3(1.0f);
+
+	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Particle, GameState::Gameplay);
+	unique_ptr<Particle> particle = make_unique<Particle>(ParticleType::Dust);
+	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
+	unique_ptr<Renderable> renderable = make_unique<Renderable>(particleSprite);
+
+	AddComponent(particleEntityId, move(tag));
+	AddComponent(particleEntityId, move(transform));
+	AddComponent(particleEntityId, move(renderable));
+
+	return particleEntityId;
 }
 
 EntityId EntityManager::GetBulletFromPool()

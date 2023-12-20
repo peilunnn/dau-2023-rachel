@@ -25,6 +25,7 @@ public:
     void ResetEnemies();
     void SetEntityStateAndVisibility(EntityId entityId, EntityState state, bool isVisible);
     EntityId CreateLightningStrikeEntity(SpriteManager& spriteManager);
+    EntityId CreateParticleEntity(SpriteManager& spriteManager, ParticleType particleType);
 
     EntityId GetBulletFromPool();
     void ReturnBulletToPool(EntityId bulletEntityId);

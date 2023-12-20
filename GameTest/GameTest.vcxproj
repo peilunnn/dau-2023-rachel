@@ -223,6 +223,7 @@
     <ClInclude Include="App\Components\include\Pickup.h" />
     <ClInclude Include="App\Components\include\EnemyBehavior.h" />
     <ClInclude Include="App\Systems\include\ParticleHandler.h" />
+    <ClInclude Include="App\Components\include\Particle.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -276,6 +277,7 @@
     <ClCompile Include="App\Utilities\src\QuadtreeNode.cpp" />
     <ClCompile Include="App\Components\src\Pickup.cpp" />
     <ClCompile Include="App\Systems\src\ParticleHandler.cpp" />
+    <ClCompile Include="App\Components\src\Particle.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

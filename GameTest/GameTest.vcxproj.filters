@@ -31,13 +31,11 @@
     <ClCompile Include="App\Utilities\src\Helper.cpp" />
     <ClCompile Include="App\Managers\src\SystemManager.cpp" />
     <ClCompile Include="App\Systems\src\System.cpp" />
-    <ClCompile Include="App\Systems\src\Event.cpp" />
     <ClCompile Include="App\Systems\src\ScoreHandler.cpp" />
     <ClCompile Include="App\Components\src\Score.cpp" />
     <ClCompile Include="App\Systems\src\TimerHandler.cpp" />
     <ClCompile Include="App\Components\src\Timer.cpp" />
     <ClCompile Include="App\Utilities\src\Enums.cpp" />
-    <ClCompile Include="App\Components\src\EntityId.cpp" />
     <ClCompile Include="App\Systems\src\EntityHandler.cpp" />
     <ClCompile Include="App\Components\src\Cooldown.cpp" />
     <ClCompile Include="App\Systems\src\CooldownHandler.cpp" />
@@ -56,6 +54,10 @@
     <ClCompile Include="App\Components\src\Pickup.cpp" />
     <ClCompile Include="App\Components\src\Ammo.cpp" />
     <ClCompile Include="App\Components\src\EnemyBehavior.cpp" />
+    <ClCompile Include="App\Utilities\src\EntityId.cpp" />
+    <ClCompile Include="App\Systems\src\ParticleHandler.cpp" />
+    <ClCompile Include="App\Utilities\src\Event.cpp" />
+    <ClCompile Include="App\Components\src\Particle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -92,14 +94,12 @@
     <ClInclude Include="App\Utilities\include\Helper.h" />
     <ClInclude Include="App\Managers\include\SystemManager.h" />
     <ClInclude Include="App\Systems\include\System.h" />
-    <ClInclude Include="App\Systems\include\Event.h" />
     <ClInclude Include="App\Managers\SpriteManager.h" />
     <ClInclude Include="App\Systems\include\ScoreHandler.h" />
     <ClInclude Include="App\Components\include\Score.h" />
     <ClInclude Include="App\Systems\include\TimerHandler.h" />
     <ClInclude Include="App\Components\include\Timer.h" />
     <ClInclude Include="App\Utilities\include\Enums.h" />
-    <ClInclude Include="App\Components\include\EntityId.h" />
     <ClInclude Include="App\Systems\include\EntityHandler.h" />
     <ClInclude Include="App\Components\include\Cooldown.h" />
     <ClInclude Include="App\Systems\include\CooldownHandler.h" />
@@ -119,6 +119,10 @@
     <ClInclude Include="App\Components\include\Pickup.h" />
     <ClInclude Include="App\Components\include\Ammo.h" />
     <ClInclude Include="App\Components\include\EnemyBehavior.h" />
+    <ClInclude Include="App\Utilities\include\EntityId.h" />
+    <ClInclude Include="App\Systems\include\ParticleHandler.h" />
+    <ClInclude Include="App\Utilities\include\Event.h" />
+    <ClInclude Include="App\Components\include\Particle.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">
@@ -151,6 +155,9 @@
     <Image Include="Data\Sprites\Starfield.png" />
     <Image Include="Data\Sprites\Crosshair.png" />
     <Image Include="Data\Sprites\AmmoPickup.png" />
+    <Image Include="Data\SpriteSheets\LightningStrike.png" />
+    <Image Include="Data\Sprites\HealthPickup.png" />
+    <Image Include="Data\Sprites\LightningPickup.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Data\Sounds\Test.wav" />

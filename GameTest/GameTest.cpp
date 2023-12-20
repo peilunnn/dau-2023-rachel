@@ -15,6 +15,7 @@
 #include "Systems/include/InputHandler.h"
 #include "Systems/include/MovementHandler.h"
 #include "Systems/include/EntityHandler.h"
+#include "Systems/include/ParticleHandler.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Systems/include/TitleHandler.h"
@@ -44,6 +45,9 @@ void Init()
 
 	// Set up animations
 	AnimationHandler::GetInstance().Init();
+
+	// Set up particles
+	ParticleHandler::GetInstance().Init();
 }
 
 //------------------------------------------------------------------------
@@ -80,6 +84,8 @@ void Update(float deltaTime)
 		gMovementHandlerProfiler.Start();
 		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
 		gMovementHandlerProfiler.Stop();
+
+		ParticleHandler::GetInstance().Update(deltaTimeInSeconds);
 
 		gCollisionHandlerProfiler.Start();
 		CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
