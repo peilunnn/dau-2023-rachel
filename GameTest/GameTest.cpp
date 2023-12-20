@@ -121,6 +121,7 @@ void Update(float deltaTime)
 	else if (gameManager.GetCurrentGameState() == GameState::Loading)
 	{
 		glutSetCursor(GLUT_CURSOR_NONE);
+		ParticleHandler::GetInstance().Update(deltaTimeInSeconds);
 		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
 	}
 	else if (gameManager.GetCurrentGameState() == GameState::Paused)

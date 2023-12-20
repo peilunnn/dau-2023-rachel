@@ -22,7 +22,7 @@ public:
 private:
     ParticleHandler() = default;
 
-    const int m_poolSize = 10;
+    const int m_poolSize = 100;
     float m_emissionCooldown = 0.2f;
     float m_emissionTimer = 0.0f;
     unordered_map<ParticleType, vector<EntityId>> m_particlePools;

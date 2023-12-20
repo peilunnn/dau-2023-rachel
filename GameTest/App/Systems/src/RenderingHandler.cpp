@@ -30,11 +30,11 @@ void RenderingHandler::HandleEvent(const Event& event, float deltaTime)
 
 void RenderingHandler::Render()
 {
-    GameState m_currentGameState = GameManager::GetInstance().GetCurrentGameState();
+    GameState currentGameState = GameManager::GetInstance().GetCurrentGameState();
     EntityManager &entityManager = EntityManager::GetInstance();
     Screen &screen = Screen::GetInstance();
 
-    switch (m_currentGameState)
+    switch (currentGameState)
     {
         case GameState::MainMenu:
             RenderMainMenuScene(entityManager, screen);
@@ -102,7 +102,6 @@ void RenderingHandler::UpdateScreenShakeTimer(float deltaTime)
 
 void RenderingHandler::RenderMainMenuScene(EntityManager &entityManager, Screen &screen)
 {
-    RenderStarfield(entityManager);
     RenderObjects(entityManager, GameState::MainMenu);
     RenderDescriptionText(screen);
 }
@@ -136,7 +135,7 @@ void RenderingHandler::RenderGameOverScene(EntityManager &entityManager, Screen 
 void RenderingHandler::RenderLoadingScene(EntityManager &entityManager, Screen &screen)
 {
     SetBackground(BLACK);
-    RenderSprite(entityManager, entityManager.GetLoadingScreenCharacterEntityId());
+    RenderObjects(entityManager, GameState::Loading);
     RenderLoadingText(screen);
 }
 
@@ -154,7 +153,7 @@ void RenderingHandler::RenderObjects(EntityManager& entityManager, GameState gam
         Tag* tag = entityManager.GetComponent<Tag>(entityId);
         Ammo* ammoComponent = entityManager.GetComponent<Ammo>(entityId);
 
-        if (tag->GetCurrentGameState() != gameState)
+        if (!tag->ContainsGameState(gameState))
             continue;
 
         if (ammoComponent)
@@ -259,16 +258,6 @@ void RenderingHandler::RenderCountdownTimer(EntityManager &entityManager)
 
     string timerText = to_string(static_cast<int>(timer->GetRemainingTime()));
     App::Print(timerTransform->GetPosition().x, timerTransform->GetPosition().y, timerText.c_str(), 1.0f, 1.0f, 1.0f);
-}
-
-void RenderingHandler::RenderStarfield(EntityManager &entityManager)
-{
-    EntityId starfieldEntityId = entityManager.GetStarfieldEntityId();
-    CSimpleSprite *starfieldSprite = entityManager.GetComponent<Renderable>(starfieldEntityId)->GetSprite();
-    Transform *starfieldTransform = entityManager.GetComponent<Transform>(starfieldEntityId);
-    starfieldSprite->SetPosition(starfieldTransform->GetPosition().x, starfieldTransform->GetPosition().y);
-    starfieldSprite->SetScale(starfieldTransform->GetScale().y);
-    starfieldSprite->Draw();
 }
 
 void RenderingHandler::SetBackground(const Color& color, float alpha)

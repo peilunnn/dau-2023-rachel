@@ -50,7 +50,6 @@ private:
     void RenderSprite(EntityManager& entityManager, EntityId entityId);
     void RenderScore(EntityManager& entityManager);
     void RenderCountdownTimer(EntityManager& entityManager);
-    void RenderStarfield(EntityManager& entityManager);
     void SetBackground(const Color& color, float alpha = 1.0f);
     void DrawBorder(Screen& screen, const Color& color);
     void DrawBackgroundInBorder(Screen& screen, const Color& color);
