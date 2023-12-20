@@ -16,7 +16,9 @@
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
 #include "Managers/include/EntityManager.h"
+#include "Managers/include/GameManager.h"
 #include "Systems/include/AnimationHandler.h"
+#include "Systems/include/ParticleHandler.h"
 #include "Systems/include/ShootingHandler.h"
 #include "Utilities/include/EntityId.h"
 #include "Utilities/include/Helper.h"
@@ -97,7 +99,7 @@ EntityId EntityManager::CreatePlayerEntity(SpriteManager &spriteManager)
 	unique_ptr<Health> health = make_unique<Health>();
 	unique_ptr<Animation> animation = make_unique<Animation>();
 	unique_ptr<Cooldown> cooldown = make_unique<Cooldown>(playerShootingCooldown);
-	unique_ptr<Timer> playerDeathTimer = make_unique<Timer>(TimerType::PlayerDeath, 2.0f);
+	unique_ptr<Timer> playerDeathTimer = make_unique<Timer>(TimerType::PlayerDeath, AnimationHandler::GetInstance().PLAYER_DEATH_DURATION);
 
 	AddComponent(playerEntityId, move(tag));
 	AddComponent(playerEntityId, move(transform));
@@ -328,7 +330,7 @@ EntityId EntityManager::CreateCountdownTimerEntity()
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Timer, set{ GameState::Gameplay });
 	unique_ptr<Transform> transform = make_unique<Transform>(vec3(xPos, yPos, zPos), rot, scale);
-	unique_ptr<Timer> timer = make_unique<Timer>(TimerType::Countdown, 60.0f);
+	unique_ptr<Timer> timer = make_unique<Timer>(TimerType::Countdown, GameManager::GetInstance().COUNTDOWN_DURATION);
 
 	AddComponent(countdownTimerEntityId, move(tag));
 	AddComponent(countdownTimerEntityId, move(transform));
@@ -643,7 +645,7 @@ EntityId EntityManager::CreateParticleEntity(SpriteManager& spriteManager, Parti
 	unique_ptr<Transform> transform = make_unique<Transform>(pos, rot, scale);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(particleSprite);
 	unique_ptr<Velocity> velocity = make_unique<Velocity>();
-	unique_ptr<Timer> particleLifespanTimer = make_unique<Timer>(TimerType::ParticleLifespan, 0.4f);
+	unique_ptr<Timer> particleLifespanTimer = make_unique<Timer>(TimerType::ParticleLifespan, ParticleHandler::GetInstance().PARTICLE_LIFESPAN_DURATION);
 
 	AddComponent(particleEntityId, move(tag));
 	AddComponent(particleEntityId, move(particle));

@@ -13,6 +13,8 @@ public:
     ParticleHandler(const ParticleHandler&) = delete;
     void operator=(const ParticleHandler&) = delete;
 
+    const float PARTICLE_LIFESPAN_DURATION = 0.4f;
+    
     void Init();
     void Update(float deltaTime);
     void ReturnParticleToPool(ParticleType type, EntityId particleEntityId);

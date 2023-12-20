@@ -9,6 +9,8 @@ public:
     GameManager(GameManager const&) = delete;
     void operator=(GameManager const&) = delete;
 
+    const float COUNTDOWN_DURATION = 60.0f;
+    
     void Update(float deltaTime);
     void UpdateCrosshairPosition();
     void HandlePlayButtonClick();

@@ -10,6 +10,7 @@ public:
     void operator=(AnimationHandler const &) = delete;
 
     const float ENEMY_MELT_DURATION = 0.3f;
+    const float PLAYER_DEATH_DURATION = 2.0f;
     const float LIGHTNING_FLASH_DURATION = 0.3f;
 
     void Init();
