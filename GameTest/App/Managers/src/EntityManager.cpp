@@ -4,7 +4,7 @@
 #include "Components/include/BounceDirection.h"
 #include "Components/include/Collider.h"
 #include "Components/include/Cooldown.h"
-#include "Components/include/EnemyBehavior.h"
+#include "Components/include/EnemyType.h"
 #include "Components/include/Health.h"
 #include "Components/include/Particle.h"
 #include "Components/include/Pickup.h"
@@ -114,13 +114,13 @@ EntityId EntityManager::CreateEnemyEntity(SpriteManager &spriteManager)
 	static random_device rd;
 	static mt19937 rng(rd());
 	static uniform_int_distribution<int> uni(0, 1);
-	EnemyBehaviorType behaviorType = static_cast<EnemyBehaviorType>(uni(rng));
+	EnemyMovementType enemyType = static_cast<EnemyMovementType>(uni(rng));
 
 	EntityId enemyEntityId = CreateEntityId();
 	CSimpleSprite *enemySprite = spriteManager.CreateSprite(enemyEntityId, Helper::PATH_TO_ENEMY, 4, 2);
 
 	unique_ptr<Tag> tag = make_unique<Tag>(EntityType::Enemy, set{GameState::Gameplay});
-	unique_ptr<EnemyBehavior> enemyBehavior = make_unique<EnemyBehavior>(behaviorType);
+	unique_ptr<EnemyType> enemyBehavior = make_unique<EnemyType>(enemyType);
 	unique_ptr<Transform> transform = make_unique<Transform>(ZERO_POS_VEC3, ZERO_ROT, ENEMY_SCALE);
 	unique_ptr<Renderable> renderable = make_unique<Renderable>(enemySprite);
 	unique_ptr<Collider> collider = make_unique<Collider>();

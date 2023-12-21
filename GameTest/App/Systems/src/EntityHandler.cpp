@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Components/include/EnemyBehavior.h"
+#include "Components/include/EnemyType.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Screen.h"
 #include "Components/include/Transform.h"

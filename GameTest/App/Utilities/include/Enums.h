@@ -103,7 +103,7 @@ enum class TimerType
     ParticleLifespan
 };
 
-enum class EnemyBehaviorType 
+enum class EnemyMovementType 
 {
     Standard,
     Homing

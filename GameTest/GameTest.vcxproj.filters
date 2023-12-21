@@ -53,7 +53,7 @@
     <ClCompile Include="App\Utilities\src\QuadtreeNode.cpp" />
     <ClCompile Include="App\Components\src\Pickup.cpp" />
     <ClCompile Include="App\Components\src\Ammo.cpp" />
-    <ClCompile Include="App\Components\src\EnemyBehavior.cpp" />
+    <ClCompile Include="App\Components\src\EnemyType.cpp" />
     <ClCompile Include="App\Utilities\src\EntityId.cpp" />
     <ClCompile Include="App\Systems\src\ParticleHandler.cpp" />
     <ClCompile Include="App\Utilities\src\Event.cpp" />
@@ -118,7 +118,7 @@
     <ClInclude Include="App\Utilities\include\Profiler.h" />
     <ClInclude Include="App\Components\include\Pickup.h" />
     <ClInclude Include="App\Components\include\Ammo.h" />
-    <ClInclude Include="App\Components\include\EnemyBehavior.h" />
+    <ClInclude Include="App\Components\include\EnemyType.h" />
     <ClInclude Include="App\Utilities\include\EntityId.h" />
     <ClInclude Include="App\Systems\include\ParticleHandler.h" />
     <ClInclude Include="App\Utilities\include\Event.h" />

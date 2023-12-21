@@ -221,7 +221,7 @@
     <ClInclude Include="App\Utilities\include\QuadtreeNode.h" />
     <ClInclude Include="App\Utilities\include\Profiler.h" />
     <ClInclude Include="App\Components\include\Pickup.h" />
-    <ClInclude Include="App\Components\include\EnemyBehavior.h" />
+    <ClInclude Include="App\Components\include\EnemyType.h" />
     <ClInclude Include="App\Systems\include\ParticleHandler.h" />
     <ClInclude Include="App\Components\include\Particle.h" />
     <ClInclude Include="stb_image\stb_image.h" />
@@ -258,7 +258,7 @@
     <ClCompile Include="App\Systems\src\CooldownHandler.cpp" />
     <ClCompile Include="App\Managers\src\GameManager.cpp" />
     <ClCompile Include="App\Components\src\Color.cpp" />
-    <ClCompile Include="App\Components\src\EnemyBehavior.cpp" />
+    <ClCompile Include="App\Components\src\EnemyType.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Systems\src\CollisionHandler.cpp" />

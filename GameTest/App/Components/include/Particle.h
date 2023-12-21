@@ -15,5 +15,4 @@ private:
     ParticleType m_particleType;
     vec3 m_position = vec3(0.0f);
     vec3 m_velocity = vec3(0.0f);
-    bool m_alive = false;
 };

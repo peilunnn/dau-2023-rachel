@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Components/include/BounceDirection.h"
-#include "Components/include/EnemyBehavior.h"
+#include "Components/include/EnemyType.h"
 #include "Components/include/Renderable.h"
 #include "Components/include/Screen.h"
 #include "Components/include/Tag.h"
@@ -98,9 +98,9 @@ void MovementHandler::UpdatePlayerMovement(EntityManager &entityManager, Screen&
 
 void MovementHandler::UpdateEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime)
 {
-	EnemyBehavior* enemyBehaviorComponent = entityManager.GetComponent<EnemyBehavior>(entityId);
+	EnemyType* enemyBehaviorComponent = entityManager.GetComponent<EnemyType>(entityId);
 
-	if (enemyBehaviorComponent->GetBehaviorType() == EnemyBehaviorType::Standard)
+	if (enemyBehaviorComponent->GetMovementType() == EnemyMovementType::Standard)
 		UpdateStandardEnemyMovement(entityManager, screen, entityId, deltaTime);
 	else
 		UpdateHomingEnemyMovement(entityManager, screen, entityId, deltaTime);
