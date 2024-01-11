@@ -1,12 +1,5 @@
 #pragma once
-#include "Utilities/include/EntityId.h"
-#include "Components/include/Renderable.h"
-#include "Components/include/Screen.h"
-#include "Components/include/Tag.h"
-#include "Components/include/Transform.h"
-#include "Managers/include/EntityManager.h"
 #include "Utilities/include/app.h"
-#include "Utilities/include/Enums.h"
 #include <glm/glm.hpp>
 #include <random>
 #include <string>

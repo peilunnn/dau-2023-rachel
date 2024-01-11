@@ -22,7 +22,6 @@
     <ClCompile Include="App\Components\src\Renderable.cpp" />
     <ClCompile Include="App\Components\src\Component.cpp" />
     <ClCompile Include="App\Systems\src\InputHandler.cpp" />
-    <ClCompile Include="App\Components\src\Animation.cpp" />
     <ClCompile Include="App\Systems\src\AnimationHandler.cpp" />
     <ClCompile Include="App\Managers\src\EntityManager.cpp" />
     <ClCompile Include="App\Systems\src\CollisionHandler.cpp" />
@@ -58,6 +57,7 @@
     <ClCompile Include="App\Systems\src\ParticleHandler.cpp" />
     <ClCompile Include="App\Utilities\src\Event.cpp" />
     <ClCompile Include="App\Components\src\Particle.cpp" />
+    <ClCompile Include="App\Components\src\Animation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -83,7 +83,6 @@
     <ClInclude Include="App\Components\include\Renderable.h" />
     <ClInclude Include="App\Components\include\Component.h" />
     <ClInclude Include="App\Systems\include\InputHandler.h" />
-    <ClInclude Include="App\Components\include\Animation.h" />
     <ClInclude Include="App\Systems\include\AnimationHandler.h" />
     <ClInclude Include="App\Utilities\include\AppSettings.h" />
     <ClInclude Include="App\Utilities\include\main.h" />
@@ -123,6 +122,7 @@
     <ClInclude Include="App\Systems\include\ParticleHandler.h" />
     <ClInclude Include="App\Utilities\include\Event.h" />
     <ClInclude Include="App\Components\include\Particle.h" />
+    <ClInclude Include="App\Components\include\Animation.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">
