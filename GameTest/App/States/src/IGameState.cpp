@@ -1,9 +1,9 @@
 #include "stdafx.h"
+#include "Managers/include/GameManager.h"
+#include "Managers/include/SoundManager.h"
 #include "States/include/IGameState.h"
 #include "States/include/LoadingState.h"
 #include "Systems/include/InputHandler.h"
-#include "Managers/include/SoundManager.h"
-#include "Managers/include/GameManager.h"
 using std::make_unique;
 
 void IGameState::HandleButtonClick(EntityId buttonEntityId)

@@ -3,11 +3,11 @@
 #include "Components/include/Timer.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
+#include "States/include/LoadingState.h"
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/ParticleHandler.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Systems/include/TimerHandler.h"
-#include "States/include/LoadingState.h"
 #include "Utilities/include/Helper.h"
 using std::make_unique;
 

@@ -1,11 +1,8 @@
 #include "stdafx.h"
-#include "States/include/GameOverState.h"
+#include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SoundManager.h"
-#include "Managers/include/EntityManager.h"
-#include "Systems/include/TitleHandler.h"
-#include "Systems/include/InputHandler.h"
-#include "States/include/LoadingState.h"
+#include "States/include/GameOverState.h"
 #include "States/include/GameOverState.h"
 #include "Utilities/include/Helper.h"
 using std::make_unique;

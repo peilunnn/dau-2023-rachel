@@ -3,10 +3,10 @@
 #include "Components/include/Velocity.h"
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SystemManager.h"
+#include "States/include/GameplayState.h"
+#include "States/include/PausedState.h"
 #include "Systems/include/InputHandler.h"
 #include "Systems/include/ShootingHandler.h"
-#include "States/include/PausedState.h"
-#include "States/include/GameplayState.h"
 #include "Utilities/include/app.h"
 #include "Utilities/include/Helper.h"
 using std::make_unique;
@@ -22,7 +22,6 @@ void InputHandler::Update(float deltaTime)
     GameManager& gameManager = GameManager::GetInstance();
     EntityManager& entityManager = EntityManager::GetInstance();
     EntityId playerEntityId = entityManager.GetPlayerEntityId();
-    GameState currentGameState = gameManager.GetCurrentGameState()->GetStateEnum();
 
     HandlePositionInput(entityManager, playerEntityId, deltaTime);
     HandleShootingInput(entityManager, playerEntityId, deltaTime);

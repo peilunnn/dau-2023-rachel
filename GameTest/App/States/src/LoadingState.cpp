@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "States/include/LoadingState.h"
+#include "Managers/include/GameManager.h"
 #include "States/include/GameOverState.h"
+#include "States/include/GameplayState.h"
+#include "States/include/LoadingState.h"
 #include "States/include/MainMenuState.h"
 #include "Systems/include/AnimationHandler.h"
-#include "Managers/include/GameManager.h"
-#include "States/include/GameplayState.h"
 using std::make_unique;
 
 LoadingState::LoadingState(GameState previousState)

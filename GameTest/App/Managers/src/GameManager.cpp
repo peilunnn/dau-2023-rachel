@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SoundManager.h"
+#include "States/include/GameOverState.h"
+#include "States/include/MainMenuState.h"
 #include "Systems/include/AnimationHandler.h"
 #include "Systems/include/HealthHandler.h"
 #include "Systems/include/RenderingHandler.h"
@@ -8,9 +10,6 @@
 #include "Systems/include/ShootingHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Utilities/include/Helper.h"
-#include "States/include/MainMenuState.h"
-#include "States/include/GameOverState.h"
-#include "States/include/GameplayState.h"
 using std::make_unique;
 
 GameManager::GameManager()

@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "States/include/PausedState.h"
+#include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SoundManager.h"
-#include "Managers/include/EntityManager.h"
+#include "States/include/PausedState.h"
 #include "Systems/include/InputHandler.h"
 #include "Utilities/include/Helper.h"
 using std::make_unique;
