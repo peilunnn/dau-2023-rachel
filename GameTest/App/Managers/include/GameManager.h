@@ -1,6 +1,7 @@
 #pragma once
 #include "Utilities/include/EntityId.h"
-#include "Utilities/include/Enums.h"
+#include "States/include/IGameState.h"
+using std::unique_ptr;
 
 class GameManager
 {
@@ -11,6 +12,7 @@ public:
 
     const float COUNTDOWN_DURATION = 60.0f;
     
+    void ChangeState(unique_ptr<IGameState> newState);
     void Update(float deltaTime);
     void UpdateCrosshairPosition();
     void HandlePlayButtonClick();
@@ -20,24 +22,23 @@ public:
     void ResetGame();
     void TogglePause();
 
-    GameState GetPreviousGameState() const { return m_previousGameState; }
-    GameState GetCurrentGameState() const { return m_currentGameState; }
-    float GetTimeSpentInLoading() const { return m_timeSpentInLoading; }
+    IGameState* GetCurrentState() const { return m_currentState.get(); }
+    //float GetTimeSpentInLoading() const { return m_timeSpentInLoading; }
     bool GetGameReset() const { return m_isGameReset; }
     bool GetIsFirstEnemyInit() const { return m_isFirstEnemyInit; }
-    void SetPreviousGameState(GameState newState) { m_previousGameState = newState; }
-    void SetCurrentGameState(GameState newState) { m_currentGameState = newState; }
-    void SetTimeSpentInLoading(float newTimeLeftInLoading) { m_timeSpentInLoading = newTimeLeftInLoading; }
+    //void SetPreviousGameState(GameState newState) { m_previousGameState = newState; }
+    //void SetCurrentGameState(GameState newState) { m_currentGameState = newState; }
+    //void SetTimeSpentInLoading(float newTimeLeftInLoading) { m_timeSpentInLoading = newTimeLeftInLoading; }
     void SetGameReset(bool newIsGameReset) { m_isGameReset = newIsGameReset; }
     void SetIsFirstEnemyInit(bool newIsFirstEnemyInit) { m_isFirstEnemyInit = newIsFirstEnemyInit; }
 
 private:
-    GameManager() = default;
+    GameManager();
 
-    GameState m_previousGameState = GameState::GameOver;
-    GameState m_currentGameState = GameState::MainMenu;
-    float m_timeSpentInLoading = 0.0f;
-    float m_loadingDuration = 1.5f;
+    unique_ptr<IGameState> m_currentState;
+
+    //GameState m_previousGameState = GameState::GameOver;
+    //GameState m_currentGameState = GameState::MainMenu;
     bool m_isGameReset = false;
     bool m_isFirstEnemyInit = false;
 

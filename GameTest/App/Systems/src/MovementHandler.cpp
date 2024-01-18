@@ -28,8 +28,8 @@ void MovementHandler::Update(float deltaTime)
 	const float screenWidth = screen.SCREEN_WIDTH;
 	const float screenHeight = screen.SCREEN_HEIGHT;
 
-	if (gameManager.GetCurrentGameState() == GameState::Paused)
-		return;
+	//if (gameManager.GetCurrentGameState() == GameState::Paused)
+	//	return;
 
 	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Transform>())
 	{

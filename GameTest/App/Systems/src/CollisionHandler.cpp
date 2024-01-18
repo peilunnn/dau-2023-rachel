@@ -31,8 +31,8 @@ void CollisionHandler::Update(float deltaTime)
 	SystemManager &systemManager = SystemManager::GetInstance();
 	vector<EntityId> allEntityIds = entityManager.GetAllEntityIds();
 
-	if (gameManager.GetCurrentGameState() == GameState::Paused)
-		return;
+	//if (gameManager.GetCurrentGameState() == GameState::Paused)
+	//	return;
 
 	for (EntityId &entityId : allEntityIds)
 	{

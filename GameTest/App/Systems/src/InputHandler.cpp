@@ -20,11 +20,11 @@ void InputHandler::Update(float deltaTime)
     EntityManager& entityManager = EntityManager::GetInstance();
     EntityId playerEntityId = entityManager.GetPlayerEntityId();
 
-    if (gameManager.GetCurrentGameState() == GameState::Gameplay || gameManager.GetCurrentGameState() == GameState::Paused)
-        HandlePauseInput();
-    
-    if (gameManager.GetCurrentGameState() == GameState::Paused)
-        return;
+    //if (gameManager.GetCurrentGameState() == GameState::Gameplay || gameManager.GetCurrentGameState() == GameState::Paused)
+    //    HandlePauseInput();
+    //
+    //if (gameManager.GetCurrentGameState() == GameState::Paused)
+    //    return;
 
     HandlePositionInput(entityManager, playerEntityId, deltaTime);
     HandleShootingInput(entityManager, playerEntityId, deltaTime);
@@ -80,8 +80,8 @@ void InputHandler::HandlePauseInput()
 {
     bool isPKeyPressed = App::IsKeyPressed('P');
 
-    if (isPKeyPressed && !m_wasPPressedLastFrame)
-        GameManager::GetInstance().TogglePause();
+    // if (isPKeyPressed && !m_wasPPressedLastFrame)
+    //     GameManager::GetInstance().TogglePause();
 
     m_wasPPressedLastFrame = isPKeyPressed;
 }

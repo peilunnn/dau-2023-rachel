@@ -9,6 +9,14 @@
 #include "Systems/include/ShootingHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Utilities/include/Helper.h"
+#include "States/include/MainMenuState.h"
+using std::make_unique;
+
+GameManager::GameManager() 
+{
+    m_currentState = make_unique<MainMenuState>();
+    m_currentState->Enter();
+}
 
 GameManager& GameManager::GetInstance()
 {
@@ -16,17 +24,22 @@ GameManager& GameManager::GetInstance()
     return instance;
 }
 
+void GameManager::ChangeState(unique_ptr<IGameState> newState)
+{
+    if (!m_currentState)
+        return;
+
+    m_currentState->Exit();
+    m_currentState = move(newState);
+    m_currentState->Enter();
+}
+
 void GameManager::Update(float deltaTime)
 {
-    switch (m_currentGameState)
-    {
-        case GameState::Gameplay:
-            UpdateCrosshairPosition();
-            break;
-        case GameState::Loading:
-            UpdateLoadingState(deltaTime);
-            break;
-    }
+    if (!m_currentState)
+        return;
+
+    m_currentState->Update(deltaTime);
 }
 
 void GameManager::UpdateCrosshairPosition()
@@ -59,36 +72,36 @@ void GameManager::HandleQuitButtonClick()
     HandleButtonClick(quitButtonEntityId);
 }
 
-void GameManager::TransitionToLoadingState()
-{
-    SoundManager& soundManager = SoundManager::GetInstance();
-
-    m_timeSpentInLoading = 0.0f;
- 
-    // Transitioning from MainMenu to Gameplay
-    if ((m_previousGameState == GameState::GameOver || m_previousGameState == GameState::Paused) && m_currentGameState == GameState::MainMenu)
-    {
-        soundManager.StopSound(Helper::PATH_TO_NON_GAMEPLAY_MUSIC);
-        soundManager.PlaySoundFromFile(Helper::PATH_TO_GAMEPLAY_MUSIC, true);
-    }
-    
-    // Transitioning from Gameplay to GameOver
-    else if (m_previousGameState == GameState::MainMenu && m_currentGameState == GameState::Gameplay)
-    {
-        soundManager.StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
-        soundManager.PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
-    }
-
-    // Transitioning from Paused to MainMenu
-    else if (m_previousGameState == GameState::Gameplay && m_currentGameState == GameState::Paused)
-    {
-        soundManager.StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
-        soundManager.PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
-    }
-
-    m_previousGameState = m_currentGameState;
-    m_currentGameState = GameState::Loading;
-}
+//void GameManager::TransitionToLoadingState()
+//{
+//    SoundManager& soundManager = SoundManager::GetInstance();
+//
+//    m_timeSpentInLoading = 0.0f;
+// 
+//    // Transitioning from MainMenu to Gameplay
+//    if ((m_previousGameState == GameState::GameOver || m_previousGameState == GameState::Paused) && m_currentGameState == GameState::MainMenu)
+//    {
+//        soundManager.StopSound(Helper::PATH_TO_NON_GAMEPLAY_MUSIC);
+//        soundManager.PlaySoundFromFile(Helper::PATH_TO_GAMEPLAY_MUSIC, true);
+//    }
+//    
+//    // Transitioning from Gameplay to GameOver
+//    else if (m_previousGameState == GameState::MainMenu && m_currentGameState == GameState::Gameplay)
+//    {
+//        soundManager.StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
+//        soundManager.PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
+//    }
+//
+//    // Transitioning from Paused to MainMenu
+//    else if (m_previousGameState == GameState::Gameplay && m_currentGameState == GameState::Paused)
+//    {
+//        soundManager.StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
+//        soundManager.PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
+//    }
+//
+//    m_previousGameState = m_currentGameState;
+//    m_currentGameState = GameState::Loading;
+//}
 
 void GameManager::ResetGame()
 {
@@ -105,37 +118,37 @@ void GameManager::ResetGame()
     RenderingHandler::GetInstance().ResetFade();
 }
 
-void GameManager::TogglePause()
-{
-    SoundManager& soundManager = SoundManager::GetInstance();
+//void GameManager::TogglePause()
+//{
+//    SoundManager& soundManager = SoundManager::GetInstance();
+//
+//    if (m_currentGameState == GameState::Paused)
+//    {
+//        m_currentGameState = m_previousGameState;
+//        m_previousGameState = GameState::MainMenu;
+//        soundManager.ResumeSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
+//    }
+//    else
+//    {
+//        m_previousGameState = m_currentGameState;
+//        m_currentGameState = GameState::Paused;
+//        soundManager.PauseSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
+//    }
+//}
 
-    if (m_currentGameState == GameState::Paused)
-    {
-        m_currentGameState = m_previousGameState;
-        m_previousGameState = GameState::MainMenu;
-        soundManager.ResumeSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
-    }
-    else
-    {
-        m_previousGameState = m_currentGameState;
-        m_currentGameState = GameState::Paused;
-        soundManager.PauseSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
-    }
-}
-
-void GameManager::UpdateLoadingState(float deltaTime)
-{
-    m_timeSpentInLoading += deltaTime;
-    if (m_timeSpentInLoading >= m_loadingDuration)
-    {
-        if (m_previousGameState == GameState::MainMenu)
-            m_currentGameState = GameState::Gameplay;
-        else if (m_previousGameState == GameState::Gameplay)
-            m_currentGameState = GameState::GameOver;
-        else if (m_previousGameState == GameState::GameOver || m_previousGameState == GameState::Paused)
-            m_currentGameState = GameState::MainMenu;
-    }
-}
+//void GameManager::UpdateLoadingState(float deltaTime)
+//{
+//    m_timeSpentInLoading += deltaTime;
+//    if (m_timeSpentInLoading >= m_loadingDuration)
+//    {
+//        if (m_previousGameState == GameState::MainMenu)
+//            m_currentGameState = GameState::Gameplay;
+//        else if (m_previousGameState == GameState::Gameplay)
+//            m_currentGameState = GameState::GameOver;
+//        else if (m_previousGameState == GameState::GameOver || m_previousGameState == GameState::Paused)
+//            m_currentGameState = GameState::MainMenu;
+//    }
+//}
 
 void GameManager::HandleButtonClick(EntityId buttonEntityId)
 {
@@ -145,5 +158,5 @@ void GameManager::HandleButtonClick(EntityId buttonEntityId)
         return;
 
     SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
-    TransitionToLoadingState();
+    // TransitionToLoadingState();
 }

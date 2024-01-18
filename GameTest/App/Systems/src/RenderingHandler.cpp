@@ -30,7 +30,10 @@ void RenderingHandler::HandleEvent(const Event &event, float deltaTime)
 
 void RenderingHandler::Render()
 {
-    GameState currentGameState = GameManager::GetInstance().GetCurrentGameState();
+    GameManager& gameManager = GameManager::GetInstance();
+    IGameState* currentState = gameManager.GetCurrentState();
+
+    GameState currentGameState = currentState->GetStateEnum();
     EntityManager &entityManager = EntityManager::GetInstance();
     Screen &screen = Screen::GetInstance();
 

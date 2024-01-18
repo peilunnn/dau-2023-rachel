@@ -58,6 +58,12 @@
     <ClCompile Include="App\Utilities\src\Event.cpp" />
     <ClCompile Include="App\Components\src\Particle.cpp" />
     <ClCompile Include="App\Components\src\Animation.cpp" />
+    <ClCompile Include="App\States\src\MainMenuState.cpp" />
+    <ClCompile Include="App\States\src\PausedState.cpp" />
+    <ClCompile Include="App\States\src\GameOverState.cpp" />
+    <ClCompile Include="App\States\src\LoadingState.cpp" />
+    <ClCompile Include="App\States\src\IGameState.cpp" />
+    <ClCompile Include="App\States\src\GameplayState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -123,6 +129,12 @@
     <ClInclude Include="App\Utilities\include\Event.h" />
     <ClInclude Include="App\Components\include\Particle.h" />
     <ClInclude Include="App\Components\include\Animation.h" />
+    <ClInclude Include="App\States\include\MainMenuState.h" />
+    <ClInclude Include="App\States\include\PausedState.h" />
+    <ClInclude Include="App\States\include\GameOverState.h" />
+    <ClInclude Include="App\States\include\LoadingState.h" />
+    <ClInclude Include="App\States\include\IGameState.h" />
+    <ClInclude Include="App\States\include\GameplayState.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

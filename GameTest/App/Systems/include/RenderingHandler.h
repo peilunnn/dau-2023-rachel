@@ -28,10 +28,10 @@ private:
 
     const float FADE_RATE = 0.5f;
     const float OVERLAY_ALPHA = 0.5f;
-    const float MAX_SHAKE_DURATION = 1.5f;
-    const float MAX_SHAKE_INTENSITY = 30.0f;
-    const float MIN_SHAKE_DURATION = 1.0f;
-    const float MIN_SHAKE_INTENSITY = 20.0f;
+    const float MAX_SHAKE_DURATION = 0.1f;
+    const float MAX_SHAKE_INTENSITY = 0.05f;
+    const float MIN_SHAKE_DURATION = 0.05f;
+    const float MIN_SHAKE_INTENSITY = 0.01f;
     float m_fadeAmount = 0.0f;
     float m_shakeDuration = 0.0f;
     float m_shakeIntensity = 0.0f;

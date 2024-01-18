@@ -20,8 +20,9 @@ void TimerHandler::Update(float deltaTime) {
     EntityManager& entityManager = EntityManager::GetInstance();
     AnimationHandler& animationHandler = AnimationHandler::GetInstance();
     RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
+    IGameState* currentState = gameManager.GetCurrentState();
 
-    if (gameManager.GetCurrentGameState() == GameState::MainMenu || gameManager.GetCurrentGameState() == GameState::Paused)
+    if (currentState->GetStateEnum() == GameState::MainMenu || currentState->GetStateEnum() == GameState::Paused)
         return;
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>())
@@ -72,8 +73,8 @@ void TimerHandler::Update(float deltaTime) {
                     animationHandler.RotatePlayer(deltaTime);
                     renderingHandler.UpdateFade(deltaTime);
                 }
-                else
-                    gameManager.TransitionToLoadingState();
+                // else
+                    // gameManager.TransitionToLoadingState();
             }
         }
 

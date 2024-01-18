@@ -20,17 +20,7 @@
 #include "Systems/include/TimerHandler.h"
 #include "Systems/include/TitleHandler.h"
 #include "Utilities/include/Helper.h"
-#include "Utilities/include/main.h"
-
 //------------------------------------------------------------------------
-CProfiler gInputHandlerProfiler;
-CProfiler gMovementHandlerProfiler;
-CProfiler gCollisionHandlerProfiler;
-CProfiler gRenderingHandlerProfiler;
-CProfiler gAnimationHandlerProfiler;
-CProfiler gTimerHandlerProfiler;
-CProfiler gCooldownHandlerProfiler;
-
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
 //------------------------------------------------------------------------
@@ -60,77 +50,19 @@ void Update(float deltaTime)
 	float deltaTimeInSeconds = deltaTime / 1000.0f;
 	gameManager.Update(deltaTimeInSeconds);
 
-	if (gameManager.GetCurrentGameState() == GameState::MainMenu)
-	{
-		glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-
-		if (!gameManager.GetGameReset())
-		{
-			gameManager.ResetGame();
-			SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
-			gameManager.SetGameReset(true);
-		}
-		TitleHandler::GetInstance().OscillateTitle(deltaTimeInSeconds);
-		gameManager.HandlePlayButtonClick();
-	}
-	else if (gameManager.GetCurrentGameState() == GameState::Gameplay)
-	{
-		glutSetCursor(GLUT_CURSOR_NONE);
-
-		gInputHandlerProfiler.Start();
-		InputHandler::GetInstance().Update(deltaTimeInSeconds);
-		gInputHandlerProfiler.Stop();
-
-		gMovementHandlerProfiler.Start();
-		MovementHandler::GetInstance().Update(deltaTimeInSeconds);
-		gMovementHandlerProfiler.Stop();
-
-		ParticleHandler::GetInstance().Update(deltaTimeInSeconds);
-
-		gCollisionHandlerProfiler.Start();
-		CollisionHandler::GetInstance().Update(deltaTimeInSeconds);
-		gCollisionHandlerProfiler.Stop();
-
-		gRenderingHandlerProfiler.Start();
-		RenderingHandler::GetInstance().UpdateScreenShakeTimer(deltaTime);
-		gRenderingHandlerProfiler.Stop();
-
-		gAnimationHandlerProfiler.Start();
-		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
-		gAnimationHandlerProfiler.Stop();
-
-		gTimerHandlerProfiler.Start();
-		TimerHandler::GetInstance().Update(deltaTimeInSeconds);
-		gTimerHandlerProfiler.Stop();
-
-		gCooldownHandlerProfiler.Start();
-		CooldownHandler::GetInstance().Update(deltaTimeInSeconds);
-		gCooldownHandlerProfiler.Stop();
-
-		SystemManager::GetInstance().ProcessEvents(deltaTimeInSeconds);
-
-		if (!GameManager::GetInstance().GetIsFirstEnemyInit())
-			EntityHandler::GetInstance().InitEnemy();
-	}
-	else if (gameManager.GetCurrentGameState() == GameState::GameOver)
-	{
-		glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-		gameManager.SetGameReset(false);
-		gameManager.HandleBackButtonClick();
-	}
-	else if (gameManager.GetCurrentGameState() == GameState::Loading)
-	{
-		glutSetCursor(GLUT_CURSOR_NONE);
-		ParticleHandler::GetInstance().Update(deltaTimeInSeconds);
-		AnimationHandler::GetInstance().Update(deltaTimeInSeconds);
-	}
-	else if (gameManager.GetCurrentGameState() == GameState::Paused)
-	{
-		glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-		gameManager.SetGameReset(false);
-		InputHandler::GetInstance().Update(deltaTimeInSeconds);
-		gameManager.HandleQuitButtonClick();
-	}
+	//else if (gameManager.GetCurrentGameState() == GameState::GameOver)
+	//{
+	//	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
+	//	gameManager.SetGameReset(false);
+	//	gameManager.HandleBackButtonClick();
+	//}
+	//else if (gameManager.GetCurrentGameState() == GameState::Paused)
+	//{
+	//	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
+	//	gameManager.SetGameReset(false);
+	//	InputHandler::GetInstance().Update(deltaTimeInSeconds);
+	//	gameManager.HandleQuitButtonClick();
+	//}
 
 	SoundManager::GetInstance().Cleanup();
 }
@@ -142,13 +74,6 @@ void Update(float deltaTime)
 void Render()
 {
 	RenderingHandler::GetInstance().Render();
-	gInputHandlerProfiler.Print(300, 100, "InputHandler");
-	gMovementHandlerProfiler.Print(300, 85, "MovementHandler");
-	gCollisionHandlerProfiler.Print(300, 70, "CollisionHandler");
-	gRenderingHandlerProfiler.Print(300, 55, "RenderingHandler");;
-	gAnimationHandlerProfiler.Print(300, 40, "AnimationHandler");;
-	gTimerHandlerProfiler.Print(300, 25, "TimerHandler");;
-	gCooldownHandlerProfiler.Print(300, 10, "CooldownHandler");;
 }
 
 //------------------------------------------------------------------------

@@ -19,6 +19,8 @@ C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\Cooldown
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Managers\src\GameManager.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\GameManager.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Color.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Color.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\EnemyType.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\EnemyType.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\States\src\GameOverState.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\GameOverState.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\States\src\GameplayState.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\GameplayState.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\GameTest.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\GameTest.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Health.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Health.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\CollisionHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\CollisionHandler.obj
@@ -38,6 +40,10 @@ C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Utilities\src\Quadtr
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Pickup.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Pickup.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Systems\src\ParticleHandler.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\ParticleHandler.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Particle.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Particle.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\States\src\LoadingState.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\LoadingState.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\States\src\MainMenuState.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\MainMenuState.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\States\src\PausedState.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\PausedState.obj
+C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\States\src\IGameState.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\IGameState.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\stb_image\stb_image.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\stb_image.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\stdafx.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\stdafx.obj
 C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\App\Components\src\Transform.cpp;C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\x64\Debug\Transform.obj
