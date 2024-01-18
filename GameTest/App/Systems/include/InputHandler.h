@@ -10,6 +10,7 @@ public:
 
     void Update(float deltaTime);
     bool IsButtonClicked(EntityId entityId);
+    void HandlePauseInput();
 
 private:
     InputHandler() = default;
@@ -20,5 +21,4 @@ private:
 
     void HandlePositionInput(EntityManager& entityManager, EntityId playerEntityId, float deltaTime);
     void HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, float deltaTime);
-    void HandlePauseInput();
 };

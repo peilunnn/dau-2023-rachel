@@ -10,11 +10,9 @@ public:
     void Enter() override;
     void Exit() override;
     void Update(float deltaTime) override;
-    void HandleButtonClick() override;
     virtual GameState GetStateEnum() const override;
 
 private:
-    GameState m_previousState;
     float m_timeSpentInLoading = 0.0f;
     const float m_loadingDuration = 1.5f;
 };

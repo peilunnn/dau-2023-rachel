@@ -26,7 +26,13 @@ CProfiler gCooldownHandlerProfiler;
 
 void GameplayState::Enter()
 {
-	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_GAMEPLAY_MUSIC, true);
+	GameManager& gameManager = GameManager::GetInstance();
+	GameState previousGameState = gameManager.GetPreviousGameState()->GetStateEnum();
+	
+	if (previousGameState == GameState::Loading)
+		SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_GAMEPLAY_MUSIC, true);
+	else if (previousGameState == GameState::Paused)
+		SoundManager::GetInstance().ResumeSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
 }
 
 void GameplayState::Exit()
@@ -36,7 +42,9 @@ void GameplayState::Exit()
 void GameplayState::Update(float deltaTime)
 {
 	GameManager& gameManager = GameManager::GetInstance();
+
 	gameManager.UpdateCrosshairPosition();
+	InputHandler::GetInstance().HandlePauseInput();
 
 	InputHandler::GetInstance().Update(deltaTime);
 	MovementHandler::GetInstance().Update(deltaTime);
@@ -51,10 +59,6 @@ void GameplayState::Update(float deltaTime)
 
 	if (!gameManager.GetIsFirstEnemyInit())
 		EntityHandler::GetInstance().InitEnemy();
-}
-
-void GameplayState::HandleButtonClick()
-{
 }
 
 GameState GameplayState::GetStateEnum() const

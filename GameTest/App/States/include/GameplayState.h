@@ -10,6 +10,8 @@ public:
     void Enter() override;
     void Exit() override;
     void Update(float deltaTime) override;
-    void HandleButtonClick() override;
     virtual GameState GetStateEnum() const override;
+
+private:
+    unique_ptr<IGameState> m_nextGameState;
 };

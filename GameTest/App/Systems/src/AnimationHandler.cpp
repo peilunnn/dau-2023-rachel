@@ -82,9 +82,6 @@ void AnimationHandler::Update(float deltaTime)
 	GameManager &gameManager = GameManager::GetInstance();
 	EntityManager &entityManager = EntityManager::GetInstance();
 
-	//if (gameManager.GetCurrentGameState() == GameState::Paused)
-	//	return;
-
 	for (EntityId entityId : entityManager.GetEntitiesWithComponents<Tag, Animation>())
 	{
 		Tag *tag = entityManager.GetComponent<Tag>(entityId);

@@ -7,7 +7,9 @@
 #include "Systems/include/ParticleHandler.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Systems/include/TimerHandler.h"
+#include "States/include/LoadingState.h"
 #include "Utilities/include/Helper.h"
+using std::make_unique;
 
 TimerHandler& TimerHandler::GetInstance()
 {
@@ -15,15 +17,13 @@ TimerHandler& TimerHandler::GetInstance()
 	return instance;
 }
 
-void TimerHandler::Update(float deltaTime) {
+void TimerHandler::Update(float deltaTime) 
+{
     GameManager& gameManager = GameManager::GetInstance();
     EntityManager& entityManager = EntityManager::GetInstance();
     AnimationHandler& animationHandler = AnimationHandler::GetInstance();
     RenderingHandler& renderingHandler = RenderingHandler::GetInstance();
-    IGameState* currentState = gameManager.GetCurrentState();
-
-    if (currentState->GetStateEnum() == GameState::MainMenu || currentState->GetStateEnum() == GameState::Paused)
-        return;
+    GameState currentGameState = gameManager.GetCurrentGameState()->GetStateEnum();
 
     for (EntityId entityId : entityManager.GetEntitiesWithComponents<Timer>())
     {
@@ -73,8 +73,8 @@ void TimerHandler::Update(float deltaTime) {
                     animationHandler.RotatePlayer(deltaTime);
                     renderingHandler.UpdateFade(deltaTime);
                 }
-                // else
-                    // gameManager.TransitionToLoadingState();
+                else
+                    gameManager.ChangeState(make_unique<LoadingState>(GameState::Gameplay));
             }
         }
 

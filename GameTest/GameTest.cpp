@@ -48,21 +48,8 @@ void Update(float deltaTime)
 {
 	GameManager& gameManager = GameManager::GetInstance();
 	float deltaTimeInSeconds = deltaTime / 1000.0f;
-	gameManager.Update(deltaTimeInSeconds);
 
-	//else if (gameManager.GetCurrentGameState() == GameState::GameOver)
-	//{
-	//	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-	//	gameManager.SetGameReset(false);
-	//	gameManager.HandleBackButtonClick();
-	//}
-	//else if (gameManager.GetCurrentGameState() == GameState::Paused)
-	//{
-	//	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-	//	gameManager.SetGameReset(false);
-	//	InputHandler::GetInstance().Update(deltaTimeInSeconds);
-	//	gameManager.HandleQuitButtonClick();
-	//}
+	gameManager.Update(deltaTimeInSeconds);
 
 	SoundManager::GetInstance().Cleanup();
 }

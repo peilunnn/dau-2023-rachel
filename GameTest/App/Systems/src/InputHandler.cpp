@@ -5,8 +5,11 @@
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/InputHandler.h"
 #include "Systems/include/ShootingHandler.h"
+#include "States/include/PausedState.h"
+#include "States/include/GameplayState.h"
 #include "Utilities/include/app.h"
 #include "Utilities/include/Helper.h"
+using std::make_unique;
 
 InputHandler& InputHandler::GetInstance()
 {
@@ -19,12 +22,7 @@ void InputHandler::Update(float deltaTime)
     GameManager& gameManager = GameManager::GetInstance();
     EntityManager& entityManager = EntityManager::GetInstance();
     EntityId playerEntityId = entityManager.GetPlayerEntityId();
-
-    //if (gameManager.GetCurrentGameState() == GameState::Gameplay || gameManager.GetCurrentGameState() == GameState::Paused)
-    //    HandlePauseInput();
-    //
-    //if (gameManager.GetCurrentGameState() == GameState::Paused)
-    //    return;
+    GameState currentGameState = gameManager.GetCurrentGameState()->GetStateEnum();
 
     HandlePositionInput(entityManager, playerEntityId, deltaTime);
     HandleShootingInput(entityManager, playerEntityId, deltaTime);
@@ -52,6 +50,22 @@ bool InputHandler::IsButtonClicked(EntityId entityId)
     return isWithinX && isWithinY && App::IsKeyPressed(VK_LBUTTON);
 }
 
+void InputHandler::HandlePauseInput()
+{
+    GameManager& gameManager = GameManager::GetInstance();
+    bool isPKeyPressed = App::IsKeyPressed('P');
+
+    if (isPKeyPressed && !m_wasPPressedLastFrame)
+    {
+        if (gameManager.GetCurrentGameState()->GetStateEnum() != GameState::Paused)
+            gameManager.ChangeState(make_unique<PausedState>());
+        else
+            gameManager.ChangeState(make_unique<GameplayState>());
+    }
+
+    m_wasPPressedLastFrame = isPKeyPressed;
+}
+
 void InputHandler::HandlePositionInput(EntityManager &entityManager, EntityId playerEntityId, float deltaTime)
 {
     Velocity *velocity = entityManager.GetComponent<Velocity>(playerEntityId);
@@ -74,14 +88,4 @@ void InputHandler::HandleShootingInput(EntityManager &entityManager, EntityId pl
         return;
 
     ShootingHandler::GetInstance().HandlePlayerShoot();
-}
-
-void InputHandler::HandlePauseInput()
-{
-    bool isPKeyPressed = App::IsKeyPressed('P');
-
-    // if (isPKeyPressed && !m_wasPPressedLastFrame)
-    //     GameManager::GetInstance().TogglePause();
-
-    m_wasPPressedLastFrame = isPKeyPressed;
 }

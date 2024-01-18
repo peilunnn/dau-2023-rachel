@@ -45,9 +45,6 @@ void SystemManager::ProcessEvents(float deltaTime)
 {
     GameManager& gameManager = GameManager::GetInstance();
 
-    //if (gameManager.GetCurrentGameState() == GameState::Paused)
-    //    return;
-
     while (!m_eventQueue.empty())
     {
         Event event = m_eventQueue.front();

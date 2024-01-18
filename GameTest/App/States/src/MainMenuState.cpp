@@ -21,6 +21,7 @@ void MainMenuState::Exit()
 void MainMenuState::Update(float deltaTime) 
 {
 	GameManager& gameManager = GameManager::GetInstance();
+	EntityId playButtonEntityId = EntityManager::GetInstance().GetPlayButtonEntityId();
 
 	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
 
@@ -32,20 +33,7 @@ void MainMenuState::Update(float deltaTime)
 	}
 
 	TitleHandler::GetInstance().OscillateTitle(deltaTime);
-	HandleButtonClick();
-}
-
-void MainMenuState::HandleButtonClick() 
-{
-	GameManager& gameManager = GameManager::GetInstance();
-	EntityId playButtonEntityId = EntityManager::GetInstance().GetPlayButtonEntityId();
-	InputHandler& inputHandler = InputHandler::GetInstance();
-
-	if (!inputHandler.IsButtonClicked(playButtonEntityId))
-		return;
-
-	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
-	gameManager.ChangeState(std::make_unique<LoadingState>(GameState::MainMenu));
+	HandleButtonClick(playButtonEntityId);
 }
 
 GameState MainMenuState::GetStateEnum() const

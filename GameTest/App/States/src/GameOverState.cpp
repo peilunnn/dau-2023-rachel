@@ -6,45 +6,28 @@
 #include "Systems/include/TitleHandler.h"
 #include "Systems/include/InputHandler.h"
 #include "States/include/LoadingState.h"
+#include "States/include/GameOverState.h"
 #include "Utilities/include/Helper.h"
 using std::make_unique;
 
 void GameOverState::Enter()
 {
+	SoundManager::GetInstance().StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
+	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
 }
 
 void GameOverState::Exit()
 {
+	GameManager::GetInstance().SetGameReset(false);
 }
 
 void GameOverState::Update(float deltaTime)
 {
 	GameManager& gameManager = GameManager::GetInstance();
+	EntityId backButtonEntityId = EntityManager::GetInstance().GetBackButtonEntityId();
 
 	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-
-	if (!gameManager.GetGameReset())
-	{
-		gameManager.ResetGame();
-		SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
-		gameManager.SetGameReset(true);
-	}
-
-	TitleHandler::GetInstance().OscillateTitle(deltaTime);
-	HandleButtonClick();
-}
-
-void GameOverState::HandleButtonClick()
-{
-	GameManager& gameManager = GameManager::GetInstance();
-	EntityId backButtonEntityId = EntityManager::GetInstance().GetBackButtonEntityId();
-	InputHandler& inputHandler = InputHandler::GetInstance();
-
-	if (!inputHandler.IsButtonClicked(backButtonEntityId))
-		return;
-
-	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_BUTTON_CLICK);
-	gameManager.ChangeState(std::make_unique<LoadingState>(GameState::Gameplay));
+	HandleButtonClick(backButtonEntityId);
 }
 
 GameState GameOverState::GetStateEnum() const
