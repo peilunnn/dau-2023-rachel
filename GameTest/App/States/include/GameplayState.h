@@ -11,7 +11,4 @@ public:
     void Exit() override;
     void Update(float deltaTime) override;
     virtual GameState GetStateEnum() const override;
-
-private:
-    unique_ptr<IGameState> m_nextGameState;
 };

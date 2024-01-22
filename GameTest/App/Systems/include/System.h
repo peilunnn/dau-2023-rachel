@@ -7,9 +7,7 @@ class System
 {
 public:
 	virtual ~System() = default;
-	virtual void HandleEvent(const Event& event, float deltaTime) {
-		// Default implementation does nothing so that only systems that actually need to handle events will override
-	}
+	virtual void HandleEvent(const Event& event, float deltaTime);
 	virtual set<EventType> GetSubscribedEvents() const { return m_subscribedEvents; };
 
 protected:

@@ -5,6 +5,7 @@
 #include <unordered_map>
 using std::unordered_map;
 using std::unique_ptr;
+using std::vector;
 
 class SpriteManager 
 {
@@ -14,10 +15,12 @@ public:
     void operator=(const SpriteManager&) = delete;
 
     CSimpleSprite* CreateSprite(EntityId entityId, const char* path, int columns, int rows);
+    CSimpleSprite* CreateSprite(const char* path, int columns, int rows);
     CSimpleSprite* GetSprite(EntityId entityId);
     void DestroyAllSprites();
 
 private:
-    unordered_map<EntityId, unique_ptr<CSimpleSprite>> m_entitySprites;
     SpriteManager() = default;
+    unordered_map<EntityId, unique_ptr<CSimpleSprite>> m_entitySprites = {};
+    vector<CSimpleSprite*> m_standaloneSprites = vector<CSimpleSprite*>();
 };

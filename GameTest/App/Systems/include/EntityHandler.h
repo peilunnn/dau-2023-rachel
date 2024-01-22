@@ -13,8 +13,8 @@ public:
     void InitEnemy();
     void MoveEntityToRandomPos(EntityId entityId);
 
-    int GetEnemiesToStrike() const { return m_enemiesToStrike; }
-    void SetEnemiesToStrike(int newEnemiesToStrike) { m_enemiesToStrike = newEnemiesToStrike; }
+    int GetEnemiesToStrike() const { return m_numOfEnemiesToStrike; }
+    void SetEnemiesToStrike(int newEnemiesToStrike) { m_numOfEnemiesToStrike = newEnemiesToStrike; }
 
 private:
     EntityHandler()
@@ -27,8 +27,8 @@ private:
         m_subscribedEvents.insert(EventType::PlayerHitLightningPickup);
     }
 
-    vector<EntityId> m_activeEnemies = vector<EntityId>();
-    int m_enemiesToStrike = 0;
+    vector<EntityId> m_activeEnemiesEntityIds = vector<EntityId>();
+    int m_numOfEnemiesToStrike = 0;
     const float MAX_VX = 300.0f;
     const float MAX_VY = 300.0f;
     const float MIN_VX = -100.0f;
@@ -43,5 +43,5 @@ private:
     void HandleBulletOutOfBounds(EntityManager &entityManager, EntityId bulletEntityId);
     void SetEnemiesToStrike(EntityManager& entityManager);
     void InitLightningStrikes(EntityManager& entityManager);
-    void EmitSteamParticles();
+     void EmitSteamParticles();
 };

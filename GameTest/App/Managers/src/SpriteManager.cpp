@@ -15,6 +15,13 @@ CSimpleSprite* SpriteManager::CreateSprite(EntityId entityId, const char* path, 
     return sprite;
 }
 
+CSimpleSprite* SpriteManager::CreateSprite(const char* path, int columns, int rows)
+{
+    CSimpleSprite* sprite = App::CreateSprite(path, columns, rows);
+    m_standaloneSprites.emplace_back(sprite);
+    return sprite;
+}
+
 CSimpleSprite* SpriteManager::GetSprite(EntityId entityId)
 {
     auto it = m_entitySprites.find(entityId);
@@ -28,4 +35,8 @@ CSimpleSprite* SpriteManager::GetSprite(EntityId entityId)
 void SpriteManager::DestroyAllSprites() 
 {
     m_entitySprites.clear();
+
+    for (CSimpleSprite* sprite : m_standaloneSprites)
+        delete sprite;
+    m_standaloneSprites.clear();
 }

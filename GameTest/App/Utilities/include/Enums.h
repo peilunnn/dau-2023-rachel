@@ -111,6 +111,7 @@ enum class EnemyMovementType
 
 enum class ParticleType
 {
+    None,
     Dust,
     Steam
 };

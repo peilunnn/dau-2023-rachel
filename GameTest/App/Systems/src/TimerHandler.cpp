@@ -1,14 +1,14 @@
 #include "stdafx.h"
-#include "Components/include/Particle.h"
 #include "Components/include/Timer.h"
 #include "Managers/include/EntityManager.h"
 #include "Managers/include/GameManager.h"
 #include "States/include/LoadingState.h"
 #include "Systems/include/AnimationHandler.h"
-#include "Systems/include/ParticleHandler.h"
+#include "ParticleSystem/include/ParticleManager.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Systems/include/TimerHandler.h"
 #include "Utilities/include/Helper.h"
+#include "Utilities/include/Particle.h"
 using std::make_unique;
 
 TimerHandler& TimerHandler::GetInstance()
@@ -40,7 +40,7 @@ void TimerHandler::Update(float deltaTime)
             if (newRemainingTime <= 0)
             {
                 timer->SetRemainingTime(timer->GetInitialDuration());
-                ParticleHandler::GetInstance().ReturnParticleToPool(particleComponent->GetParticleType(), entityId);
+                // ParticleManager::GetInstance().ReturnParticleToPool(particleComponent->GetParticleType(), entityId);
             }
         }
 

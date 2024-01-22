@@ -9,7 +9,7 @@
 #include "Managers/include/GameManager.h"
 #include "Managers/include/SystemManager.h"
 #include "Systems/include/MovementHandler.h"
-#include "Systems/include/ParticleHandler.h"
+#include "ParticleSystem/include/ParticleManager.h"
 using glm::vec3;
 using std::min;
 using std::max;
@@ -53,7 +53,8 @@ void MovementHandler::Update(float deltaTime)
 		}
 	}
 
-	UpdateParticleMovement(deltaTime);
+	// TODO: remove this
+	//UpdateParticleMovement(deltaTime);
 }
 
 void MovementHandler::HandleEvent(const Event& event, float deltaTime)
@@ -157,25 +158,25 @@ void MovementHandler::UpdateHomingEnemyMovement(EntityManager& entityManager, Sc
 	enemyTransform->SetPosition(enemyNewPos);
 }
 
-void MovementHandler::UpdateParticleMovement(float deltaTime)
-{
-	EntityManager& entityManager = EntityManager::GetInstance();
-	ParticleHandler& particleHandler = ParticleHandler::GetInstance();
-
-	unordered_map<ParticleType, vector<EntityId>>& activeParticles = particleHandler.GetActiveParticles();
-
-	for (auto& pair : activeParticles) {
-		vector<EntityId>& particleEntityIds = pair.second;
-		for (EntityId particleEntityId : particleEntityIds) 
-		{
-			Transform* particleTransform = entityManager.GetComponent<Transform>(particleEntityId);
-			Velocity* particleVelocity = entityManager.GetComponent<Velocity>(particleEntityId);
-
-			vec3 newPosition = particleTransform->GetPosition() + vec3(particleVelocity->GetVelocity(), ZERO_POS) * deltaTime;
-			particleTransform->SetPosition(newPosition);
-		}
-	}
-}
+//void MovementHandler::UpdateParticleMovement(float deltaTime)
+//{
+//	EntityManager& entityManager = EntityManager::GetInstance();
+//	ParticleManager& particleHandler = ParticleManager::GetInstance();
+//
+//	unordered_map<ParticleType, vector<EntityId>>& activeParticles = particleHandler.GetActiveParticles();
+//
+//	for (auto& pair : activeParticles) {
+//		vector<EntityId>& particleEntityIds = pair.second;
+//		for (EntityId particleEntityId : particleEntityIds) 
+//		{
+//			Transform* particleTransform = entityManager.GetComponent<Transform>(particleEntityId);
+//			Velocity* particleVelocity = entityManager.GetComponent<Velocity>(particleEntityId);
+//
+//			vec3 newPosition = particleTransform->GetPosition() + vec3(particleVelocity->GetVelocity(), ZERO_POS) * deltaTime;
+//			particleTransform->SetPosition(newPosition);
+//		}
+//	}
+//}
 
 void MovementHandler::UpdateBulletMovement(EntityManager &entityManager, Screen& screen, EntityId entityId, float deltaTime)
 {

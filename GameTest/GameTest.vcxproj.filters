@@ -54,9 +54,9 @@
     <ClCompile Include="App\Components\src\Ammo.cpp" />
     <ClCompile Include="App\Components\src\EnemyType.cpp" />
     <ClCompile Include="App\Utilities\src\EntityId.cpp" />
-    <ClCompile Include="App\Systems\src\ParticleHandler.cpp" />
+    <ClCompile Include="App\ParticleSystem\src\ParticleManager.cpp" />
     <ClCompile Include="App\Utilities\src\Event.cpp" />
-    <ClCompile Include="App\Components\src\Particle.cpp" />
+    <ClCompile Include="App\Utilities\src\Particle.cpp" />
     <ClCompile Include="App\Components\src\Animation.cpp" />
     <ClCompile Include="App\States\src\MainMenuState.cpp" />
     <ClCompile Include="App\States\src\PausedState.cpp" />
@@ -64,6 +64,8 @@
     <ClCompile Include="App\States\src\LoadingState.cpp" />
     <ClCompile Include="App\States\src\IGameState.cpp" />
     <ClCompile Include="App\States\src\GameplayState.cpp" />
+    <ClCompile Include="App\ParticleSystem\src\ParticleEmitter.cpp" />
+    <ClCompile Include="App\ParticleSystem\src\ParticleRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -125,9 +127,9 @@
     <ClInclude Include="App\Components\include\Ammo.h" />
     <ClInclude Include="App\Components\include\EnemyType.h" />
     <ClInclude Include="App\Utilities\include\EntityId.h" />
-    <ClInclude Include="App\Systems\include\ParticleHandler.h" />
+    <ClInclude Include="App\ParticleSystem\include\ParticleManager.h" />
     <ClInclude Include="App\Utilities\include\Event.h" />
-    <ClInclude Include="App\Components\include\Particle.h" />
+    <ClInclude Include="App\Utilities\include\Particle.h" />
     <ClInclude Include="App\Components\include\Animation.h" />
     <ClInclude Include="App\States\include\MainMenuState.h" />
     <ClInclude Include="App\States\include\PausedState.h" />
@@ -135,6 +137,8 @@
     <ClInclude Include="App\States\include\LoadingState.h" />
     <ClInclude Include="App\States\include\IGameState.h" />
     <ClInclude Include="App\States\include\GameplayState.h" />
+    <ClInclude Include="App\ParticleSystem\include\ParticleEmitter.h" />
+    <ClInclude Include="App\ParticleSystem\include\ParticleRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

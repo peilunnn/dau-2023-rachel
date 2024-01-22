@@ -222,14 +222,16 @@
     <ClInclude Include="App\Utilities\include\Profiler.h" />
     <ClInclude Include="App\Components\include\Pickup.h" />
     <ClInclude Include="App\Components\include\EnemyType.h" />
-    <ClInclude Include="App\Systems\include\ParticleHandler.h" />
-    <ClInclude Include="App\Components\include\Particle.h" />
+    <ClInclude Include="App\ParticleSystem\include\ParticleManager.h" />
+    <ClInclude Include="App\Utilities\include\Particle.h" />
     <ClInclude Include="App\States\include\GameOverState.h" />
     <ClInclude Include="App\States\include\LoadingState.h" />
     <ClInclude Include="App\States\include\MainMenuState.h" />
     <ClInclude Include="App\States\include\PausedState.h" />
     <ClInclude Include="App\States\include\IGameState.h" />
     <ClInclude Include="App\States\include\GameplayState.h" />
+    <ClInclude Include="App\ParticleSystem\include\ParticleEmitter.h" />
+    <ClInclude Include="App\ParticleSystem\include\ParticleRenderer.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="App\Components\include\Tag.h" />
@@ -284,12 +286,14 @@
     <ClCompile Include="App\Managers\src\SoundManager.cpp" />
     <ClCompile Include="App\Utilities\src\QuadtreeNode.cpp" />
     <ClCompile Include="App\Components\src\Pickup.cpp" />
-    <ClCompile Include="App\Systems\src\ParticleHandler.cpp" />
-    <ClCompile Include="App\Components\src\Particle.cpp" />
+    <ClCompile Include="App\ParticleSystem\src\ParticleManager.cpp" />
+    <ClCompile Include="App\Utilities\src\Particle.cpp" />
     <ClCompile Include="App\States\src\LoadingState.cpp" />
     <ClCompile Include="App\States\src\MainMenuState.cpp" />
     <ClCompile Include="App\States\src\PausedState.cpp" />
     <ClCompile Include="App\States\src\IGameState.cpp" />
+    <ClCompile Include="App\ParticleSystem\src\ParticleEmitter.cpp" />
+    <ClCompile Include="App\ParticleSystem\src\ParticleRenderer.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
