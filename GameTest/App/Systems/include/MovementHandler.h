@@ -32,7 +32,6 @@ private:
     void UpdateEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
     void UpdateStandardEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
     void UpdateHomingEnemyMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
-    void UpdateParticleMovement(float deltaTime);
     void UpdateBulletMovement(EntityManager& entityManager, Screen& screen, EntityId entityId, float deltaTime);
     void HandleBulletHitEnemy(EntityManager& entityManager, EntityId enemyEntityId, float deltaTime);
 };

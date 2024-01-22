@@ -4,11 +4,8 @@
 #include "Managers/include/GameManager.h"
 #include "States/include/LoadingState.h"
 #include "Systems/include/AnimationHandler.h"
-#include "ParticleSystem/include/ParticleManager.h"
 #include "Systems/include/RenderingHandler.h"
 #include "Systems/include/TimerHandler.h"
-#include "Utilities/include/Helper.h"
-#include "Utilities/include/Particle.h"
 using std::make_unique;
 
 TimerHandler& TimerHandler::GetInstance()
@@ -29,22 +26,8 @@ void TimerHandler::Update(float deltaTime)
     {
         Timer* timer = entityManager.GetComponent<Timer>(entityId);
 
-        if (timer->GetType() == TimerType::ParticleLifespan)
-        {
-            CSimpleSprite* particleSprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-            Particle* particleComponent = entityManager.GetComponent<Particle>(entityId);
-
-            float newRemainingTime = timer->GetRemainingTime() - deltaTime;
-            timer->SetRemainingTime(newRemainingTime);
-
-            if (newRemainingTime <= 0)
-            {
-                timer->SetRemainingTime(timer->GetInitialDuration());
-                // ParticleManager::GetInstance().ReturnParticleToPool(particleComponent->GetParticleType(), entityId);
-            }
-        }
-
-        else if (timer->GetType() == TimerType::Countdown)
+        // For countdown timer, we decrement remaining time as time passes
+        if (timer->GetType() == TimerType::Countdown)
         {
             EntityId playerEntityId = entityManager.GetPlayerEntityId();
             Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);

@@ -14,8 +14,7 @@ enum class EntityType
     Pickup,
     Timer,
     LightningStrike,
-    UI,
-    Particle
+    UI
 };
 
 enum class EntityState

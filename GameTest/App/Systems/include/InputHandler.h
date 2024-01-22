@@ -19,6 +19,6 @@ private:
     const float VELOCITY_MULTIPLIER = 10000.0f;
     bool m_wasPPressedLastFrame = false;
 
-    void HandlePositionInput(EntityManager& entityManager, EntityId playerEntityId, float deltaTime);
+    void HandlePlayerMovementInput(EntityManager& entityManager, EntityId playerEntityId, float deltaTime);
     void HandleShootingInput(EntityManager& entityManager, EntityId playerEntityId, float deltaTime);
 };

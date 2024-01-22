@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Components/include/Tag.h"
 #include "Components/include/Transform.h"
 #include "Components/include/Velocity.h"
 #include "Managers/include/GameManager.h"
@@ -23,7 +24,7 @@ void InputHandler::Update(float deltaTime)
     EntityManager& entityManager = EntityManager::GetInstance();
     EntityId playerEntityId = entityManager.GetPlayerEntityId();
 
-    HandlePositionInput(entityManager, playerEntityId, deltaTime);
+    HandlePlayerMovementInput(entityManager, playerEntityId, deltaTime);
     HandleShootingInput(entityManager, playerEntityId, deltaTime);
 }
 
@@ -65,8 +66,13 @@ void InputHandler::HandlePauseInput()
     m_wasPPressedLastFrame = isPKeyPressed;
 }
 
-void InputHandler::HandlePositionInput(EntityManager &entityManager, EntityId playerEntityId, float deltaTime)
+void InputHandler::HandlePlayerMovementInput(EntityManager &entityManager, EntityId playerEntityId, float deltaTime)
 {
+    Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
+
+    if (playerTag->GetEntityState() == EntityState::Dead)
+        return;
+
     Velocity *velocity = entityManager.GetComponent<Velocity>(playerEntityId);
     float thumbStickX = App::GetController().GetLeftThumbStickX();
     float thumbStickY = App::GetController().GetLeftThumbStickY();

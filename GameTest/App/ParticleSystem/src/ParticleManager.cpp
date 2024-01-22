@@ -1,4 +1,9 @@
 #include "stdafx.h"
+#include "Components/include/Tag.h"
+#include "Components/include/Transform.h"
+#include "Components/include/Renderable.h"
+#include "Components/include/Velocity.h"
+#include "Managers/include/EntityManager.h"
 #include "Managers/include/SpriteManager.h"
 #include "ParticleSystem/include/ParticleManager.h"
 #include "Utilities/include/Helper.h"
@@ -22,30 +27,37 @@ void ParticleManager::Init()
 
 void ParticleManager::Update(float deltaTime) 
 {
-     for (auto& typeEmitter : m_typeEmitters)
-     {
-         ParticleEmitter& emitter = typeEmitter.second;
-         emitter.Update(deltaTime);
-     }
+    m_dustEmissionTimer += deltaTime;
 
-    //EntityManager& entityManager = EntityManager::GetInstance();
-    //EntityId playerEntityId = entityManager.GetPlayerEntityId();
-    //Velocity* playerVelocityComponent = entityManager.GetComponent<Velocity>(playerEntityId);
+    for (auto& typeEmitter : m_typeEmitters)
+    {
+        ParticleEmitter& emitter = typeEmitter.second;
+        emitter.Update(deltaTime);
+    }
 
-    //m_emissionTimer -= deltaTime;
+    EntityManager& entityManager = EntityManager::GetInstance();
+    EntityId playerEntityId = entityManager.GetPlayerEntityId();
+    Velocity* playerVelocityComponent = entityManager.GetComponent<Velocity>(playerEntityId);
+    Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 
-    //if (length(playerVelocityComponent->GetVelocity()) > 0.0f && m_emissionTimer <= 0.0f)
-    //{
-    //    vec2 playerVelocity = playerVelocityComponent->GetVelocity();
-    //    float particleVelocityX = -playerVelocity.x * VELOCITY_MULTIPLIER;
-    //    float particleVelocityY = -playerVelocity.y * VELOCITY_MULTIPLIER;
-    //    vec2 particleVelocity = vec2(particleVelocityX, particleVelocityY);
-    //    
-    //    vec3 emissionPos = GetEmissionPos(EntityType::Player, playerEntityId);
-    //    EmitParticle(ParticleType::Dust, emissionPos, particleVelocity);
-    //    
-    //    m_emissionTimer = m_emissionCooldown;
-    //}
+    if (playerTag->GetEntityState() == EntityState::Dead)
+        return;
+
+    if (length(playerVelocityComponent->GetVelocity()) > 0.0f && m_dustEmissionTimer >= m_dustEmissionCooldown)
+    {
+        vec2 playerVelocity = playerVelocityComponent->GetVelocity();
+        Transform* playerTransform = entityManager.GetComponent<Transform>(playerEntityId);
+
+        float particleVelocityX = -playerVelocity.x * VELOCITY_MULTIPLIER;
+        float particleVelocityY = -playerVelocity.y * VELOCITY_MULTIPLIER;
+        constexpr float particleVelocityZ = 0.0f;
+        vec3 particleVelocity = vec3(particleVelocityX, particleVelocityY, particleVelocityZ);
+        
+        vec3 emissionPos = GetPlayerDustEmissionPos();
+        EmitParticles(ParticleType::Dust, emissionPos, particleVelocity);
+
+        m_dustEmissionTimer = 0.0f;
+    }
 }
 
 void ParticleManager::EmitParticles(ParticleType type, const vec3& position, const vec3& velocity)
@@ -73,96 +85,35 @@ void ParticleManager::EmitParticles(ParticleType type, const vec3& position, con
     }
 }
 
-//void ParticleManager::ReturnParticleToPool(ParticleType type, EntityId particleEntityId) {
-//    EntityManager& entityManager = EntityManager::GetInstance();
-//
-//    RemoveActiveParticle(type, particleEntityId);
-//
-//    entityManager.SetEntityStateAndVisibility(particleEntityId, EntityState::Dead, false);
-//    m_particlePools[type].push_back(particleEntityId);
-//}
+vec3 ParticleManager::GetPlayerDustEmissionPos()
+{
+    EntityManager& entityManager = EntityManager::GetInstance();
+    EntityId entityId = entityManager.GetPlayerEntityId();
+    Transform* transform = entityManager.GetComponent<Transform>(entityId);
+    CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
 
-//vec3 ParticleManager::GetEmissionPos(EntityType entityType, EntityId entityId)
-//{
-//    EntityManager& entityManager = EntityManager::GetInstance();
-//    Transform* transform = entityManager.GetComponent<Transform>(entityId);
-//    CSimpleSprite* sprite = entityManager.GetComponent<Renderable>(entityId)->GetSprite();
-//
-//    float width = sprite->GetWidth() * transform->GetScale().x;
-//    float height = sprite->GetHeight() * transform->GetScale().y;
-//    float emissionXPos = transform->GetPosition().x;
-//    float emissionYPos = transform->GetPosition().y - width * EMISSION_POS_Y_MULTIPLIER;
-//
-//    if (entityType == EntityType::Player)
-//    {
-//        Velocity* playerVelocityComponent = entityManager.GetComponent<Velocity>(entityId);
-//        vec2 playerVelocity = playerVelocityComponent->GetVelocity();
-//
-//        // Adjust emission pos based on player movement direction
-//        if (abs(playerVelocity.x) > abs(playerVelocity.y))
-//        {
-//            emissionXPos += (playerVelocity.x > 0) ? width * EMISSION_POS_HORIZONTAL_OFFSET_MULTIPLIER : -width * EMISSION_POS_HORIZONTAL_OFFSET_MULTIPLIER;
-//            emissionYPos -= height * EMISSION_POS_VERTICAL_OFFSET_DOWN_MULTIPLIER;
-//        }
-//        else
-//        {
-//            if (playerVelocity.y > 0)
-//                emissionYPos -= height * EMISSION_POS_VERTICAL_OFFSET_UP_MULTIPLIER;
-//            else
-//                emissionYPos += height;
-//        }
-//    }
-//
-//    return vec3(emissionXPos, emissionYPos, EMISSION_Z_POS);
-//}
+    float width = sprite->GetWidth() * transform->GetScale().x;
+    float height = sprite->GetHeight() * transform->GetScale().y;
+    float emissionXPos = transform->GetPosition().x;
+    float emissionYPos = transform->GetPosition().y - width * EMISSION_POS_Y_MULTIPLIER;
 
-//void ParticleManager::EmitParticle(ParticleType type, const vec3& position, const vec2& velocity)
-//{
-//    EntityManager& entityManager = EntityManager::GetInstance();
-//    EntityId particleEntityId = GetParticleFromPool(type);
-//
-//    Transform* particleTransform = entityManager.GetComponent<Transform>(particleEntityId);
-//    Velocity* particleVelocity = entityManager.GetComponent<Velocity>(particleEntityId);
-//
-//    particleTransform->SetPosition(position);
-//    particleVelocity->SetVelocity(velocity);
-//    m_activeParticles[type].push_back(particleEntityId);
-//}
-//
-//void ParticleManager::InitParticlePool(ParticleType particleType) 
-//{
-//    SpriteManager& spriteManager = SpriteManager::GetInstance();
-//    EntityManager& entityManager = EntityManager::GetInstance();
-//    vector<EntityId>& pool = m_particlePools[particleType];
-//    int poolSize = 0;
-//
-//    if (particleType == ParticleType::Dust)
-//        poolSize = DUST_PARTICLE_POOL_SIZE;
-//    else if (particleType == ParticleType::Steam)
-//        poolSize = STEAM_PARTICLE_POOL_SIZE;
-//
-//    for (size_t i = 0; i < poolSize; ++i) 
-//    {
-//        EntityId particleEntityId = entityManager.CreateParticleEntity(spriteManager, particleType);
-//        pool.push_back(particleEntityId);
-//    }
-//}
-//
-//EntityId ParticleManager::GetParticleFromPool(ParticleType type) 
-//{
-//    EntityManager& entityManager = EntityManager::GetInstance();
-//    vector<EntityId>& pool = m_particlePools[type];
-//    EntityId particleEntityId = pool.back();
-//    entityManager.SetEntityStateAndVisibility(particleEntityId, EntityState::Alive, true);
-//    
-//    pool.pop_back();
-//    return particleEntityId;
-//}
-//
-//void ParticleManager::RemoveActiveParticle(ParticleType particleType, EntityId particleEntityId) 
-//{
-//    auto& activeParticles = m_activeParticles[particleType];
-//    auto it = find(activeParticles.begin(), activeParticles.end(), particleEntityId);
-//    if (it != activeParticles.end())
-//        activeParticles.erase(it);
-//}
+    Velocity* velocityComponent = entityManager.GetComponent<Velocity>(entityId);
+    vec2 velocity = velocityComponent->GetVelocity();
+
+    // Adjust emission pos based on player movement direction
+    if (abs(velocity.x) > abs(velocity.y))
+    {
+        emissionXPos += (velocity.x > 0) ? width * EMISSION_POS_HORIZONTAL_OFFSET_MULTIPLIER : -width * EMISSION_POS_HORIZONTAL_OFFSET_MULTIPLIER;
+        emissionYPos -= height * EMISSION_POS_VERTICAL_OFFSET_DOWN_MULTIPLIER;
+    }
+    else
+    {
+        if (velocity.y > 0)
+            emissionYPos -= height * EMISSION_POS_VERTICAL_OFFSET_UP_MULTIPLIER;
+        else
+            emissionYPos += height;
+    }
+
+    return vec3(emissionXPos, emissionYPos, EMISSION_Z_POS);
+}
+
