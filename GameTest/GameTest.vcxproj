@@ -121,14 +121,14 @@
       <SDLCheck>true</SDLCheck>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\peilu\Downloads\SFML-2.6.1\include;$(ProjectDir)\App</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\SFML-2.6.1\include;$(ProjectDir)\App</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>openal32.lib;ogg.lib;vorbis.lib;vorbisfile.lib;flac.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;dxguid.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\peilu\Downloads\SFML-2.6.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\peilu\Downloads\Repos\dau-2023-rachel\GameTest\SFML-2.6.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)\GameTest\glut\bin\x64\*.dll" "$(OutputPath)" /Y</Command>

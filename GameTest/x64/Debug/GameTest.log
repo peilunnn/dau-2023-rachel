@@ -1,11 +1,4 @@
-﻿  GameplayState.cpp
-  pew pew.cpp
-  InputHandler.cpp
-  PausedState.cpp
-  IGameState.cpp
-  SystemManager.cpp
-  Generating Code...
-sfml-audio-s-d.lib(Sound.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(Sound.obj)' or at ''; linking object as if no debug info
+﻿sfml-audio-s-d.lib(Sound.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(Sound.obj)' or at ''; linking object as if no debug info
 sfml-audio-s-d.lib(SoundBuffer.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundBuffer.obj)' or at ''; linking object as if no debug info
 sfml-audio-s-d.lib(SoundSource.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(SoundSource.obj)' or at ''; linking object as if no debug info
 sfml-audio-s-d.lib(ALCheck.obj) : warning LNK4099: PDB '' was not found with 'sfml-audio-s-d.lib(ALCheck.obj)' or at ''; linking object as if no debug info

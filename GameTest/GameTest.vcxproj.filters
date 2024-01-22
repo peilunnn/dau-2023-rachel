@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="App\Utilities\src\SimpleController.cpp">
       <Filter>NextAPI</Filter>
@@ -66,6 +65,7 @@
     <ClCompile Include="App\States\src\GameplayState.cpp" />
     <ClCompile Include="App\ParticleSystem\src\ParticleEmitter.cpp" />
     <ClCompile Include="App\ParticleSystem\src\ParticleRenderer.cpp" />
+    <ClCompile Include="pew pew.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
