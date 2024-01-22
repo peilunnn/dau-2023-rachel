@@ -8,7 +8,7 @@
 
   <h1 align="center"> :gun: pew pew :gun: </a></h1>
   <p align="center">
-    A 2D top down shooter using ECS architecture, built as part of Develop at Ubisoft 2023.
+    A 2D top down shooter using ECS architecture, built as part of Develop at Ubisoft (DAU) 2023. Written in C++ using a custom game engine.
     <br />
     <br />
     <a href="https://github.com/peilunnn/dau-2023-rachel/tree/main/GameTest/App">Source Code</a>
