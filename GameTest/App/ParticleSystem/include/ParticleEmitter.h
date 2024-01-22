@@ -13,8 +13,8 @@ class ParticleEmitter
 public:
     ParticleEmitter(ParticleType type, size_t poolSize, CSimpleSprite* sharedSprite);
     void Update(float deltaTime);
-    void EmitParticle(const vec3& position, const vec3& velocity, float lifetime);
-    const vector<Particle*>& GetParticles() const { return m_activeParticles; };
+    void EmitParticle(const vec3& position, float scale, const vec3& velocity, float lifetime);
+    const vector<Particle*>& GetActiveParticles() const { return m_activeParticles; };
 
 private:
     CSimpleSprite* m_sharedSprite = nullptr;

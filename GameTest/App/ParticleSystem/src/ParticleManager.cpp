@@ -50,18 +50,18 @@ void ParticleManager::Update(float deltaTime)
 
 void ParticleManager::EmitParticles(ParticleType type, const vec3& position, const vec3& velocity)
 {
-    float lifetime = 0.0f;
+    float scale = 1.0f;
+    float lifetime = 1.0f;
 
     switch (type) 
     {
     case ParticleType::Dust:
+        scale = DUST_PARTICLE_SCALE;
         lifetime = DUST_PARTICLE_LIFESPAN_DURATION;
         break;
     case ParticleType::Steam:
+        scale = STEAM_PARTICLE_SCALE;
         lifetime = STEAM_PARTICLE_LIFESPAN_DURATION;
-        break;
-    default:
-        lifetime = 1.0f;
         break;
     }
 
@@ -69,7 +69,7 @@ void ParticleManager::EmitParticles(ParticleType type, const vec3& position, con
     if (it != m_typeEmitters.end())
     {
         ParticleEmitter& emitter = it->second;
-        emitter.EmitParticle(position, velocity, lifetime);
+        emitter.EmitParticle(position, scale, velocity, lifetime);
     }
 }
 

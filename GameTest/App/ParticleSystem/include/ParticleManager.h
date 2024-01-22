@@ -20,6 +20,9 @@ public:
     void Init();
     void Update(float deltaTime);
     void EmitParticles(ParticleType type, const vec3& position, const vec3& velocity);
+
+    const unordered_map<ParticleType, ParticleEmitter>& GetEmitters() const { return m_typeEmitters; };
+
     // void ReturnParticleToPool(ParticleType type, EntityId particleEntityId);
     // vec3 GetEmissionPos(EntityType entityType, EntityId entityId);
     // void EmitParticle(ParticleType type, const vec3& position, const vec2& velocity);
@@ -39,6 +42,9 @@ private:
 
     const float DUST_PARTICLE_LIFESPAN_DURATION = 0.4f;
     const float STEAM_PARTICLE_LIFESPAN_DURATION = 2.0f;
+
+    const float DUST_PARTICLE_SCALE = 1.0f;
+    const float STEAM_PARTICLE_SCALE = 0.1f;
 
     //float m_emissionCooldown = 0.2f;
     //float m_emissionTimer = 0.0f;

@@ -31,7 +31,7 @@ void ParticleEmitter::Update(float deltaTime)
     );
 }
 
-void ParticleEmitter::EmitParticle(const vec3& position, const vec3& velocity, float lifetime)
+void ParticleEmitter::EmitParticle(const vec3& position, float scale, const vec3& velocity, float lifetime)
 {
     Particle* particle = GetInactiveParticle();
     
@@ -39,11 +39,13 @@ void ParticleEmitter::EmitParticle(const vec3& position, const vec3& velocity, f
         return;
 
     particle->position = position;
+    particle->scale = scale;
     particle->velocity = velocity;
     particle->lifetime = lifetime;
     particle->age = 0.0f;
     particle->type = m_emitterType;
     particle->active = true;
+
     m_activeParticles.push_back(particle);
 }
 

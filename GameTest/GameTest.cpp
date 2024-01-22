@@ -11,6 +11,7 @@
 #include "Managers/include/SoundManager.h"
 #include "Systems/include/AnimationHandler.h"
 #include "ParticleSystem/include/ParticleManager.h"
+#include "ParticleSystem/include/ParticleRenderer.h"
 #include "Systems/include/RenderingHandler.h"
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
@@ -53,6 +54,7 @@ void Update(float deltaTime)
 void Render()
 {
 	RenderingHandler::GetInstance().Render();
+	ParticleRenderer::GetInstance().RenderParticles(ParticleManager::GetInstance());
 }
 
 //------------------------------------------------------------------------

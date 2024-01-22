@@ -7,6 +7,7 @@ struct Particle
 {
     CSimpleSprite* sprite;
     vec3 position;
+    float scale;
     vec3 velocity;
     float lifetime;
     float age = 0.0f;

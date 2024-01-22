@@ -148,26 +148,26 @@ void EntityHandler::InitLightningStrikes(EntityManager& entityManager)
  void EntityHandler::EmitSteamParticles()
  {
 	EntityManager& entityManager = EntityManager::GetInstance();
- 	ParticleManager& particleManager = ParticleManager::GetInstance();
+	ParticleManager& particleManager = ParticleManager::GetInstance();
 	
  	const float minVelocityX = -10.0f;
  	const float maxVelocityX = 10.0f;
  	const float minVelocityY = 20.0f;
  	const float maxVelocityY = 50.0f;
 
- 	// for (int i = 0; i < m_numOfEnemiesToStrike; ++i)
- 	// {
- 	// 	EntityId enemyEntityId = m_activeEnemiesEntityIds[i];
-	// 	Transform* enemyTransform = entityManager.GetComponent<Transform>(enemyEntityId);
-	// 	vec3 emissionPos = enemyTransform->GetPosition();
+ 	 for (int i = 0; i < m_numOfEnemiesToStrike; ++i)
+ 	 {
+ 	 	EntityId enemyEntityId = m_activeEnemiesEntityIds[i];
+	 	Transform* enemyTransform = entityManager.GetComponent<Transform>(enemyEntityId);
+	 	vec3 emissionPos = enemyTransform->GetPosition();
 
- 	// 	for (int j = 0; j < particleManager.STEAM_PARTICLES_PER_ENEMY; ++j)
- 	// 	{
- 	// 		vec2 variedVelocityVec2 = Helper::GenerateVec2(minVelocityX, maxVelocityX, minVelocityY, maxVelocityY);
-	// 		vec3 variedVelocityVec3 = vec3(variedVelocityVec2, 0.0f);
- 	// 		particleManager.EmitParticles(ParticleType::Steam, emissionPos, variedVelocityVec3);
- 	// 	}
- 	// }
+ 	 	for (int j = 0; j < particleManager.STEAM_PARTICLES_PER_ENEMY; ++j)
+ 	 	{
+ 	 		vec2 variedVelocityVec2 = Helper::GenerateVec2(minVelocityX, maxVelocityX, minVelocityY, maxVelocityY);
+	 		vec3 variedVelocityVec3 = vec3(variedVelocityVec2, 0.0f);
+ 	 		particleManager.EmitParticles(ParticleType::Steam, emissionPos, variedVelocityVec3);
+ 	 	}
+ 	 }
 
  	m_activeEnemiesEntityIds.clear();
  }
