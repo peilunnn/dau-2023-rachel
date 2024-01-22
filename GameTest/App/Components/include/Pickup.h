@@ -10,6 +10,6 @@ public:
     PickupType GetPickupType() const { return m_pickupType; }
 
 private:
-    PickupType m_pickupType;
+    PickupType m_pickupType = PickupType::None;
 };
 

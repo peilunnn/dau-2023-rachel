@@ -96,6 +96,7 @@ vec3 ParticleManager::GetPlayerDustEmissionPos()
     float height = sprite->GetHeight() * transform->GetScale().y;
     float emissionXPos = transform->GetPosition().x;
     float emissionYPos = transform->GetPosition().y - width * EMISSION_POS_Y_MULTIPLIER;
+    constexpr float emissionZPos = 0.0f;
 
     Velocity* velocityComponent = entityManager.GetComponent<Velocity>(entityId);
     vec2 velocity = velocityComponent->GetVelocity();
@@ -113,7 +114,6 @@ vec3 ParticleManager::GetPlayerDustEmissionPos()
         else
             emissionYPos += height;
     }
-
-    return vec3(emissionXPos, emissionYPos, EMISSION_Z_POS);
+    return vec3(emissionXPos, emissionYPos, emissionZPos);
 }
 

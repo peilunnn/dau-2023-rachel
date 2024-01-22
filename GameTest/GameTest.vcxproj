@@ -269,7 +269,7 @@
     <ClCompile Include="App\Components\src\EnemyType.cpp" />
     <ClCompile Include="App\States\src\GameOverState.cpp" />
     <ClCompile Include="App\States\src\GameplayState.cpp" />
-    <ClCompile Include="GameTest.cpp" />
+    <ClCompile Include="pew pew.cpp" />
     <ClCompile Include="App\Components\src\Health.cpp" />
     <ClCompile Include="App\Systems\src\CollisionHandler.cpp" />
     <ClCompile Include="App\Systems\src\ShootingHandler.cpp" />

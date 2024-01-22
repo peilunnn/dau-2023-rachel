@@ -10,5 +10,5 @@ public:
     EnemyMovementType GetMovementType() const { return m_movementType; }
 
 private:
-    EnemyMovementType m_movementType;
+    EnemyMovementType m_movementType = EnemyMovementType::None;
 };

@@ -24,7 +24,7 @@ void InputHandler::Update(float deltaTime)
     EntityManager& entityManager = EntityManager::GetInstance();
     EntityId playerEntityId = entityManager.GetPlayerEntityId();
 
-    HandlePlayerMovementInput(entityManager, playerEntityId, deltaTime);
+    HandleMovementInput(entityManager, playerEntityId, deltaTime);
     HandleShootingInput(entityManager, playerEntityId, deltaTime);
 }
 
@@ -66,7 +66,7 @@ void InputHandler::HandlePauseInput()
     m_wasPPressedLastFrame = isPKeyPressed;
 }
 
-void InputHandler::HandlePlayerMovementInput(EntityManager &entityManager, EntityId playerEntityId, float deltaTime)
+void InputHandler::HandleMovementInput(EntityManager &entityManager, EntityId playerEntityId, float deltaTime)
 {
     Tag* playerTag = entityManager.GetComponent<Tag>(playerEntityId);
 

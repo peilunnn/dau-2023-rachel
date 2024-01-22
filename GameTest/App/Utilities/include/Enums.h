@@ -87,6 +87,7 @@ enum class AmmoType
 
 enum class PickupType
 {
+    None,
     AmmoPickup,
     HealthPickup,
     LightningPickup,
@@ -104,6 +105,7 @@ enum class TimerType
 
 enum class EnemyMovementType 
 {
+    None,
     Standard,
     Homing
 };

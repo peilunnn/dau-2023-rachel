@@ -1,9 +1,9 @@
 #pragma once
-#include <glm/glm.hpp>
-#include <vector>
 #include "Utilities/include/Enums.h"
 #include "Utilities/include/Particle.h"
 #include "Utilities/include/SimpleSprite.h"
+#include <glm/glm.hpp>
+#include <vector>
 
 using glm::vec3;
 using std::vector;
