@@ -12,6 +12,8 @@ LoadingState::LoadingState(GameState previousState)
 
 void LoadingState::Enter()
 {
+	glutSetCursor(GLUT_CURSOR_NONE);
+
 	m_timeSpentInLoading = 0.0f;
 }
 
@@ -25,7 +27,6 @@ void LoadingState::Update(float deltaTime)
 	GameManager& gameManager = GameManager::GetInstance();
 	GameState previousGameState = gameManager.GetPreviousGameState()->GetStateEnum();
 
-	glutSetCursor(GLUT_CURSOR_NONE);
 	AnimationHandler::GetInstance().Update(deltaTime);
 
 	if (m_timeSpentInLoading >= m_loadingDuration)

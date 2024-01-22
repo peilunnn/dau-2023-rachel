@@ -25,6 +25,8 @@ CProfiler gCooldownHandlerProfiler;
 
 void GameplayState::Enter()
 {
+	glutSetCursor(GLUT_CURSOR_NONE);
+
 	GameManager& gameManager = GameManager::GetInstance();
 	GameState previousGameState = gameManager.GetPreviousGameState()->GetStateEnum();
 	

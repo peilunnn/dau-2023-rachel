@@ -9,6 +9,8 @@ using std::make_unique;
 
 void GameOverState::Enter()
 {
+	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
+
 	SoundManager::GetInstance().StopSound(Helper::PATH_TO_GAMEPLAY_MUSIC);
 	SoundManager::GetInstance().PlaySoundFromFile(Helper::PATH_TO_NON_GAMEPLAY_MUSIC, true);
 }
@@ -23,7 +25,6 @@ void GameOverState::Update(float deltaTime)
 	GameManager& gameManager = GameManager::GetInstance();
 	EntityId backButtonEntityId = EntityManager::GetInstance().GetBackButtonEntityId();
 
-	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
 	HandleButtonClick(backButtonEntityId);
 }
 
